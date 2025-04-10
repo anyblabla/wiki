@@ -1,0 +1,156 @@
+<!--
+title: Docker Compose Apache Guacamole
+description: Apache Guacamole est une passerelle de bureau à distance sans client. Il prend en charge les protocoles standards tels que VNC, RDP et SSH.
+published: true
+date: 2025-03-31T23:24:21.773Z
+tags: vnc, apache, remote, guacamole, ssh, rdp, kubernetes
+editor: ckeditor
+dateCreated: 2024-07-10T12:42:55.354Z
+-->
+
+<p>Pratique pour déployer rapidement <a href="https://guacamole.apache.org">Apache Guacamole</a> dans <a href="https://www.portainer.io/">Portainer</a> en créant une pile (<a href="https://docs.portainer.io/user/docker/stacks">stack</a>) à partir d'un fichier <a href="https://docs.docker.com/compose/compose-application-model/">compose YAML</a>.</p>
+<p><mark class="pen-red">Je pars du principe que vous maîtrisez un minimum Docker avec Portainer </mark>😉</p>
+<h1>Apache Guacamole, c'est quoi ?</h1>
+<p><i>Apache Guacamole est une passerelle de </i><a href="https://w.wiki/Acop">bureau à distance</a><i> sans client.</i></p>
+<p><i>Il prend en charge les protocoles standards tels que </i><a href="https://w.wiki/Acot">VNC</a><i>, </i><a href="https://w.wiki/Acou">RDP</a><i> et </i><a href="https://w.wiki/Acov">SSH</a><i>.</i></p>
+<p><i>Nous l'appelons sans client, car aucun </i><a href="https://w.wiki/Acox">plugin</a><i> ou logiciel client n'est requis.</i></p>
+<p><i>Grâce au </i><a href="https://w.wiki/9mA4">HTML5</a><i>, une fois Guacamole installé sur un serveur, tout ce dont vous avez besoin pour accéder à vos bureaux est un navigateur Web.</i></p>
+<h1>Liens utiles</h1>
+<ul>
+  <li><a href="https://guacamole.apache.org">Site officiel</a></li>
+  <li><a href="https://guacamole.apache.org/doc/gug/">Documentation</a></li>
+  <li><a href="https://github.com/search?utf8=%E2%9C%93&amp;q=repo%3Aapache%2Fguacamole-client+repo%3Aapache%2Fguacamole-server+repo%3Aapache%2Fguacamole-manual+repo%3Aapache%2Fguacamole-website&amp;type=repositories&amp;ref=searchresults">Code source</a></li>
+</ul>
+<h1>Installation</h1>
+<p>Manuelle, ou via Portainer.</p>
+<p><mark class="pen-red">“</mark><a href="https://fr.wikipedia.org/wiki/Sudo"><mark class="pen-red">sudo</mark></a><mark class="pen-red">” OU PAS “sudo” ? À vous de savoir. Personnellement, je suis sur un </mark><a href="https://fr.wikipedia.org/wiki/LXC"><mark class="pen-red">LXC</mark></a><mark class="pen-red"> </mark><a href="https://fr.wikipedia.org/wiki/Debian"><mark class="pen-red">Debian</mark></a><mark class="pen-red"> </mark><a href="https://fr.wikipedia.org/wiki/Proxmox_VE"><mark class="pen-red">Proxmox</mark></a><mark class="pen-red">, je travaille donc en “</mark><a href="https://fr.wikipedia.org/wiki/Root"><mark class="pen-red">root</mark></a><mark class="pen-red">”, pas besoin de “sudo” !</mark></p>
+<h2>Manuelle</h2>
+<ul>
+  <li>Créer un dossier qui va contenir les différents fichiers et dossier pour notre environnement Guacamole…</li>
+</ul>
+<pre><code class="language-plaintext">mkdir guacamole</code></pre>
+<ul>
+  <li>Dans le dossier “guacamole”, créer le fichier “docker-compose.yml”…</li>
+</ul>
+<pre><code class="language-plaintext">touch docker-compose-yml</code></pre>
+<ul>
+  <li>Ouvrez maintenant “docker-compose.yml” pour l'éditer…</li>
+</ul>
+<pre><code class="language-plaintext">nano docker-compose.yml</code></pre>
+<ul>
+  <li>Voici le contenu du fichier “docker-compose.yml”, adaptez-le à votre environnement…</li>
+</ul>
+<pre><code class="language-plaintext">version: '3.8'
+
+services:
+    guacamole_db:
+        container_name: guacamole_db
+        hostname: guacamole_db
+        image: mariadb:10.11
+        restart: always
+        volumes:
+            - ./guacamole_db:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=blablalinux
+            - MYSQL_DATABASE=guacamole_db
+            - MYSQL_USER=anyblabla
+            - MYSQL_PASSWORD=blabla
+        expose:
+            - 3306
+    
+    guacd:
+        container_name: guacd
+        hostname: guacd
+        image: guacamole/guacd:latest
+        restart: always
+        volumes:
+            - ./guacd_drive:/drive:rw 
+            - ./guacd_record:/record:rw 
+        expose:
+            - 4822
+
+    guacamole:
+        container_name: guacamole
+        hostname: guacamole
+        restart: always
+        image: guacamole/guacamole:latest
+        depends_on:
+            - guacamole_db
+            - guacd
+        ports:
+            - 8080:8080
+        links:
+            - guacd
+        environment:
+            - GUACD_HOSTNAME=guacd
+            - MYSQL_HOSTNAME=guacamole_db
+            - MYSQL_DATABASE=guacamole_db
+            - MYSQL_USER=anyblabla
+            - MYSQL_PASSWORD=blabla
+            - REMOTE_IP_VALVE_ENABLED=true</code></pre>
+<p>Fichier compose également disponible sur <a href="https://bytestash.blablalinux.be/public/snippets">ByteStash Blabla Linux</a>.</p>
+<h3>Compose personnalisation</h3>
+<p>Dans “environment” du service “guacamole_db”…</p>
+<ul>
+  <li>N'oubliez pas de personnaliser le mot de passe “root” pour MySQL…</li>
+</ul>
+<p><code>- MYSQL_ROOT_PASSWORD=<mark class="pen-red">blablalinux</mark></code></p>
+<ul>
+  <li>N'oubliez pas de personnaliser le nom utilisateur pour MySQL…</li>
+</ul>
+<p><code>- MYSQL_USER=<mark class="pen-red">anyblabla</mark></code></p>
+<ul>
+  <li>N'oubliez pas de personnaliser le mot de passe pour MySQL…</li>
+</ul>
+<p><code>- MYSQL_PASSWORD=<mark class="pen-red">blabla</mark></code></p>
+<p><strong>Les informations “environement” du service “guacamole_db” doivent être identiques que les informations “environment” du service “guacamole” !</strong></p>
+<ul>
+  <li>La variable “- REMOTE_IP_VALVE_ENABLED=” est à activer si vous utilisez un <a href="https://w.wiki/Acu3">Proxy inverse</a>…</li>
+</ul>
+<p><code>- REMOTE_IP_VALVE_ENABLED=<mark class="pen-red">true</mark></code></p>
+<h3>Bonus Compose personnalisation</h3>
+<ul>
+  <li>Pour activer la <a href="https://w.wiki/Acu6">double authentification</a>, il suffit d'ajouter cette variable en dessous de la variable “- REMOTE_IP_VALVE_ENABLED=true”…</li>
+</ul>
+<p><code>- TOTP_ENABLED=<mark class="pen-red">true</mark></code></p>
+<h2>Portainer</h2>
+<ul>
+  <li>Il suffit de créer une pile stack avec le nom de votre choix, ici, “guacamole”, et de coller le contenu du fichier Compose ci-dessus…</li>
+</ul>
+<figure class="image"><img src="/docker-compose-apache-guacamole/guacamole-stack-portainer.jpg"></figure>
+<hr>
+<p>Vous pouvez lancer le container !</p>
+<ul>
+  <li>Avec une installation manuelle, simplement être dans le répertoire “guacamole” et…</li>
+</ul>
+<pre><code class="language-plaintext">docker-compose up -d</code></pre>
+<ul>
+  <li>Avec une pile stack Portainer, un clic sur “Deploy the stack”…</li>
+</ul>
+<figure class="image"><img src="/docker-compose-apache-guacamole/deploy-the-stack.jpg"></figure>
+<p><mark class="pen-red">L'identifiant et le mot de passe par défaut est : <strong>guacadmin</strong></mark></p>
+<hr>
+<h2>Manuelle/Portainer - Instructions communes</h2>
+<p>Il faut maintenant initialiser la base de données MySQL.</p>
+<ul>
+  <li>Si vous n'êtes pas en “root”, passez-y…</li>
+</ul>
+<pre><code class="language-plaintext">sudo su</code></pre>
+<ul>
+  <li>Récupérer le script d’initialisation de la base de données MySQL…</li>
+</ul>
+<pre><code class="language-plaintext">docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql &gt; initdb.sql</code></pre>
+<ul>
+  <li>Injecter le fichier de la base de données MySQL…</li>
+</ul>
+<pre><code class="language-plaintext">docker exec -i guacamole_db mysql --user anyblabla --password=blabla guacamole_db &lt; initdb.sql</code></pre>
+<ul>
+  <li>La commande doit être adaptée à votre environnement…</li>
+</ul>
+<p><code>--user <mark class="pen-red">anyblabla</mark> --password=<mark class="pen-red">blabla</mark></code></p>
+<h1>Guacamole en fonctionnement</h1>
+<p>Je vous propose cette vidéo pour vous rendre compte du résultat…</p>
+<ul>
+  <li><a href="https://www.facebook.com/blablalinux/videos/320245721056954/">Facebook</a></li>
+  <li><a href="https://x.com/BlablaLinux/status/1810306929278832882">X (Twitter)</a></li>
+</ul>

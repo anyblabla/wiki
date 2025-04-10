@@ -1,0 +1,34 @@
+<!--
+title: Delete cache Mastodon
+description: Faire un peu le ménage sur une instance Mastodon en supprimant certains éléments mis en cache.
+published: true
+date: 2025-01-25T13:03:08.500Z
+tags: mastodon, cache, delete
+editor: ckeditor
+dateCreated: 2024-05-06T22:29:10.684Z
+-->
+
+<p>Mastodon a plusieurs nettoyages possibles pour vider les différents niveaux de cache.</p>
+<ul>
+  <li>Les principaux niveaux de nettoyage :</li>
+</ul>
+<ol>
+  <li>Vignettes en cache : <strong>tootctl cache clear</strong></li>
+  <li>Vieux média : <strong>tootctl media remove</strong></li>
+  <li>Médias non référencés : <strong>tootctl media remove-orphans</strong></li>
+  <li>Comptes distants qui n’existent plus (lourd) : <strong>tootctl accounts cull</strong></li>
+  <li>Statuts qui n’existent plus (très lourd) : <strong>tootctl statuses remove</strong></li>
+</ol>
+<ul>
+  <li>Tous les caches peuvent être nettoyés par grâce à <strong>tootctl</strong>, utilisable comme suit :</li>
+</ul>
+<pre><code class="language-plaintext">su -</code></pre>
+<pre><code class="language-plaintext">cd /var/www/mastodon/live</code></pre>
+<pre><code class="language-plaintext">sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl cache clear</code></pre>
+<pre><code class="language-plaintext">sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl media remove</code></pre>
+<pre><code class="language-plaintext">sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl media remove-orphans</code></pre>
+<pre><code class="language-plaintext">sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl accounts cull </code></pre>
+<pre><code class="language-plaintext">sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl statuses remove</code></pre>
+<figure class="image"><img src="/mastodon-cache/mastodon.blablalinux.png">
+  <figcaption><a href="https://mastodon.blablalinux.be/@blablalinux">https://mastodon.blablalinux.be/@blablalinux</a></figcaption>
+</figure>

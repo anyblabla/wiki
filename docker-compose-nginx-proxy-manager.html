@@ -1,0 +1,188 @@
+<!--
+title: Docker Compose Nginx Proxy Manager
+description: Nginx Proxy Manager (NPM) est un proxy inverse open source utilisé pour rediriger le trafic d'un site Web vers l'endroit approprié.
+published: true
+date: 2025-03-31T17:53:09.557Z
+tags: nginx, proxy
+editor: ckeditor
+dateCreated: 2024-06-13T20:53:40.020Z
+-->
+
+<p>Pratique pour déployer rapidement <a href="https://nginxproxymanager.com">Nginx Proxy Manager</a> (NPM) dans <a href="https://www.portainer.io/">Portainer</a> en créant une pile (<a href="https://docs.portainer.io/user/docker/stacks">stack</a>) à partir d'un fichier <a href="https://docs.docker.com/compose/compose-application-model/">compose YAML</a>.</p>
+<p><mark class="pen-red">Je pars du principe que vous maîtrisez un minimum Docker avec Portainer </mark>😉</p>
+<h1>Nginx Proxy Manager, c'est quoi ?</h1>
+<p><i>Nginx Proxy Manager (NPM) est un proxy inverse open source utilisé pour rediriger le trafic d'un site Web vers l'endroit approprié. L'utilisation de Nginx Proxy Manager vous permet d'utiliser une seule adresse IP publique pour héberger de nombreux services Web différents.</i></p>
+<h2>Liens utiles</h2>
+<ul>
+  <li><a href="https://nginxproxymanager.com">NPM Site officiel</a></li>
+  <li><a href="https://github.com/NginxProxyManager/nginx-proxy-manager">NPM sur GitHub</a></li>
+  <li><a href="https://hub.docker.com/r/jc21/nginx-proxy-manager">NPM sur Docker Hub</a></li>
+</ul>
+<h1>Docker Compose</h1>
+<ul>
+  <li>Nous allons utiliser un docker compose avec base de données <a href="https://mariadb.org">MariaDB</a>…</li>
+</ul>
+<pre><code class="language-plaintext">version: '3.8'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: always
+    ports:
+      # These ports are in format &lt;host-port&gt;:&lt;container-port&gt;
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+    environment:
+      # Mysql/Maria connection parameters:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./mysql:/var/lib/mysql</code></pre>
+<h2>Variables à personnaliser</h2>
+<ul>
+  <li>Vous pouvez personnaliser ces variables :</li>
+</ul>
+<p><code>DB_MYSQL_USER: "npm"</code></p>
+<p><code>DB_MYSQL_PASSWORD: "npm"</code></p>
+<p><code>MYSQL_USER: 'npm'</code></p>
+<p><code>MYSQL_PASSWORD: 'npm'</code></p>
+<p><mark class="pen-red"><strong>Attention de faire correspondre les variables ensemble !</strong></mark></p>
+<h2>Exécution initiale​</h2>
+<ul>
+  <li>Après la première exécution de l'application, les événements suivants se produisent :</li>
+</ul>
+<ol>
+  <li>Les clés JWT (JSON Web Token) seront générées et enregistrées dans le dossier de données.</li>
+  <li>La base de données s'initialisera.</li>
+  <li>Un utilisateur administrateur par défaut sera créé.</li>
+</ol>
+<p>Ce processus peut prendre quelques minutes selon votre machine.</p>
+<h2>Utilisateur administrateur par défaut​</h2>
+<ul>
+  <li>Email : admin@example.com</li>
+  <li>Password : changeme</li>
+</ul>
+<h2>Captures</h2>
+<figure class="image"><img src="/docker-compose-nginx-proxy-manager/npm-login.png">
+  <figcaption>Nginx Proxy Manager - Login</figcaption>
+</figure>
+<figure class="image"><img src="/docker-compose-nginx-proxy-manager/npm-dashboard.png">
+  <figcaption>Nginx Proxy Manager - Dashboard</figcaption>
+</figure>
+<figure class="image"><img src="/docker-compose-nginx-proxy-manager/npm-proxy-hosts.png">
+  <figcaption>Nginx Proxy Manager - Proxy Hosts</figcaption>
+</figure>
+<h2>Bonus</h2>
+<ul>
+  <li>Le Dockerfile qui construit ce projet n'inclut pas de HEALTHCHECK (vérification de l'état de santé du conteneur) mais vous pouvez opter pour cette fonctionnalité en ajoutant ce qui suit au service dans votre fichier.yml docker-compose :</li>
+</ul>
+<pre><code class="language-plaintext">healthcheck:
+  test: ["CMD", "/usr/bin/check-health"]
+  interval: 10s
+  timeout: 3s</code></pre>
+<ul>
+  <li>Vous pouvez configurer la valeur de l'en-tête X-FRAME-OPTIONS en la spécifiant comme variable d'environnement Docker. La valeur par défaut, si elle n'est pas spécifiée, est DENY (refuser) :</li>
+</ul>
+<pre><code class="language-plaintext">  ...
+  environment:
+    X_FRAME_OPTIONS: "sameorigin"
+  ...</code></pre>
+<ul>
+  <li>Par défaut, NPM effectue une rotation hebdomadaire des journaux d'accès et d'erreurs, et conserve respectivement 4 et 10 fichiers journaux. Selon l'utilisation, cela peut conduire à des fichiers journaux volumineux, en particulier des journaux d'accès. Vous pouvez personnaliser la configuration de logrotate via un montage d'un volume. Si votre configuration personnalisée est logrotate.custom,&nbsp;voici ce que ça donne :</li>
+</ul>
+<pre><code class="language-plaintext">  volumes:
+    ...
+    - ./logrotate.custom:/etc/logrotate.d/nginx-proxy-manager</code></pre>
+<p><mark class="pen-red"><strong>Pour référence, la configuration par défaut est :</strong></mark></p>
+<pre><code class="language-plaintext">/data/logs/*_access.log /data/logs/*/access.log {
+    su npm npm
+    create 0644
+    weekly
+    rotate 4
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+    kill -USR1 `cat /run/nginx/nginx.pid 2&gt;/dev/null` 2&gt;/dev/null || true
+    endscript
+}
+
+/data/logs/*_error.log /data/logs/*/error.log {
+    su npm npm
+    create 0644
+    weekly
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+    kill -USR1 `cat /run/nginx/nginx.pid 2&gt;/dev/null` 2&gt;/dev/null || true
+    endscript
+}</code></pre>
+<p><mark class="pen-red"><strong>Cette configuration est disponible </strong></mark><a href="https://github.com/NginxProxyManager/nginx-proxy-manager/blob/develop/docker/rootfs/etc/logrotate.d/nginx-proxy-manager"><mark class="pen-red"><strong>ICI</strong></mark></a><mark class="pen-red"><strong>.</strong></mark></p>
+<ul>
+  <li>Pour activer le module <a href="https://docs.nginx.com/nginx/admin-guide/dynamic-modules/geoip2/">geoip2</a> (géolocalisation basée sur l'adresse IP), vous pouvez créer (dans le conteneur) le fichier de configuration personnalisé /data/nginx/custom/root_top.conf et inclure l'extrait suivant :</li>
+</ul>
+<pre><code class="language-plaintext">load_module /usr/lib/nginx/modules/ngx_http_geoip2_module.so;
+load_module /usr/lib/nginx/modules/ngx_stream_geoip2_module.so;</code></pre>
+<h2>Mon fichier.yml docker-compose personnel</h2>
+<ul>
+  <li>Voici à quoi ressemble mon fichier.yml docker-compose en date du 06-02-2025 sur ma nouvelle installation :</li>
+</ul>
+<pre><code class="language-plaintext">services:
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: npm
+    restart: always
+    ports:
+      # These ports are in format &lt;host-port&gt;:&lt;container-port&gt;
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+
+    environment:
+      # Uncomment this if you want to change the location of
+      # the SQLite DB file within the container
+      # DB_SQLITE_FILE: "/data/database.sqlite"
+
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+
+      # X-FRAME-OPTIONS Header
+      X_FRAME_OPTIONS: "sameorigin"
+
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+      - ./logrotate.custom:/etc/logrotate.d/nginx-proxy-manager
+
+    healthcheck:
+      test: ["CMD", "/usr/bin/check-health"]
+      interval: 10s
+      timeout: 3s</code></pre>
+<p>Fichier compose également disponible sur <a href="https://bytestash.blablalinux.be/public/snippets">ByteStash Blabla Linux</a>.</p>

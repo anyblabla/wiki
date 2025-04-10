@@ -1,0 +1,42 @@
+<!--
+title: Crontab Mount
+description: Montage automatique d'un périphérique de stockage. On oublie Fstab. On va utiliser Crontab.
+published: true
+date: 2024-06-24T00:33:44.079Z
+tags: cron, crontab, mount
+editor: ckeditor
+dateCreated: 2024-06-24T00:12:35.609Z
+-->
+
+<h1>Situation</h1>
+<p>Le démarrage de votre machine s'effectue sur un périphérique de stockage externe <a href="https://fr.wikipedia.org/wiki/USB">USB</a> où se trouve la partition /boot. Tout se passe bien.&nbsp;</p>
+<p>Vous connectez un deuxième périphérique de stockage externe USB, vous avez demandé un montage automatique via /etc/fstab.</p>
+<p>Le démarrage ne s'effectue plus !&nbsp;</p>
+<p>Pourquoi ?</p>
+<p>Dans votre firmware <a href="https://fr.wikipedia.org/wiki/BIOS_(informatique)">BIOS</a>/<a href="https://fr.wikipedia.org/wiki/UEFI">EFI</a>, vous avez défini le démarrage sur périphérique amovible USB, mais vous ne pouvez pas spécifier sur quel périphérique précisément le démarrage doit s'effectuer ! Comme il y en a plusieurs, le démarrage bloque.</p>
+<p>Vous pouvez désactiver l'entrée du deuxième périphérique dans le fichier /etc/fstab. Le démarrage s'effectuera correctement sur le premier périphérique contenant la partition /boot, mais le montage automatique du deuxième périphérique ne se fera pas !</p>
+<p>L'astuce consiste alors à demander un montage automatique, non pas au démarrage via /etc/fstab, mais à la connexion de la session via <a href="https://fr.wikipedia.org/wiki/Cron">Crontab</a>.</p>
+<h1>Connaître l'UUID</h1>
+<p>La première chose à faire est de connaître l'<a href="https://fr.wikipedia.org/wiki/Universally_unique_identifier">UUID</a> (Identifiant Universel Unique) de votre périphérique.</p>
+<ul>
+  <li>Nous allons utiliser cette commande…</li>
+</ul>
+<pre><code class="language-plaintext">sudo blkid</code></pre>
+<p>Vous devriez obtenir ce genre de sortie…</p>
+<figure class="image"><img src="/crontab-mount/blkid.png"></figure>
+<p>On peut voir en surbrillance le numéro UUID que je vais utiliser. Il concerne un disque externe USB dédié aux sauvegardes <a href="https://fr.wikipedia.org/wiki/Rsync">RSYNC</a>.</p>
+<h1>Répertoire du point de montage</h1>
+<ul>
+  <li>Nous allons maintenant créer un répertoire (pour moi backup-rsync) dans /media pour accueillir notre point de montage…</li>
+</ul>
+<pre><code class="language-plaintext">sudo mkdir /media/backup-rsync</code></pre>
+<h1>Ajout dans Crontab</h1>
+<ul>
+  <li>Nous pouvons maintenant éditer Crontab…</li>
+</ul>
+<pre><code class="language-plaintext">sudo crontab -e</code></pre>
+<ul>
+  <li>Nous pouvons ajouter la ligne suivante (<mark class="pen-red">à adapter selon vos besoins</mark>) à la fin du fichier…</li>
+</ul>
+<pre><code class="language-plaintext">@reboot sudo mount -U edd2b28e-b65e-474b-bd7d-6c1563144ab6 /media/backup-rsync</code></pre>
+<p>Vous pouvez redémarrer, le tout est joué 😎</p>

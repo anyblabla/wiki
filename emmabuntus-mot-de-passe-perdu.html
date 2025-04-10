@@ -1,0 +1,51 @@
+<!--
+title: Emmabuntüs - Mot de passe perdu
+description: La machine n'a plus été démarrée depuis un moment ! Vous avez oublié le mot de passe root et/ou utilisateur ? Voici une solution.
+published: true
+date: 2024-08-16T11:44:41.032Z
+tags: password, user, root, emmabuntus
+editor: ckeditor
+dateCreated: 2024-08-15T15:31:02.884Z
+-->
+
+<p><mark class="pen-red"><strong>Méthode testée par mes soins et opérationnelle sur Emmabuntüs DE4/5, et comme Emmabuntüs est une Debian, méthode valable pour Debian 💯</strong></mark></p>
+<h1>Accéder au menu du Grub</h1>
+<p>Au démarrage, sur Emmabuntüs, pas besoins d’appeler le menu Grub. Il apparaît automatiquement durant cinq secondes.</p>
+<p>Pour Debian, si le menu Grub n'apparaît pas au démarrage, tout en mettant la machine sous tension, laisser votre doigt appuyé sur la touche Shift.</p>
+<h1>Éditer le menu Grub</h1>
+<ul>
+  <li>Tout en étant placé sur la <u>première ligne</u> du menu Grub, on appuie sur la touche «&nbsp;<strong><u>e</u></strong>&nbsp;» pour passer en mode édition.</li>
+</ul>
+<p>On se déplace avec les touches fléchées&nbsp;!</p>
+<ul>
+  <li>On repère la ligne qui commence par «&nbsp;<strong>linux&nbsp;</strong>», et à la fin de celle-ci, on ajoute…</li>
+</ul>
+<p><code>rw init=/bin/bash</code></p>
+<ul>
+  <li>On termine avec la touche «&nbsp;<strong>F10</strong>&nbsp;» pour continuer le démarrage du système et arriver sur un prompt.</li>
+</ul>
+<h1>Tester l’accès au shell</h1>
+<ul>
+  <li>On rentre cette commande…</li>
+</ul>
+<p><code>mount | grep -w /</code></p>
+<p>Si cette dernière retourne «&nbsp;<strong>(rw,realtime)</strong>&nbsp;» tout est ok.</p>
+<h1>Réinitialiser le mot de passe</h1>
+<ul>
+  <li>Pour réinitialiser le mot de passe du compte «&nbsp;<strong>roo</strong>t&nbsp;», on utilise cette commande…</li>
+</ul>
+<p>&nbsp;<code>passwd</code></p>
+<p>On entre un mot de passe, on le confirme ensuite.</p>
+<ul>
+  <li>Pour réinitialiser le mot de passe d’un compte utilisateur, on utilise cette commande…</li>
+</ul>
+<p><code>passwd &lt;votre-nom-utilisateur&gt;</code></p>
+<p>On entre un mot de passe, on le confirme ensuite.</p>
+<h1>Redémarrer le système</h1>
+<ul>
+  <li>On utilise cette commande…</li>
+</ul>
+<p><code>exec /sbin/init</code></p>
+<p>On arrive sur le système avec notre mot de passe ✔️</p>
+<p>&nbsp;</p>
+<p>☝️ <mark class="pen-red">Méthode disponible sur le site officiel Emmabuntüs :</mark> <a href="https://yourls.blablalinux.be/emmade-reset-password">https://yourls.blablalinux.be/emmade-reset-password</a> 👍</p>

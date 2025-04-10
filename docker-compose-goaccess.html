@@ -1,0 +1,138 @@
+<!--
+title: Docker Compose GoAccess pour NPM
+description: GoAccess est une application d'analyse Web open source pour les systèmes d'exploitation de type Unix.
+published: true
+date: 2025-03-31T17:45:51.592Z
+tags: monitoring, analytic, real-time, nginx, npm
+editor: ckeditor
+dateCreated: 2025-02-06T12:30:45.317Z
+-->
+
+<p>Pratique pour déployer rapidement <a href="https://goaccess.io">GoAcces</a> <a href="https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager">pour Nginx Proxy Manager</a> (NPM) dans <a href="https://www.portainer.io/">Portainer</a> en créant une pile (<a href="https://docs.portainer.io/user/docker/stacks">stack</a>) à partir d'un fichier <a href="https://docs.docker.com/compose/compose-application-model/">compose YAML</a>. Ou avec Docker seul, sans Portainer 😊</p>
+<p><mark class="pen-red">Je pars du principe que vous maîtrisez un minimum Docker avec Portainer </mark>😉</p>
+<h2>GoAcces, qu'est-ce que c'est ?</h2>
+<p>GoAcces va vous permettre de visualiser en temps réel, sous forme de tableaux, l'ensemble des logs (fichiers journaux) des hôtes proxy de votre proxy inverse Nginx Proxy Manager.</p>
+<figure class="image"><img src="/docker-compose-goaccess/goaccess-bright.png"></figure>
+<h2>Liens utiles</h2>
+<ul>
+  <li><a href="https://goaccess.io">Site officiel</a></li>
+  <li><a href="http://rt.goaccess.io/?20250113204951">Live Demo</a></li>
+  <li><a href="https://github.com/allinurl/goaccess">GitHub</a></li>
+  <li><a href="https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager">Pour Nginx Proxy Manager</a></li>
+</ul>
+<h2>fichier.yml docker-compose</h2>
+<ul>
+  <li>Partons du principe que l'on déploie avec Docker, nous créons un répertoire “goaccess” :</li>
+</ul>
+<pre><code class="language-plaintext">mkdir goaccess</code></pre>
+<ul>
+  <li>On se place dedans :</li>
+</ul>
+<pre><code class="language-plaintext">cd goaccess</code></pre>
+<ul>
+  <li>On crée notre fichier docker-compose.yml :</li>
+</ul>
+<pre><code class="language-plaintext">nano docker-compose.yml </code></pre>
+<ul>
+  <li>On colle ce qui suit (mon fichier .yml docker-compose personnel - fichier compose également disponible sur <a href="https://bytestash.blablalinux.be/public/snippets">ByteStash Blabla Linux</a>) :</li>
+</ul>
+<pre><code class="language-plaintext">version: '3.8'
+services:
+  goaccess:
+    image: 'xavierh/goaccess-for-nginxproxymanager:latest'
+    container_name: goaccess
+    restart: always
+    ports:
+      - '7880:7880'
+    environment:
+      - TZ=Europe/Brussels #optional
+      - LANG=fr_FR.UTF-8 #optional
+      - LANGUAGE=fr_FR.UTF-8 #optional
+      - SKIP_ARCHIVED_LOGS=False #optional
+      - DEBUG=False #optional
+      - BASIC_AUTH=False #optional
+      - BASIC_AUTH_USERNAME=user #optional
+      - BASIC_AUTH_PASSWORD=pass #optional   
+      - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
+      - LOG_TYPE=NPM+R #optional
+      - ENABLE_BROWSERS_LIST=True #optional
+      - CUSTOM_BROWSERS=Kuma:Uptime,TestBrowser:Crawler #optional - comma delimited
+      - HTML_REFRESH=5 #optional - Refresh the HTML report every X seconds. https://goaccess.io/man
+      - KEEP_LAST=30 #optional - Keep the last specified number of days in storage. https://goaccess.io/man
+      - PROCESSING_THREADS=1 #optional - This parameter sets the number of concurrent processing threads in the program's execution, affecting log data analysis, typically adjusted based on CPU cores. Default is 1. https://goaccess.io/man
+    volumes:
+      - /data/compose/1/data/logs:/opt/log
+      #- /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM</code></pre>
+<ul>
+  <li>Lignes à modifier :</li>
+</ul>
+<p><code>- TZ=Europe/Brussels #optional</code></p>
+<p><code>- /data/compose/1/data/logs:/opt/log</code></p>
+<p><mark class="pen-red"><strong>Cette dernière est la plus importante ! C'est l'emplacement où se situent les fichiers journaux de Nginx Proxy Manager.</strong></mark></p>
+<p>Les plus habitués d'entre vous auront remarqué ici l'utilisation de Portainer pour déployer GoAcces ! D'où le début de la ligne…</p>
+<p><code>/data/compose/1/</code></p>
+<p>Si vous ajoutez GoAcces au compose de Nginx Proxy Manager, et que vous n'avez pas modifié les volumes de ce dernier, alors la ligne sera…</p>
+<p><code>- ./data/logs:/opt/log</code></p>
+<h2>Autres lignes</h2>
+<ul>
+  <li>On peut voir que j'ai passé mon instance GoAccess en français :</li>
+</ul>
+<p><code>- LANG=fr_FR.UTF-8 #optional</code></p>
+<p><code>- LANGUAGE=fr_FR.UTF-8 #optional</code></p>
+<ul>
+  <li>On peut voir que je demande à GoAccess de ne pas prendre en compte les journaux archives (.gz) :</li>
+</ul>
+<p><code>- SKIP_ARCHIVED_LOGS=False #optional</code></p>
+<ul>
+  <li>On peut voir que mon instance ne demande pas d'authentification :</li>
+</ul>
+<p><code>- BASIC_AUTH=False #optional</code></p>
+<p><code>- BASIC_AUTH_USERNAME=user #optional</code></p>
+<p><code>- BASIC_AUTH_PASSWORD=pass #optional</code></p>
+<ul>
+  <li>Si vous désirez devoir vous authentifier :</li>
+</ul>
+<p><code>- BASIC_AUTH=True #optional</code></p>
+<p><code>- BASIC_AUTH_USERNAME=anyblabla #optional</code></p>
+<p><code>- BASIC_AUTH_PASSWORD=blablalinux #optional</code></p>
+<ul>
+  <li>On peut voir que la machine hôte est exclue :</li>
+</ul>
+<p><code>- EXCLUDE_IPS=127.0.0.1 #optional - comma delimited</code></p>
+<p>Vous pouvez ajouter plusieurs adresses IP séparées par une virgule.</p>
+<ul>
+  <li>Cette ligne est importante. Par défaut, la configuration sera définie pour lire les journaux NPM. Les options possibles sont&nbsp;: CUSTOM, NPM, NPM+R, NPM+ALL, TRAEFIK, NCSA_COMBINED, CADDY_V1.</li>
+</ul>
+<p><code>- LOG_TYPE=NPM+R #optional</code></p>
+<p>⇒ NPM, le ou les fichiers suivants sont lus et analysés :</p>
+<p>⇢ proxy-host-*_access.log.gz (<mark class="pen-red">si vous avez demandé la prise en compte des archives !</mark>)</p>
+<p>⇢ proxy-host-*_access.log</p>
+<p>⇢ proxy*host-*.log</p>
+<p>⇒ NPM+R, une deuxième instance de GoAccess est créée ; ajouter « /redirection » à l'URL pour accéder à l'instance, par exemple <u>http://localhost:7880/redirection/ ;&nbsp;</u> le ou les fichiers suivants sont lus et analysés :</p>
+<p>⇢ redirection*host-*.log*.gz (<mark class="pen-red">si vous avez demandé la prise en compte des archives !</mark>)</p>
+<p>⇢ redirection*host-*.log</p>
+<p>⇢ fallback_access.log*.gz (<mark class="pen-red">si vous avez demandé la prise en compte des archives !</mark>)</p>
+<p>⇢ fallback_access.log</p>
+<p>⇢ dead-host*.log*.gz (<mark class="pen-red">si vous avez demandé la prise en compte des archives !</mark>)</p>
+<p>⇢ dead-host*.log</p>
+<p>⇒ NPM+ALL, une deuxième et une troisième instance de GoAccess sont créées ; ajouter « /redirection » à l'URL pour accéder à l'instance, par exemple http://localhost:7880/redirection/ ; le ou les fichiers suivants sont lus et analysés :</p>
+<p>⇢ redirection*host-<i>.log</i>.gz (<mark class="pen-red">si vous avez demandé la prise en compte des archives !</mark>)</p>
+<p>⇢ redirection*host-*.log</p>
+<p><strong>OU</strong></p>
+<p>Ajouter « /error » à l'URL pour accéder à l'instance, par exemple http://localhost:7880/error/ ; le ou les fichiers suivants sont lus et analysés :</p>
+<p>⇢ *_error.log*.gz (<mark class="pen-red">si vous avez demandé la prise en compte des archives !</mark>)</p>
+<p>⇢ *_error.log</p>
+<ul>
+  <li>On peut voir que la page HTML sera rafraîchie toutes les cinq secondes :</li>
+</ul>
+<p><code>- HTML_REFRESH=5 #optional</code></p>
+<ul>
+  <li>On peut voir que les statistiques sur trente jours seront prises en compte :</li>
+</ul>
+<p><code>- KEEP_LAST=30 #optional</code></p>
+<ul>
+  <li><mark class="pen-red"><strong>Une fois que tout est réglé, on peut lancer notre conteneur :</strong></mark></li>
+</ul>
+<pre><code class="language-plaintext">docker compose up -d</code></pre>
+<h2>Remarque</h2>
+<p>Je n'ai pas tout détaillé ! Je vous conseille de vous rendre sur <a href="https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager">la page de projet GitHub</a>, ou encore mieux, <a href="https://goaccess.io/man">sur la page “man” du site officiel</a>.</p>

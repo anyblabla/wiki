@@ -1,0 +1,112 @@
+<!--
+title: Timeshift sur serveur
+description: Nous allons installer Timeshift sur une distribution serveur pour ensuite créer des sauvegardes automatiques.
+published: true
+date: 2024-07-16T17:27:05.499Z
+tags: timeshift, sauvegarde, serveur, cron
+editor: ckeditor
+dateCreated: 2024-06-05T18:52:33.986Z
+-->
+
+<h2>Explication</h2>
+<p><i>Beaucoup installent et utilisent l'utilitaire de créations d'instantané </i><a href="https://github.com/linuxmint/timeshift">Timeshift</a><i> sur distribution desktop, ici, nous allons l'installer et l'utiliser sur une distribution serveur. Donc, sans interface graphique.</i></p>
+<p><i>Il existe de nombreux tutoriels sur la toile. La plupart, pour ne pas dire tous, sont incomplets ! Ils ne montrent pas l'édition et l'initialisation du fichier </i><a href="https://www.json.org/json-en.html">JSON</a><i> pour une prise automatique d'instantanés grâce aux tâches </i><a href="https://fr.wikipedia.org/wiki/Cron">cron</a><i>.</i></p>
+<p><i>Après la lecture de la documentation, après beaucoup de recherches et de tests, voici la procédure qui fonctionne.</i></p>
+<p><i>Nous allons partir d'une distribution </i><a href="https://ubuntu.com/download/server">Ubuntu Server</a><i>.</i></p>
+<p><i>Les commandes ci-dessous seront exécutées avec “</i><a href="https://fr.wikipedia.org/wiki/Sudo">sudo</a><i>”.</i></p>
+<h2>Installation / Paramétrage</h2>
+<ul>
+  <li>Mise à jour des dépôts…</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt update</code></pre>
+<ul>
+  <li>Installation de Timeshift…</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt install timeshift -y</code></pre>
+<p>Après l'installation, nous devons exécuter manuellement Timeshift et créer notre premier instantané.</p>
+<ul>
+  <li>Nous devons d'abord connaître les détails du système de fichiers…</li>
+</ul>
+<pre><code class="language-plaintext">df -h</code></pre>
+<p><mark class="pen-red">Exemple</mark> de sortie…</p>
+<figure class="image"><img src="/timeshift-serveur/df-h.png"></figure>
+<ul>
+  <li>Je vais réaliser le premier instantané sur /dev/sda1…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --create --comments "First Snapshot" --snapshot-device /dev/sda1</code></pre>
+<p><mark class="pen-red">Exemple</mark> de sortie…</p>
+<figure class="image"><img src="/timeshift-serveur/timeshift-create.png"></figure>
+<ul>
+  <li>Après la création du premier instantané, le fichier “timeshift.json” a été créé. Vous le modifiez selon vos besoins.</li>
+</ul>
+<pre><code class="language-plaintext">sudo nano /etc/timeshift/timeshift.json</code></pre>
+<p>Mon fichier…</p>
+<figure class="image"><img src="/timeshift-serveur/timeshift.json.png"></figure>
+<p><mark class="pen-red">Lignes à personnaliser…</mark></p>
+<p>Cette ligne spécifie le numéro UUID du disque cible, donc du disque qui accueille les sauvegardes (ici /dev/sda1)…</p>
+<p><code>"backup_device_uuid" : "d00a20aa-cdd1-486d-9e6f-e3f87b3b6aff",</code>&nbsp;</p>
+<ul>
+  <li>Si l'UUID n'est pas spécifié, utilisez cette commande pour l'obtenir et le spécifier…</li>
+</ul>
+<pre><code class="language-plaintext">lsblk -fs</code></pre>
+<p>Cette ligne arrête les emails cron pour les tâches terminées…</p>
+<p><code>"stop_cron_emails" : "true",</code></p>
+<p>Ces lignes spécifient les calendriers à activer (mensuel/hebdomadaire/quotidien/horaire/amorçage)…</p>
+<p><code>"schedule_monthly" : "true",</code></p>
+<p><code>"schedule_weekly" : "true",</code></p>
+<p><code>"schedule_daily" : "true",</code></p>
+<p><code>"schedule_hourly" : "false",</code></p>
+<p><code>"schedule_boot" : "true",</code></p>
+<p>Ces lignes spécifient le nombre de sauvegardes à conserver pour chaque calendrier…</p>
+<p><code>"count_monthly" : "1",</code></p>
+<p><code>"count_weekly" : "2",</code></p>
+<p><code>"count_daily" : "3",</code></p>
+<p><code>"count_hourly" : "4",</code></p>
+<p><code>"count_boot" : "4",</code></p>
+<p>Une fois votre fichier JSON personnalisé, vous sauvegardez (CTRL+X / ENTER / O).</p>
+<p><mark class="pen-red"><strong>Maintenant, la partie la plus importante...</strong></mark></p>
+<ul>
+  <li>Nous allons faire vérifier notre fichier JSON par Timeshift. Ainsi, les tâches calendrier seront activées via chaque fichier cron (cron.d/cron.daily/cron.hourly/cron.monthly) qui se trouvent dans /etc/…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --check</code></pre>
+<p><mark class="pen-red">Exemple</mark> de sortie…</p>
+<figure class="image"><img src="/timeshift-serveur/timeshift-check.png"></figure>
+<ul>
+  <li>Pour lister les instantanés…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --list</code></pre>
+<p><mark class="pen-red">Exemple</mark> de sortie…</p>
+<figure class="image"><img src="/timeshift-serveur/timeshift-list.png"></figure>
+<p>Vous savez à présent comment fonctionne la prise automatique d'instantanés grâce à Timeshift sur distribution serveur.</p>
+<h2>Bonus</h2>
+<p>Quelques commandes supplémentaires (à adapter)…</p>
+<ul>
+  <li>Lister les instantanés qui se trouvent sur le périphérique /dev/sda1…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --list --snapshot-device /dev/sda</code></pre>
+<ul>
+  <li>Créer manuellement un instantané qui sera nommé “after update”, et qui portera le tag “D” pour “Daily”…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --create --comments "after update" --tags D</code></pre>
+<ul>
+  <li>Restaurer un instantané (commande interactive)…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --restore</code></pre>
+<ul>
+  <li>Restaurer un instantané spécifique à partir d'un périphérique spécifique…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --restore --snapshot '2014-10-12_16-29-08' --target /dev/sda1</code></pre>
+<ul>
+  <li>Supprimer un instantané spécifique…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --delete  --snapshot '2014-10-12_16-29-08'</code></pre>
+<ul>
+  <li>Supprimer <mark class="pen-red"><strong>TOUS</strong></mark> les instantanés…</li>
+</ul>
+<pre><code class="language-plaintext">sudo timeshift --delete-all</code></pre>
+<ul>
+  <li>Et bien plus encore…</li>
+</ul>
+<pre><code class="language-plaintext">timeshift</code></pre>
+<h2>Avertissement</h2>
+<p><mark class="pen-red">Je dois vous prévenir que Timeshift est utilisé pour la partie fichiers système. Pas pour la partie fichier personnels. Les répertoires utilisateurs ne sont pas pris en compte. Si vous décidez d'inclure les répertoires utilisateurs personnels, <strong><u>attention</u></strong> ! À la restauration d'un instantané, les fichiers contenus dans les répertoires utilisateurs personnels <strong><u>reviendront à un état antérieur, voir, seront supprimés</u></strong> ! Timeshift sert à prendre des instantanés du système. <strong><u>On n'utilise pas Timeshift comme utilitaire de sauvegarde</u></strong>. Des instantanés et des sauvegardes, c'est différent, on utilise donc un logiciel différent.</mark></p>

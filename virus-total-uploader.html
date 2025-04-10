@@ -1,0 +1,101 @@
+<!--
+title: VirusTotal Uploader
+description: Nous allons installer les dépendances nécessaire pour la compilation de VirusTotal Uploader à partir d'un dépôts GitHub cloné.
+published: true
+date: 2024-06-14T22:35:59.283Z
+tags: virus, virustotal, uploader
+editor: ckeditor
+dateCreated: 2024-06-12T18:14:23.441Z
+-->
+
+<h1>VirusTotal Uploader, c'est quoi ?</h1>
+<p><i>C'est un outil en ligne qui sert à analyser les fichiers, les domaines, les adresses IP et URL suspects afin de détecter les logiciels malveillants et autres violations, et de les partager automatiquement avec la communauté de la sécurité.</i></p>
+<ul>
+  <li><a href="https://www.virustotal.com/gui/home/upload">Site officiel</a></li>
+  <li><a href="https://github.com/VirusTotal/qt-virustotal-uploader">Dépôt GitHub</a></li>
+  <li><a href="https://fr.wikipedia.org/wiki/VirusTotal">Wikipédia</a></li>
+</ul>
+<h1>Que va-t-on faire ?</h1>
+<p><i>VirusTotal Uploader existe également en tant que logiciel, installable en clonant un dépôt </i><a href="https://github.com/">GitHub</a><i>, suivi ensuite par une compilation. C'est ce que nous allons faire sur une distribution </i><a href="https://www.linuxmint.com">Linux Mint</a><i> 21.3 Cinnamon (base </i><a href="https://ubuntu.com">Ubuntu</a><i> 22.04.3).</i></p>
+<p><i>Ce programme utilise en interne l'</i><a href="https://fr.wikipedia.org/wiki/Interface_de_programmation">API</a><i> publique VirusTotal. Vous pouvez glisser et déposer un fichier ou un dossier dans le programme pour le mettre en file d'attente pour le téléchargement et l'analyse.</i></p>
+<figure class="image"><img src="/virus-total-uploader/virus-total-uploader.png">
+  <figcaption>Virustotal Uploader sur Linux Mint 21.3</figcaption>
+</figure>
+<h1>Step by Step</h1>
+<p><mark class="pen-red">Instruction valable pour </mark><a href="https://www.debian.org/index.fr.html"><mark class="pen-red">Debian</mark></a><mark class="pen-red">/Ubuntu/Mint. Installation réalisée sur Linux Mint 21.3 (Cinnamon).</mark></p>
+<ul>
+  <li>On rafraîchit les dépôts…</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt update</code></pre>
+<ul>
+  <li>Obtenir des dépendances (<mark class="pen-red">Linux Mint <strong>Cinnamon</strong></mark>)…</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt-get install build-essential qtchooser qt5-default libjansson-dev libcurl4-openssl-dev git zlib1g-dev</code></pre>
+<ul>
+  <li>Obtenir des dépendances (<mark class="pen-red">Linux Mint XFCE</mark>)…</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools build-essential libjansson-dev libcurl4-openssl-dev git zlib1g-dev</code></pre>
+<ul>
+  <li>Cloner la bibliothèque “c-vtapi”…</li>
+</ul>
+<pre><code class="language-plaintext">git clone https://github.com/VirusTotal/c-vtapi.git</code></pre>
+<ul>
+  <li>Passer au répertoire “c-vtapi”…</li>
+</ul>
+<pre><code class="language-plaintext">cd c-vtapi</code></pre>
+<ul>
+  <li>Obtenir les dépendances "c-vtapi"…</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt-get install automake autoconf libtool libjansson-dev libcurl4-openssl-dev</code></pre>
+<ul>
+  <li>Configurer avec les options par défaut et créer…</li>
+</ul>
+<pre><code class="language-plaintext">autoreconf -fi &amp;&amp; ./configure &amp;&amp; make</code></pre>
+<ul>
+  <li>Installer sur le système, par défaut cela va dans "/usr/local/lib"…</li>
+</ul>
+<pre><code class="language-plaintext">sudo make install</code></pre>
+<ul>
+  <li>Configurer l'éditeur de liens dynamique pour ajouter “/usr/local/lib” au chemin…</li>
+</ul>
+<pre><code class="language-plaintext">sudo sh -c 'echo "/usr/local/lib" &gt; /etc/ld.so.conf.d/usr-local-lib.conf'</code></pre>
+<pre><code class="language-plaintext">sudo ldconfig</code></pre>
+<ul>
+  <li>Revenir au répertoire de base…</li>
+</ul>
+<pre><code class="language-plaintext">cd ..</code></pre>
+<ul>
+  <li>Cloner QT VirusTotal Uploader…</li>
+</ul>
+<pre><code class="language-plaintext">git clone https://github.com/VirusTotal/qt-virustotal-uploader.git </code></pre>
+<pre><code class="language-plaintext">cd qt-virustotal-uploader</code></pre>
+<ul>
+  <li>Lancez “qmake” en spécifiant “qt5”…</li>
+</ul>
+<pre><code class="language-plaintext">qtchooser -run-tool=qmake -qt=5</code></pre>
+<ul>
+  <li>Compiler avec 4 tâches parallèles…</li>
+</ul>
+<pre><code class="language-plaintext">make -j4</code></pre>
+<ul>
+  <li>On peut maintenant lancer le logiciel avec…</li>
+</ul>
+<pre><code class="language-plaintext">sudo ./VirusTotalUploader</code></pre>
+<p>Ce sera à vous de créer un lanceur dans le menu principal des applications, ici le menu <a href="https://projects.linuxmint.com/cinnamon/">Cinnamon</a> puisque nous sommes sur Linux Mint.</p>
+<p>Ce qui suit n'est pas obligatoire, mais c'est mieux 😉</p>
+<ul>
+  <li>Rendez-vous sur le site <a href="https://www.virustotal.com/gui/home/upload">VirusTotal</a> pour créer un compte et vous connecter.</li>
+</ul>
+<figure class="image"><img src="/virus-total-uploader/virus-total-uploader-compte-amaury-libert.png"></figure>
+<ul>
+  <li>Vous allez maintenant cliquer sur votre nom de profil en haut à droite et choisir “API Key” afin de copier votre clé personnelle API…</li>
+</ul>
+<figure class="image"><img src="/virus-total-uploader/virus-total-uploader-api-key.png"></figure>
+<ul>
+  <li>Dans le logiciel VirusTotal Uploader que l'on vient d'installer sur notre Linux Mint, vous allez vous rendre dans la barre d'outils, “Files” =&gt; “Preferences”, et coller votre clé API personnelle précédemment copiée…</li>
+</ul>
+<figure class="image"><img src="/virus-total-uploader/virus-total-uploader-software-api-key.png"></figure>
+<ul>
+  <li>Vous pouvez maintenant analyser 🫵…</li>
+</ul>
+<figure class="image"><img src="/virus-total-uploader/virus-total-uploader-software-file-upload.gif"></figure>

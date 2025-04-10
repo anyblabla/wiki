@@ -1,0 +1,172 @@
+<!--
+title: Utiliser Nginx Proxy Manager
+description: Nous allons voir comment utiliser Nginx Proxy Manager (NPM) qui est est un proxy inverse open source utilisé pour rediriger le trafic du site Web vers l'endroit approprié.
+published: true
+date: 2024-07-12T19:07:02.957Z
+tags: nginx, proxy, web
+editor: ckeditor
+dateCreated: 2024-07-12T11:46:50.527Z
+-->
+
+<h1>Nginx Proxy Manager, c'est quoi ?</h1>
+<p><i>Nginx Proxy Manager est un proxy inverse </i><a href="https://fr.wikipedia.org/wiki/Open_source">open source</a><i> utilisé pour rediriger le trafic d'un site </i><a href="https://fr.wikipedia.org/wiki/World_Wide_Web">Web</a><i> vers l'endroit approprié. L'utilisation de Nginx Proxy Manager permet d'utiliser une seule adresse </i><a href="https://fr.wikipedia.org/wiki/Adresse_IP">IP</a><i> publique pour héberger de nombreux services Web différents.</i></p>
+<p>&nbsp;</p>
+<h1>Liens utiles</h1>
+<ul>
+  <li><a href="https://nginxproxymanager.com/">NginxProxyManager.com</a></li>
+  <li><a href="https://github.com/NginxProxyManager/nginx-proxy-manager">NginxProxyManager / nginx-proxy-manager on Github</a></li>
+  <li><a href="https://hub.docker.com/r/jc21/nginx-proxy-manager">jc21/nginx-proxy-manager on Docker Hub</a></li>
+</ul>
+<p>&nbsp;</p>
+<h1>Nginx Proxy Manager déjà sur ce Wiki</h1>
+<ul>
+  <li>Installer Nginx Proxy Manager grâce à <a href="https://www.docker.com">Docker</a> (<a href="https://www.portainer.io">Portainer</a>) et un fichier <a href="https://docs.docker.com/compose/">Compose</a> : <a href="/docker-compose-nginx-proxy-manager">/docker-compose-nginx-proxy-manager</a></li>
+</ul>
+<p>&nbsp;</p>
+<h1>Utilisation</h1>
+<p>Le but de cette page de Wiki est d'expliquer comment utiliser Nginx Proxy Manager pour rediriger le trafic d'un site Web de manière sécurisée.</p>
+<p>La première chose à faire est la redirection des ports sur le routeur.</p>
+<p>&nbsp;</p>
+<h2>Redirection ports 80 et 443 sur le routeur</h2>
+<p>On redirige le port <strong>80</strong> et <strong>443</strong> vers l'adresse IP LAN de Nginx Proxy Manager.</p>
+<p>Expliquer exactement la marche à suivre, je ne saurais pas. Elle est propre à chaque routeur.</p>
+<p>Néanmoins, je peux fournir une capture des redirections sur un de mes routeurs, qui est le <a href="https://www.tp-link.com/fr-be/home-networking/wifi-router/archer-c80/">TP-Link Archer&nbsp;C80</a>.</p>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/npm-redirections-ports-routeur.png">
+  <figcaption>TP-Link Archer C80 - Redirections de ports</figcaption>
+</figure>
+<p>&nbsp;</p>
+<h2>Interface Nginx Proxy Manager</h2>
+<p>On va maintenant se rendre sur l'interface (dashboard) de Nginx Proxy Manager.</p>
+<p>Pour ma part, ce sera l'adresse IP 192.168.2.210 avec le port 81 qui va bien.</p>
+<p>Ce qui nous intéresse ici, et qui est la partie la plus importante de ce que propose Nginx Proxy Manager, c'est la fonctionnalité “Proxy Hosts”.</p>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/npm-dashboard-proxy-hosts.png">
+  <figcaption>Nginx Proxy Manager Dashboard - Proxy Hosts</figcaption>
+</figure>
+<p>L'ensemble des redirections chez moi…</p>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-hosts.png">
+  <figcaption>Ensemble des Proxy Hosts Blabla Linux</figcaption>
+</figure>
+<p>&nbsp;</p>
+<h2>Ajouter un Proxy Host</h2>
+<p>On clique sur le bouton en haut à droite “Add Proxy Host”…</p>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.png">
+  <figcaption>Nginx Proxy Manager - Add Proxy Host</figcaption>
+</figure>
+<p>On arrive sur cette fenêtre…</p>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.-02.png">
+  <figcaption>Nginx Proxy Manager - Add New Proxy Host</figcaption>
+</figure>
+<p>&nbsp;</p>
+<h2>Exemple concret</h2>
+<p>On va prendre comme exemple le Wiki Blabla Linux, onglet “Details”…</p>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux.png">
+  <figcaption>Nginx Proxy Manager - Edit Proxy Host</figcaption>
+</figure>
+<p>&nbsp;</p>
+<h3>Avant d'aller plus loin !</h3>
+<p><mark class="pen-red">Avant d'aller plus loin, vous devez avoir un </mark><a href="https://fr.wikipedia.org/wiki/Nom_de_domaine"><mark class="pen-red">nom de domaine</mark></a><mark class="pen-red"> !</mark></p>
+<p>Pour ma part, mon nom de domaine est “<a href="https://yourls.blablalinux.be/blog">blablalinux.be</a>”.</p>
+<p>Il renvoie vert le blog Blabla Linux.</p>
+<p>À partir de ce dernier, j'ai créé plusieurs sous domaine :</p>
+<ul>
+  <li><a href="https://yourls.blablalinux.be/etherpad">etherpad</a></li>
+  <li><a href="https://yourls.blablalinux.be/fichiers">fichiers</a></li>
+  <li><a href="https://yourls.blablalinux.be/jitsimeet">jitsimeet</a></li>
+  <li><a href="https://yourls.blablalinux.be/linkwarden">linkwarden</a></li>
+  <li><a href="https://yourls.blablalinux.be/mattermost">mattermost</a></li>
+  <li><a href="https://yourls.blablalinux.be/nextcloud">nextcloud</a></li>
+  <li><a href="https://yourls.blablalinux.be/picsur">picsur</a></li>
+  <li><a href="https://yourls.blablalinux.be/privatebin">privatebin</a></li>
+  <li><a href="https://yourls.blablalinux.be/psi-transfer">psitransfer</a></li>
+  <li><a href="https://yourls.blablalinux.be/stirlingpdf">stirlingpdf</a></li>
+  <li><a href="https://yourls.blablalinux.be/wikijs">wiki</a></li>
+</ul>
+<p>… et encore d'autres.</p>
+<p>Nginx Proxy Manager s'occupe des redirections vers les différentes machines qui hébergent les services.</p>
+<p>&nbsp;</p>
+<h4>Pour comprendre fonctionnement</h4>
+<ul>
+  <li>Chez le fournisseur de domaine, le (sous) domaine pointe vers l'adresse publique IP WAN…</li>
+</ul>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/redirection-ip-wan-wiki-blabla-linux.png">
+  <figcaption>Redirection adresse publique IP WAN Wiki blabla Linux</figcaption>
+</figure>
+<ul>
+  <li>Les requêtes internet non sécurisées (port 80 - non SSL) et sécurisées (port 443 - SSL) arrivent sur le routeur et sont réceptionnées par Nginx Proxy Manager…</li>
+</ul>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/npm-redirections-ports-routeur.png">
+  <figcaption>Routeur - Redirection adresse IP LAN Nginx Proxy Manager</figcaption>
+</figure>
+<ul>
+  <li>Nginx Proxy Manager, d'après le (sous) domaine de la requête, redirige vers la bonne adresse IP LAN, et sur le bon port…</li>
+</ul>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux-02.png">
+  <figcaption>Wiki Blabla Linux - Redirection IP LAN Nginx Proxy Manager - Onglet “Details”</figcaption>
+</figure>
+<ul>
+  <li>Le service est affiché…</li>
+</ul>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/wiki-blabla-linux.png">
+  <figcaption>Wiki.js Blabla Linux</figcaption>
+</figure>
+<p>&nbsp;</p>
+<h2>Exemple concret (la suite)</h2>
+<p>Nous allons voir ce qu'il faut remplir/cocher pour une bonne redirection.</p>
+<p>&nbsp;</p>
+<h3>Dans l'onglet “Details"</h3>
+<p><strong><u>Domain Names</u></strong></p>
+<p>Le (sous) domaine doit être identique à celui créé chez le <a href="https://fr.wikipedia.org/wiki/Registraire_de_nom_de_domaine">bureau d'enregistrement</a> (<a href="https://ovh.com">OVH</a> pour moi).</p>
+<p><strong><u>Scheme</u></strong></p>
+<p>Comment accède-t-on au service ? Via HTTP ou HTTPS ?</p>
+<p><strong><u>Forward Hostname / IP</u></strong></p>
+<p>Le nom d'hôte de la machine (wiki.local) ou l'adresse IP LAN de celle-ci (192.168.2.154).</p>
+<p><strong><u>Forward Port</u></strong></p>
+<p>Le port au travers duquel on accède au service sur l'adresse IP LAN du service.</p>
+<p><strong><u>Cache Assets</u></strong></p>
+<p>Sans rentrer dans trop de technique, “Cache Assets” est un système de mise en cache côté Nginx, côté serveur. À utiliser seulement pour des services qui sont fortement sollicités. Les navigateurs sont modernes. Ils disposent déjà d'un système de mise en cache. On parle de mise en cache côté client. Si on choisit malgré tout d'activer le cache Nginx, il est conseillé, au début, de surveiller comment se comporte le service au niveau des ressources utilisées.</p>
+<p><strong><u>Block Common Exploits</u></strong></p>
+<p>Le serveur proxy inverse peut filtrer le trafic malveillant. Nginx Proxy Manager inclut un mode “bloquer les exploits courants”. Il peut également filtrer les adresses IP. Par exemple, on souhaite peut-être autoriser uniquement l'accès à certaines adresses IP.</p>
+<p><strong><u>Websockets Support</u></strong></p>
+<p>Le protocole WebSocket permet d'ouvrir un canal de communication bidirectionnel (ou "full-duplex") sur un socket TCP entre le navigateur et le serveur web.</p>
+<p>Plus spécifiquement, il permet :</p>
+<ul>
+  <li>La notification au client d'un changement d'état du serveur.</li>
+  <li>L'envoi de données en mode “pousser” (méthode “Push”) du serveur vers le client, sans que ce dernier ait à effectuer une requête.</li>
+</ul>
+<p>Exemple, le service utilise de l'audio, de la vidéo. Le service envoi des notifications, comme Mattermost, on active cette case.</p>
+<p>&nbsp;</p>
+<p><i>Je passe l'onglet “Custom Location” et “Advanced”. Ils seront vus lors d'une mise à jour de cette page de Wiki. Le plus important est l'onglet “Details”, que nous venons de voir, et l'onglet “SSL” que nous allons voir.</i></p>
+<p>&nbsp;</p>
+<h3>Dans l'onglet “SSL"</h3>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl.png">
+  <figcaption>Nginx Proxy Manager - Onglet SSL</figcaption>
+</figure>
+<p>Partons du principe que l'on souhaite sécuriser la requête. On va donc sélectionner “Request a new SSL Certificate” dans “SSL Certificate”.&nbsp;</p>
+<p><strong><u>Force SSL</u></strong></p>
+<p>Forcer SSL force le navigateur à rediriger HTTP vers HTTPS.</p>
+<p><strong><u>HTTP/2 Support</u></strong></p>
+<p><a href="https://fr.wikipedia.org/wiki/Hypertext_Transfer_Protocol/2">HTTP/2</a> est la version révisée du protocole HTTP original. C'est la nouvelle version. Voulez-vous qu'il soit supporté ou non ?</p>
+<p><strong><u>HSTS enabled</u></strong></p>
+<p>Il ne pourra être activé que si “Force SSL” est d'abord activé. HTTP Strict Transport Security (HSTS) est un mécanisme de politique de sécurité proposé pour HTTP.</p>
+<p>Lorsque la politique HSTS est active pour un <a href="https://fr.wikipedia.org/wiki/Site_web">site web</a>, l'agent utilisateur compatible opère comme suit&nbsp;:</p>
+<ul>
+  <li>Il remplace automatiquement tous les liens non sécurisés par des liens sécurisés. Par exemple, http://www.exemple.com/une/page/ est automatiquement remplacé par https://www.exemple.com/une/page/ avant d'accéder au serveur.</li>
+</ul>
+<p>La politique HSTS aide à protéger les utilisateurs de sites web contre quelques attaques réseau passives (<a href="https://fr.wikipedia.org/wiki/%C3%89coute_clandestine">écoute clandestine</a>) et actives. Une attaque du type <a href="https://w.wiki/AeMb">man-in-the-middle</a> ne peut pas intercepter des requêtes tant que le HSTS est actif pour le site.</p>
+<p>Plus d'information sur <a href="https://fr.wikipedia.org/wiki/HTTP_Strict_Transport_Security">Wikipédia</a>.</p>
+<p><strong><u>HSTS Subdomains</u></strong></p>
+<p>Ne pourra être activé uniquement si “HSTS enabled” l'est auparavant. Il permet d'utiliser la politique HSTS également sur les sous domaine.</p>
+<p><strong><u>Use DNS Challenge</u></strong></p>
+<p>Cette option sert à prouver que le domaine vous appartient !</p>
+<p>Pour utiliser cette option, il faut créer une entrée DNS type TXT chez le fournisseur de domaine.</p>
+<p>&nbsp;</p>
+<p><i>Plus haut, j'ai donné l'onglet “Details” du Wiki Blabla Linux. Je vais achever en donnant l'onglet SSL du Wiki Blabla Linux…</i></p>
+<figure class="image"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl-wiki-blabla-linux.png">
+  <figcaption>Wiki Blabla Linux - Redirection IP LAN Nginx Proxy Manager - Onglet “SSL”</figcaption>
+</figure>
+<p>&nbsp;</p>
+<h1>Conclusion</h1>
+<p>On est loin d'avoir fait le tour de ce formidable utilitaire Nginx Proxy Manager.&nbsp;</p>
+<p>On a seulement vu deux onglets de “Proxy Hosts” !</p>
+<p>On a vu les options principales à utiliser pour effectuer une redirection sécurisée avec Let's Encrypt grâce à Nginx Proxy Manager.</p>
+<p>Il y aura donc, soit une mise à jour de cette page avec des explications supplémentaires, ou, la création de nouvelles pages (part. 2, part. 3, etc.) qui compléteront celle-ci.</p>

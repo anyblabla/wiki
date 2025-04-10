@@ -1,0 +1,104 @@
+<!--
+title: Docker/Portainer LXC Debian Proxmox
+description: Plusieurs méthodes d'installation de Docker (Portainer) dans un container LXC Debian sur Proxmox VE.
+published: true
+date: 2025-03-31T18:09:12.867Z
+tags: docker, lxc, proxmox, container, debian
+editor: ckeditor
+dateCreated: 2025-02-24T22:06:12.187Z
+-->
+
+<h1>Docker</h1>
+<h2>Installation</h2>
+<p><mark class="pen-red"><strong>Les commandes ci-dessous sont à effectuer <u>à l'intérieur</u> de votre </strong></mark><a href="https://fr.wikipedia.org/wiki/LXC"><mark class="pen-red"><strong>container LXC</strong></mark></a><mark class="pen-red"><strong>, soit via le </strong></mark><a href="https://fr.wikipedia.org/wiki/Shell_Unix"><mark class="pen-red"><strong>shell</strong></mark></a><mark class="pen-red"><strong> du container, ou via </strong></mark><a href="https://fr.wikipedia.org/wiki/Secure_Shell"><mark class="pen-red"><strong>SSH</strong></mark></a><mark class="pen-red"><strong>.</strong></mark></p>
+<h3>À partir des dépôts APT officiels Docker</h3>
+<p>Avant d'installer <a href="https://fr.wikipedia.org/wiki/Docker_(logiciel)">Docker</a> Engine (moteur) pour la première fois sur une nouvelle machine hôte ou invitée, vous devez configurer le <a href="https://wiki.debian.org/fr/SourcesList">dépôt APT</a> <a href="https://www.docker.com">Docker</a>. Vous pouvez ensuite installer et mettre à jour Docker à partir des dépôts :</p>
+<ul>
+  <li>Rafraîchir les dépôts :</li>
+</ul>
+<pre><code class="language-plaintext">apt update</code></pre>
+<ul>
+  <li>Configurer le dépôt APT de Docker :</li>
+</ul>
+<pre><code class="language-plaintext"># Add Docker's official GPG key:
+apt update
+apt install ca-certificates curl -y
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release &amp;&amp; echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+apt update</code></pre>
+<ul>
+  <li>Installez les paquets Docker :</li>
+</ul>
+<pre><code class="language-plaintext">apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y</code></pre>
+<h3>À partir du script officiel Docker</h3>
+<ul>
+  <li>Rafraîchir les dépôts :</li>
+</ul>
+<pre><code class="language-plaintext">apt update</code></pre>
+<ul>
+  <li>Installation de “<a href="https://fr.wikipedia.org/wiki/CURL">curl</a>” :</li>
+</ul>
+<pre><code class="language-plaintext">apt install curl -y</code></pre>
+<ul>
+  <li>Téléchargement du <a href="https://fr.wikipedia.org/wiki/Script">script</a> :</li>
+</ul>
+<pre><code class="language-plaintext">curl -fsSL https://get.docker.com -o get-docker.sh</code></pre>
+<ul>
+  <li>Tester ce que va faire le script :</li>
+</ul>
+<pre><code class="language-plaintext">sh get-docker.sh --dry-run</code></pre>
+<ul>
+  <li>Installer Docker avec le script :</li>
+</ul>
+<pre><code class="language-plaintext">sh get-docker.sh</code></pre>
+<p>Script Docker également disponible sur <a href="https://bytestash.blablalinux.be/public/snippets">ByteStash Blabla Linux</a>.</p>
+<h2>Désinstallation</h2>
+<ul>
+  <li>Désinstaller les paquets Docker :</li>
+</ul>
+<pre><code class="language-plaintext">apt purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras -y</code></pre>
+<ul>
+  <li>Les images, les conteneurs, volumes ou fichiers de configuration personnalisés sur votre système ne sont pas automatiquement supprimés. Pour supprimer toutes les images, conteneurs et volumes&nbsp;:</li>
+</ul>
+<pre><code class="language-plaintext">rm -rf /var/lib/docker
+rm -rf /var/lib/containerd</code></pre>
+<ul>
+  <li>Supprimer la liste des sources et les trousseaux de clés :</li>
+</ul>
+<pre><code class="language-plaintext">rm /etc/apt/sources.list.d/docker.list
+rm /etc/apt/keyrings/docker.asc</code></pre>
+<h1>Portainer</h1>
+<h2>Installation</h2>
+<pre><code class="language-plaintext">apt install docker.io -y</code></pre>
+<pre><code class="language-plaintext">docker run -d \
+--name="portainer" \
+--restart always \
+-p 9000:9000 \
+-p 8000:8000 \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v portainer_data:/data \
+portainer/portainer-ce:latest</code></pre>
+<p>Le système va maintenant extraire la dernière image <a href="https://www.portainer.io">Portainer</a> et configurer le conteneur exécuté sur le port 9000. Vous pourrez accéder à Portainer en visitant http://ip:9000.</p>
+<h2>Désinstallation</h2>
+<pre><code class="language-plaintext">docker stop portainer &amp;&amp; docker rm portainer &amp;&amp; docker image prune -a</code></pre>
+<h1>BONUS Proxmox VE Helper-Scripts</h1>
+<ul>
+  <li>Pour créer directement un nouveau container LXC Debian avec Docker sur <a href="https://www.proxmox.com/en/products/proxmox-virtual-environment/overview">Proxmox VE</a>, <mark class="pen-red"><strong>exécutez la commande ci-dessous <u>dans</u> le shell Proxmox VE</strong></mark> :</li>
+</ul>
+<pre><code class="language-plaintext">bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/docker.sh)"</code></pre>
+<p>Le script vous proposera différentes options d'installations, comme Portainer.</p>
+<h1>Liens utiles</h1>
+<ul>
+  <li><a href="https://www.proxmox.com/en/products/proxmox-virtual-environment/overview">Proxmox VE</a></li>
+  <li><a href="https://linuxcontainers.org">Linux Containers</a></li>
+  <li><a href="https://www.docker.com">Docker</a></li>
+  <li><a href="https://www.portainer.io">Portainer</a></li>
+  <li><a href="https://community-scripts.github.io/ProxmoxVE/">Proxmox VE Helper-Scripts</a></li>
+</ul>

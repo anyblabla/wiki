@@ -1,0 +1,68 @@
+<!--
+title: Docker Compose Picsur
+description: Déployez simplement Picsur grâce à une pile (stack) docker compose.
+published: true
+date: 2025-03-31T23:26:11.785Z
+tags: docker, picsur
+editor: ckeditor
+dateCreated: 2024-05-18T22:22:24.229Z
+-->
+
+<p>Pratique pour déployer rapidement <a href="https://github.com/caramelfur/picsur">Picsur</a> dans <a href="https://www.portainer.io">Portainer</a> en créant une pile (<a href="https://docs.portainer.io/user/docker/stacks">stack</a>) à partir d'un fichier <a href="https://docs.docker.com/compose/compose-application-model/">compose YAML</a>.</p>
+<pre><code class="language-plaintext">version: '3'
+services:
+  picsur:
+    image: ghcr.io/caramelfur/picsur:latest
+    container_name: picsur
+    ports:
+      - '8088:8080'
+    environment:
+      PICSUR_HOST: '0.0.0.0'
+      PICSUR_PORT: 8080
+
+      PICSUR_DB_HOST: picsur_postgres
+      PICSUR_DB_PORT: 5432
+      PICSUR_DB_USERNAME: picsur
+      PICSUR_DB_PASSWORD: blablalinux
+      PICSUR_DB_DATABASE: picsur
+
+      ## The default username is admin, this is not modifyable
+      PICSUR_ADMIN_PASSWORD: blablalinux
+
+      ## Optional, random secret will be generated if not set
+      # PICSUR_JWT_SECRET: CHANGE_ME
+      # PICSUR_JWT_EXPIRY: 7d
+
+      ## Maximum accepted size for uploads in bytes
+      PICSUR_MAX_FILE_SIZE: 10485760 # 10 MB
+      ## No need to touch this, unless you use a custom frontend
+      # PICSUR_STATIC_FRONTEND_ROOT: "/picsur/frontend/dist"
+
+      ## Warning: Verbose mode might log sensitive data
+      # PICSUR_VERBOSE: "true"
+    restart: always
+  picsur_postgres:
+    image: postgres:14-alpine
+    container_name: picsur_postgres
+    environment:
+      POSTGRES_DB: picsur
+      POSTGRES_PASSWORD: blablalinux
+      POSTGRES_USER: picsur
+    restart: always
+    volumes:
+      - picsur-data:/var/lib/postgresql/data
+volumes:
+  picsur-data:</code></pre>
+<p>Fichier compose également disponible sur <a href="https://bytestash.blablalinux.be/public/snippets">ByteStash Blabla Linux</a>.</p>
+<ul>
+  <li>En rouge, à remplacer pour vos identifiants personnels :<ul>
+      <li>PICSUR_DB_PASSWORD: <mark class="pen-red">blablalinux</mark></li>
+      <li>PICSUR_ADMIN_PASSWORD: <mark class="pen-red">blablalinux</mark></li>
+      <li>POSTGRES_PASSWORD: <mark class="pen-red">blablalinux</mark></li>
+    </ul>
+  </li>
+</ul>
+<p><strong>C'est préférable que les identifiants correspondent !</strong></p>
+<p>&nbsp;</p>
+<hr>
+<p>Picsur Blabla Linux : <a href="https://picsur.blablalinux.be">https://picsur.blablalinux.be</a></p>

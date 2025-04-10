@@ -1,0 +1,78 @@
+<!--
+title: Wine
+description: Procédure d'installation de Wine. Testée et fonctionnelle sous Linux Mint.
+published: true
+date: 2024-05-07T07:43:24.781Z
+tags: wine, émulateur, émulation, qemu
+editor: ckeditor
+dateCreated: 2024-05-05T20:15:53.231Z
+-->
+
+<p><mark class="pen-red">Testé et fonctionnel sur Linux Mint 22.x 👍</mark></p>
+<p>La procédure de cette page installe la dernière version de Wine “<strong>Stable</strong>”, Wine “<strong>Development</strong>” ou Wine “<strong>Staging</strong>” (expérimentale).</p>
+<ul>
+  <li>Vérifiez si vous êtes sous architecture 64 bits, la commande suivante doit répondre "amd64" :</li>
+</ul>
+<pre><code class="language-plaintext">dpkg --print-architecture</code></pre>
+<ul>
+  <li>Vérifiez si l'architecture 32 bits est prise en charge, la commande suivante devrait répondre "i386" :</li>
+</ul>
+<pre><code class="language-plaintext">dpkg --print-foreign-architectures</code></pre>
+<ul>
+  <li>Si "i386" ne s'affiche pas, exécutez ce qui suit pour prendre en charge l'architecture 32 bits :</li>
+</ul>
+<pre><code class="language-plaintext">sudo dpkg --add-architecture i386</code></pre>
+<ul>
+  <li>Vérifiez maintenant que les deux architectures sont bien prises en charge, la commande suivante doit répondre “amd64” ET “i386” :</li>
+</ul>
+<pre><code class="language-plaintext">dpkg --print-foreign-architectures</code></pre>
+<ul>
+  <li>Créez le répertoire “keyrings” avec les bons droits :</li>
+</ul>
+<pre><code class="language-plaintext">sudo mkdir -pm755 /etc/apt/keyrings</code></pre>
+<ul>
+  <li>Téléchargez et ajoutez la clé du référentiel “WineHQ” :</li>
+</ul>
+<pre><code class="language-plaintext">sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key</code></pre>
+<ul>
+  <li>Téléchargez le fichier des sources de “WineHQ” :</li>
+</ul>
+<pre><code class="language-plaintext">sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources</code></pre>
+<ul>
+  <li>Mettez à jour la base de données des paquets :</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt update</code></pre>
+<ul>
+  <li>Installez “Wine” <strong>Stable</strong> :</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt install --install-recommends winehq-stable</code></pre>
+<p><mark class="pen-red">OU</mark></p>
+<ul>
+  <li>Pour “Wine” <strong>Development </strong>:</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt install --install-recommends winehq-devel</code></pre>
+<p><mark class="pen-red">OU</mark></p>
+<ul>
+  <li>Pour “Wine” <strong>Staging </strong>(éxpérimentale) :</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt install --install-recommends winehq-staging</code></pre>
+<ul>
+  <li>Vérifiez que l'installation a réussi :</li>
+</ul>
+<pre><code class="language-plaintext">wine --version</code></pre>
+<ul>
+  <li>Configurez “Wine” :</li>
+</ul>
+<pre><code class="language-plaintext">wine winecfg</code></pre>
+<ul>
+  <li>Testez pour s'amuser :</li>
+</ul>
+<pre><code class="language-plaintext">wine clock</code></pre>
+<ul>
+  <li>Créer le menu “Wine” dans le menu principal des applications (mint-menu) :</li>
+</ul>
+<pre><code class="language-plaintext">sudo apt install wine-installer</code></pre>
+<figure class="image"><img src="/wine/wine-mint-menu.png"></figure>
+<ul>
+  <li>Démonstration en vidéo : <a href="https://peertube-blablalinux.be/w/x96eafxHoB2z6svWksSLRy">https://peertube-blablalinux.be/w/x96eafxHoB2z6svWksSLRy</a></li>
+</ul>

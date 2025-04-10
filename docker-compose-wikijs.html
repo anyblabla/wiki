@@ -1,0 +1,54 @@
+<!--
+title: Docker Compose Wiki.js
+description: Déployez simplement Wiki.js grâce à une pile (stack) docker compose.
+published: true
+date: 2025-03-31T23:27:55.256Z
+tags: docker, wiki
+editor: ckeditor
+dateCreated: 2024-05-18T20:22:28.247Z
+-->
+
+<p>Pratique pour déployer rapidement <a href="https://js.wiki">Wiki.js</a> dans <a href="https://www.portainer.io">Portainer</a> en créant une pile (<a href="https://docs.portainer.io/user/docker/stacks">stack</a>) à partir d'un fichier <a href="https://docs.docker.com/compose/compose-application-model/">compose YAML</a>.</p>
+<pre><code class="language-plaintext">version: "3"
+services:
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: blablalinux
+      POSTGRES_USER: anyblabla
+    logging:
+      driver: "none"
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  wiki:
+    image: ghcr.io/requarks/wiki:2
+    depends_on:
+      - db
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: anyblabla
+      DB_PASS: blablalinux
+      DB_NAME: wiki
+    restart: always
+    ports:
+      - "80:3000"
+
+volumes:
+  db-data:</code></pre>
+<p>Fichier compose également disponible sur <a href="https://bytestash.blablalinux.be/public/snippets">ByteStash Blabla Linux</a>.</p>
+<ul>
+  <li>En rouge, à remplacer pour vos identifiants personnels :<ul>
+      <li>POSTGRES_PASSWORD: <mark class="pen-red">blablalinux</mark></li>
+      <li>POSTGRES_USER: <mark class="pen-red">anyblabla</mark></li>
+      <li>DB_USER: <mark class="pen-red">anyblabla</mark></li>
+      <li>DB_PASS: <mark class="pen-red">blablalinux</mark></li>
+    </ul>
+  </li>
+</ul>
+<p><strong>Les identifiants <u>POSTGRES</u> et <u>DB</u> doivent correspondres !</strong></p>
