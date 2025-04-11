@@ -2,7 +2,7 @@
 title: Docker Compose Wiki.js
 description: Déployez simplement Wiki.js grâce à une pile (stack) docker compose.
 published: true
-date: 2025-03-31T23:27:55.256Z
+date: 2025-04-11T18:11:12.208Z
 tags: docker, wiki
 editor: ckeditor
 dateCreated: 2024-05-18T20:22:28.247Z
@@ -36,11 +36,14 @@ services:
       DB_PASS: blablalinux
       DB_NAME: wiki
     restart: always
+    volumes:
+      - data:/wiki
     ports:
       - "80:3000"
 
 volumes:
-  db-data:</code></pre>
+  db-data:
+  data:</code></pre>
 <p>Fichier compose également disponible sur <a href="https://bytestash.blablalinux.be/public/snippets">ByteStash Blabla Linux</a>.</p>
 <ul>
   <li>En rouge, à remplacer pour vos identifiants personnels :<ul>
