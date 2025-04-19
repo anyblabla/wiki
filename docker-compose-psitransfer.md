@@ -2,7 +2,7 @@
 title: Docker Compose PsiTransfert
 description: Solution simple de partage de fichiers auto-hébergée open source. C'est une alternative aux services payants comme Dropbox, WeTransfer.
 published: true
-date: 2025-04-19T21:09:57.493Z
+date: 2025-04-19T22:48:39.867Z
 tags: docker, portainer, psitransfer, share, file
 editor: markdown
 dateCreated: 2024-06-30T14:00:46.077Z

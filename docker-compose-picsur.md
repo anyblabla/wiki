@@ -2,7 +2,7 @@
 title: Docker Compose Picsur
 description: Déployez simplement Picsur grâce à une pile (stack) docker compose.
 published: true
-date: 2025-04-19T21:07:46.273Z
+date: 2025-04-19T22:48:21.062Z
 tags: docker, picsur
 editor: markdown
 dateCreated: 2024-05-18T22:22:24.229Z

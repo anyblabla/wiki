@@ -2,7 +2,7 @@
 title: Timeshift sur serveur
 description: Nous allons installer Timeshift sur une distribution serveur pour ensuite créer des sauvegardes automatiques.
 published: true
-date: 2025-04-19T21:20:27.426Z
+date: 2025-04-19T22:48:26.440Z
 tags: timeshift, sauvegarde, serveur, cron
 editor: markdown
 dateCreated: 2024-06-05T18:52:33.986Z

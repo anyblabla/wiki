@@ -2,7 +2,7 @@
 title: Wine
 description: Procédure d'installation de Wine. Testée et fonctionnelle sous Linux Mint.
 published: true
-date: 2025-04-19T21:26:37.352Z
+date: 2025-04-19T22:48:12.658Z
 tags: wine, émulateur, émulation, qemu
 editor: markdown
 dateCreated: 2024-05-05T20:15:53.231Z
