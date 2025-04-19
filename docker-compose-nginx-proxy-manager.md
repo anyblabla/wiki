@@ -2,7 +2,7 @@
 title: Docker Compose Nginx Proxy Manager
 description: Nginx Proxy Manager (NPM) est un proxy inverse open source utilisé pour rediriger le trafic d'un site Web vers l'endroit approprié.
 published: true
-date: 2025-04-19T22:48:32.037Z
+date: 2025-04-19T23:31:30.714Z
 tags: nginx, proxy
 editor: markdown
 dateCreated: 2024-06-13T20:53:40.020Z

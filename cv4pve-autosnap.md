@@ -2,7 +2,7 @@
 title: CV4PVE AUTOSNAP
 description: Outil d'instantané automatique pour Proxmox VE.
 published: true
-date: 2025-04-19T22:48:53.044Z
+date: 2025-04-19T23:30:55.452Z
 tags: proxmox, snapshot
 editor: markdown
 dateCreated: 2024-12-28T18:49:39.139Z
