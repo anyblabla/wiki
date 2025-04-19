@@ -10,3 +10,9 @@ dateCreated: 2025-04-19T23:30:36.538Z
 
 # Description
 All content from the Blabla Linux Wiki is pushed to this repository.
+
+Tout le contenu du wiki Blabla Linux est poussé vers ce référentiel.
+
+# Useful links / Liens utiles
+- [Wiki Blabla Linux](https://wiki.blablalinux.be)
+- [Where to find Blabla Linux ? / Où trouver Blabla Linux ?](https://link.blablalinux.be)
