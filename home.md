@@ -2,7 +2,7 @@
 title: Bienvenue
 description: Présentation du Wiki Blabla Linux
 published: true
-date: 2025-04-19T23:32:07.169Z
+date: 2025-04-20T00:09:35.030Z
 tags: welcome
 editor: markdown
 dateCreated: 2024-05-02T17:43:38.268Z
