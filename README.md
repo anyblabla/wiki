@@ -2,13 +2,17 @@
 title: README
 description: 
 published: true
-date: 2025-04-20T01:04:54.975Z
+date: 2025-04-20T01:13:46.069Z
 tags: 
 editor: markdown
 dateCreated: 2025-04-19T23:30:36.538Z
 ---
 
 ![wikijs-bbl.png](/readme/wikijs-bbl.png)
+# Noticed / Remarque
+Ignore "html" pages that are due for removal soon! Instead, use "md" (Markdown) pages that make the content readable.
+
+Ne tenez pas compte des pages "html" qui doivent prochainement faire l'objet d'une suppression ! Utilisez plutôt les pages "md" (Markdown) qui rende le contenu lisible.
 # Description
 All content from the Blabla Linux Wiki is pushed to [this repository](https://github.com/anyblabla/wiki).
 
