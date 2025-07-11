@@ -2,7 +2,7 @@
 title: Docker Compose Nginx Proxy Manager
 description: Nginx Proxy Manager (NPM) est un proxy inverse open source utilisé pour rediriger le trafic d'un site Web vers l'endroit approprié.
 published: true
-date: 2025-04-19T23:31:30.714Z
+date: 2025-07-11T11:31:08.138Z
 tags: nginx, proxy
 editor: markdown
 dateCreated: 2024-06-13T20:53:40.020Z
@@ -180,7 +180,7 @@ load_module /usr/lib/nginx/modules/ngx_stream_geoip2_module.so;
 
 ## Mon fichier.yml docker-compose personnel
 
--   Voici à quoi ressemble mon fichier.yml docker-compose en date du 06-02-2025 sur ma nouvelle installation :
+-   Compose valable jusqu'à la version 1.12.5, avec peut-être un problème de lenteur au démarrage de l'application avec la version 1.12.3 et 1.12.4 ! Voici à quoi ressemble mon fichier.yml docker-compose en date du 06-02-2025 sur ma nouvelle installation :
 
 ```plaintext
 services:
@@ -217,5 +217,29 @@ services:
       interval: 10s
       timeout: 3s
 ```
-
+-   Compose à utiliser à partir de la version 1.12.5 ; Ce dernier propose deux nouvelles variables qui vont corriger le problème de lenteur au démarrage de l'application ;
+```plaintext
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:2.12.6
+    container_name: npm
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      - 81:81
+    environment:
+      IP_RANGES_FETCH_ENABLED: false
+      SKIP_CERTBOT_OWNERSHIP: true
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+      - ./logrotate.custom:/etc/logrotate.d/nginx-proxy-manager
+    healthcheck:
+      test:
+        - CMD
+        - /usr/bin/check-health
+      interval: 10s
+      timeout: 3s
+```
 Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets).
