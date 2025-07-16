@@ -2,7 +2,7 @@
 title: X11VNC server
 description: Installation du serveur X11VNC pour une prise de contrôle via un client comme Remmina. Testée et fonctionnelle sur Linux Ubuntu/Mint.
 published: true
-date: 2025-07-16T23:33:29.370Z
+date: 2025-07-16T23:42:46.163Z
 tags: x11, vnc, x11vnc, remmina
 editor: markdown
 dateCreated: 2024-05-04T22:23:38.737Z

@@ -2,7 +2,7 @@
 title: DD/RSYNC - Distant/Local
 description: Récemment, j'ai du rapatrier un VPS hébergé chez OVH vers mon hyperviseur local Proxmox ! Voici la commande magique 😉
 published: true
-date: 2025-07-16T23:33:43.824Z
+date: 2025-07-16T23:43:28.745Z
 tags: rsync, clone
 editor: markdown
 dateCreated: 2024-12-01T15:36:34.400Z

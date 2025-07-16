@@ -2,7 +2,7 @@
 title: Utiliser Nginx Proxy Manager
 description: Nous allons voir comment utiliser Nginx Proxy Manager (NPM) qui est est un proxy inverse open source utilisé pour rediriger le trafic du site Web vers l'endroit approprié.
 published: true
-date: 2025-07-16T22:15:27.433Z
+date: 2025-07-16T23:43:23.025Z
 tags: nginx, proxy, web
 editor: markdown
 dateCreated: 2024-07-12T11:46:50.527Z

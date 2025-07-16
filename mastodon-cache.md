@@ -2,7 +2,7 @@
 title: Delete cache Mastodon
 description: Faire un peu le ménage sur une instance Mastodon en supprimant certains éléments mis en cache.
 published: true
-date: 2025-07-16T22:14:58.831Z
+date: 2025-07-16T23:42:51.719Z
 tags: mastodon, cache, delete
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
