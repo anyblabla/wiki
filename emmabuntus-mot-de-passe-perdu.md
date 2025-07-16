@@ -2,7 +2,7 @@
 title: Emmabuntüs - Mot de passe perdu
 description: La machine n'a plus été démarrée depuis un moment ! Vous avez oublié le mot de passe root et/ou utilisateur ? Voici une solution.
 published: true
-date: 2025-07-16T22:15:29.817Z
+date: 2025-07-16T23:34:30.233Z
 tags: password, user, root, emmabuntus
 editor: markdown
 dateCreated: 2024-08-15T15:31:02.884Z

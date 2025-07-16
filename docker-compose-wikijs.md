@@ -2,7 +2,7 @@
 title: Docker Compose Wiki.js
 description: Déployez simplement Wiki.js grâce à une pile (stack) docker compose.
 published: true
-date: 2025-07-16T22:15:01.088Z
+date: 2025-07-16T23:34:24.755Z
 tags: docker, wiki
 editor: markdown
 dateCreated: 2024-05-18T20:22:28.247Z

@@ -2,7 +2,7 @@
 title: Docker/Portainer LXC Debian Proxmox
 description: Plusieurs méthodes d'installation de Docker (Portainer) dans un container LXC Debian sur Proxmox VE.
 published: true
-date: 2025-07-16T22:15:43.544Z
+date: 2025-07-16T23:34:27.633Z
 tags: docker, lxc, proxmox, container, debian
 editor: markdown
 dateCreated: 2025-02-24T22:06:12.187Z
