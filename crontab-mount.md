@@ -2,7 +2,7 @@
 title: Crontab Mount
 description: Montage automatique d'un périphérique de stockage. On oublie Fstab. On va utiliser Crontab.
 published: true
-date: 2025-04-19T23:30:50.196Z
+date: 2025-07-16T22:15:19.694Z
 tags: cron, crontab, mount
 editor: markdown
 dateCreated: 2024-06-24T00:12:35.609Z

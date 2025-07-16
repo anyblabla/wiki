@@ -2,7 +2,7 @@
 title: Docker Compose Fail2ban pour NPM
 description: Fail2ban est un framework de prévention contre les intrusions, écrit en Python. Il fonctionne sur les systèmes POSIX possédant une interface de contrôle des paquets (tel que TCP Wrapper) ou un pare-feu (tel que Netfilter).
 published: true
-date: 2025-04-19T23:31:13.036Z
+date: 2025-07-16T22:15:41.032Z
 tags: docker, nginx, npm, ban, fail, fail2ban
 editor: markdown
 dateCreated: 2025-02-06T21:58:30.959Z
