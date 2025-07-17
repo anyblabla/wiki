@@ -2,13 +2,13 @@
 title: README
 description: LISEZ-MOI
 published: true
-date: 2025-07-17T00:41:41.118Z
+date: 2025-07-17T00:50:45.920Z
 tags: readme
 editor: markdown
 dateCreated: 2025-04-19T23:30:36.538Z
 ---
 
-<p style="text-align: center"><img src="https://wiki.blablalinux.be/readme/wikijs-bbl.png"></p>
+<p style="text-align: center"><img src="/readme/wikijs-bbl.png"></p>
 
 # Noticed / Remarque
 Ignore "html" pages that are due for removal soon! Instead, use "md" (Markdown) pages that make the content readable.
