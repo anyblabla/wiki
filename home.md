@@ -1,11 +1,11 @@
 ---
-title: Bienvenue
-description: Présentation du Wiki Blabla Linux
+title: home
+description: 
 published: true
-date: 2025-07-16T23:56:46.884Z
-tags: welcome
+date: 2025-07-17T00:20:11.890Z
+tags: 
 editor: markdown
-dateCreated: 2025-07-16T23:55:34.280Z
+dateCreated: 2025-07-17T00:14:37.130Z
 ---
 
 ![](/welcome/header.png)
@@ -40,4 +40,12 @@ dateCreated: 2025-07-16T23:55:34.280Z
 
 *Envie d'être tenu informé sur les nouveautés de ce Wiki, du* [blog WordPress](https://yourls.blablalinux.be/blog)*, ou encore de la* [chaîne PeerTube](https://yourls.blablalinux.be/peertube) *?*
 
+<<<<<<< HEAD
+
 [La cyberlettre](https://yourls.blablalinux.be/cyberlettre) 😎
+
+\=======
+
+[La cyberlettre](https://yourls.blablalinux.be/cyberlettre) 😎
+
+\>>>>>>> f370a9e (docs: create home)
