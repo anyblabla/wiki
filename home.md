@@ -2,7 +2,7 @@
 title: home
 description: 
 published: true
-date: 2025-07-17T00:20:11.890Z
+date: 2025-07-17T00:21:46.821Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
@@ -40,12 +40,4 @@ dateCreated: 2025-07-17T00:14:37.130Z
 
 *Envie d'être tenu informé sur les nouveautés de ce Wiki, du* [blog WordPress](https://yourls.blablalinux.be/blog)*, ou encore de la* [chaîne PeerTube](https://yourls.blablalinux.be/peertube) *?*
 
-<<<<<<< HEAD
-
 [La cyberlettre](https://yourls.blablalinux.be/cyberlettre) 😎
-
-\=======
-
-[La cyberlettre](https://yourls.blablalinux.be/cyberlettre) 😎
-
-\>>>>>>> f370a9e (docs: create home)
