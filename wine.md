@@ -2,7 +2,7 @@
 title: Wine
 description: Procédure d'installation de Wine. Testée et fonctionnelle sous Linux Mint.
 published: true
-date: 2025-07-16T23:42:49.063Z
+date: 2025-07-17T01:05:46.954Z
 tags: wine, émulateur, émulation, qemu
 editor: markdown
 dateCreated: 2024-05-05T20:15:53.231Z
@@ -106,6 +106,6 @@ wine clock
 sudo apt install wine-installer
 ```
 
-![](/wine/wine-mint-menu.png)
+<p style="text-align: center"><img src="/wine/wine-mint-menu.png"></p>
 
 -   Démonstration en vidéo : [https://peertube.blablalinux.be/w/13JYaBK9TFASrHPwYfwBAT](https://peertube-blablalinux.be/w/x96eafxHoB2z6svWksSLRy)
