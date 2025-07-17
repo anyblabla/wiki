@@ -1,9 +1,9 @@
 ---
 title: README
-description: 
+description: LISEZ-MOI
 published: true
-date: 2025-07-17T00:37:31.395Z
-tags: 
+date: 2025-07-17T00:41:41.118Z
+tags: readme
 editor: markdown
 dateCreated: 2025-04-19T23:30:36.538Z
 ---
