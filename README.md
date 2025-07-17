@@ -2,13 +2,14 @@
 title: README
 description: 
 published: true
-date: 2025-07-17T00:13:07.660Z
+date: 2025-07-17T00:37:31.395Z
 tags: 
 editor: markdown
 dateCreated: 2025-04-19T23:30:36.538Z
 ---
 
-![wikijs-bbl.png](/readme/wikijs-bbl.png)
+<p style="text-align: center"><img src="https://wiki.blablalinux.be/readme/wikijs-bbl.png"></p>
+
 # Noticed / Remarque
 Ignore "html" pages that are due for removal soon! Instead, use "md" (Markdown) pages that make the content readable.
 
