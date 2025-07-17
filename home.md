@@ -1,8 +1,8 @@
 ---
-title: home
+title: Bienvenue
 description: 
 published: true
-date: 2025-07-17T00:21:46.821Z
+date: 2025-07-17T00:23:27.711Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
