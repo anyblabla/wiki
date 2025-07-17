@@ -2,7 +2,7 @@
 title: Utiliser Nginx Proxy Manager
 description: Nous allons voir comment utiliser Nginx Proxy Manager (NPM) qui est est un proxy inverse open source utilisé pour rediriger le trafic du site Web vers l'endroit approprié.
 published: true
-date: 2025-07-17T01:01:56.438Z
+date: 2025-07-17T01:02:46.476Z
 tags: nginx, proxy, web
 editor: markdown
 dateCreated: 2024-07-12T11:46:50.527Z
@@ -36,7 +36,7 @@ Expliquer exactement la marche à suivre, je ne saurais pas. Elle est propre à 
 
 Néanmoins, je peux fournir une capture des redirections sur un de mes routeurs, qui est le [TP-Link Archer C80](https://www.tp-link.com/fr-be/home-networking/wifi-router/archer-c80/).
 
-![](/utiliser-nginx-proxy-manager/npm-redirections-ports-routeur.png)
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/npm-redirections-ports-routeur.png"></p>
 
 TP-Link Archer C80 - Redirections de ports
 
