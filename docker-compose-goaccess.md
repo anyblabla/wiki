@@ -2,8 +2,8 @@
 title: Docker Compose GoAccess pour NPM
 description: GoAccess est une application d'analyse Web open source pour les systèmes d'exploitation de type Unix.
 published: true
-date: 2025-07-17T00:13:49.312Z
-tags: monitoring, analytic, real-time, nginx, npm
+date: 2025-07-17T00:49:47.408Z
+tags: nginx, monitoring, analytic, real-time, npm
 editor: markdown
 dateCreated: 2025-02-06T12:30:45.317Z
 ---
@@ -16,7 +16,8 @@ Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 GoAcces va vous permettre de visualiser en temps réel, sous forme de tableaux, l'ensemble des logs (fichiers journaux) des hôtes proxy de votre proxy inverse Nginx Proxy Manager.
 
-![](/docker-compose-goaccess/goaccess-bright.png)
+<p style="text-align: center"><img src="/docker-compose-goaccess/goaccess-bright.png"></p>
+
 
 ## Liens utiles
 
