@@ -2,7 +2,7 @@
 title: Utiliser Nginx Proxy Manager
 description: Nous allons voir comment utiliser Nginx Proxy Manager (NPM) qui est est un proxy inverse open source utilisé pour rediriger le trafic du site Web vers l'endroit approprié.
 published: true
-date: 2025-07-17T00:14:57.158Z
+date: 2025-07-17T01:01:56.438Z
 tags: nginx, proxy, web
 editor: markdown
 dateCreated: 2024-07-12T11:46:50.527Z
@@ -62,7 +62,8 @@ Ensemble des Proxy Hosts Blabla Linux
 
 On clique sur le bouton en haut à droite “Add Proxy Host”…
 
-![](/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.png)
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.png"></p>
+
 
 Nginx Proxy Manager - Add Proxy Host
 
@@ -76,7 +77,7 @@ Nginx Proxy Manager - Add New Proxy Host
 
 On va prendre comme exemple le Wiki Blabla Linux, onglet “Details”…
 
-![](/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux.png)
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux.png"></p>
 
 Nginx Proxy Manager - Edit Proxy Host
 
@@ -110,7 +111,7 @@ Nginx Proxy Manager s'occupe des redirections vers les différentes machines qui
 
 -   Chez le fournisseur de domaine, le (sous) domaine pointe vers l'adresse publique IP WAN…
 
-![](/utiliser-nginx-proxy-manager/redirection-ip-wan-wiki-blabla-linux.png)
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/redirection-ip-wan-wiki-blabla-linux.png"></p>
 
 Redirection adresse publique IP WAN Wiki blabla Linux
 
@@ -122,7 +123,7 @@ Routeur - Redirection adresse IP LAN Nginx Proxy Manager
 
 -   Nginx Proxy Manager, d'après le (sous) domaine de la requête, redirige vers la bonne adresse IP LAN, et sur le bon port…
 
-![](/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux-02.png)
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux-02.png"></p>
 
 Wiki Blabla Linux - Redirection IP LAN Nginx Proxy Manager - Onglet “Details”
 
@@ -177,7 +178,7 @@ Exemple, le service utilise de l'audio, de la vidéo. Le service envoi des notif
 
 ### Dans l'onglet “SSL"
 
-![](/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl.png)
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl.png"></p>
 
 Nginx Proxy Manager - Onglet SSL
 
@@ -215,7 +216,7 @@ Pour utiliser cette option, il faut créer une entrée DNS type TXT chez le four
 
 *Plus haut, j'ai donné l'onglet “Details” du Wiki Blabla Linux. Je vais achever en donnant l'onglet SSL du Wiki Blabla Linux…*
 
-![](/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl-wiki-blabla-linux.png)
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl-wiki-blabla-linux.png"></p>
 
 Wiki Blabla Linux - Redirection IP LAN Nginx Proxy Manager - Onglet “SSL”
 
