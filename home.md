@@ -2,13 +2,13 @@
 title: Bienvenue
 description: 
 published: true
-date: 2025-07-17T00:23:27.711Z
+date: 2025-08-12T14:00:05.617Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
 ---
 
-![](/welcome/header.png)
+![](/welcome/header2.png)
 
 *Blabla Linux possède un* [blog](https://yourls.blablalinux.be/blog) *depuis un moment.*
 
