@@ -2,8 +2,8 @@
 title: HP Beats Audio PulseAudio
 description: Beats Audio est incomplet sous Ubuntu/Debian. C'est un problème fréquent que j'ai personnellement rencontré avec mon HP Pavilion DV7-6085eb. Après de nombreuses recherches sur les forums, j'ai trouvé une solution.
 published: true
-date: 2025-09-26T18:10:25.732Z
-tags: hp, beatsaudio, pulseaudio, sound
+date: 2025-09-26T18:29:20.116Z
+tags: debian, hp, beatsaudio, pulseaudio, sound, ubuntu
 editor: markdown
 dateCreated: 2025-09-26T18:10:25.732Z
 ---
