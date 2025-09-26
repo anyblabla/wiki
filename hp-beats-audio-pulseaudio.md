@@ -2,7 +2,7 @@
 title: HP Beats Audio PulseAudio
 description: Beats Audio est incomplet sous Ubuntu/Debian. C'est un problème fréquent que j'ai personnellement rencontré avec mon HP Pavilion DV7-6085eb. Après de nombreuses recherches sur les forums, j'ai trouvé une solution.
 published: true
-date: 2025-09-26T18:29:20.116Z
+date: 2025-09-26T20:42:08.401Z
 tags: debian, hp, beatsaudio, pulseaudio, sound, ubuntu
 editor: markdown
 dateCreated: 2025-09-26T18:10:25.732Z
@@ -12,11 +12,11 @@ dateCreated: 2025-09-26T18:10:25.732Z
 
 Si vous avez un ordinateur portable HP avec des haut-parleurs Beats Audio, vous avez peut-être remarqué que le son est incomplet sous Ubuntu/Debian. C'est un problème fréquent que j'ai personnellement rencontré avec mon HP Pavilion DV7-6085eb. Après de nombreuses recherches sur les forums, j'ai trouvé une solution qui permet d'activer tous les haut-parleurs, y compris le caisson de basses, sans compromettre la fonctionnalité des écouteurs.
 
-Ce guide utilise l'outil `hda-jack-retask` pour reconfigurer correctement la sortie audio.
+Ce guide utilise l'outil `hdajackretask` pour reconfigurer correctement la sortie audio.
 
 ### Comment procéder
 
-**Étape 1 : Installer `hda-jack-retask`**
+**Étape 1 : Installer `hdajackretask`**
 
 Ce dernier fait partie d'un pack d'utilitaires qui se nomme `alsa-tools-gui`.
 
@@ -28,7 +28,7 @@ Ouvrez votre terminal pour installer ce paquet :
 
 **Étape 2 : Lancer l'outil**
 
-Recherchez et ouvrez le programme **hda-jack-retask**.
+Recherchez et ouvrez le programme **hdajackretask**.
 
 **Étape 3 : Sélectionner le codec**
 
