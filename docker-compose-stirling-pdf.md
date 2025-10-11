@@ -2,7 +2,7 @@
 title: Docker Compose Stirling PDF
 description: Stirling PDF vous fournit des outils puissants pour gérer vos fichiers PDF. Fusionnez, divisez ou convertissez vos fichiers PDF en toute simplicité.
 published: true
-date: 2025-07-17T00:14:20.324Z
+date: 2025-10-11T20:59:25.266Z
 tags: pdf, stirling
 editor: markdown
 dateCreated: 2024-06-14T12:54:05.800Z
@@ -45,7 +45,7 @@ services:
       - LANGS=fr_FR
 ```
 
-Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets).
+Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets) : [https://bytestash.blablalinux.be/s/f1254114dd45f18e1aba759566f4fc29](https://bytestash.blablalinux.be/s/f1254114dd45f18e1aba759566f4fc29)
 
 # Personnalisation / Configuration
 
