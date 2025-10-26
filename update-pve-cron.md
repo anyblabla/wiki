@@ -1,8 +1,8 @@
 ---
 title: Mise à jour automatique des hôtes Proxmox VE par Cron
 description: Ce guide explique comment automatiser la mise à jour des paquets de vos hôtes Proxmox VE (PVE) en utilisant un script Bash planifié via une tâche Cron. Ces commandes sont destinées à être exécutées en tant qu'utilisateur root.
-published: true
-date: 2025-10-26T21:25:16.134Z
+published: false
+date: 2025-10-26T21:25:49.397Z
 tags: proxmox, cron, crontab, pve, update, apt
 editor: markdown
 dateCreated: 2025-10-26T21:16:13.278Z
