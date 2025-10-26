@@ -1,16 +1,14 @@
 ---
-title: Script de Maintenance Proxmox : Mise à Jour de Watchtower
-description: Ce script ajuste la planification de l'outil de mise à jour automatique des images Docker, Watchtower.
+title: Script de maintenance Proxmox : mise à jour de Watchtower
+description: Ce script Bash est conçu pour les administrateurs utilisant Proxmox Virtual Environment (VE) pour héberger des conteneurs LXC exécutant Docker.
 published: true
-date: 2025-10-26T16:28:46.835Z
+date: 2025-10-26T21:23:28.101Z
 tags: docker, lxc, script, bash, watchtower
 editor: markdown
 dateCreated: 2025-10-26T16:28:46.835Z
 ---
 
-## 🚀 Script de Maintenance Proxmox : Mise à Jour de Watchtower
-
-Ce script Bash est conçu pour les administrateurs utilisant **Proxmox Virtual Environment (VE)** pour héberger des conteneurs LXC exécutant Docker. Il automatise la modification des fichiers `docker-compose.yml` pour ajuster la planification de l'outil de mise à jour automatique des images Docker, **Watchtower**.
+Il automatise la modification des fichiers `docker-compose.yml` pour ajuster la planification de l'outil de mise à jour automatique des images Docker, **Watchtower**.
 
 ### 🎯 À Quoi Sert Ce Script ?
 
