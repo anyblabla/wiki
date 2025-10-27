@@ -1,8 +1,8 @@
 ---
-title: Scripts : Modification des Fichiers docker-compose.yml de Watchtower (LXC/Proxmox)
+title: Modification des Fichiers docker-compose.yml de Watchtower (LXC/Proxmox)
 description: Ce guide fournit deux scripts Bash conçus pour être exécutés sur l'hôte Proxmox (PVE) afin d'automatiser la mise à jour des conteneurs Watchtower (installés via Docker Compose dans des CT/LXC).
 published: true
-date: 2025-10-27T23:55:23.982Z
+date: 2025-10-27T23:56:28.996Z
 tags: docker, lxc, script, bash, watchtower
 editor: markdown
 dateCreated: 2025-10-26T16:28:46.835Z
