@@ -2,7 +2,7 @@
 title: Automatisation des mises à jour Proxmox (LXC et VM)
 description: Ces scripts Bash permettent d'automatiser la mise à jour des conteneurs LXC et des machines virtuelles (VM) basées sur Debian/Ubuntu sur votre hôte Proxmox VE, en utilisant la planification Cron.
 published: true
-date: 2025-10-26T21:18:00.431Z
+date: 2025-10-27T10:25:06.933Z
 tags: lxc, proxmox, cron, crontab, script, vm
 editor: markdown
 dateCreated: 2025-10-26T16:38:37.191Z
@@ -34,8 +34,7 @@ nano /root/scripts/update_lxcs.sh
 
 Collez le code suivant :
 
-```bash
-#!/bin/bash
+```#!/bin/bash
 #
 # Script de mise à jour automatique des conteneurs LXC en cours d'exécution
 # A exécuter sur l'hôte Proxmox VE
@@ -50,7 +49,8 @@ echo "Démarrage de la mise à jour des LXC le $(date)" >> $LOGFILE 2>&1
 echo "==================================================" >> $LOGFILE 2>&1
 
 # Boucle sur les conteneurs démarrés (status 'running')
-for CTID in $(pct list | grep running | awk '{print $1}')
+# CORRIGÉ : Utilisation de /usr/sbin/pct list
+for CTID in $(/usr/sbin/pct list | grep running | awk '{print $1}')
 do
     # Vérifie si le CTID est dans la liste d'exclusion
     if [[ " $EXCLUDED_CTIDS " =~ " $CTID " ]]; then
@@ -61,7 +61,8 @@ do
     echo "--> Traitement du conteneur CTID $CTID..." >> $LOGFILE 2>&1
     
     # Exécute les commandes à l'intérieur du conteneur (apt full-upgrade pour gérer les dépendances)
-    pct exec $CTID -- bash -c "apt update && apt full-upgrade -y && apt clean" >> $LOGFILE 2>&1
+    # CORRIGÉ : Utilisation de /usr/sbin/pct exec
+    /usr/sbin/pct exec $CTID -- bash -c "apt update && apt full-upgrade -y && apt clean" >> $LOGFILE 2>&1
     
     if [ $? -eq 0 ]; then
         echo "    [OK] Conteneur $CTID mis à jour avec succès." >> $LOGFILE 2>&1
@@ -72,8 +73,7 @@ done
 
 echo "==================================================" >> $LOGFILE 2>&1
 echo "Fin de la mise à jour des LXC le $(date)" >> $LOGFILE 2>&1
-echo "==================================================" >> $LOGFILE 2>&1
-```
+echo "==================================================" >> $LOGFILE 2>&1```
 
 ### 2\. Planification Cron
 
@@ -120,18 +120,25 @@ nano /root/scripts/update_vms.sh
 
 Collez le code suivant :
 
-```bash
-#!/bin/bash
+```#!/bin/bash
 #
-# Script de mise à jour automatique des machines virtuelles (VMs) Debian/Ubuntu
-# Gère la mise à jour et le redémarrage du noyau.
+# SCRIPT : update_vms.sh
+# OBJECTIF : Mettre à jour toutes les VMs Debian/Ubuntu en cours d'exécution
+#            et les redémarrer si une mise à jour du noyau est détectée.
+# CORRECTION : Utilisation des chemins absolus pour 'qm' pour la compatibilité Cron.
 #
+# ==============================================================================
 
+# Fichier de log : tous les résultats et erreurs seront enregistrés ici
 LOGFILE="/var/log/update_vms_cron.log"
+
+# Liste des VMS à exclure (séparées par des espaces). Laissez vide si aucune.
 EXCLUDED_VMS="" 
 
+# Redirection de toutes les sorties (stdout et stderr) vers le fichier de log
 exec 1>>$LOGFILE 2>&1
 
+# Début de l'exécution
 echo "=================================================="
 echo "Démarrage de la mise à jour des VMs le $(date)"
 echo "=================================================="
@@ -140,8 +147,13 @@ echo "=================================================="
 UPDATE_COMMAND="export DEBIAN_FRONTEND=noninteractive && apt update -y && apt full-upgrade -y && apt clean"
 REBOOT_CHECK_COMMAND="if [ -f /var/run/reboot-required ]; then echo 'REBOOT_YES'; else echo 'REBOOT_NO'; fi"
 
-for VMID in $(qm list | grep running | awk '{print $1}')
+# Boucle sur les IDs de toutes les VMs en cours d'exécution
+# CORRIGÉ : Utilisation de /usr/sbin/qm list
+for VMID in $(/usr/sbin/qm list | grep running | awk '{print $1}')
 do
+    # ----------------------------------------------------
+    # 1. Vérification des exclusions
+    # ----------------------------------------------------
     if [[ " $EXCLUDED_VMS " =~ " $VMID " ]]; then
         echo "    [SKIP] VM $VMID exclue de la mise à jour."
         continue 
@@ -149,31 +161,48 @@ do
     
     echo "--> Traitement de la VM VMID $VMID..."
     
-    # 1. Exécution des mises à jour (Syntaxe compatible Proxmox)
+    # ----------------------------------------------------
+    # 2. Exécution des mises à jour (Syntaxe corrigée)
+    # ----------------------------------------------------
     echo "    - Exécution des mises à jour..."
-    qm guest exec $VMID --timeout 300 /bin/bash -- -c "$UPDATE_COMMAND"
+    # CORRIGÉ : Utilisation de /usr/sbin/qm guest exec
+    /usr/sbin/qm guest exec $VMID --timeout 300 /bin/bash -- -c "$UPDATE_COMMAND"
     
-    # 2. Vérification du besoin de redémarrage
+    # ----------------------------------------------------
+    # 3. Vérification du besoin de redémarrage (Syntaxe corrigée)
+    # ----------------------------------------------------
+    
     echo "    - Vérification du besoin de redémarrage..."
-    REBOOT_CHECK_OUTPUT=$(qm guest exec $VMID --timeout 60 /bin/bash -- -c "$REBOOT_CHECK_COMMAND")
+    # CORRIGÉ : Utilisation de /usr/sbin/qm guest exec
+    REBOOT_CHECK_OUTPUT=$(/usr/sbin/qm guest exec $VMID --timeout 60 /bin/bash -- -c "$REBOOT_CHECK_COMMAND")
     
+    # Analyse de la sortie
     if [[ $REBOOT_CHECK_OUTPUT == *"REBOOT_YES"* ]]; then
         
         echo "    [ALERTE] Redémarrage nécessaire pour la VM $VMID. Redémarrage en cours..."
         
-        # 3. Redémarrage sécurisé via 'qm shutdown'
-        echo "    - Arrêt de la VM $VMID (shutdown)..."
-        qm shutdown $VMID --timeout 120 
+        # ----------------------------------------------------
+        # 4. Redémarrage sécurisé (COMMANDES D'ARRÊT CORRIGÉES)
+        # ----------------------------------------------------
         
-        # Vérification si l'arrêt gracieux a échoué (la VM est toujours 'running')
-        if qm status $VMID | grep -q running; then
+        # 4a. Tentative d'arrêt gracieux via 'qm shutdown'
+        echo "    - Arrêt de la VM $VMID (shutdown)..."
+        # CORRIGÉ : Utilisation de /usr/sbin/qm shutdown
+        /usr/sbin/qm shutdown $VMID --timeout 120 
+        
+        # 4b. Vérification si la VM s'est bien arrêtée (si non, on force l'arrêt)
+        # CORRIGÉ : Utilisation de /usr/sbin/qm status
+        if /usr/sbin/qm status $VMID | grep -q running; then
             echo "    - Arrêt gracieux échoué. Forçage de l'arrêt (stop)..."
-            qm stop $VMID
+            # CORRIGÉ : Utilisation de /usr/sbin/qm stop
+            /usr/sbin/qm stop $VMID
             sleep 5
         fi
         
+        # 4c. Démarrage de la VM
         echo "    - Démarrage de la VM $VMID..."
-        qm start $VMID
+        # CORRIGÉ : Utilisation de /usr/sbin/qm start
+        /usr/sbin/qm start $VMID
         
         echo "    [OK] Redémarrage de la VM $VMID terminé."
         
@@ -186,6 +215,9 @@ done
 echo "=================================================="
 echo "Fin de la mise à jour des VMs le $(date)"
 echo "=================================================="
+
+# Rétablir la sortie standard
+exec 1>&- 2>&-
 ```
 
 ### 3\. Planification Cron
