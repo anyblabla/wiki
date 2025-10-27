@@ -2,7 +2,7 @@
 title: Script de maintenance Proxmox : mise à jour de Watchtower
 description: Ce script Bash est conçu pour les administrateurs utilisant Proxmox Virtual Environment (VE) pour héberger des conteneurs LXC exécutant Docker.
 published: true
-date: 2025-10-27T22:02:13.288Z
+date: 2025-10-27T22:49:47.343Z
 tags: docker, lxc, script, bash, watchtower
 editor: markdown
 dateCreated: 2025-10-26T16:28:46.835Z
@@ -20,30 +20,38 @@ Ce guide fournit des scripts Bash robustes pour les utilisateurs de Proxmox VE. 
 | :--- | :--- |
 | **Objectif Principal** | Remplacer l'intervalle de mise à jour de Watchtower (p. ex., toutes les 3 heures) par une **planification CRON spécifique** (p. ex., tous les mercredis à 10h00). |
 | **Pour Qui ?** | Les utilisateurs de Proxmox qui gèrent des LXC avec des services Docker (`docker-compose`) et qui veulent **éviter les mises à jour aléatoires** qui pourraient perturber les services en production. |
-| **Avantages Techniques** | Le script gère les subtilités de l'environnement Proxmox : il filtre uniquement les conteneurs actifs et utilise des méthodes non bloquantes pour éviter les arrêts sur les conteneurs mal configurés. |
+| **Avantages Techniques** | Il gère les subtilités de l'environnement Proxmox, filtre uniquement les conteneurs actifs, et **recherche dynamiquement le fichier de configuration** même s'il est dans un sous-répertoire (`/root/mon_service/watchtower/`). |
+
+### 1.2. 🔎 Mécanisme de Recherche Corrigé (Profondeur Limitée)
+
+Pour garantir que le script trouve le fichier `docker-compose.yml` de Watchtower, qu'il soit dans `/root/watchtower/` ou dans un sous-répertoire comme `/root/mon_app/watchtower/`, il utilise la commande `find` avec une profondeur de recherche limitée :
+
+| Élément | Description |
+| :--- | :--- |
+| **Point de départ** | La recherche s'effectue toujours à partir du répertoire de l'utilisateur root (`/root/`) à l'intérieur du conteneur LXC. |
+| **Profondeur de recherche** | La recherche est limitée à **4 niveaux de sous-répertoires** (paramètre `-maxdepth 4`). Cela permet de trouver des chemins comme `/root/dossier1/dossier2/dossier3/docker-compose.yml`, tout en évitant de parcourir l'intégralité du système de fichiers, ce qui pourrait provoquer des lenteurs ou des blocages. |
+| **Ciblage** | La commande **ne recherche que** les fichiers nommés `docker-compose.yml` dont le chemin se termine par `watchtower/docker-compose.yml$`. |
 
 -----
 
 ## 2\. 💻 Script 1 : Conversion d'Intervalle vers CRON (Première Utilisation)
 
-Ce script est destiné à être exécuté une seule fois pour remplacer l'ancienne variable d'intervalle (`WATCHTOWER_POLL_INTERVAL`) par la nouvelle variable de planification CRON (`WATCHTOWER_SCHEDULE`).
+Ce script est destiné à être exécuté une seule fois pour remplacer l'ancienne variable d'intervalle par la nouvelle variable de planification CRON.
 
 ### 2.1. Installation et Préparation
-
-Le script doit être exécuté en tant qu'utilisateur **root** sur votre nœud hôte Proxmox VE.
 
 1.  Connectez-vous à votre nœud Proxmox en SSH.
 2.  Créez le fichier du script (par exemple, `script1_watchtower.sh`) :
     ```bash
     nano /root/script1_watchtower.sh
     ```
-3.  Collez le code du **Script 1** ci-dessous.
+3.  Collez le code du **Script 1 Corrigé** ci-dessous.
 4.  Rendez le script exécutable :
     ```bash
     chmod +x /root/script1_watchtower.sh
     ```
 
-### 2.2. Le Script 1 (Version Initiale)
+### 2.2. Le Script 1 (Version Corrigée)
 
 ```bash
 #!/bin/bash
@@ -52,13 +60,13 @@ Le script doit être exécuté en tant qu'utilisateur **root** sur votre nœud h
 # ==============
 # Remplacement: WATCHTOWER_POLL_INTERVAL=10800 sera remplacé par WATCHTOWER_SCHEDULE=0 0 10 ? * WED (Mercredi 10h00)
 MODIFICATION_SED='s/- WATCHTOWER_POLL_INTERVAL=10800/- WATCHTOWER_SCHEDULE=0 0 10 ? * WED/'
-TARGET_CONTAINER_PATH_TO_TEST="/root/watchtower/docker-compose.yml" # Emplacement du fichier Watchtower à l'intérieur du conteneur
+TARGET_DESCRIPTION="watchtower/docker-compose.yml sous /root"
 
 
-# Fonction pour redémarrer Docker Compose
+# Fonction pour redémarrer Docker Compose (MODIFIÉE pour accepter le répertoire)
 restart_docker_compose() {
     local CTID=$1
-    local COMPOSE_DIR="/root/watchtower"
+    local COMPOSE_DIR=$2 
     local TIMEOUT_DURATION=30
 
     echo "   Tentative de redémarrage avec 'docker compose' dans $COMPOSE_DIR (Timeout: ${TIMEOUT_DURATION}s)..."
@@ -89,7 +97,7 @@ echo "Recherche des conteneurs LXC ACTIFS dont le nom contient 'docker' (via pct
 CONTAINER_IDS=$(pct list | awk '/running/ && /docker/ {print $1}')
 
 
-# Traitement des Conteneurs
+# Traitement des Conteneurs (LOGIQUE DE RECHERCHE CORRIGÉE)
 # =========================
 if [ -z "$CONTAINER_IDS" ]; then
     echo "⚠️ Aucun conteneur LXC/CT en cours d'exécution avec 'docker' dans son nom n'a été trouvé. Aucune action n'a été effectuée."
@@ -103,17 +111,24 @@ for CTID in $CONTAINER_IDS; do
     CONTAINER_NAME=$(pct config "$CTID" | grep 'hostname' | awk '{print $2}')
     echo "▶️ Traitement du conteneur LXC (ID $CTID) : $CONTAINER_NAME"
     
-    # 2. Vérification de l'existence du fichier (méthode non bloquante : test -f)
-    pct exec "$CTID" -- test -f "$TARGET_CONTAINER_PATH_TO_TEST" >/dev/null 2>&1
+    # NOUVELLE LOGIQUE DE RECHERCHE: find avec une profondeur limitée (-maxdepth 4)
+    TARGET_CONTAINER_PATH=$(pct exec "$CTID" -- sh -c "find /root -maxdepth 4 -name docker-compose.yml 2>/dev/null | grep 'watchtower/docker-compose.yml$' | head -n 1" 2>/dev/null)
+
+    # Vérification du chemin trouvé
+    if [ -z "$TARGET_CONTAINER_PATH" ]; then
+        echo "   Fichier de configuration Watchtower non trouvé sous /root. Ce CT/LXC est ignoré."
+        echo "-----------------------------------"
+        continue
+    fi
     
-    if [ $? -eq 0 ]; then
-        echo "   Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH_TO_TEST"
+    # 2. Le chemin exact est maintenant stocké dans $TARGET_CONTAINER_PATH
+    if [ -n "$TARGET_CONTAINER_PATH" ]; then
+        echo "   Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH"
 
         # 3. Modification du fichier (pct pull/push)
         TEMP_FILE="/tmp/docker-compose-temp-$CTID.yml"
         
-        # Copie le fichier du CT vers l'hôte
-        pct pull "$CTID" "$TARGET_CONTAINER_PATH_TO_TEST" "$TEMP_FILE" >/dev/null 2>&1
+        pct pull "$CTID" "$TARGET_CONTAINER_PATH" "$TEMP_FILE" >/dev/null 2>&1
         if [ $? -ne 0 ]; then
             echo "❌ ERREUR: Impossible de copier le fichier depuis le conteneur $CTID. Ignoré."
             rm -f "$TEMP_FILE" 2>/dev/null
@@ -127,15 +142,16 @@ for CTID in $CONTAINER_IDS; do
         sed -i "$MODIFICATION_SED" "$TEMP_FILE"
         echo "   ✅ Modification appliquée au fichier temporaire."
         
-        # Sauvegarde l'original dans le CT, puis pousse le fichier modifié
-        pct exec "$CTID" -- cp "$TARGET_CONTAINER_PATH_TO_TEST" "$TARGET_CONTAINER_PATH_TO_TEST.bak" >/dev/null 2>&1
-        pct push "$CTID" "$TEMP_FILE" "$TARGET_CONTAINER_PATH_TO_TEST" >/dev/null 2>&1
-        echo "   ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH_TO_TEST}.bak"
+        pct exec "$CTID" -- cp "$TARGET_CONTAINER_PATH" "$TARGET_CONTAINER_PATH.bak" >/dev/null 2>&1
+        pct push "$CTID" "$TEMP_FILE" "$TARGET_CONTAINER_PATH" >/dev/null 2>&1
+        echo "   ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH}.bak"
         
         rm -f "$TEMP_FILE" "$TEMP_FILE_BAK"
         
         # 4. Redémarrage du service Docker Compose
-        restart_docker_compose "$CTID"
+        COMPOSE_DIR=$(dirname "$TARGET_CONTAINER_PATH")
+        
+        restart_docker_compose "$CTID" "$COMPOSE_DIR" 
         
         if [ $? -eq 0 ]; then
              echo "✅ Opération complète terminée pour $CONTAINER_NAME (ID $CTID)."
@@ -143,7 +159,7 @@ for CTID in $CONTAINER_IDS; do
              echo "⚠️ Modification réussie, mais redémarrage échoué pour $CONTAINER_NAME (ID $CTID). **Veuillez redémarrer le service manuellement.**"
         fi
     else
-        echo "   Fichier de configuration Watchtower non trouvé à $TARGET_CONTAINER_PATH_TO_TEST. Ce CT/LXC est ignoré."
+        echo "   Fichier de configuration Watchtower non trouvé à $TARGET_DESCRIPTION. Ce CT/LXC est ignoré."
     fi
     
     echo "-----------------------------------"
@@ -196,24 +212,24 @@ MODIFICATION_SED='s/http:\/\/old-server:8080/http:\/\/new-server:9000/'
 
 L'étape de redémarrage est gérée par la fonction **`restart_docker_compose`**.
 
-  * **Si vous modifiez un service Docker :** Laissez la fonction telle quelle.
+  * **Si vous modifiez un service Docker :** Laissez la fonction telle quelle, car elle gère le redémarrage de `docker compose`.
   * **Si vous modifiez un service système (ex: Nginx) :** Modifiez le corps de la fonction pour utiliser `pct exec "$CTID" -- systemctl restart nginx` au lieu de `docker compose down/up`. Pensez à ajuster le `TIMEOUT_DURATION` si nécessaire.
 
 -----
 
 ## 4\. 🛑 Annexe : Substitution Robuste (Script 2)
 
-Le **Script 1** est très efficace pour la première conversion. Cependant, il peut échouer si vous tentez de **modifier à nouveau** la planification CRON, car l'outil `sed` est sensible aux problèmes de correspondance de chaîne exacte après la première modification.
+Le **Script 1** peut échouer si vous tentez de **modifier à nouveau** la planification CRON, car il recherche une chaîne de caractères très spécifique.
 
-Pour garantir que vos changements de planification (ex: passer de Mercredi à Vendredi) fonctionnent **à chaque fois**, utilisez le **Script 2**.
+Pour garantir que vos changements de planification (ex: passer de Mercredi à Vendredi) fonctionnent **à chaque fois**, utilisez le **Script 2** ci-dessous.
 
 ### ⚠️ Avertissement
 
 Utilisez le **Script 2** uniquement si vous avez déjà exécuté le Script 1 et que la variable `WATCHTOWER_SCHEDULE` est déjà présente dans vos fichiers `docker-compose.yml`.
 
-### 4.1. 🚀 Script 2 : Modification d'une planification existante
+### 4.1. 🚀 Script 2 : Modification d'une planification existante (Corrigé)
 
-Ce script utilise une expression régulière pour cibler le nom de la variable (`- WATCHTOWER_SCHEDULE=`) et remplacer ensuite l'intégralité de sa valeur.
+Ce script utilise la substitution robuste et intègre la nouvelle logique de recherche limitée.
 
 ```bash
 #!/bin/bash
@@ -221,15 +237,14 @@ Ce script utilise une expression régulière pour cibler le nom de la variable (
 # Configuration
 # ==============
 # La substitution robuste: recherche la ligne commençant par WATCHTOWER_SCHEDULE= et remplace TOUTE la valeur.
-# Remplacement: [WATCHTOWER_SCHEDULE=...] sera remplacé par WATCHTOWER_SCHEDULE=0 0 10 ? * FRI (Vendredi 10h00)
 MODIFICATION_SED='s/^- WATCHTOWER_SCHEDULE=.*/- WATCHTOWER_SCHEDULE=0 0 10 ? * FRI/'
-TARGET_CONTAINER_PATH_TO_TEST="/root/watchtower/docker-compose.yml" 
+TARGET_DESCRIPTION="watchtower/docker-compose.yml sous /root" 
 
 
 # Fonction pour redémarrer Docker Compose (identique au Script 1)
 restart_docker_compose() {
     local CTID=$1
-    local COMPOSE_DIR="/root/watchtower"
+    local COMPOSE_DIR=$2 
     local TIMEOUT_DURATION=30
 
     echo "   Tentative de redémarrage avec 'docker compose' dans $COMPOSE_DIR (Timeout: ${TIMEOUT_DURATION}s)..."
@@ -259,7 +274,7 @@ echo "Recherche des conteneurs LXC ACTIFS dont le nom contient 'docker' (via pct
 CONTAINER_IDS=$(pct list | awk '/running/ && /docker/ {print $1}')
 
 
-# Traitement des Conteneurs (identique au Script 1)
+# Traitement des Conteneurs (LOGIQUE DE RECHERCHE CORRIGÉE)
 # =========================
 if [ -z "$CONTAINER_IDS" ]; then
     echo "⚠️ Aucun conteneur LXC/CT en cours d'exécution avec 'docker' dans son nom n'a été trouvé. Aucune action n'a été effectuée."
@@ -273,16 +288,24 @@ for CTID in $CONTAINER_IDS; do
     CONTAINER_NAME=$(pct config "$CTID" | grep 'hostname' | awk '{print $2}')
     echo "▶️ Traitement du conteneur LXC (ID $CTID) : $CONTAINER_NAME"
     
-    # 2. Vérification de l'existence du fichier
-    pct exec "$CTID" -- test -f "$TARGET_CONTAINER_PATH_TO_TEST" >/dev/null 2>&1
+    # NOUVELLE LOGIQUE DE RECHERCHE: find avec une profondeur limitée (-maxdepth 4)
+    TARGET_CONTAINER_PATH=$(pct exec "$CTID" -- sh -c "find /root -maxdepth 4 -name docker-compose.yml 2>/dev/null | grep 'watchtower/docker-compose.yml$' | head -n 1" 2>/dev/null)
+
+    # Vérification du chemin trouvé
+    if [ -z "$TARGET_CONTAINER_PATH" ]; then
+        echo "   Fichier de configuration Watchtower non trouvé sous /root. Ce CT/LXC est ignoré."
+        echo "-----------------------------------"
+        continue
+    fi
     
-    if [ $? -eq 0 ]; then
-        echo "   Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH_TO_TEST"
+    # 2. Le chemin exact est maintenant stocké dans $TARGET_CONTAINER_PATH
+    if [ -n "$TARGET_CONTAINER_PATH" ]; then
+        echo "   Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH"
 
         # 3. Modification du fichier
         TEMP_FILE="/tmp/docker-compose-temp-$CTID.yml"
         
-        pct pull "$CTID" "$TARGET_CONTAINER_PATH_TO_TEST" "$TEMP_FILE" >/dev/null 2>&1
+        pct pull "$CTID" "$TARGET_CONTAINER_PATH" "$TEMP_FILE" >/dev/null 2>&1
         if [ $? -ne 0 ]; then
             echo "❌ ERREUR: Impossible de copier le fichier depuis le conteneur $CTID. Ignoré."
             rm -f "$TEMP_FILE" 2>/dev/null
@@ -296,14 +319,16 @@ for CTID in $CONTAINER_IDS; do
         sed -i "$MODIFICATION_SED" "$TEMP_FILE"
         echo "   ✅ Modification appliquée au fichier temporaire."
         
-        pct exec "$CTID" -- cp "$TARGET_CONTAINER_PATH_TO_TEST" "$TARGET_CONTAINER_PATH_TO_TEST.bak" >/dev/null 2>&1
-        pct push "$CTID" "$TEMP_FILE" "$TARGET_CONTAINER_PATH_TO_TEST" >/dev/null 2>&1
-        echo "   ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH_TO_TEST}.bak"
+        pct exec "$CTID" -- cp "$TARGET_CONTAINER_PATH" "$TARGET_CONTAINER_PATH.bak" >/dev/null 2>&1
+        pct push "$CTID" "$TEMP_FILE" "$TARGET_CONTAINER_PATH" >/dev/null 2>&1
+        echo "   ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH}.bak"
         
         rm -f "$TEMP_FILE" "$TEMP_FILE_BAK"
         
         # 4. Redémarrage du service Docker Compose
-        restart_docker_compose "$CTID"
+        COMPOSE_DIR=$(dirname "$TARGET_CONTAINER_PATH")
+        
+        restart_docker_compose "$CTID" "$COMPOSE_DIR" 
         
         if [ $? -eq 0 ]; then
              echo "✅ Opération complète terminée pour $CONTAINER_NAME (ID $CTID)."
@@ -311,7 +336,7 @@ for CTID in $CONTAINER_IDS; do
              echo "⚠️ Modification réussie, mais redémarrage échoué pour $CONTAINER_NAME (ID $CTID). **Veuillez redémarrer le service manuellement.**"
         fi
     else
-        echo "   Fichier de configuration Watchtower non trouvé à $TARGET_CONTAINER_PATH_TO_TEST. Ce CT/LXC est ignoré."
+        echo "   Fichier de configuration Watchtower non trouvé à $TARGET_DESCRIPTION. Ce CT/LXC est ignoré."
     fi
     
     echo "-----------------------------------"
