@@ -2,7 +2,7 @@
 title: Automatisation des mises à jour Proxmox (LXC et VM)
 description: Ces scripts Bash permettent d'automatiser la mise à jour des conteneurs LXC et des machines virtuelles (VM) basées sur Debian/Ubuntu sur votre hôte Proxmox VE, en utilisant la planification Cron.
 published: true
-date: 2025-10-27T10:30:33.318Z
+date: 2025-10-27T10:32:43.946Z
 tags: lxc, proxmox, cron, crontab, script, vm
 editor: markdown
 dateCreated: 2025-10-26T16:38:37.191Z
@@ -34,7 +34,7 @@ nano /root/scripts/update_lxcs.sh
 
 Collez le code suivant :
 
-```
+```bash
 #!/bin/bash
 #
 # Script de mise à jour automatique des conteneurs LXC en cours d'exécution
@@ -122,7 +122,7 @@ nano /root/scripts/update_vms.sh
 
 Collez le code suivant :
 
-```
+```bash
 #!/bin/bash
 #
 # SCRIPT : update_vms.sh
