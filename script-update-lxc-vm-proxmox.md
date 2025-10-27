@@ -2,7 +2,7 @@
 title: Automatisation des mises à jour Proxmox (LXC et VM)
 description: Ces scripts Bash permettent d'automatiser la mise à jour des conteneurs LXC et des machines virtuelles (VM) basées sur Debian/Ubuntu sur votre hôte Proxmox VE, en utilisant la planification Cron.
 published: true
-date: 2025-10-27T10:32:43.946Z
+date: 2025-10-27T17:15:21.059Z
 tags: lxc, proxmox, cron, crontab, script, vm
 editor: markdown
 dateCreated: 2025-10-26T16:38:37.191Z
@@ -267,9 +267,15 @@ Il est recommandé d'exécuter ces scripts pendant les heures de faible activit�
 
 Vous pouvez ajouter la commande `apt autoremove -y` après `apt full-upgrade -y` pour supprimer les dépendances inutiles et nettoyer l'espace disque.
 
-  * **Action :** Modifiez la variable **`UPDATE_COMMAND`** (dans les scripts LXC et VM) :
+* **Action :** Modifiez la ligne **`/usr/sbin/pct exec $CTID -- bash -c "apt update && apt full-upgrade -y && apt clean" >> $LOGFILE 2>&1`** (dans le script LXC) :
     ```bash
-    # Nouvelle version pour les VMs
+    # Nouvelle version pour le script LXC
+    /usr/sbin/pct exec $CTID -- bash -c "apt update && apt full-upgrade -y && apt autoremove -y && apt clean" >> $LOGFILE 2>&1
+    ```
+
+  * **Action :** Modifiez la variable **`UPDATE_COMMAND`** (dans le script VM) :
+    ```bash
+    # Nouvelle version pour le script VM
     UPDATE_COMMAND="export DEBIAN_FRONTEND=noninteractive && apt update -y && apt full-upgrade -y && apt autoremove -y && apt clean"
     ```
 
