@@ -1,16 +1,18 @@
 ---
-title: Docker Compose Wiki.js
-description: Déployez simplement Wiki.js grâce à une pile (stack) docker compose.
+title: Déploiement de Wiki.js avec Docker Compose
+description: Ce guide explique comment déployer rapidement Wiki.js (une solution Wiki moderne, puissante et extensible) en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML.
 published: true
-date: 2025-07-17T00:14:26.045Z
+date: 2025-10-28T13:35:32.211Z
 tags: docker, wiki
 editor: markdown
 dateCreated: 2024-05-18T20:22:28.247Z
 ---
 
-Pratique pour déployer rapidement [Wiki.js](https://js.wiki) dans [Portainer](https://www.portainer.io) en créant une pile ([stack](https://docs.portainer.io/user/docker/stacks)) à partir d'un fichier [compose YAML](https://docs.docker.com/compose/compose-application-model/).
+## 1\. Fichier `docker-compose.yml`
 
-```plaintext
+Ce fichier définit deux services : **`db`** (la base de données PostgreSQL) et **`wiki`** (l'application Wiki.js), ainsi que les volumes persistants nécessaires.
+
+```yaml
 version: "3"
 services:
 
@@ -50,10 +52,41 @@ volumes:
 
 Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets).
 
--   En rouge, à remplacer pour vos identifiants personnels :
-    -   POSTGRES\_PASSWORD: blablalinux
-    -   POSTGRES\_USER: anyblabla
-    -   DB\_USER: anyblabla
-    -   DB\_PASS: blablalinux
+-----
 
-**Les identifiants _POSTGRES_ et _DB_ doivent correspondres !**
+## 2\. Configuration des Identifiants (Crucial)
+
+Pour que l'application Wiki.js (`wiki`) puisse se connecter à la base de données (`db`), les variables d'environnement doivent correspondre entre les deux services.
+
+Vous devez personnaliser les identifiants ci-dessous :
+
+| Service | Variable | Rôle |
+| :--- | :--- | :--- |
+| **`db`** | `POSTGRES_USER: anyblabla` | Nom d'utilisateur créé dans PostgreSQL. |
+| **`wiki`** | `DB_USER: anyblabla` | Nom d'utilisateur utilisé par Wiki.js pour se connecter. |
+| **`db`** | `POSTGRES_PASSWORD: blablalinux` | Mot de passe de l'utilisateur PostgreSQL. |
+| **`wiki`** | `DB_PASS: blablalinux` | Mot de passe utilisé par Wiki.js pour se connecter. |
+
+> **ATTENTION : Les identifiants `POSTGRES_USER` et `DB_USER` D'UNE PART, et `POSTGRES_PASSWORD` et `DB_PASS` D'AUTRE PART, doivent obligatoirement être identiques.**
+
+### Autres Paramètres Clés
+
+| Paramètre | Ligne | Explication |
+| :--- | :--- | :--- |
+| **Port d'accès** | `- "80:3000"` | L'application Wiki.js tourne sur le port interne **3000**. Elle est exposée sur le port **80** de votre hôte, idéal pour une intégration directe avec un Proxy inverse. |
+| **Base de données** | `DB_HOST: db` | Le nom du service de base de données dans le fichier Compose est utilisé comme hôte pour la connexion. |
+| **Volumes** | `db-data` et `data` | Les volumes sont utilisés pour la persistance des données PostgreSQL (`db-data`) et des configurations/fichiers de Wiki.js (`data`). |
+
+-----
+
+## 3\. Lancement du Déploiement
+
+Une fois les identifiants personnalisés, vous pouvez lancer la pile :
+
+```bash
+docker compose up -d
+```
+
+L'application sera accessible via votre navigateur à l'adresse **`http://<Votre_IP_Hôte>`** ou **`http://<Votre_Domaine>`**. La première connexion vous guidera à travers le processus de configuration initiale de Wiki.js.
+
+Souhaitez-vous que je vous assiste avec la configuration de votre Proxy Inverse (comme Nginx Proxy Manager) pour diriger le trafic vers ce service ?
