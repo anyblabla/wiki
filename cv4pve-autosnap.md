@@ -1,88 +1,102 @@
 ---
-title: CV4PVE AUTOSNAP
-description: Outil d'instantané automatique pour Proxmox VE.
+title: Automatiser les instantanés (Snapshots) Proxmox VE avec CV4PVE-AUTOSNAP
+description: Détails de l'installation et de la configuration de l'outil CV4PVE-AUTOSNAP (Corsinvest) dans un LXC pour automatiser les instantanés (Snapshots) de vos VM et CT sur Proxmox VE.
 published: true
-date: 2025-07-17T00:13:24.568Z
+date: 2025-10-28T12:04:11.353Z
 tags: proxmox, snapshot
 editor: markdown
 dateCreated: 2024-12-28T18:49:39.139Z
 ---
 
-# Explications
+## 💡 Contexte et choix de l'outil
 
-Pour la prise d'instantanés des machines virtuelles (VM) et des conteneurs (CT) sur [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview), il existe plusieurs solutions.
+Pour la prise d'instantanés des invités sur [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview), plusieurs méthodes existent :
 
-Passer par…
+  * L'interface web ([GUI](https://w.wiki/CZ6F)) de Proxmox.
+  * La ligne de commande ([CLI](https://w.wiki/6gSf)) avec l'outil natif [PVESH](https://pve.proxmox.com/pve-docs/chapter-pvesh.html).
+  * Des outils tiers, tels que [CV4PVE-ADMIN](https://corsinvest.it/cv4pve-admin-proxmox/) (GUI multiclusters) qui utilise, en coulisses, **CV4PVE-AUTOSNAP**.
 
--   l'interface web ([GUI](https://w.wiki/CZ6F))
--   la ligne de commande ([CLI](https://w.wiki/6gSf)) avec [PVESH](https://pve.proxmox.com/pve-docs/chapter-pvesh.html)
--   des outils tiers
+> J'utilise CV4PVE-ADMIN, qui est un gestionnaire multiclusters. Mais je n'utilise que la fonction de prise automatique d'instantanés. C'est sortir la grosse artillerie pour pas grand-chose.
+>
+> Je vais donc vous montrer comment utiliser CV4PVE-AUTOSNAP. Non pas sur l'hôte Proxmox lui-même, mais en l'isolant sur un conteneur ([LXC](https://w.wiki/CXkQ)).
+>
+> Personnellement, j'ai déployé un conteneur [Debian 12 Bookworm](https://www.debian.org/releases/bookworm/).
 
-En parlant d'outils tiers, il existe [CV4PVE-ADMIN](https://corsinvest.it/cv4pve-admin-proxmox/) (GUI) qui utilise, pour la prise des instantanés automatiques, [CV4PVE-AUTOSNAP](https://github.com/Corsinvest/cv4pve-autosnap). Ce dernier est disponible seul pour être utilisé en ligne de commande.
+-----
 
-[J'utilise CV4PVE-ADMIN](https://x.com/BlablaLinux/status/1786173587134550115), qui est un gestionnaire multiclusters. Mais je n'utilise que la fonction de prise automatique d'instantanés. C'est sortir la grosse artillerie pour pas grand-chose.
+## I. Installation et préparation dans le conteneur LXC
 
-Je vais donc vous montrer comment utiliser CV4PVE-AUTOSNAP. Non pas sur l'hôte Proxmox lui-même, mais en l'isolant sur un conteneur ([LXC](https://w.wiki/CXkQ)).
+Toutes les commandes suivantes doivent être exécutées à l'intérieur de votre conteneur LXC (Debian/Ubuntu) dédié.
 
-Personnellement, j'ai déployé un conteneur [Debian 12 Bookworm](https://www.debian.org/releases/bookworm/).
+### 1\. Téléchargement du binaire
 
-# Pas à pas
-
--   Récupération de la dernière version de CV4PVE-AUSNAP disponible à [cette adresse](https://github.com/Corsinvest/cv4pve-autosnap/releases). Version 1.15.0 au moment où j'écris ces lignes :
+Récupérez la dernière version de CV4PVE-AUTOSNAP disponible à [cette adresse](https://github.com/Corsinvest/cv4pve-autosnap/releases). *(Version 1.15.0 au moment où j'écris ces lignes)* :
 
 ```plaintext
 wget https://github.com/Corsinvest/cv4pve-autosnap/releases/download/v1.15.0/cv4pve-autosnap-linux-x64.zip
 ```
 
--   Installation de l'utilitaire unzip :
+### 2\. Décompression et installation
+
+Installez l'utilitaire `unzip`, décompressez l'archive, et rendez le binaire exécutable.
 
 ```plaintext
 apt install unzip
 ```
 
--   Décompression de l'archive téléchargée :
-
 ```plaintext
 unzip cv4pve-autosnap-linux-x64.zip
 ```
-
--   Nous rendons le binaire obtenu (cv4pve-autosnap) exécutable :
 
 ```plaintext
 chmod +x cv4pve-autosnap
 ```
 
--   Nous déplaçons le fichier binaire dans le répertoire /bin/ afin de pouvoir l'utiliser partout :
+### 3\. Finalisation
+
+Déplacez le fichier binaire dans le répertoire `/bin/` pour pouvoir l'exécuter de n'importe où dans le système :
 
 ```plaintext
 mv cv4pve-autosnap /bin/
 ```
 
--   On crée l'emplacement pour les fichiers log :
+Créez l'emplacement pour les fichiers log qui seront générés par les tâches Cron :
 
 ```plaintext
-mkdir autosnap-logs
+mkdir /root/autosnap-logs
 ```
 
--   Pour obtenir de l'aide, on utilise l'option help :
+### 4\. Vérification
+
+Pour obtenir de l'aide sur les options disponibles :
 
 ```plaintext
 cv4pve-autosnap --help
 ```
 
--   La structure de la commande qui nous allons utiliser est la suivante :
+-----
+
+## II. Création du script d'instantanés (Snapshots)
+
+Nous allons maintenant créer un premier script pour la prise d'instantanés à des heures précises (9h et 21h dans cet exemple).
+
+### 1\. Structure de la commande de base
+
+La commande principale de `cv4pve-autosnap` utilise la structure suivante, où toutes les informations de connexion et de rétention sont fournies :
 
 `cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=XXX snap --label=XXXXX --keep=X`
 
-**À partir d'ici, toutes les commandes sont à adapter !**
+> **À partir d'ici, toutes les commandes sont à adapter \!**
 
--   Nous pouvons créer notre script, que l'on va nommer ici autosnap-921.sh pour une prise d'instantané à 9 h et 21 h :
+### 2\. Création du script `autosnap-921.sh`
+
+Nous créons notre script, que l'on va nommer ici `autosnap-921.sh` :
 
 ```plaintext
 nano autosnap-921.sh 
 ```
 
--   Nous collons ce qui suit :
+Collez le contenu suivant :
 
 ```plaintext
 #!/bin/bash
@@ -95,211 +109,187 @@ cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --v
 echo "###NEW JOB ENDS HERE###" >> /root/autosnap-logs/921-$(date "+%Y-%m-%d").log
 ```
 
--   Préciser l'adresse IP de votre nœud Proxmox :
+### 3\. Personnalisation des arguments
 
-`--host=XXX.XXX.X.XXX`
+Vous devez adapter les arguments de la commande pour qu'elle corresponde à votre environnement Proxmox VE :
 
--   Pour un cluster, préciser l'adresse IP du nœud maître uniquement, ou l'ensemble des adresses IP des nœuds :
+| Argument | Description | Valeurs possibles |
+| :--- | :--- | :--- |
+| `--host=` | Adresse IP du nœud Proxmox. | `XXX.XXX.X.XXX` |
+| `--host=` | **Pour un cluster**, l'adresse IP du nœud maître, ou l'ensemble des adresses IP des nœuds. | `--host='XXX.XXX.X.XXX,XXX.XXX.X.XXX,XXX.XXX.X.XXX'` |
+| `--username=` | Identifiant de connexion à Proxmox. | `--username=root@pam` **OU** `--username=XXXX@pve` |
+| `--password=` | Mot de passe du compte spécifié. | `--password=XXXXXXXX` |
+| `--vmid=` | ID de l'invité. Utilisez `all` pour tous les invités. | `--vmid=all` |
+| `--vmid="all,-XXX"` | **Pour ignorer un invité**, utilisez cette syntaxe pour exclure l'ID spécifié. | `--vmid="all,-XXX"` |
+| `--label=` | Nom de l'instantané (utilisé pour la rétention et le nettoyage). | `--label='-921-'` |
+| `--keep=` | Spécifie le nombre d'instantanés avec ce label à conserver (rétention). | `--keep=X` |
 
-`--host='XXX.XXX.X.XXX,XXX.XXX.X.XXX,XXX.XXX.X.XXX'`
+> **Personnellement, je précise l'ensemble des adresses IP des nœuds \! Si une machine est inaccessible, les instantanés des invités sur les machines accessibles seront effectués.**
 
-**Personnellement, je précise l'ensemble des adresses IP des nœuds ! Si une machine est inaccessible, les instantanés des invités sur les machines accessibles seront effectués.**
+### 4\. Rendre le script exécutable
 
--   Préciser l'identifiant :
-
-`--username=root@pam`
-
-**OU**
-
-`--username=XXXX@pve`
-
--   Préciser le mot de passe :
-
-`--password=XXXXXXXX`
-
--   Préciser l'invité (--vmid=XXX), ou comme ici, l'ensemble des invités :
-
-`--vmid=all`
-
--   Pour ignorer un invité :
-
-`--vmid="all,-XXX"`
-
--   Préciser le nom :
-
-`--label='-921-'`
-
--   Spécifier le nombre d'instantanés à conserver (rétention) :
-
-`--keep=X`
-
--   Nous pouvons sauvegarder avec **CTRL + X** suivi de **O** suivi de **ENTER**.
--   Nous rendons le script exécutable :
+Sauvegardez le fichier (avec **CTRL + X**, puis **O**, puis **ENTER** sous `nano`), puis rendez le script exécutable :
 
 ```plaintext
 chmod +x autosnap-921.sh
 ```
 
--   Nous pouvons maintenant créer une tâche cron qui appellera notre script à 9 h et 21 h :
+-----
+
+## III. Planification avec Cron
+
+Nous allons créer une tâche Cron pour appeler ce script à des intervalles réguliers.
+
+### 1\. Ouvrir le crontab
+
+Ouvrez le fichier de planification des tâches Cron (utilisez `crontab -e` pour l'utilisateur actuel, qui est idéalement `root` dans le conteneur) :
 
 ```plaintext
 crontab -e
 ```
 
--   Ont choisi l'éditeur par défaut, qui sera pour ma part /bin/nano (1) :
+### 2\. Ajouter la planification
 
-![](/cv4pve-autosnap/crontab-editor.png)
-
--   Nous pouvons coller ce qui suit :
+Collez la ligne suivante pour exécuter le script tous les jours à 9 h 00 et 21 h 00 :
 
 ```plaintext
 0 9,21 * * * /root/autosnap-921.sh
 ```
 
-# Exemples
+| Champ | Valeur | Explication |
+| :--- | :--- | :--- |
+| **Minute** | `0` | À la 0ème minute (début de l'heure) |
+| **Heure** | `9,21` | À 9h et à 21h |
+| **Jour du mois** | `*` | Tous les jours du mois |
+| **Mois** | `*` | Tous les mois |
+| **Jour de la semaine** | `*` | Tous les jours de la semaine |
 
--   Pour supprimer l'ensemble des instantanés avec le label -921- sur l'ensemble des invités, utiliser cette commande (**à adapter**) :
+-----
 
-`cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=all clean --label='-921-' --keep=0`
+## IV. Exemples de maintenance et de gestion
 
--   Pour obtenir des informations sur les instantanés effectués, utiliser cette commande (**à adapter**) :
+L'outil permet de réaliser d'autres tâches utiles en plus de la création d'instantanés.
 
-`cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=all status`
+### 1\. Suppression des instantanés (Nettoyage)
 
-Vous pouvez appeler ces deux commandes au travers d'un fichier .sh (script) pour plus de facilité.
+Pour supprimer l'ensemble des instantanés qui possèdent le label `-921-` sur l'ensemble des invités (en définissant le seuil de rétention à 0), utilisez cette commande :
 
-# Aller plus loin
+```bash
+cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=all clean --label='-921-' --keep=0
+```
 
--   Vous pouvez créer plusieurs fichiers .sh :
+> **Attention :** Cette commande supprime tous les instantanés du label spécifié. **À adapter \!**
 
-`autosnap-hourly.sh`
+### 2\. Affichage du statut
 
-`autosnap-daily.sh`
+Pour obtenir des informations sur les instantanés existants effectués par l'outil, utilisez cette commande :
 
-`autosnap-weekly.sh`
+```bash
+cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=all status
+```
 
-`autosnap-monthly.sh`
+> **À noter :** Vous pouvez encapsuler ces deux commandes au travers d'un fichier `.sh` (script) pour plus de facilité d'exécution ou de planification.
 
-`autosnap-yearly.sh`
+-----
 
--   Dans ces fichiers, vous adaptez l'option de rétention :
+## V. Aller plus loin : stratégies de rétention avancées
 
-`--keep=3`
+Vous pouvez répliquer le modèle de rétention horaire/quotidien/hebdomadaire/mensuel/annuel que propose l'outil de sauvegarde natif de Proxmox VE.
 
-`--keep=7`
+### 1\. Création de scripts pour chaque intervalle
 
-`--keep=4`
+Créez des fichiers `.sh` dédiés pour chaque intervalle de sauvegarde, en adaptant le label et la rétention (`--keep=X`).
 
-`--keep=2`
+| Nom du Script | Fréquence | Label Ex. | Rétention (`--keep=`) |
+| :--- | :--- | :--- | :--- |
+| `autosnap-hourly.sh` | Chaque heure | `-hourly-` | `--keep=3` |
+| `autosnap-daily.sh` | Chaque jour | `-daily-` | `--keep=7` |
+| `autosnap-weekly.sh` | Chaque semaine | `-weekly-` | `--keep=4` |
+| `autosnap-monthly.sh` | Chaque mois | `-monthly-` | `--keep=2` |
+| `autosnap-yearly.sh` | Chaque année | `-yearly-` | `--keep=1` |
 
-`--keep=1`
+> **Contenu typique d'un script (ex. : `autosnap-hourly.sh`) :**
+>
+> ```bash
+> #!/bin/bash
+> #... (PATH et MAILTO)
+> cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=all snap --label=-hourly- --keep=3 >> /root/autosnap-logs/hourly-$(date "+%Y-%m-%d").log
+> ```
 
--   Vous créez une tâche cron pour chaque fichier .sh :
+### 2\. Planification des tâches Cron
 
-`0 * * * * /root/autosnap-hourly.sh`
+Vous créez une tâche Cron pour chaque fichier `.sh` dans votre `crontab -e` :
 
-`10 0 * * * /root/autosnap-daily.sh`
+```cron
+# Tâches planifiées
+0 * * * * /root/autosnap-hourly.sh
+10 0 * * * /root/autosnap-daily.sh
+20 0 * * 0 /root/autosnap-weekly.sh
+30 0 1 * * /root/autosnap-monthly.sh
+40 0 1 1 * /root/autosnap-yearly.sh
+```
 
-`20 0 * * 0 /root/autosnap-weekly.sh`
+Ceci reproduit fidèlement la stratégie de rétention que l'on peut obtenir avec l'outil de créations de sauvegardes de Proxmox VE (onglet “Rétention”) :
 
-`30 0 1 * * /root/autosnap-monthly.sh`
+> **Explication des tâches Cron :**
+>
+>   * **Hourly :** Toutes les heures (à `0` minute).
+>   * **Daily :** Tous les jours à `0` heure `10` minute.
+>   * **Weekly :** Tous les dimanches (jour `0`) à `0` heure `20` minute.
+>   * **Monthly :** Le premier jour (`1`) de chaque mois, à `0` heure `30` minute.
+>   * **Yearly :** Le premier jour (`1`) du premier mois (`1`, donc le 1er janvier) à `0` heure `40` minute.
 
-`40 0 1 1 * /root/autosnap-yearly.sh`
+### 3\. Exemples de fichiers (référence)
 
--   En procédant de la sorte, on se calque sur ce que l'on peut obtenir avec l'outil de créations de sauvegardes de Proxmox VE (onglet “Rétention”) :
+> Chez moi, toutes les tâches sont créées, mais pas actives \! Il suffit pour ça de décommenter dans crontab avec :
+>
+> `crontab -e`
 
-![](/cv4pve-autosnap/backup-pve.png)
+> Voici l'ensemble de mes fichiers .sh :
+>
 
--   Chez moi, toutes les tâches sont créées, mais pas actives ! Il suffit pour ça de décommenter dans crontab avec :
+> Voici en captures le contenu de l'ensemble des fichiers .sh que j'ai créés :
 
-`crontab -e`
+| Fichier | Image | Fichier | Image |
+| :--- | :--- | :--- | :--- |
+| `autosnap-921.sh` |  | `autosnap-cleanall-921.sh` |  |
+| `autosnap-hourly.sh` |  | `autosnap-cleanall-hourly.sh` |  |
+| `autosnap-daily.sh` |  | `autosnap-cleanall-daily.sh` |  |
+| `autosnap-weekly.sh` |  | `autosnap-cleanall-weekly.sh` |  |
+| `autosnap-monthly.sh` |  | `autosnap-cleanall-monthly.sh` |  |
+| `autosnap-yearly.sh` |  | `autosnap-cleanall-yearly.sh` |  |
+| `autosnap-status.sh` |  | | |
 
-![](/cv4pve-autosnap/crontab-final.png)
+-----
 
--   Voici l'ensemble de mes fichiers .sh :
+## VI. Exemple de fichier log
 
-![](/cv4pve-autosnap/full-files.png)
-
--   Voici en captures le contenu de l'ensemble des fichiers .sh que j'ai créés :
-
-![](/cv4pve-autosnap/autosnap-921.png)
-
-autosnap-921.sh
-
-![](/cv4pve-autosnap/autosnap-cleanall-921.png)
-
-autosnap-cleanall-921.sh
-
-![](/cv4pve-autosnap/autosnap-hourly.png)
-
-autosnap-hourly.sh
-
-![](/cv4pve-autosnap/autosnap-cleanall-hourly.png)
-
-autosnap-cleanall-hourly.sh
-
-![](/cv4pve-autosnap/autosnap-daily.png)
-
-autosnap-daily.sh
-
-![](/cv4pve-autosnap/autosnap-cleanall-daily.png)
-
-autosnap-cleanall-daily.sh
-
-![](/cv4pve-autosnap/autosnap-weekly.png)
-
-autosnap-weekly.sh
-
-![](/cv4pve-autosnap/autosnap-cleanall-weekly.png)
-
-autosnap-cleanall-weekly.sh
-
-![](/cv4pve-autosnap/autosnap-monthly.png)
-
-autosnap-monthly.sh
-
-![](/cv4pve-autosnap/autosnap-cleanall-monthly.png)
-
-autosnap-cleanall-monthly.sh
-
-![](/cv4pve-autosnap/autosnap-yearly.png)
-
-autosnap-yearly.sh
-
-![](/cv4pve-autosnap/autosnap-cleanall-yearly.png)
-
-autosnap-cleanall.yearly.sh
-
-![](/cv4pve-autosnap/autosnap-status-02.png)
-
-autosnap-status.sh
-
--   Voici un exemple de fichier log :
+Le fichier log est essentiel pour valider que les opérations se sont déroulées correctement.
 
 ```plaintext
 ###NEW JOB STARTS HERE###
 ACTION Snap
-PVE Version:      8.3.2
-VMs:              all
-Label:            -921-
-Keep:             2
-State:            False
-Only running:     False
-Timeout:          30 sec.
+PVE Version:     8.3.2
+VMs:             all
+Label:           -921-
+Keep:            2
+State:           False
+Only running:    False
+Timeout:         30 sec.
 Timestamp format: yyMMddHHmmss
 Max % Storage :   95%
-                  Storage      Type     Valid   Used %    Disk Size  Disk Usage
-        pvenocl/directory       dir        Ok      14.1   457.38 GB    64.35 GB
-            pvenocl/local       dir        Ok      20.8    47.58 GB      9.9 GB
-              pvenocl/zfs   zfspool        Ok      11.5   224.81 GB    25.92 GB
-          pvenocl/zfs-usb   zfspool        Ok      10.9   449.63 GB    49.12 GB
-       pvenocl2/directory       dir        Ok         0      219 GB       44 KB
-           pvenocl2/local       dir        Ok       8.6    108.2 GB     9.31 GB
-             pvenocl2/zfs   zfspool        Ok      19.4   449.63 GB    87.42 GB
-         pvenocl2/zfs-usb   zfspool        Ok       1.4   449.63 GB     6.23 GB
-           pvenocl3/local       dir        Ok       3.5   210.64 GB     7.31 GB
-             pvenocl3/zfs   zfspool        Ok        10   449.63 GB    45.05 GB
-         pvenocl3/zfs-usb   zfspool        Ok       2.9   899.25 GB    26.03 GB
+                 Storage      Type     Valid   Used %    Disk Size  Disk Usage
+        pvenocl/directory        dir       Ok      14.1  457.38 GB     64.35 GB
+            pvenocl/local        dir       Ok      20.8   47.58 GB       9.9 GB
+              pvenocl/zfs    zfspool       Ok      11.5  224.81 GB     25.92 GB
+          pvenocl/zfs-usb    zfspool       Ok      10.9  449.63 GB     49.12 GB
+       pvenocl2/directory        dir       Ok         0    219 GB         44 KB
+            pvenocl2/local        dir       Ok       8.6  108.2 GB       9.31 GB
+              pvenocl2/zfs    zfspool       Ok      19.4  449.63 GB     87.42 GB
+          pvenocl2/zfs-usb    zfspool       Ok       1.4  449.63 GB       6.23 GB
+            pvenocl3/local        dir       Ok       3.5  210.64 GB       7.31 GB
+              pvenocl3/zfs    zfspool       Ok        10  449.63 GB     45.05 GB
+          pvenocl3/zfs-usb    zfspool       Ok       2.9  899.25 GB     26.03 GB
 ----- VM 100 qemu running -----
 Create snapshot: auto-921-241229210002
 VM execution 00:00:01.2017896
@@ -511,12 +501,16 @@ Total execution 00:01:18.3608764
 ###NEW JOB ENDS HERE###
 ```
 
-# Générateurs cron (liens utiles)
+-----
 
--   [https://crontab.guru](https://crontab.guru)
--   [https://crontab.cronhub.io](https://crontab.cronhub.io)
--   [https://www.freeformatter.com/cron-expression-generator-quartz.html](https://www.freeformatter.com/cron-expression-generator-quartz.html)
--   [https://crontab-generator.org](https://crontab-generator.org)
--   [https://www.uptimia.com/cron-expression-generator](https://www.uptimia.com/cron-expression-generator)
--   [https://hyperping.com/cron-expression-generator](https://hyperping.com/cron-expression-generator)
--   [https://quickref.me/cron.html](https://quickref.me/cron.html)
+## VII. Ressources et générateurs Cron
+
+Pour faciliter la création de vos planifications :
+
+  * [https://crontab.guru](https://crontab.guru)
+  * [https://crontab.cronhub.io](https://crontab.cronhub.io)
+  * [https://www.freeformatter.com/cron-expression-generator-quartz.html](https://www.freeformatter.com/cron-expression-generator-quartz.html)
+  * [https://crontab-generator.org](https://crontab-generator.org)
+  * [https://www.uptimia.com/cron-expression-generator](https://www.uptimia.com/cron-expression-generator)
+  * [https://hyperping.com/cron-expression-generator](https://hyperping.com/cron-expression-generator)
+  * [https://quickref.me/cron.html](https://quickref.me/cron.html)
