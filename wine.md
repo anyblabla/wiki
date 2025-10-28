@@ -1,111 +1,114 @@
 ---
-title: Wine
-description: Procédure d'installation de Wine. Testée et fonctionnelle sous Linux Mint.
+title: Installation de WineHQ sur Linux Mint / Debian (Stable, Dev, Staging)
+description: Ce guide fournit la procédure pour installer la dernière version de Wine (Stable, Development ou Staging) directement depuis le dépôt officiel WineHQ sur les systèmes basés sur Debian/Ubuntu/Linux Mint (testé et fonctionnel sur Linux Mint 22.x).
 published: true
-date: 2025-07-17T01:05:46.954Z
+date: 2025-10-28T14:32:52.874Z
 tags: wine, émulateur, émulation, qemu
 editor: markdown
 dateCreated: 2024-05-05T20:15:53.231Z
 ---
 
-Testé et fonctionnel sur Linux Mint 22.x 👍
+## 1\. Préparation de l'Architecture
 
-La procédure de cette page installe la dernière version de Wine “**Stable**”, Wine “**Development**” ou Wine “**Staging**” (expérimentale).
+Wine a besoin du support 32 bits (`i386`) pour exécuter la plupart des programmes Windows.
 
--   Vérifiez si vous êtes sous architecture 64 bits, la commande suivante doit répondre "amd64" :
+1.  **Vérifiez l'architecture de base (doit répondre `amd64`) :**
 
-```plaintext
-dpkg --print-architecture
-```
+    ```bash
+    dpkg --print-architecture
+    ```
 
--   Vérifiez si l'architecture 32 bits est prise en charge, la commande suivante devrait répondre "i386" :
+2.  **Vérifiez l'architecture étrangère (doit répondre `i386`) :**
 
-```plaintext
-dpkg --print-foreign-architectures
-```
+    ```bash
+    dpkg --print-foreign-architectures
+    ```
 
--   Si "i386" ne s'affiche pas, exécutez ce qui suit pour prendre en charge l'architecture 32 bits :
+3.  **Ajouter le support 32 bits** si `i386` est absent :
 
-```plaintext
-sudo dpkg --add-architecture i386
-```
+    ```bash
+    sudo dpkg --add-architecture i386
+    ```
 
--   Vérifiez maintenant que les deux architectures sont bien prises en charge, la commande suivante doit répondre “amd64” ET “i386” :
+4.  **Vérifiez à nouveau** que les deux architectures (`amd64` et `i386`) sont prises en charge :
 
-```plaintext
-dpkg --print-foreign-architectures
-```
+    ```bash
+    dpkg --print-foreign-architectures
+    ```
 
--   Créez le répertoire “keyrings” avec les bons droits :
+-----
 
-```plaintext
-sudo mkdir -pm755 /etc/apt/keyrings
-```
+## 2\. Ajout du Dépôt WineHQ
 
--   Téléchargez et ajoutez la clé du référentiel “WineHQ” :
+Nous allons ajouter la clé GPG et les sources officielles de WineHQ pour garantir une installation à jour et sécurisée.
 
-```plaintext
-sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-```
+1.  **Créer le répertoire des clés APT** avec les permissions appropriées :
 
--   Téléchargez le fichier des sources de “WineHQ” :
+    ```bash
+    sudo mkdir -pm755 /etc/apt/keyrings
+    ```
 
-```plaintext
-sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
-```
+2.  **Télécharger et ajouter la clé GPG** du référentiel WineHQ :
 
--   Mettez à jour la base de données des paquets :
+    ```bash
+    sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+    ```
 
-```plaintext
-sudo apt update
-```
+3.  **Télécharger le fichier des sources** (`winehq-jammy.sources`) :
 
--   Installez “Wine” **Stable** :
+    ```bash
+    sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+    ```
 
-```plaintext
-sudo apt install --install-recommends winehq-stable
-```
+4.  **Mettre à jour la base de données des paquets :**
 
-OU
+    ```bash
+    sudo apt update
+    ```
 
--   Pour “Wine” **Development** :
+-----
 
-```plaintext
-sudo apt install --install-recommends winehq-devel
-```
+## 3\. Installation de la Version Souhaitée
 
-OU
+Choisissez et exécutez **une seule** des commandes d'installation ci-dessous :
 
--   Pour “Wine” **Staging** (éxpérimentale) :
+| Version | Description | Commande d'Installation |
+| :--- | :--- | :--- |
+| **Stable** | Recommandée pour la plupart des utilisateurs. | `sudo apt install --install-recommends winehq-stable` |
+| **Development** | Version de développement (plus récente, mais potentiellement moins stable). | `sudo apt install --install-recommends winehq-devel` |
+| **Staging** | Version expérimentale (inclut des correctifs et fonctionnalités non encore dans *Development*). | `sudo apt install --install-recommends winehq-staging` |
 
-```plaintext
-sudo apt install --install-recommends winehq-staging
-```
+-----
 
--   Vérifiez que l'installation a réussi :
+## 4\. Finalisation et Configuration
 
-```plaintext
-wine --version
-```
+1.  **Vérifiez que l'installation a réussi** et obtenez le numéro de version :
 
--   Configurez “Wine” :
+    ```bash
+    wine --version
+    ```
 
-```plaintext
-wine winecfg
-```
+2.  **Configurez Wine** (création du répertoire `~/.wine` et lancement de l'interface de configuration) :
 
--   Testez pour s'amuser :
+    ```bash
+    wine winecfg
+    ```
 
-```plaintext
-wine clock
-```
+3.  **Testez** l'exécution d'une application de base :
 
--   Créer le menu “Wine” dans le menu principal des applications (mint-menu) :
+    ```bash
+    wine clock
+    ```
 
-```plaintext
-sudo apt install wine-installer
-```
+4.  **Installer le lanceur d'application (Mint-Menu)** :
+    Pour créer un menu "Wine" dans le menu principal de Linux Mint, vous pouvez installer ce paquet :
+
+    ```bash
+    sudo apt install wine-installer
+    ```
 
 <p style="text-align: center"><img src="/wine/wine-mint-menu.png"></p>
 
--   Démonstration en vidéo : [https://peertube.blablalinux.be/w/13JYaBK9TFASrHPwYfwBAT](https://peertube-blablalinux.be/w/x96eafxHoB2z6svWksSLRy)
+-----
+
+**Démonstration en vidéo :** [https://peertube.blablalinux.be/w/13JYaBK9TFASrHPwYfwBAT](https://peertube-blablalinux.be/w/x96eafxHoB2z6svWksSLRy)
