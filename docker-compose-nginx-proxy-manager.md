@@ -1,30 +1,36 @@
 ---
-title: Docker Compose Nginx Proxy Manager
-description: Nginx Proxy Manager (NPM) est un proxy inverse open source utilisé pour rediriger le trafic d'un site Web vers l'endroit approprié.
+title: Déploiement de Nginx Proxy Manager (NPM) avec Docker Compose
+description: Ce guide présente deux méthodes pour déployer rapidement Nginx Proxy Manager (NPM) en utilisant une pile Docker (stack) dans Portainer ou directement avec Docker Compose.
 published: true
-date: 2025-07-17T00:14:02.982Z
+date: 2025-10-28T13:12:27.394Z
 tags: nginx, proxy
 editor: markdown
 dateCreated: 2024-06-13T20:53:40.020Z
 ---
 
-Pratique pour déployer rapidement [Nginx Proxy Manager](https://nginxproxymanager.com) (NPM) dans [Portainer](https://www.portainer.io/) en créant une pile ([stack](https://docs.portainer.io/user/docker/stacks)) à partir d'un fichier [compose YAML](https://docs.docker.com/compose/compose-application-model/).
-
 Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
-# Nginx Proxy Manager, c'est quoi ?
+-----
 
-*Nginx Proxy Manager (NPM) est un proxy inverse open source utilisé pour rediriger le trafic d'un site Web vers l'endroit approprié. L'utilisation de Nginx Proxy Manager vous permet d'utiliser une seule adresse IP publique pour héberger de nombreux services Web différents.*
+## 1\. Nginx Proxy Manager, c'est quoi ?
 
-## Liens utiles
+**Nginx Proxy Manager (NPM)** est un **proxy inverse** *open source* qui facilite la redirection du trafic web vers les services appropriés. Il permet d'utiliser une **seule adresse IP publique** pour héberger de nombreux services Web différents, en gérant automatiquement les certificats **Let's Encrypt** via une interface utilisateur graphique.
 
--   [NPM Site officiel](https://nginxproxymanager.com)
--   [NPM sur GitHub](https://github.com/NginxProxyManager/nginx-proxy-manager)
--   [NPM sur Docker Hub](https://hub.docker.com/r/jc21/nginx-proxy-manager)
+### Liens utiles
 
-# Docker Compose
+  - [NPM Site officiel](https://nginxproxymanager.com)
+  - [NPM sur GitHub](https://github.com/NginxProxyManager/nginx-proxy-manager)
+  - [NPM sur Docker Hub](https://hub.docker.com/r/jc21/nginx-proxy-manager)
 
--   Nous allons utiliser un docker compose avec base de données [MariaDB](https://mariadb.org)…
+-----
+
+## 2\. Docker Compose : Options de Base de Données
+
+NPM peut utiliser une base de données MariaDB externe (option la plus robuste) ou SQLite (base de données par défaut, plus simple, incluse dans le conteneur NPM).
+
+### Option A : Avec MariaDB (Base de données séparée)
+
+Cette configuration utilise un service **`db`** dédié pour MariaDB et le lie au service **`app`** (NPM).
 
 ```plaintext
 version: '3.8'
@@ -66,121 +72,20 @@ services:
       - ./mysql:/var/lib/mysql
 ```
 
-## Variables à personnaliser
+#### Variables MariaDB à personnaliser
 
--   Vous pouvez personnaliser ces variables :
+Les informations de connexion à la base de données doivent correspondre entre le service **`app`** (où NPM lit) et le service **`db`** (où MariaDB est configuré).
 
-`DB_MYSQL_USER: "npm"`
+  - Vous pouvez personnaliser ces variables (faire correspondre les variables entre elles) :
 
-`DB_MYSQL_PASSWORD: "npm"`
+| Service `app` | Service `db` | Description |
+| :--- | :--- | :--- |
+| `DB_MYSQL_USER: "npm"` | `MYSQL_USER: 'npm'` | Nom d'utilisateur NPM/MariaDB. |
+| `DB_MYSQL_PASSWORD: "npm"` | `MYSQL_PASSWORD: 'npm'` | Mot de passe NPM/MariaDB. |
 
-`MYSQL_USER: 'npm'`
+### Option B : Avec SQLite (Base de données interne)
 
-`MYSQL_PASSWORD: 'npm'`
-
-**Attention de faire correspondre les variables ensemble !**
-
-## Exécution initiale​
-
--   Après la première exécution de l'application, les événements suivants se produisent :
-
-1.  Les clés JWT (JSON Web Token) seront générées et enregistrées dans le dossier de données.
-2.  La base de données s'initialisera.
-3.  Un utilisateur administrateur par défaut sera créé.
-
-Ce processus peut prendre quelques minutes selon votre machine.
-
-## Utilisateur administrateur par défaut​
-
--   Email : admin@example.com
--   Password : changeme
-
-## Captures
-
-![](/docker-compose-nginx-proxy-manager/npm-login.png)
-
-Nginx Proxy Manager - Login
-
-![](/docker-compose-nginx-proxy-manager/npm-dashboard.png)
-
-Nginx Proxy Manager - Dashboard
-
-![](/docker-compose-nginx-proxy-manager/npm-proxy-hosts.png)
-
-Nginx Proxy Manager - Proxy Hosts
-
-## Bonus
-
--   Le Dockerfile qui construit ce projet n'inclut pas de HEALTHCHECK (vérification de l'état de santé du conteneur) mais vous pouvez opter pour cette fonctionnalité en ajoutant ce qui suit au service dans votre fichier.yml docker-compose :
-
-```plaintext
-healthcheck:
-  test: ["CMD", "/usr/bin/check-health"]
-  interval: 10s
-  timeout: 3s
-```
-
--   Vous pouvez configurer la valeur de l'en-tête X-FRAME-OPTIONS en la spécifiant comme variable d'environnement Docker. La valeur par défaut, si elle n'est pas spécifiée, est DENY (refuser) :
-
-```plaintext
-  ...
-  environment:
-    X_FRAME_OPTIONS: "sameorigin"
-  ...
-```
-
--   Par défaut, NPM effectue une rotation hebdomadaire des journaux d'accès et d'erreurs, et conserve respectivement 4 et 10 fichiers journaux. Selon l'utilisation, cela peut conduire à des fichiers journaux volumineux, en particulier des journaux d'accès. Vous pouvez personnaliser la configuration de logrotate via un montage d'un volume. Si votre configuration personnalisée est logrotate.custom, voici ce que ça donne :
-
-```plaintext
-  volumes:
-    ...
-    - ./logrotate.custom:/etc/logrotate.d/nginx-proxy-manager
-```
-
-**Pour référence, la configuration par défaut est :**
-
-```plaintext
-/data/logs/*_access.log /data/logs/*/access.log {
-    su npm npm
-    create 0644
-    weekly
-    rotate 4
-    missingok
-    notifempty
-    compress
-    sharedscripts
-    postrotate
-    kill -USR1 `cat /run/nginx/nginx.pid 2>/dev/null` 2>/dev/null || true
-    endscript
-}
-
-/data/logs/*_error.log /data/logs/*/error.log {
-    su npm npm
-    create 0644
-    weekly
-    rotate 10
-    missingok
-    notifempty
-    compress
-    sharedscripts
-    postrotate
-    kill -USR1 `cat /run/nginx/nginx.pid 2>/dev/null` 2>/dev/null || true
-    endscript
-}
-```
-
-**Cette configuration est disponible** [**ICI**](https://github.com/NginxProxyManager/nginx-proxy-manager/blob/develop/docker/rootfs/etc/logrotate.d/nginx-proxy-manager)**.**
-
--   Pour activer le module [geoip2](https://docs.nginx.com/nginx/admin-guide/dynamic-modules/geoip2/) (géolocalisation basée sur l'adresse IP), vous pouvez créer (dans le conteneur) le fichier de configuration personnalisé /data/nginx/custom/root\_top.conf et inclure l'extrait suivant :
-
-```plaintext
-load_module /usr/lib/nginx/modules/ngx_http_geoip2_module.so;
-load_module /usr/lib/nginx/modules/ngx_stream_geoip2_module.so;
-```
-
-## Mon fichier.yml docker-compose personnel
-
--   Compose valable jusqu'à la version 1.12.5, avec peut-être un problème de lenteur au démarrage de l'application avec la version 1.12.3 et 1.12.4 ! Voici à quoi ressemble mon fichier.yml docker-compose en date du 06-02-2025 sur ma nouvelle installation :
+Pour une installation plus légère, NPM utilise par défaut une base de données **SQLite** stockée dans le volume `./data`. Cette configuration n'inclut que le service NPM.
 
 ```plaintext
 services:
@@ -217,29 +122,101 @@ services:
       interval: 10s
       timeout: 3s
 ```
--   Compose à utiliser à partir de la version 1.12.5 ; Ce dernier propose deux nouvelles variables qui vont corriger le problème de lenteur au démarrage de l'application ;
+
+-----
+
+## 3\. Exécution et Accès Initial
+
+Après la première exécution du Docker Compose :
+
+1.  Les clés JWT (JSON Web Token) seront générées et enregistrées dans le dossier `./data`.
+2.  La base de données s'initialisera.
+3.  Un utilisateur administrateur par défaut sera créé.
+
+Ce processus peut prendre quelques minutes selon votre machine.
+
+  - **URL d'administration :** Accédez à l'interface via le port 81 : `http://<VOTRE_IP>:81`
+
+### Utilisateur administrateur par défaut
+
+  - Email : **`admin@example.com`**
+  - Password : **`changeme`**
+
+> **ATTENTION :** Il est impératif de changer ces identifiants dès la première connexion.
+
+#### Captures
+
+![](/docker-compose-nginx-proxy-manager/npm-login.png)
+
+Nginx Proxy Manager - Login
+
+![](/docker-compose-nginx-proxy-manager/npm-dashboard.png)
+
+Nginx Proxy Manager - Dashboard
+
+![](/docker-compose-nginx-proxy-manager/npm-proxy-hosts.png)
+
+Nginx Proxy Manager - Proxy Hosts
+
+-----
+
+## 4\. Optimisation et Configuration Avancée (Bonus)
+
+### Optimisation des Performances (Versions 1.12.5+)
+
+À partir de la version **1.12.5** de NPM, deux variables d'environnement ont été ajoutées pour corriger les problèmes de lenteur au démarrage :
+
 ```plaintext
 services:
   npm:
     image: jc21/nginx-proxy-manager:2.12.6
     container_name: npm
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
-      - 81:81
+    # ... autres paramètres ...
     environment:
-      IP_RANGES_FETCH_ENABLED: false
-      SKIP_CERTBOT_OWNERSHIP: true
-    volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
-      - ./logrotate.custom:/etc/logrotate.d/nginx-proxy-manager
-    healthcheck:
-      test:
-        - CMD
-        - /usr/bin/check-health
-      interval: 10s
-      timeout: 3s
+      IP_RANGES_FETCH_ENABLED: false # Désactive la récupération des plages IP (corrige la lenteur)
+      SKIP_CERTBOT_OWNERSHIP: true # Contourne la vérification de propriété Certbot (corrige la lenteur)
+    # ... autres paramètres ...
 ```
-Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets).
+
+### Autres Options de Configuration
+
+| Option | Code à ajouter au service `app` ou `npm` | Explication |
+| :--- | :--- | :--- |
+| **Vérification de Santé** | `healthcheck: test: ["CMD", "/usr/bin/check-health"] interval: 10s timeout: 3s` | Ajoute un contrôle d'état pour vérifier si le conteneur est opérationnel. |
+| **En-tête X-FRAME-OPTIONS** | `environment: X_FRAME_OPTIONS: "sameorigin"` | Configure l'en-tête pour autoriser l'affichage dans une `iframe` sur le même domaine (par défaut : `DENY`). |
+| **Rotation des logs (Logrotate)** | `volumes: - ./logrotate.custom:/etc/logrotate.d/nginx-proxy-manager` | Permet de personnaliser la rotation des logs en montant un fichier `logrotate.custom` sur la configuration interne de NPM. |
+| **Module GeoIP2** | Inclure dans le volume `/data/nginx/custom/root_top.conf` : `load_module /usr/lib/nginx/modules/ngx_http_geoip2_module.so; load_module /usr/lib/nginx/modules/ngx_stream_geoip2_module.so;` | Active les modules de géolocalisation pour Nginx. |
+
+**Référence Logrotate par défaut :**
+
+```plaintext
+/data/logs/*_access.log /data/logs/*/access.log {
+    su npm npm
+    create 0644
+    weekly
+    rotate 4
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+    kill -USR1 `cat /run/nginx/nginx.pid 2>/dev/null` 2>/dev/null || true
+    endscript
+}
+
+/data/logs/*_error.log /data/logs/*/error.log {
+    su npm npm
+    create 0644
+    weekly
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+    kill -USR1 `cat /run/nginx/nginx.pid 2>/dev/null` 2>/dev/null || true
+    endscript
+}
+```
+
+Cette configuration est disponible [ICI](https://github.com/NginxProxyManager/nginx-proxy-manager/blob/develop/docker/rootfs/etc/logrotate.d/nginx-proxy-manager).
