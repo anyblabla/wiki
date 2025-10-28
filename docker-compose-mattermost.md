@@ -2,13 +2,13 @@
 title: Déploiement de Mattermost avec Docker Compose et Portainer
 description: Ce guide explique comment déployer rapidement Mattermost (l'alternative open source à Slack) en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML et d'un fichier d'environnement (.env) pour gérer les variables.
 published: true
-date: 2025-10-28T13:04:56.732Z
+date: 2025-10-28T13:07:35.077Z
 tags: docker, mattermost
 editor: markdown
 dateCreated: 2024-05-26T14:43:35.445Z
 ---
 
-*Je pars du principe que vous maîtrisez un minimum Docker avec Portainer. Je suis gentil, en fin de page, vous trouverez une capture avec la stack Mattermost remplie 😉*
+Je pars du principe que vous maîtrisez un minimum Docker avec Portainer. Je suis gentil, en fin de page, vous trouverez une capture avec la stack Mattermost remplie 😉
 
 -----
 
