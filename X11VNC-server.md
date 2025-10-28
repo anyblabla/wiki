@@ -1,77 +1,103 @@
 ---
-title: X11VNC server
-description: Installation du serveur X11VNC pour une prise de contrôle via un client comme Remmina. Testée et fonctionnelle sur Linux Ubuntu/Mint.
+title: Configurer X11VNC comme service "systemd" (Ubuntu/Mint)
+description: Guide pour installer et configurer X11VNC en tant que service persistant (systemd) sur Ubuntu/Mint. Il permet de se connecter à distance à votre session graphique de bureau existante.
 published: true
-date: 2025-07-17T00:13:12.863Z
+date: 2025-10-28T14:40:13.844Z
 tags: x11, vnc, x11vnc, remmina
 editor: markdown
 dateCreated: 2024-05-04T22:23:38.737Z
 ---
 
-Tester et fonctionnel sur Linux Ubuntu 22.04/22.10/23.04/23.10 et Linux Mint 21.x/22.x/23.x 👍
+> **Testé et fonctionnel** sur Ubuntu (22.04 à 23.10) et Linux Mint (21.x à 23.x) 👍
 
--   Installation de “X11VNC server" :
+-----
 
-```plaintext
-sudo apt install x11vnc
-```
+## 1\. Installation du Serveur VNC
 
--   On édite le fichier “x11vnc.service" :
+Commencez par installer le paquet `x11vnc` ainsi que le client **Remmina** (recommandé pour les connexions) :
 
-```plaintext
-sudo nano /lib/systemd/system/x11vnc.service
-```
+1.  **Installer `x11vnc` :**
+    ```bash
+    sudo apt install x11vnc
+    ```
+2.  **Installer Remmina (Client VNC) :**
+    ```bash
+    sudo apt install remmina
+    ```
 
--   On copie et on colle les lignes suivantes en changeant "**password**" par son mot de passe personnel :
+-----
 
-```plaintext
-[Unit]
-Description=x11vnc service
-After=display-manager.service network.target syslog.target
+## 2\. Configuration du Service `systemd`
 
-[Service]
-Type=simple
-ExecStart=/usr/bin/x11vnc -forever -display :0 -auth guess -passwd password
-ExecStop=/usr/bin/killall x11vnc
-Restart=on-failure
+Pour que X11VNC démarre automatiquement et de manière persistante, vous devez créer et configurer un fichier de service `systemd`.
 
-[Install]
-WantedBy=multi-user.target
-```
+1.  **Éditer le fichier de service `x11vnc.service` :**
 
--   On sauvegarde les modifications \[CTRL + X\], on confirme oui \[O\] et on valide par entrée \[ENTER\].
--   On redémarre le “deamon” \[daemon-reload\] parce qu'on a modifié un fichier “service” \[x11vnc.service\] :
+    ```bash
+    sudo nano /lib/systemd/system/x11vnc.service
+    ```
 
-```plaintext
-sudo systemctl daemon-reload
-```
+2.  **Copier et coller la configuration suivante** en remplaçant impérativement `"password"` par votre **mot de passe personnel** :
 
--   On active automatiquement au démarrage du système le service “x11vnc” \[x11vnc.service\] :
+    ```ini
+    [Unit]
+    Description=x11vnc service
+    After=display-manager.service network.target syslog.target
 
-```plaintext
-sudo systemctl enable x11vnc.service
-```
+    [Service]
+    Type=simple
+    ExecStart=/usr/bin/x11vnc -forever -display :0 -auth guess -passwd password
+    ExecStop=/usr/bin/killall x11vnc
+    Restart=on-failure
 
--   On démarre immédiatement le service “x11vnc” \[x11vnc.service\] :
+    [Install]
+    WantedBy=multi-user.target
+    ```
 
-```plaintext
-sudo systemctl start x11vnc.service
-```
+    > ⚠️ **SÉCURITÉ :** Le paramètre `-passwd` stocke le mot de passe directement dans le fichier de service. Pour une meilleure sécurité, considérez l'option de créer un fichier de mot de passe haché avec `x11vnc -storepasswd` et utilisez le paramètre `-usepw` à la place de `-passwd` dans la ligne `ExecStart`.
 
--   On peut vérifier le status du service “x11vnc” :
+3.  **Sauvegarder** les modifications (Taper `CTRL + X`, puis `O`, puis `ENTER`).
 
-```plaintext
-sudo systemctl status x11vnc.service
-```
+-----
 
--   Vous devriez obtenir un écran de ce genre :
+## 3\. Activation et Démarrage du Service
 
+Après avoir modifié le fichier de service, vous devez recharger le système, l'activer au démarrage et le démarrer immédiatement.
+
+1.  **Recharger le *daemon* systemd :**
+
+    ```bash
+    sudo systemctl daemon-reload
+    ```
+
+    *(Nécessaire après toute modification d'un fichier `.service`)*
+
+2.  **Activer le service au démarrage du système :**
+
+    ```bash
+    sudo systemctl enable x11vnc.service
+    ```
+
+3.  **Démarrer immédiatement le service :**
+
+    ```bash
+    sudo systemctl start x11vnc.service
+    ```
+
+-----
+
+## 4\. Vérification et Connexion
+
+1.  **Vérifier le statut du service :**
+
+    ```bash
+    sudo systemctl status x11vnc.service
+    ```
+    
+    Le statut doit indiquer **`active (running)`**.
+    
 ![](/x11vnc-service/x11vnc-service-status-running.png)
 
--   Je conseille “Remmina”comme client pour procéder aux connexions :
+2.  **Connexion :** Utilisez le client **Remmina** (ou tout autre client VNC) pour vous connecter à l'adresse IP de votre machine Linux en utilisant le mot de passe défini.
 
-```plaintext
-sudo apt install remmina
-```
-
--   Démonstration en vidéo : [https://peertube-blablalinux.be/w/fWBSLYLj3VBdzYNTjiHy1H](https://peertube-blablalinux.be/w/fWBSLYLj3VBdzYNTjiHy1H)
+Démonstration en vidéo : [https://peertube.blablalinux.be/w/d9XZWoPWkAQoti7h27rY22](https://peertube.blablalinux.be/w/d9XZWoPWkAQoti7h27rY22)
