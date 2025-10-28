@@ -2,7 +2,7 @@
 title: Résoudre le blocage du démarrage USB multiple : Montage différé avec Crontab
 description: Ce guide résout le blocage au démarrage causé par plusieurs disques USB. Retirez le montage du disque secondaire de /etc/fstab et planifiez son montage automatique après le boot via Crontab (@reboot) pour rétablir la fonction.
 published: true
-date: 2025-10-28T12:35:22.724Z
+date: 2025-10-28T12:36:47.853Z
 tags: cron, crontab, mount
 editor: markdown
 dateCreated: 2024-06-24T00:12:35.609Z
@@ -43,6 +43,8 @@ sudo blkid
 ```
 
 Vous devriez obtenir ce genre de sortie…
+
+![](/crontab-mount/blkid.png)
 
 On peut voir en surbrillance le numéro UUID que je vais utiliser. Il concerne un disque externe USB dédié aux sauvegardes [RSYNC](https://fr.wikipedia.org/wiki/Rsync).
 
