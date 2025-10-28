@@ -1,18 +1,18 @@
 ---
-title: Docker Compose Apache Guacamole
-description: Apache Guacamole est une passerelle de bureau à distance sans client. Il prend en charge les protocoles standards tels que VNC, RDP et SSH.
+title: Déployer Apache Guacamole avec Docker Compose et Portainer
+description: Ce guide présente les étapes pour déployer rapidement Apache Guacamole en utilisant une pile Docker (stack) dans Portainer, à partir d'un fichier compose YAML.
 published: true
-date: 2025-07-17T00:13:37.084Z
+date: 2025-10-28T12:52:31.290Z
 tags: vnc, apache, remote, guacamole, ssh, rdp, kubernetes
 editor: markdown
 dateCreated: 2024-07-10T12:42:55.354Z
 ---
 
-Pratique pour déployer rapidement [Apache Guacamole](https://guacamole.apache.org) dans [Portainer](https://www.portainer.io/) en créant une pile ([stack](https://docs.portainer.io/user/docker/stacks)) à partir d'un fichier [compose YAML](https://docs.docker.com/compose/compose-application-model/).
+*Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉*
 
-Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
+-----
 
-# Apache Guacamole, c'est quoi ?
+## 1\. Apache Guacamole, c'est quoi ?
 
 *Apache Guacamole est une passerelle de* [bureau à distance](https://w.wiki/Acop) *sans client.*
 
@@ -22,39 +22,53 @@ Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 *Grâce au* [HTML5](https://w.wiki/9mA4)*, une fois Guacamole installé sur un serveur, tout ce dont vous avez besoin pour accéder à vos bureaux est un navigateur Web.*
 
-# Liens utiles
+### Liens utiles
 
--   [Site officiel](https://guacamole.apache.org)
--   [Documentation](https://guacamole.apache.org/doc/gug/)
--   [Code source](https://github.com/search?utf8=%E2%9C%93&q=repo%3Aapache%2Fguacamole-client+repo%3Aapache%2Fguacamole-server+repo%3Aapache%2Fguacamole-manual+repo%3Aapache%2Fguacamole-website&type=repositories&ref=searchresults)
+  - [Site officiel](https://guacamole.apache.org)
+  - [Documentation](https://guacamole.apache.org/doc/gug/)
+  - [Code source](https://github.com/search?utf8=%E2%9C%93&q=repo%3Aapache%2Fguacamole-client+repo%3Aapache%2Fguacamole-server+repo%3Aapache%2Fguacamole-manual+repo%3Aapache%2Fguacamole-website&type=repositories&ref=searchresults)
 
-# Installation
+-----
 
-Manuelle, ou via Portainer.
+## 2\. Installation Manuelle ou via Portainer
 
-“[sudo](https://fr.wikipedia.org/wiki/Sudo)” OU PAS “sudo” ? À vous de savoir. Personnellement, je suis sur un [LXC](https://fr.wikipedia.org/wiki/LXC) [Debian](https://fr.wikipedia.org/wiki/Debian) [Proxmox](https://fr.wikipedia.org/wiki/Proxmox_VE), je travaille donc en “[root](https://fr.wikipedia.org/wiki/Root)”, pas besoin de “sudo” !
+Ce guide couvre les deux méthodes de déploiement basées sur le même fichier `docker-compose.yml`.
 
-## Manuelle
+> “[sudo](https://fr.wikipedia.org/wiki/Sudo)” OU PAS “sudo” ? À vous de savoir. Personnellement, je suis sur un [LXC](https://fr.wikipedia.org/wiki/LXC) [Debian](https://fr.wikipedia.org/wiki/Debian) [Proxmox](https://fr.wikipedia.org/wiki/Proxmox_VE), je travaille donc en “[root](https://fr.wikipedia.org/wiki/Root)”, pas besoin de “sudo” \!
 
--   Créer un dossier qui va contenir les différents fichiers et dossier pour notre environnement Guacamole…
+### 2.1. Configuration de l'environnement (Manuelle)
+
+  - Créer un dossier qui va contenir les différents fichiers et dossiers pour notre environnement Guacamole…
+
+<!-- end list -->
 
 ```plaintext
 mkdir guacamole
 ```
 
--   Dans le dossier “guacamole”, créer le fichier “docker-compose.yml”…
+  - Dans le dossier “guacamole”, créer le fichier “docker-compose.yml”…
+
+<!-- end list -->
 
 ```plaintext
-touch docker-compose-yml
+touch docker-compose.yml
 ```
 
--   Ouvrez maintenant “docker-compose.yml” pour l'éditer…
+  - Ouvrez maintenant “docker-compose.yml” pour l'éditer…
+
+<!-- end list -->
 
 ```plaintext
 nano docker-compose.yml
 ```
 
--   Voici le contenu du fichier “docker-compose.yml”, adaptez-le à votre environnement…
+### 2.2. Le Fichier docker-compose.yml
+
+Le fichier Compose définit les trois services nécessaires : la base de données (`guacamole_db`), le démon de connexion (`guacd`), et l'interface web (`guacamole`).
+
+  - Voici le contenu du fichier “docker-compose.yml”, **adaptez-le à votre environnement**…
+
+<!-- end list -->
 
 ```plaintext
 version: '3.8'
@@ -109,87 +123,100 @@ services:
 
 Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets).
 
-### Compose personnalisation
+### 2.3. Personnalisation du Compose
 
-Dans “environment” du service “guacamole\_db”…
+#### 🔑 Informations de Base de Données
 
--   N'oubliez pas de personnaliser le mot de passe “root” pour MySQL…
+**Important :** Les variables d'environnement des services `guacamole_db` et `guacamole` doivent correspondre \!
+
+*Dans “environment” du service “guacamole\_db”…*
+
+  - N'oubliez pas de personnaliser le mot de passe “root” pour MySQL…
 
 `- MYSQL_ROOT_PASSWORD=blablalinux`
 
--   N'oubliez pas de personnaliser le nom utilisateur pour MySQL…
+  - N'oubliez pas de personnaliser le nom utilisateur pour MySQL…
 
 `- MYSQL_USER=anyblabla`
 
--   N'oubliez pas de personnaliser le mot de passe pour MySQL…
+  - N'oubliez pas de personnaliser le mot de passe pour MySQL…
 
 `- MYSQL_PASSWORD=blabla`
 
-**Les informations “environement” du service “guacamole\_db” doivent être identiques que les informations “environment” du service “guacamole” !**
+**Les informations “environement” du service “guacamole\_db” doivent être identiques que les informations “environment” du service “guacamole” \!**
 
--   La variable “- REMOTE\_IP\_VALVE\_ENABLED=” est à activer si vous utilisez un [Proxy inverse](https://w.wiki/Acu3)…
+#### 🌐 Options de Sécurité (Bonus)
+
+  - La variable “- REMOTE\_IP\_VALVE\_ENABLED=” est à activer si vous utilisez un [Proxy inverse](https://w.wiki/Acu3)…
 
 `- REMOTE_IP_VALVE_ENABLED=true`
 
-### Bonus Compose personnalisation
-
--   Pour activer la [double authentification](https://w.wiki/Acu6), il suffit d'ajouter cette variable en dessous de la variable “- REMOTE\_IP\_VALVE\_ENABLED=true”…
+  - Pour activer la [double authentification](https://w.wiki/Acu6) :
 
 `- TOTP_ENABLED=true`
+*(Ajouter cette variable en dessous de la variable “- REMOTE\_IP\_VALVE\_ENABLED=true”)*
 
-## Portainer
+### 2.4. Déploiement via Portainer
 
--   Il suffit de créer une pile stack avec le nom de votre choix, ici, “guacamole”, et de coller le contenu du fichier Compose ci-dessus…
-
+  - Il suffit de créer une pile stack avec le nom de votre choix, ici, “guacamole”, et de coller le contenu du fichier Compose ci-dessus…
+  
 ![](/docker-compose-apache-guacamole/guacamole-stack-portainer.jpg)
 
----
+-----
 
-Vous pouvez lancer le container !
+## 3\. Démarrage et Initialisation
 
--   Avec une installation manuelle, simplement être dans le répertoire “guacamole” et…
+### 3.1. Démarrer la Pile
+
+  - Avec une installation manuelle, simplement être dans le répertoire “guacamole” et…
+
+<!-- end list -->
 
 ```plaintext
 docker-compose up -d
 ```
 
--   Avec une pile stack Portainer, un clic sur “Deploy the stack”…
-
-![](/docker-compose-apache-guacamole/deploy-the-stack.jpg)
+  - Avec une pile stack Portainer, un clic sur “Deploy the stack”…
 
 L'identifiant et le mot de passe par défaut est : **guacadmin**
 
----
+### 3.2. Initialisation de la Base de Données
 
-## Manuelle/Portainer - Instructions communes
+Il faut maintenant initialiser la base de données MySQL avec les tables Guacamole.
 
-Il faut maintenant initialiser la base de données MySQL.
+  - Si vous n'êtes pas en “root”, passez-y…
 
--   Si vous n'êtes pas en “root”, passez-y…
+<!-- end list -->
 
 ```plaintext
 sudo su
 ```
 
--   Récupérer le script d’initialisation de la base de données MySQL…
+  - Récupérer le script d’initialisation de la base de données MySQL…
+
+<!-- end list -->
 
 ```plaintext
 docker run --rm guacamole/guacamole /opt/guacamole/bin/initdb.sh --mysql > initdb.sql
 ```
 
--   Injecter le fichier de la base de données MySQL…
+  - Injecter le fichier de la base de données MySQL…
+
+<!-- end list -->
 
 ```plaintext
 docker exec -i guacamole_db mysql --user anyblabla --password=blabla guacamole_db < initdb.sql
 ```
 
--   La commande doit être adaptée à votre environnement…
+  - La commande doit être adaptée à votre environnement (n'oubliez pas de changer `--user` et `--password` si vous les avez modifiés)…
 
 `--user anyblabla --password=blabla`
 
-# Guacamole en fonctionnement
+-----
 
-Je vous propose cette vidéo pour vous rendre compte du résultat…
+## 4\. Guacamole en fonctionnement
 
--   [Facebook](https://www.facebook.com/blablalinux/videos/320245721056954/)
--   [X (Twitter)](https://x.com/BlablaLinux/status/1810306929278832882)
+Pour vous rendre compte du résultat de cette installation :
+
+  - [Facebook](https://www.facebook.com/blablalinux/videos/320245721056954/)
+  - [X (Twitter)](https://x.com/BlablaLinux/status/1810306929278832882)
