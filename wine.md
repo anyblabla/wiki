@@ -2,7 +2,7 @@
 title: Installation de WineHQ sur Linux Mint / Debian (Stable, Dev, Staging)
 description: Ce guide fournit la procédure pour installer la dernière version de Wine (Stable, Development ou Staging) directement depuis le dépôt officiel WineHQ sur les systèmes basés sur Debian/Ubuntu/Linux Mint (testé et fonctionnel sur Linux Mint 22.x).
 published: true
-date: 2025-10-28T14:32:52.874Z
+date: 2025-10-28T14:46:19.895Z
 tags: wine, émulateur, émulation, qemu
 editor: markdown
 dateCreated: 2024-05-05T20:15:53.231Z
@@ -111,4 +111,4 @@ Choisissez et exécutez **une seule** des commandes d'installation ci-dessous :
 
 -----
 
-**Démonstration en vidéo :** [https://peertube.blablalinux.be/w/13JYaBK9TFASrHPwYfwBAT](https://peertube-blablalinux.be/w/x96eafxHoB2z6svWksSLRy)
+**Démonstration en vidéo :** [https://peertube.blablalinux.be/w/13JYaBK9TFASrHPwYfwBAT](https://peertube.blablalinux.be/w/13JYaBK9TFASrHPwYfwBAT)
