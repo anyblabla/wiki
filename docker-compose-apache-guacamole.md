@@ -2,13 +2,13 @@
 title: Déployer Apache Guacamole avec Docker Compose et Portainer
 description: Ce guide présente les étapes pour déployer rapidement Apache Guacamole en utilisant une pile Docker (stack) dans Portainer, à partir d'un fichier compose YAML.
 published: true
-date: 2025-10-28T12:52:31.290Z
+date: 2025-10-28T13:07:52.904Z
 tags: vnc, apache, remote, guacamole, ssh, rdp, kubernetes
 editor: markdown
 dateCreated: 2024-07-10T12:42:55.354Z
 ---
 
-*Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉*
+*e pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 -----
 
