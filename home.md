@@ -2,7 +2,7 @@
 title: Bienvenue
 description: 
 published: true
-date: 2025-08-12T14:00:05.617Z
+date: 2025-10-28T11:57:34.968Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
@@ -10,34 +10,35 @@ dateCreated: 2025-07-17T00:14:37.130Z
 
 ![](/welcome/header2.png)
 
-*Blabla Linux possède un* [blog](https://yourls.blablalinux.be/blog) *depuis un moment.*
+# 🥳 Bienvenue sur le Wiki de Blabla Linux !
 
-*Il convient pour le partage de nouvelles et actualités, sur Blabla Linux lui-même, sur la communauté, les systèmes et les logiciels libres.*
+## 👋 Salut à tous et toutes !
 
-*Par contre, il ne convient pas pour du tout pour le partage de méthodes d'installations, et le maintien à jours de celles-ci.*
+Vous nous connaissez peut-être déjà via le [blog](https://yourls.blablalinux.be/blog). Il est parfait pour partager les **nouvelles et actualités** autour de Blabla Linux, de notre communauté, des systèmes et des logiciels libres.
 
-*C'est là qu'intervient le Wiki.*
+Mais soyons honnêtes : le blog n'est pas l'endroit idéal pour maintenir des **méthodes d'installation** à jour ou des guides techniques précis. C'est là que ce Wiki entre en scène !
 
-*Au quotidien, Blabla Linux installe et teste de nombreux services.*
+## 🧠 La mission du Wiki
 
-*Parfois du premier coup, parfois pas.*
+Au quotidien, Blabla Linux installe et teste de nombreux services. Parfois, ça fonctionne du premier coup... et parfois, c'est une sacrée aventure !
 
-*Ce dernier va servir de pense-bête à Blabla Linux.*
+Ce Wiki est conçu pour être notre **pense-bête public**, accessible en lecture seule.
 
-*Pense-bête public accessible en lecture seule.*
-
-*Je ne pense pas ouvrir le Wiki pour permettre une collaboration.*
-
-*Le temps me fera peut-être changer d'avis.*
+* **Pourquoi ?** Pour que vous puissiez profiter de nos succès (et apprendre de nos galères 😉) en ayant toujours des guides techniques à jour et fonctionnels.
+* **Collaboration ?** Pour l'instant, je préfère garder la main sur le contenu pour garantir sa cohérence. Mais qui sait, le temps pourrait me faire changer d'avis !
 
 ---
 
-*Un problème avec une page de ce Wiki ?*
+### 🧐 Un pépin technique ?
 
-[Contactez-moi](https://yourls.blablalinux.be/contact) 😉
+Un problème avec une page ou une méthode dans ce Wiki ? Ne restez pas bloqué !
+
+[Contactez-moi](https://yourls.blablalinux.be/contact) directement, je serai ravi de corriger ou de clarifier le contenu. 😉
 
 ---
 
-*Envie d'être tenu informé sur les nouveautés de ce Wiki, du* [blog WordPress](https://yourls.blablalinux.be/blog)*, ou encore de la* [chaîne PeerTube](https://yourls.blablalinux.be/peertube) *?*
+### 💌 Restez connecté !
 
-[La cyberlettre](https://yourls.blablalinux.be/cyberlettre) 😎
+Envie d'être tenu informé des nouveautés du Wiki, des articles du [blog WordPress](https://yourls.blablalinux.be/blog), ou des dernières vidéos sur la [chaîne PeerTube](https://yourls.blablalinux.be/peertube) ?
+
+Rejoignez [la cyberlettre](https://yourls.blablalinux.be/cyberlettre) ! 😎
