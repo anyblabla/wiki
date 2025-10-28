@@ -2,7 +2,7 @@
 title: Déploiement de Picsur (Image Hosting) avec Docker Compose
 description: Ce guide explique comment déployer rapidement Picsur, une application d'hébergement d'images, en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML.
 published: true
-date: 2025-10-28T13:14:51.107Z
+date: 2025-10-28T14:44:04.880Z
 tags: docker, picsur
 editor: markdown
 dateCreated: 2024-05-18T22:22:24.229Z
@@ -95,6 +95,6 @@ docker compose up -d
 
 Vous pourrez accéder à l'interface de Picsur à l'adresse **`http://<Votre_IP_Hôte>:8088`**.
 
-> Mon installation : Picsur Blabla Linux : [https://picsur.blablalinux.be](https://picsur.blablalinux.be)
+> Mon installation : Picsur Blabla Linux : [https://picsur.blablalinux.be](https://picsur.blablalinux.be) (⚠️ service en pause)
 
 Souhaitez-vous que je vous donne le guide de déploiement pour une autre application ?
