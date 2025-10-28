@@ -2,7 +2,7 @@
 title: Modification des Fichiers docker-compose.yml de Watchtower (LXC/Proxmox)
 description: Ce guide fournit deux scripts Bash conçus pour être exécutés sur l'hôte Proxmox (PVE) afin d'automatiser la mise à jour des conteneurs Watchtower (installés via Docker Compose dans des CT/LXC).
 published: true
-date: 2025-10-27T23:56:28.996Z
+date: 2025-10-28T11:48:40.519Z
 tags: docker, lxc, script, bash, watchtower
 editor: markdown
 dateCreated: 2025-10-26T16:28:46.835Z
@@ -10,20 +10,20 @@ dateCreated: 2025-10-26T16:28:46.835Z
 
 | Script | Fonction | Utilité |
 | :--- | :--- | :--- |
-| **Script 1** | Conversion de `POLL_INTERVAL` à `SCHEDULE` | **À exécuter une seule fois** pour migrer l'ancienne variable vers la nouvelle (standard Cron). |
-| **Script 2** | Modification de la planification `SCHEDULE` | **À utiliser pour toutes les modifications futures** de la fréquence de mise à jour. |
+| **Script 1 :** `convert_watchtower.sh` | Conversion de `POLL_INTERVAL` à `SCHEDULE` | **À exécuter une seule fois** pour migrer l'ancienne variable vers la nouvelle (standard Cron). |
+| **Script 2 :** `update_watchtower.sh` | Modification de la planification `SCHEDULE` | **À utiliser pour toutes les modifications futures** de la fréquence de mise à jour. |
 
 -----
 
-## I. Prérequis et Installation
+## I. Prérequis et installation
 
 1.  **Connexion SSH :** Connectez-vous à votre hôte Proxmox en tant que `root`.
-2.  **Création du Répertoire :**
+2.  **Création du répertoire :**
     ```bash
     mkdir -p /root/scripts
     cd /root/scripts
     ```
-3.  **Création des Fichiers :** Créez les deux fichiers de script (par exemple `convert_watchtower.sh` et `update_watchtower.sh`).
+3.  **Création des fichiers :** Créez les deux fichiers de script (par exemple `convert_watchtower.sh` et `update_watchtower.sh`).
 4.  **Permissions :** Rendez les scripts exécutables :
     ```bash
     chmod +x convert_watchtower.sh update_watchtower.sh
@@ -31,7 +31,7 @@ dateCreated: 2025-10-26T16:28:46.835Z
 
 -----
 
-## II. Script 1 : Conversion Initiale (POLL\_INTERVAL vers SCHEDULE)
+## II. Script 1 : conversion initiale (`POLL_INTERVAL` vers `SCHEDULE`)
 
 Ce script est conçu pour remplacer la ligne obsolète `WATCHTOWER_POLL_INTERVAL=10800` par la nouvelle syntaxe `WATCHTOWER_SCHEDULE`.
 
@@ -56,7 +56,7 @@ restart_docker_compose() {
     local COMPOSE_DIR=$2 
     local TIMEOUT_DURATION=30
 
-    echo "   Tentative de redémarrage avec 'docker compose' dans $COMPOSE_DIR (Timeout: ${TIMEOUT_DURATION}s)..."
+    echo "  Tentative de redémarrage avec 'docker compose' dans $COMPOSE_DIR (Timeout: ${TIMEOUT_DURATION}s)..."
 
     local LOG_FILE="/tmp/pct_exec_log_$CTID.log"
     timeout "$TIMEOUT_DURATION" pct exec "$CTID" -- sh -c "cd $COMPOSE_DIR && docker compose down && docker compose up -d" > "$LOG_FILE" 2>&1
@@ -64,15 +64,15 @@ restart_docker_compose() {
     
     if [ $exit_code -eq 0 ]; then
         grep -E 'Removed|Created|Started' "$LOG_FILE"
-        echo "   ✅ Redémarrage réussi avec 'docker compose'."
+        echo "  ✅ Redémarrage réussi avec 'docker compose'."
         rm -f "$LOG_FILE"
         return 0
     elif [ $exit_code -eq 124 ]; then
-        echo "   ⚠️ Redémarrage forcé par timeout. Service probablement relancé. Continuer."
+        echo "  ⚠️ Redémarrage forcé par timeout. Service probablement relancé. Continuer."
         rm -f "$LOG_FILE"
         return 0
     else
-        echo "   ❌ Échec du redémarrage (Code: $exit_code). Détails du log :"
+        echo "  ❌ Échec du redémarrage (Code: $exit_code). Détails du log :"
         pct exec "$CTID" -- tail -n 3 "$LOG_FILE" 2>/dev/null
         return 1
     fi
@@ -84,7 +84,7 @@ echo "Recherche des conteneurs LXC ACTIFS dont le nom contient 'docker' (via pct
 CONTAINER_IDS=$(pct list | awk '/running/ && /docker/ {print $1}')
 
 
-# Traitement des Conteneurs
+# Traitement des conteneurs
 # =========================
 if [ -z "$CONTAINER_IDS" ]; then
     echo "⚠️ Aucun conteneur LXC/CT en cours d'exécution avec 'docker' dans son nom n'a été trouvé. Aucune action n'a été effectuée."
@@ -103,13 +103,13 @@ for CTID in $CONTAINER_IDS; do
 
     # Vérification du chemin trouvé
     if [ -z "$TARGET_CONTAINER_PATH" ]; then
-        echo "   Fichier de configuration Watchtower non trouvé sous /root. Ce CT/LXC est ignoré."
+        echo "  Fichier de configuration Watchtower non trouvé sous /root. Ce CT/LXC est ignoré."
         echo "-----------------------------------"
         continue
     fi
     
     if [ -n "$TARGET_CONTAINER_PATH" ]; then
-        echo "   Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH"
+        echo "  Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH"
 
         # 3. Modification du fichier
         TEMP_FILE="/tmp/docker-compose-temp-$CTID.yml"
@@ -136,18 +136,18 @@ for CTID in $CONTAINER_IDS; do
         
         # VÉRIFICATION DE LA MODIFICATION
         if cmp -s "$TEMP_FILE" "$TEMP_FILE_BAK"; then
-            echo "   ⚠️ Aucune ligne correspondante (WATCHTOWER_POLL_INTERVAL) n'a été trouvée pour modification. Fichier non mis à jour."
+            echo "  ⚠️ Aucune ligne correspondante (WATCHTOWER_POLL_INTERVAL) n'a été trouvée pour modification. Fichier non mis à jour."
             rm -f "$TEMP_FILE" "$TEMP_FILE_BAK"
             echo "-----------------------------------"
             continue
         fi
 
-        echo "   ✅ Modification appliquée au fichier temporaire."
+        echo "  ✅ Modification appliquée au fichier temporaire."
         
         # Sauvegarde l'original dans le CT, puis pousse le fichier modifié
         pct exec "$CTID" -- cp "$TARGET_CONTAINER_PATH" "$TARGET_CONTAINER_PATH.bak" >/dev/null 2>&1
         pct push "$CTID" "$TEMP_FILE" "$TARGET_CONTAINER_PATH" >/dev/null 2>&1
-        echo "   ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH}.bak"
+        echo "  ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH}.bak"
         
         rm -f "$TEMP_FILE" "$TEMP_FILE_BAK"
         
@@ -157,12 +157,12 @@ for CTID in $CONTAINER_IDS; do
         restart_docker_compose "$CTID" "$COMPOSE_DIR" 
         
         if [ $? -eq 0 ]; then
-             echo "✅ Opération complète terminée pour $CONTAINER_NAME (ID $CTID)."
+              echo "✅ Opération complète terminée pour $CONTAINER_NAME (ID $CTID)."
         else
-             echo "⚠️ Modification réussie, mais redémarrage échoué pour $CONTAINER_NAME (ID $CTID). **Veuillez redémarrer le service manuellement.**"
+              echo "⚠️ Modification réussie, mais redémarrage échoué pour $CONTAINER_NAME (ID $CTID). **Veuillez redémarrer le service manuellement.**"
         fi
     else
-        echo "   Fichier de configuration Watchtower non trouvé à $TARGET_DESCRIPTION. Ce CT/LXC est ignoré."
+        echo "  Fichier de configuration Watchtower non trouvé à $TARGET_DESCRIPTION. Ce CT/LXC est ignoré."
     fi
     
     echo "-----------------------------------"
@@ -173,9 +173,9 @@ echo "Toutes les opérations sont terminées."
 
 -----
 
-## III. Script 2 : Modification de Planification (SCHEDULE)
+## III. Script 2 : modification de planification (`SCHEDULE`)
 
-Ce script est le script de routine. Il met à jour la valeur CRON `WATCHTOWER_SCHEDULE` dans tous les fichiers `docker-compose.yml` pertinents. Il utilise la même logique de recherche robuste et de correction d'indentation.
+Ce script est le script de routine. Il met à jour la valeur CRON `WATCHTOWER_SCHEDULE` dans tous les fichiers `docker-compose.yml` pertinents.
 
 **Fichier :** `/root/scripts/update_watchtower.sh`
 
@@ -198,7 +198,7 @@ restart_docker_compose() {
     local COMPOSE_DIR=$2 
     local TIMEOUT_DURATION=30
 
-    echo "   Tentative de redémarrage avec 'docker compose' dans $COMPOSE_DIR (Timeout: ${TIMEOUT_DURATION}s)..."
+    echo "  Tentative de redémarrage avec 'docker compose' dans $COMPOSE_DIR (Timeout: ${TIMEOUT_DURATION}s)..."
 
     local LOG_FILE="/tmp/pct_exec_log_$CTID.log"
     timeout "$TIMEOUT_DURATION" pct exec "$CTID" -- sh -c "cd $COMPOSE_DIR && docker compose down && docker compose up -d" > "$LOG_FILE" 2>&1
@@ -206,15 +206,15 @@ restart_docker_compose() {
     
     if [ $exit_code -eq 0 ]; then
         grep -E 'Removed|Created|Started' "$LOG_FILE"
-        echo "   ✅ Redémarrage réussi avec 'docker compose'."
+        echo "  ✅ Redémarrage réussi avec 'docker compose'."
         rm -f "$LOG_FILE"
         return 0
     elif [ $exit_code -eq 124 ]; then
-        echo "   ⚠️ Redémarrage forcé par timeout. Service probablement relancé. Continuer."
+        echo "  ⚠️ Redémarrage forcé par timeout. Service probablement relancé. Continuer."
         rm -f "$LOG_FILE"
         return 0
     else
-        echo "   ❌ Échec du redémarrage (Code: $exit_code). Détails du log :"
+        echo "  ❌ Échec du redémarrage (Code: $exit_code). Détails du log :"
         pct exec "$CTID" -- tail -n 3 "$LOG_FILE" 2>/dev/null
         return 1
     fi
@@ -226,7 +226,7 @@ echo "Recherche des conteneurs LXC ACTIFS dont le nom contient 'docker' (via pct
 CONTAINER_IDS=$(pct list | awk '/running/ && /docker/ {print $1}')
 
 
-# Traitement des Conteneurs
+# Traitement des conteneurs
 # =========================
 if [ -z "$CONTAINER_IDS" ]; then
     echo "⚠️ Aucun conteneur LXC/CT en cours d'exécution avec 'docker' dans son nom n'a été trouvé. Aucune action n'a été effectuée."
@@ -245,13 +245,13 @@ for CTID in $CONTAINER_IDS; do
 
     # Vérification du chemin trouvé
     if [ -z "$TARGET_CONTAINER_PATH" ]; then
-        echo "   Fichier de configuration Watchtower non trouvé sous /root. Ce CT/LXC est ignoré."
+        echo "  Fichier de configuration Watchtower non trouvé sous /root. Ce CT/LXC est ignoré."
         echo "-----------------------------------"
         continue
     fi
     
     if [ -n "$TARGET_CONTAINER_PATH" ]; then
-        echo "   Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH"
+        echo "  Fichier de configuration Watchtower trouvé à: $TARGET_CONTAINER_PATH"
 
         # 3. Modification du fichier
         TEMP_FILE="/tmp/docker-compose-temp-$CTID.yml"
@@ -278,18 +278,18 @@ for CTID in $CONTAINER_IDS; do
         
         # VÉRIFICATION DE LA MODIFICATION
         if cmp -s "$TEMP_FILE" "$TEMP_FILE_BAK"; then
-            echo "   ⚠️ Aucune ligne correspondante (WATCHTOWER_SCHEDULE) n'a été trouvée pour modification. Fichier non mis à jour. (Probablement déjà en place)"
+            echo "  ⚠️ Aucune ligne correspondante (WATCHTOWER_SCHEDULE) n'a été trouvée pour modification. Fichier non mis à jour. (Probablement déjà en place)"
             rm -f "$TEMP_FILE" "$TEMP_FILE_BAK"
             echo "-----------------------------------"
             continue
         fi
 
-        echo "   ✅ Modification appliquée au fichier temporaire."
+        echo "  ✅ Modification appliquée au fichier temporaire."
         
         # Sauvegarde l'original dans le CT, puis pousse le fichier modifié
         pct exec "$CTID" -- cp "$TARGET_CONTAINER_PATH" "$TARGET_CONTAINER_PATH.bak" >/dev/null 2>&1
         pct push "$CTID" "$TEMP_FILE" "$TARGET_CONTAINER_PATH" >/dev/null 2>&1
-        echo "   ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH}.bak"
+        echo "  ✅ Fichier mis à jour dans le conteneur. Sauvegarde interne: ${TARGET_CONTAINER_PATH}.bak"
         
         rm -f "$TEMP_FILE" "$TEMP_FILE_BAK"
         
@@ -299,12 +299,12 @@ for CTID in $CONTAINER_IDS; do
         restart_docker_compose "$CTID" "$COMPOSE_DIR" 
         
         if [ $? -eq 0 ]; then
-             echo "✅ Opération complète terminée pour $CONTAINER_NAME (ID $CTID)."
+              echo "✅ Opération complète terminée pour $CONTAINER_NAME (ID $CTID)."
         else
-             echo "⚠️ Modification réussie, mais redémarrage échoué pour $CONTAINER_NAME (ID $CTID). **Veuillez redémarrer le service manuellement.**"
+              echo "⚠️ Modification réussie, mais redémarrage échoué pour $CONTAINER_NAME (ID $CTID). **Veuillez redémarrer le service manuellement.**"
         fi
     else
-        echo "   Fichier de configuration Watchtower non trouvé à $TARGET_DESCRIPTION. Ce CT/LXC est ignoré."
+        echo "  Fichier de configuration Watchtower non trouvé à $TARGET_DESCRIPTION. Ce CT/LXC est ignoré."
     fi
     
     echo "-----------------------------------"
