@@ -2,13 +2,13 @@
 title: Déploiement de Fail2ban pour Nginx Proxy Manager (NPM) avec Docker Compose
 description: Ce guide explique comment déployer rapidement Fail2ban pour surveiller les logs de Nginx Proxy Manager (NPM) en utilisant une pile Docker (stack) dans Portainer, ou directement avec Docker Compose.
 published: true
-date: 2025-10-28T12:57:47.384Z
+date: 2025-10-28T13:07:14.169Z
 tags: docker, nginx, npm, ban, fail, fail2ban
 editor: markdown
 dateCreated: 2025-02-06T21:58:30.959Z
 ---
 
-*Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉*
+Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 -----
 
