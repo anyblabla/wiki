@@ -1,14 +1,16 @@
 ---
-title: Docker Compose Picsur
-description: Déployez simplement Picsur grâce à une pile (stack) docker compose.
+title: Déploiement de Picsur (Image Hosting) avec Docker Compose
+description: Ce guide explique comment déployer rapidement Picsur, une application d'hébergement d'images, en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML.
 published: true
-date: 2025-07-17T00:14:09.154Z
+date: 2025-10-28T13:14:51.107Z
 tags: docker, picsur
 editor: markdown
 dateCreated: 2024-05-18T22:22:24.229Z
 ---
 
-Pratique pour déployer rapidement [Picsur](https://github.com/caramelfur/picsur) dans [Portainer](https://www.portainer.io) en créant une pile ([stack](https://docs.portainer.io/user/docker/stacks)) à partir d'un fichier [compose YAML](https://docs.docker.com/compose/compose-application-model/).
+## 1\. Fichier `docker-compose.yml`
+
+Picsur utilise une base de données **PostgreSQL** pour stocker ses métadonnées. Le fichier Compose définit deux services (`picsur` et `picsur_postgres`) et un volume persistant pour les données de la base de données.
 
 ```plaintext
 version: '3'
@@ -59,13 +61,40 @@ volumes:
 
 Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets).
 
--   En rouge, à remplacer pour vos identifiants personnels :
-    -   PICSUR\_DB\_PASSWORD: blablalinux
-    -   PICSUR\_ADMIN\_PASSWORD: blablalinux
-    -   POSTGRES\_PASSWORD: blablalinux
+-----
 
-**C'est préférable que les identifiants correspondent !**
+## 2\. Configuration des Variables Cruciales
 
----
+Le déploiement nécessite de personnaliser trois variables clés, de préférence avec la **même valeur** pour simplifier la gestion.
 
-Picsur Blabla Linux : [https://picsur.blablalinux.be](https://picsur.blablalinux.be)
+| Variable | Service | Rôle |
+| :--- | :--- | :--- |
+| **`PICSUR_DB_PASSWORD`** | `picsur` | Mot de passe utilisé par l'application pour se connecter à la DB. |
+| **`POSTGRES_PASSWORD`** | `picsur_postgres` | Mot de passe de l'utilisateur `picsur` dans la base de données. |
+| **`PICSUR_ADMIN_PASSWORD`** | `picsur` | Mot de passe de l'utilisateur **`admin`** de Picsur (le nom d'utilisateur par défaut n'est pas modifiable). |
+
+> **Il est préférable que ces identifiants correspondent** pour garantir que les services communiquent correctement entre eux et pour faciliter votre accès administrateur.
+
+### Autres variables importantes
+
+| Variable | Valeur | Description |
+| :--- | :--- | :--- |
+| **Ports** | `8088:8080` | L'application Picsur tourne sur le port interne **8080**. Elle est exposée sur le port **8088** de votre hôte. |
+| **Taille Max.** | `PICSUR_MAX_FILE_SIZE: 10485760` | Taille maximale des fichiers acceptés en **octets** (ici **10 Mo**). |
+| **Base de données** | `PICSUR_DB_HOST: picsur_postgres` | Nom d'hôte de la DB, qui correspond au nom du service Postgres dans le fichier Compose. |
+
+-----
+
+## 3\. Lancement
+
+Une fois le fichier `docker-compose.yml` copié dans une pile Portainer ou exécuté via Docker Compose, le déploiement lancera les deux conteneurs.
+
+```plaintext
+docker compose up -d
+```
+
+Vous pourrez accéder à l'interface de Picsur à l'adresse **`http://<Votre_IP_Hôte>:8088`**.
+
+> Mon installation : Picsur Blabla Linux : [https://picsur.blablalinux.be](https://picsur.blablalinux.be)
+
+Souhaitez-vous que je vous donne le guide de déploiement pour une autre application ?
