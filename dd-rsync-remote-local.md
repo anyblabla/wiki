@@ -1,60 +1,80 @@
 ---
-title: DD/RSYNC - Distant/Local
-description: Récemment, j'ai du rapatrier un VPS hébergé chez OVH vers mon hyperviseur local Proxmox ! Voici la commande magique 😉
+title: Migration VPS vers Proxmox : Clonage de disque à chaud via DD et Rsync sur SSH
+description: Ce guide détaille la procédure technique pour cloner et synchroniser un disque complet d'un serveur VPS distant (OVH) vers un serveur local Proxmox VE en utilisant les commandes dd et rsync via SSH.
 published: true
-date: 2025-07-17T00:13:30.278Z
+date: 2025-10-28T12:42:10.569Z
 tags: rsync, clone
 editor: markdown
 dateCreated: 2024-12-01T15:36:34.400Z
 ---
 
-*Juste pour l'histoire, l'ensemble de mes services tournent à la maison sur un cluster* [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview)*.*
+## 💡 Contexte de l'opération
 
-*L'ensemble ? Non ! Deux services tournent sur des* [VPS](https://w.wiki/CG6P) *chez* [OVH](https://www.ovhcloud.com/fr/). [Mastodon](https://mastodon-blablalinux.be/@blablalinux) *et* [PeerTube](https://peertube-blablalinux.be/a/anyblabla/video-channels)*.*
+Vos services (notamment [Mastodon](https://mastodon-blablalinux.be/@blablalinux) et [PeerTube](https://peertube-blablalinux.be/a/anyblabla/video-channels)) sont actuellement hébergés sur des [VPS](https://w.wiki/CG6P) chez [OVH](https://www.ovhcloud.com/fr/) et vous souhaitez les rapatrier sur votre cluster [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) local.
 
-*Je me suis donc attelé à leur rapatriement vers la maison.*
+La méthode employée se déroule en deux phases :
 
-*Voici la commande magique que j'ai utilisée, à partir du serveur local, afin de réaliser un clone complet du disque au travers de* [SSH](https://w.wiki/Acov)*.*
+1.  **Clonage initial** du disque à froid (copie brute bloc par bloc) avec `dd`.
+2.  **Synchronisation finale** des données modifiées à chaud avec `rsync`.
+
+## I. Phase 1 : Clonage initial du disque (DD sur SSH)
+
+Nous utilisons ici `dd` pour réaliser un clone complet du disque source (`/dev/sda`) vers le disque de destination sur la machine locale (`/dev/sdb`) au travers d'une connexion [SSH](https://w.wiki/Acov). Cette commande est lancée **à partir du serveur local**.
+
+> Voici la commande magique que j'ai utilisée, à partir du serveur local, afin de réaliser un clone complet du disque au travers de [SSH](https://w.wiki/Acov).
 
 ```plaintext
 ssh root@xx.xx.xx.xxx -p xxxx "dd if=/dev/sda bs=100M" | dd of=/dev/sdb status=progress
 ```
 
--   **ssh root@xx.xx.xx.xxx** : on appelle SSH avec son nom utilisateur vers l'adresse IP du serveur distant.
--   **\-p xxxx** : on précise le port SSH, si ce dernier a été changé et n'est plus le port 22 par défaut.
--   **dd if=/dev/sda bs=100M** : on appelle la commande DD pour cloner, en précisant la source (IF) suivie de la taille des blocs. Ici “bs=100M” car c'est un disque SSD.
--   **dd of=/dev/sdb** : on continue avec la commande DD pour le clonage, mais cette fois sur la destination (of=/dev/sdb) en demandant l'affichage de la progression (status=progress).
+### Explications détaillées des paramètres :
 
-Sur l'image ci-dessous, on peut voir que l'opération de clonage avec la commande DD au travers de SSH, d'un serveur distant vers un serveur local, c'est déroulé sans problème.
+| Partie | Description |
+| :--- | :--- |
+| **`ssh root@xx.xx.xx.xxx`** | Appel [SSH](https://w.wiki/Acov) vers l'adresse IP et le nom d'utilisateur `root` du serveur distant. |
+| **`-p xxxx`** | Précise le port [SSH](https://w.wiki/Acov) si celui-ci est différent du port 22 par défaut. |
+| **`dd if=/dev/sda bs=100M`** | Commande DD pour cloner : `if` (input file/source) est le disque source. `bs=100M` définit la taille des blocs de transfert (adapté ici pour un disque SSD). |
+| **`| dd of=/dev/sdb status=progress`** | Le *pipe* (`|`) transfère le flux de données vers la commande DD locale. `of` (output file/destination) est le disque de destination local. `status=progress` affiche l'avancement de l'opération. |
+
+Sur l'image ci-dessous, on peut voir que l'opération de clonage avec la commande DD au travers de [SSH](https://w.wiki/Acov), d'un serveur distant vers un serveur local, s'est déroulé sans problème.
 
 ![](/dd-rsync-distant-local/dd.png)
 
-Si comme moi, vous n'arrêtez pas directement le serveur distant pour mettre en route le serveur local à la place, il va falloir lancer une synchronisation, à partir du serveur local, au moment arrivé ! Voici la commende magique 😉
+-----
+
+## II. Phase 2 : Synchronisation des données à chaud (Rsync)
+
+Si vous ne coupez pas immédiatement le serveur distant après le clonage initial, des données ont pu être modifiées. Pour synchroniser ces changements avant la bascule finale, nous utilisons `rsync`.
+
+La commande suivante est lancée **à partir du serveur local** pour synchroniser uniquement les différences entre la source distante et la destination locale, en excluant les dossiers temporaires ou système non essentiels.
+
+> Si comme moi, vous n'arrêtez pas directement le serveur distant pour mettre en route le serveur local à la place, il va falloir lancer une synchronisation, à partir du serveur local, au moment arrivé \! Voici la commende magique 😉
 
 ```plaintext
 rsync -avz --inplace --delete -P --stats --human-readable --progress --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/media/*","/lost+found"} -e "ssh -p xxxx" root@xx.xx.xx.xxx:/ /media/mastodon/
 ```
 
--   **\-avz**
-    -   **\-a (archive)** : cette option augmente la quantité d'informations qui vous sont données lors du transfert. Par défaut, rsync fonctionne en silence.
-    -   **\-v (verbose)** : c'est une façon rapide de dire que vous voulez de la récursion et envie de préserver presque tout.
-    -   **\-z (compress)** : avec cette option, rsync compresse les données du fichier lorsqu'elles sont envoyées à la machine de destination, ce qui réduit la quantité de données transmises - quelque chose qui est utile sur une connexion lente.
--   **\--inplace** : cette option modifie la manière dont rsync transfère un fichier lorsque ses données doivent être mises à jour : au lieu de la méthode par défaut consistant à créer une nouvelle copie du fichier et à la mettre en place quand il est terminé, rsync écrit plutôt les données mises à jour directement dans le fichier de destination.
--   **\--delete** : cela indique à rsync de supprimer les fichiers étrangers du côté récepteur (ceux qui ne sont pas du côté émetteur).
--   **\-P** : équivaut à --partiel --progrès. Son objectif est de faciliter grandement leur précision, deux options pour un long transfert qui peut être interrompu.
--   **\--stats** :  indique à rsync d'afficher un ensemble verbeux de statistiques sur le transfert de fichiers, vous permettant de voir l'efficacité de rsync.
--   **\--human-readable** : sortie dans un format plus lisible par l'homme.
--   **\--progress** : cette option indique à rsync d'afficher des informations montrant la progression du transfert.
--   **\--exclude** : cette option permet d'exclure sélectivement certains dossiers/fichiers de la liste à transférer.
--   **\-e** : cette option vous permet de choisir un programme shell distant alternatif à utiliser pour la communication entre le local et des copies distantes de rsync.
+### Explications détaillées des options Rsync :
+
+| Option(s) | Nom | Description |
+| :--- | :--- | :--- |
+| **`-avz`** | Archives, Verbose, Compression | `-a` (archive) active la récursivité et préserve la majorité des attributs. `-v` (verbose) augmente le niveau d'information. `-z` (compress) compresse les données pour les connexions lentes. |
+| **`--inplace`** | Écriture directe | Modifie les fichiers de destination directement au lieu de créer des copies temporaires, ce qui est utile après un clonage DD. |
+| **`--delete`** | Suppression | Indique à rsync de supprimer les fichiers de la destination qui n'existent plus à la source. |
+| **`-P`** | Partiel + Progression | Équivaut à `--partial --progress`. Permet de reprendre un transfert interrompu et affiche la progression détaillée. |
+| **`--stats`** | Statistiques | Affiche un ensemble de statistiques sur l'efficacité du transfert. |
+| **`--human-readable`** | Lisibilité | Affiche les tailles des fichiers dans un format plus lisible (Ko, Mo, Go). |
+| **`--progress`** | Progression | Affiche l'avancement du transfert en cours. |
+| **`--exclude`** | Exclusions | Exclut sélectivement les dossiers/fichiers qui ne doivent pas être copiés, comme les systèmes de fichiers virtuels de Linux (essentiel pour un clone à chaud \!). |
+| **`-e "ssh -p xxxx"`** | Shell distant | Permet de spécifier le programme shell distant à utiliser, ici [SSH](https://w.wiki/Acov) avec le port précisé. |
 
 Pour le restant de la commande…
 
--   **"ssh -p xxxx" root@xx.xx.xx.xxx:/ /media/mastodon/**
+  - **`"ssh -p xxxx" root@xx.xx.xx.xxx:/ /media/mastodon/`**
 
-…c'est ce que l'on a vu plus haut. Connexion SSH avec précision de la source et de la destination.
+…c'est ce que l'on a vu plus haut. Connexion [SSH](https://w.wiki/Acov) avec précision de la source (`root@xx.xx.xx.xxx:/`) et de la destination (`/media/mastodon/`).
 
 ### Liens utiles
 
--   [https://linux.die.net/man/1/rsync](https://linux.die.net/man/1/rsync)
--   [https://ss64.com/bash/rsync\_options.html](https://ss64.com/bash/rsync_options.html)
+  - [https://linux.die.net/man/1/rsync](https://linux.die.net/man/1/rsync)
+  - [https://ss64.com/bash/rsync\_options.html](https://ss64.com/bash/rsync_options.html)
