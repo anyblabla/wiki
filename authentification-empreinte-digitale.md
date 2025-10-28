@@ -2,97 +2,136 @@
 title: Authentification par Empreinte Digitale
 description: Installez fprintd et libpam-fprintd. Enregistrez votre doigt (CLI ou GUI). Activez la fonction système avec pam-auth-update. Important : Utilisez le mot de passe pour la connexion initiale afin de déverrouiller le trousseau de clés.
 published: true
-date: 2025-09-26T18:28:49.113Z
+date: 2025-10-28T11:54:03.359Z
 tags: debian, authentification, empreinte, fingerprint, fprintd
 editor: markdown
 dateCreated: 2025-09-26T18:28:24.997Z
 ---
 
-# Gestion de la Sécurité : Authentification par Empreinte Digitale
+L'authentification biométrique par empreinte digitale est prise en charge par Debian grâce au projet **`fprint`**. Ce projet fournit les outils nécessaires à la gestion des capteurs et à l'intégration au système de connexion (PAM).
 
-L'authentification par empreinte digitale est disponible dans Debian grâce au projet [fprint](https://www.freedesktop.org/wiki/Software/fprint/).
-*(Voir la [liste des périphériques supportés](https://fprint.freedesktop.org/)).*
+*(Veuillez consulter la [liste des périphériques supportés](https://fprint.freedesktop.org/)).*
 
-## 1\. Installation
+-----
 
-Installez les paquets `fprintd` (pour la gestion des empreintes) et `libpam-fprintd` (pour l'activation de la connexion par empreinte digitale) :
+## 1\. Installation des paquets
+
+Installez les deux paquets nécessaires :
+
+  * **`fprintd`** : Le service de démon (daemon) gérant le capteur et les empreintes enregistrées.
+  * **`libpam-fprintd`** : La librairie PAM (Pluggable Authentication Modules) qui active l'authentification par empreinte digitale pour les sessions système.
+
+<!-- end list -->
 
 ```bash
 # apt install fprintd libpam-fprintd
 ```
 
-## 2\. Configuration (Enrôlement)
+-----
 
-Les empreintes peuvent être ajoutées via la ligne de commande (`fprintd-enroll`) ou par les interfaces graphiques de divers environnements de bureau, tels que l'interface des **Paramètres de GNOME** ou les **Paramètres Système de KDE** (sous *Système / Utilisateurs / Configurer l'authentification par empreinte digitale*).
+## 2\. Configuration et enrôlement
+
+L'enregistrement des empreintes (ou "enrôlement") peut se faire via l'interface graphique de votre environnement de bureau (ex. : **Paramètres de GNOME** ou **Paramètres Système de KDE** sous *Système / Utilisateurs / Configurer l'authentification par empreinte digitale*), ou directement par la ligne de commande.
 
 ### Enrôlement via la ligne de commande
 
-Si `fprintd-enroll` est exécuté (par l'utilisateur souhaitant enregistrer son empreinte) sans aucun argument, il demandera le mot de passe de l'utilisateur actuel. Après une authentification réussie, il commencera l'enregistrement de l'**index droit**.
+Cette méthode est essentielle si vous n'utilisez pas d'environnement de bureau. Exécutez la commande suivante en tant que l'utilisateur souhaitant enregistrer son empreinte :
 
-Lorsque vous voyez des lignes similaires aux suivantes dans la sortie du terminal :
-
-```
-Using device /net/reactivated/Fprint/Device/0
-Enrolling right-index-finger finger.
+```bash
+$ fprintd-enroll
 ```
 
-Commencez à toucher (ou à glisser, selon le type de votre appareil) le capteur avec votre index droit. Pour chaque touche enregistrée correctement, le programme réagira avec une ligne comme la suivante :
+1.  La commande demandera d'abord le mot de passe de l'utilisateur pour l'authentification initiale.
 
-```
-Enroll result: enroll-stage-passed
-```
+2.  Après validation, elle commence l'enregistrement de l'**index droit** par défaut :
 
-Continuez à toucher le capteur, en plaçant votre doigt sous un angle légèrement différent à chaque fois, jusqu'à ce que le programme signale `Enroll result: enroll-completed` et quitte.
+    ```
+    Using device /net/reactivated/Fprint/Device/0
+    Enrolling right-index-finger finger.
+    ```
 
-À ce stade, vous devriez pouvoir vous connecter à votre gestionnaire d'affichage (par exemple, GDM, LightDM ou SDDM) en utilisant votre index droit.
+3.  **Action :** Touchez (ou glissez) le capteur d'empreinte digitale. Pour chaque contact correct, le programme répond :
 
-  * GDM, par exemple, affichera `(ou faites glisser votre doigt)` sous le champ du mot de passe lors de la demande du mot de passe utilisateur. SDDM affichera un message similaire.
-  * La connexion normale par mot de passe restera toujours disponible.
+    ```
+    Enroll result: enroll-stage-passed
+    ```
+
+4.  **Finalisation :** Continuez à toucher le capteur sous des angles légèrement différents jusqu'à ce que le programme signale : `Enroll result: enroll-completed` et se termine.
+
+À ce stade, l'authentification par empreinte est active pour votre gestionnaire d'affichage (GDM, LightDM, SDDM, etc.). Votre gestionnaire de connexion affichera un message similaire à **`(ou faites glisser votre doigt)`** près du champ du mot de passe.
+
+> **Note :** La connexion normale par mot de passe reste toujours disponible.
 
 ### Commandes utiles
 
-Vous pouvez également vérifier que votre empreinte a été enregistrée correctement en exécutant :
+Pour vérifier que votre empreinte a été enregistrée correctement, exécutez :
 
 ```bash
 $ fprintd-verify
 ```
 
-D'autres commandes utiles sont `fprintd-list` et `fprintd-delete`. Consultez `man fprintd.1` pour plus d'informations.
+D'autres commandes pour la gestion sont :
 
-## 3\. Activation de l'Authentification
+  * **`fprintd-list`** : Liste les empreintes enregistrées.
+  * **`fprintd-delete`** : Supprime une empreinte spécifique.
 
-Pour activer l'authentification par empreinte digitale à l'**échelle du système**, exécutez :
+Consultez `man fprintd.1` pour plus d'informations.
+
+-----
+
+## 3\. Activation de l'authentification à l'échelle du système (PAM)
+
+Pour activer l'authentification par empreinte digitale pour toutes les tâches du système nécessitant une identification (comme `sudo`, `su`, ou l'écran de verrouillage), vous devez mettre à jour la configuration PAM.
+
+Exécutez la commande suivante en tant que `root` :
 
 ```bash
 # pam-auth-update
 ```
 
-... et activez le profil **"Fingerprint authentication"** en cochant la case correspondante, puis en appuyant sur **"OK"**.
+Dans l'interface qui apparaît, activez le profil **"Fingerprint authentication"** en cochant la case correspondante, puis en appuyant sur **"OK"**.
 
-Ou exécutez simplement :
+Ou, utilisez la version directe de la commande :
 
 ```bash
 # pam-auth-update --enable fprintd
 ```
 
-Ceci activera l'authentification par empreinte digitale dans diverses installations du système, telles que `sudo` et les environnements de bureau / gestionnaires d'affichage (par exemple, KDE / SDDM).
+Ceci intègre l'authentification par empreinte digitale dans la séquence PAM. En pratique :
 
-Généralement, l'authentification par mot de passe restera possible. Par exemple, `sudo` demandera initialement l'authentification par empreinte digitale. Si l'utilisateur ne s'authentifie pas avec une empreinte, `sudo` demandera l'authentification par mot de passe après un délai d'attente.
+  * `sudo` demandera initialement l'authentification par empreinte digitale.
+  * Si l'utilisateur échoue l'authentification biométrique ou la laisse expirer, `sudo` reviendra automatiquement à la demande du mot de passe traditionnel après un court délai d'attente.
 
-## 4\. Mises en Garde (Caveats)
+-----
 
-Il y a quelques mises en garde ou particularités à garder à l'esprit lors de l'utilisation de l'authentification par empreinte digitale.
+## 4\. Mises en garde et meilleures pratiques
 
-  * **Interférence du processus `fprintd` lors de l'enrôlement**
-    Au moins à la date de cette modification, sous Bookworm, le processus `fprintd` en arrière-plan, qui appartient à `root`, interfère parfois avec la capacité d'un utilisateur non-root à enregistrer des empreintes. Si cela se produit, **tuez simplement ce processus** et, si vous utilisez l'interface de paramètres Gnome pour enregistrer des empreintes, **fermez et rouvrez simplement la fenêtre d'enrôlement** après que le processus `fprintd` ait été tué. Vous devriez alors être en mesure d'enregistrer correctement vos empreintes.
+Il y a quelques particularités à considérer lors de l'utilisation de cette méthode d'authentification.
 
-  * **Déverrouillage du trousseau de clés (Keyring/Wallet)**
-    Si vous utilisez votre empreinte digitale pour votre connexion initiale, vous devrez toujours saisir votre mot de passe pour déverrouiller le trousseau de clés/portefeuille de votre environnement de bureau, à moins que vous n'ayez choisi de ne pas le chiffrer avec votre mot de passe lors de sa création.
-    Tout comme un téléphone intelligent, ces services utilisent ce mot de passe pour chiffrer leur contenu localement sur votre disque.
-    Il semble donc que la **meilleure pratique** pour utiliser l'authentification par empreinte digitale soit la suivante :
+### Interférence du processus `fprintd` lors de l'enrôlement
 
-    1.  Vous connecter initialement avec votre **mot de passe réel** pour vous assurer que tous les services sont déverrouillés ou démarrés correctement.
-    2.  Utiliser ensuite votre **empreinte digitale** pour déverrouiller l'écran, exécuter des commandes avec `sudo`, etc.
+Au moins dans certaines versions de Debian (comme Bookworm), le processus `fprintd` en arrière-plan (qui appartient à `root`) peut parfois interférer avec la capacité d'un utilisateur non-root à enregistrer de nouvelles empreintes.
+
+Si vous rencontrez ce problème :
+
+1.  **Tuez simplement ce processus** de démon.
+2.  Si vous utilisiez une interface de paramètres graphique, **fermez et rouvrez la fenêtre d'enrôlement** après l'arrêt du processus.
+
+Vous devriez alors être en mesure d'enregistrer correctement vos empreintes.
+
+### Déverrouillage du trousseau de clés (Keyring/Wallet)
+
+Si vous utilisez votre empreinte digitale pour votre **connexion initiale** à la session graphique :
+
+  * Le système d'exploitation sera déverrouillé.
+  * Cependant, le **trousseau de clés** (Keyring de GNOME ou KWallet de KDE), qui contient les mots de passe de vos applications, ne sera **pas déverrouillé automatiquement**.
+
+Le trousseau de clés est chiffré par votre mot de passe réel pour des raisons de sécurité.
+
+#### Meilleure pratique recommandée :
+
+1.  **Connexion initiale :** Utilisez votre **mot de passe réel** pour vous connecter. Cela garantit que tous les services chiffrés (comme le trousseau) sont déverrouillés ou démarrés correctement.
+2.  **Utilisation courante :** Utilisez ensuite votre **empreinte digitale** pour déverrouiller l'écran, exécuter des commandes avec `sudo`, et toutes les autres tâches d'authentification rapides.
 
 -----
 
