@@ -1,18 +1,24 @@
 ---
-title: Docker Compose Mattermost
-description: Déployez simplement Mattermost grâce à une pile (stack) docker compose et son fichier environnement.
+title: Déploiement de Mattermost avec Docker Compose et Portainer
+description: Ce guide explique comment déployer rapidement Mattermost (l'alternative open source à Slack) en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML et d'un fichier d'environnement (.env) pour gérer les variables.
 published: true
-date: 2025-07-17T00:13:56.378Z
+date: 2025-10-28T13:04:56.732Z
 tags: docker, mattermost
 editor: markdown
 dateCreated: 2024-05-26T14:43:35.445Z
 ---
 
-Pratique pour déployer rapidement [Mattermost](https://mattermost.com) dans [Portainer](https://www.portainer.io) en créant une pile ([stack](https://docs.portainer.io/user/docker/stacks)) à partir d'un fichier [compose YAML](https://docs.docker.com/compose/compose-application-model/) et d'un fichier environnement ([.env](https://docs.docker.com/compose/environment-variables/set-environment-variables/)) contenant des variables.
+*Je pars du principe que vous maîtrisez un minimum Docker avec Portainer. Je suis gentil, en fin de page, vous trouverez une capture avec la stack Mattermost remplie 😉*
 
-Je pars du principe que vous maîtrisez un minimum Docker avec Portainer. Je suis gentil, en fin de page, vous trouverez une capture avec la stack Mattermost remplie 😉
+-----
 
--   Partie fichier “compose”…
+## 1\. Le Fichier `docker-compose.yml` (Définition de la pile)
+
+Ce fichier définit les services **`postgres`** (base de données) et **`mattermost`** (application principale). Il utilise uniquement des variables d'environnement (`$VARIABLE`) qui seront définies dans le fichier `.env` ou directement dans l'interface Portainer.
+
+  - Partie fichier “compose”…
+
+<!-- end list -->
 
 ```plaintext
 # https://docs.docker.com/compose/environment-variables/
@@ -95,11 +101,13 @@ services:
 
 Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/public/snippets).
 
-PRÉCISION 
+### Précision sur les Ports et le Proxy Inverse
 
-Compose sans gestion [Proxy inverse](https://fr.wikipedia.org/wiki/Proxy_inverse) !
+> Compose sans gestion [Proxy inverse](https://fr.wikipedia.org/wiki/Proxy_inverse) \!
 
--   On peut le voir avec…
+  - On peut le voir avec…
+
+<!-- end list -->
 
 ```plaintext
 ports:
@@ -108,11 +116,17 @@ ports:
       - ${CALLS_PORT}:${CALLS_PORT}/tcp
 ```
 
-Vous devez donc avoir un déjà un Proxy inverse en place.
+L'application Mattermost s'exécute sur le port interne **8065**. Vous devez donc déjà avoir un Proxy inverse en place (comme [NGINX Proxy Manager](https://nginxproxymanager.com)) pour acheminer le trafic public (ports 80/443) vers le port `${APP_PORT}` que vous définirez.
 
-Exemple de Proxy inverse : [NGINX Proxy Manager](https://nginxproxymanager.com).
+-----
 
--   Partie fichier “environnement variables”…
+## 2\. Le Fichier d'Environnement (Variables)
+
+Le fichier d'environnement (`.env`) contient toutes les variables utilisées par le fichier `docker-compose.yml`. C'est ici que vous personnalisez les identifiants, les chemins et la version de Mattermost.
+
+  - Partie fichier “environnement variables”…
+
+<!-- end list -->
 
 ```plaintext
 # Domain of service
@@ -206,60 +220,51 @@ MM_SERVICESETTINGS_SITEURL=https://${DOMAIN}
 
 Toutes les variables sont bien entendu modifiables.
 
-Les variables à obligatoirement modifier sont…
+### Variables à Modifier Obligatoirement
 
--   La variable pour le domaine…
+Assurez-vous de personnaliser ces variables pour votre déploiement :
 
-`DOMAIN=mattermost.blablalinux.be`
+| Variable | Exemple Actuel | Description |
+| :--- | :--- | :--- |
+| **`DOMAIN`** | `mattermost.blablalinux.be` | Votre nom de domaine public (utilisé pour `MM_SERVICESETTINGS_SITEURL`). |
+| **`TZ`** | `Europe/Brussels` | Votre fuseau horaire. |
+| **`POSTGRES_USER`** | `blablalinux` | Nom d'utilisateur de la base de données. |
+| **`POSTGRES_PASSWORD`** | `blablalinux` | Mot de passe de la base de données. |
 
--   La variable “Timezone”…
+### Personnalisation de la Version et de l'Édition
 
-`TZ=Europe/Brussels`
+  - La variable **`MATTERMOST_IMAGE=mattermost-team-edition`** installera la version **"Team"** de Mattermost.
+  - Vous pouvez installer la version "Enterprise" avec **`MATTERMOST_IMAGE=mattermost-enterprise-edition`**.
+  - La variable **`MATTERMOST_IMAGE_TAG=latest`** installera la dernière version stable de Mattermost. Vous pouvez bien entendu remplacer le tag “latest” par [la version de votre choix](https://hub.docker.com/r/mattermost/mattermost-team-edition/tags).
+  - La variable **`APP_PORT=8065`** personnalise le port exposé par le service Mattermost qui sera utilisé par votre Proxy inverse.
 
--   La variable nom utilisateur de la base de données…
+-----
 
-`POSTGRES_USER=blablalinux`
+## 3\. Déploiement via Portainer et Configuration des Permissions
 
--   La variable mot de passer de la base de données…
+### Vue Portainer (Aperçu)
 
-`POSTGRES_PASSWORD=blablalinux`
-
--   Vous remarquerez que la variable…
-
-`MATTERMOST_IMAGE=mattermost-team-edition`
-
-…installera la version “team” de Mattermost.
-
--   Vous pouvez installer la version "enterprise" avec…
-
-`MATTERMOST_IMAGE=mattermost-entreprise-edition`
-
--   Vous remarquerez que la variable…
-
-`MATTERMOST_IMAGE_TAG=latest`
-
-…installera la dernière version stable de Mattermost.
-
-Vous pouvez bien entendu remplacer le tag “latest” par [la version de votre choix](https://hub.docker.com/r/mattermost/mattermost-team-edition/tags).
-
--   Vous remarquerez que la variable…
-
-`APP_PORT=8065`
-
-…personnalise le port qui sera utilisé par votre Proxy inverse, et qui peut aussi être modifiée.
-
--   La capture pour un meilleur aperçu…
-
+  - La capture pour un meilleur aperçu (utile si vous collez le contenu du fichier Compose et des variables dans une nouvelle Pile dans Portainer) :
+  
 ![](/docker-compose-mattermost/ok-stack-portainer-mattermost.png)
 
--   **Paramètres le plus important…**
 
-À l'intérieur du conteneur, l'UID et le GID sont à 2000. Le propriétaire du dossier doit-être défini avec…
+### Permissions Cruciales pour les Volumes
+
+Ceci est l'étape la plus importante pour garantir le bon fonctionnement des services Mattermost. Le conteneur Mattermost s'exécute avec l'**UID et le GID 2000**. Le propriétaire des volumes persistants doit correspondre à cet UID/GID.
+
+  - **Paramètres le plus important…**
+
+À l'intérieur du conteneur, l'UID et le GID sont à **2000**. Le propriétaire du dossier doit-être défini avec…
 
 `sudo chown -R 2000:2000`
 
-…sur le volume d'installation Mattermost !
+…sur le volume d'installation Mattermost \!
 
--   Chez moi, cela donne…
+  - Chez moi, cela donne (à adapter au chemin de vos volumes sur l'hôte) :
 
-`sudo chown -R 2000:2000 /data/compose/1/volumes/app/mattermost`
+<!-- end list -->
+
+```plaintext
+sudo chown -R 2000:2000 /data/compose/1/volumes/app/mattermost
+```
