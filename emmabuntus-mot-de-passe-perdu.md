@@ -1,61 +1,83 @@
 ---
-title: Emmabuntüs - Mot de passe perdu
-description: La machine n'a plus été démarrée depuis un moment ! Vous avez oublié le mot de passe root et/ou utilisateur ? Voici une solution.
+title: Réinitialisation du Mot de Passe Root ou Utilisateur via GRUB (Debian / Emmabuntüs)
+description: Ce guide décrit la méthode pour réinitialiser un mot de passe perdu sur un système Debian (ou Emmabuntüs) en éditant le menu GRUB au démarrage.
 published: true
-date: 2025-07-17T00:14:37.038Z
+date: 2025-10-28T13:41:06.205Z
 tags: password, user, root, emmabuntus
 editor: markdown
 dateCreated: 2024-08-15T15:31:02.884Z
 ---
 
-**Méthode testée par mes soins et opérationnelle sur Emmabuntüs DE4/5, et comme Emmabuntüs est une Debian, méthode valable pour Debian 💯**
+> **Méthode testée et opérationnelle sur Emmabuntüs DE4/5, et donc valable pour Debian.**
 
-# Accéder au menu du Grub
+-----
 
-Au démarrage, sur Emmabuntüs, pas besoins d’appeler le menu Grub. Il apparaît automatiquement durant cinq secondes.
+## 1\. Accéder au Menu GRUB
 
-Pour Debian, si le menu Grub n'apparaît pas au démarrage, tout en mettant la machine sous tension, laisser votre doigt appuyé sur la touche Shift.
+| Distribution | Action |
+| :--- | :--- |
+| **Emmabuntüs** | Le menu GRUB apparaît automatiquement pendant cinq secondes au démarrage. |
+| **Debian** | Si le menu n'apparaît pas, mettez la machine sous tension tout en maintenant la touche **`Shift`** enfoncée. |
 
-# Éditer le menu Grub
+-----
 
--   Tout en étant placé sur la _première ligne_ du menu Grub, on appuie sur la touche « **_e_** » pour passer en mode édition.
+## 2\. Éditer les Paramètres de Démarrage
 
-On se déplace avec les touches fléchées !
+Une fois dans le menu GRUB, vous allez forcer le système à démarrer directement sur un shell Bash avec accès en écriture.
 
--   On repère la ligne qui commence par « **linux** », et à la fin de celle-ci, on ajoute…
+1.  **Sélectionner la ligne :** Placez-vous sur la **première ligne** du menu GRUB (votre entrée de démarrage principale).
+2.  **Passer en mode édition :** Appuyez sur la touche **`e`**.
+3.  **Modifier la ligne `linux` :** Déplacez-vous jusqu'à la ligne qui commence par **`linux`** (ou `linux /boot/...`).
+4.  **Ajouter la commande de réinitialisation :** À la fin de cette ligne, ajoutez l'argument suivant, séparé par un espace :
+    ```plaintext
+    rw init=/bin/bash
+    ```
+5.  **Démarrer :** Appuyez sur la touche **`F10`** pour continuer le démarrage du système. Vous arriverez sur un prompt (`shell`).
 
-`rw init=/bin/bash`
+-----
 
--   On termine avec la touche « **F10** » pour continuer le démarrage du système et arriver sur un prompt.
+## 3\. Vérifier l'Accès en Écriture
 
-# Tester l’accès au shell
+Pour vous assurer que le système de fichiers racine est monté en mode lecture/écriture (`rw`), exécutez la commande suivante :
 
--   On rentre cette commande…
+```bash
+mount | grep -w /
+```
 
-`mount | grep -w /`
+Si la commande retourne une ligne contenant **`(rw,realtime)`** (ou simplement `rw`), l'accès en écriture est correctement établi et vous pouvez procéder à la réinitialisation.
 
-Si cette dernière retourne « **(rw,realtime)** » tout est ok.
+-----
 
-# Réinitialiser le mot de passe
+## 4\. Réinitialiser le Mot de Passe
 
--   Pour réinitialiser le mot de passe du compte « **roo**t », on utilise cette commande…
+Utilisez la commande `passwd` pour changer le mot de passe du compte désiré :
 
- `passwd`
+### Pour le compte **root**
 
-On entre un mot de passe, on le confirme ensuite.
+```bash
+passwd
+```
 
--   Pour réinitialiser le mot de passe d’un compte utilisateur, on utilise cette commande…
+Entrez et confirmez le nouveau mot de passe pour le compte `root`.
 
-`passwd <votre-nom-utilisateur>`
+### Pour un compte **utilisateur**
 
-On entre un mot de passe, on le confirme ensuite.
+```bash
+passwd <votre-nom-utilisateur>
+```
 
-# Redémarrer le système
+Remplacez `<votre-nom-utilisateur>` par le nom d'utilisateur du compte à modifier. Entrez et confirmez le nouveau mot de passe.
 
--   On utilise cette commande…
+-----
 
-`exec /sbin/init`
+## 5\. Redémarrer le Système
 
-On arrive sur le système avec notre mot de passe ✔️
+Une fois le mot de passe réinitialisé, redémarrez le système proprement en appelant la séquence d'initialisation normale :
 
-☝️ Méthode disponible sur le site officiel Emmabuntüs : [https://yourls.blablalinux.be/emmade-reset-password](https://yourls.blablalinux.be/emmade-reset-password) 👍
+```bash
+exec /sbin/init
+```
+
+Le système va redémarrer et vous pourrez vous connecter avec le nouveau mot de passe que vous avez défini. ✔️
+
+> **Source :** Méthode disponible sur le site officiel Emmabuntüs : [https://yourls.blablalinux.be/emmade-reset-password](https://yourls.blablalinux.be/emmade-reset-password) 👍
