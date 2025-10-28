@@ -2,17 +2,11 @@
 title: Maintenance Mastodon : Nettoyage et optimisation des caches avec tootctl
 description: Mastodon accumule divers types de données et de caches au fil du temps (images, médias, comptes distants, etc.). L'utilisation régulière des commandes tootctl est essentielle pour libérer de l'espace disque et maintenir la performance de votre instance.
 published: true
-date: 2025-10-28T12:46:40.372Z
+date: 2025-10-28T12:47:01.677Z
 tags: mastodon, cache, delete
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
 ---
-
-J'ai compris. Je vais améliorer la structure et la clarté de votre guide sur le nettoyage de Mastodon, en conservant **intégralement votre code** et vos liens (y compris l'image interne) à leur emplacement d'origine.
-
------
-
-# 🧹 Maintenance Mastodon : Nettoyage et optimisation des caches avec `tootctl`
 
 Mastodon accumule divers types de données et de caches au fil du temps (images, médias, comptes distants, etc.). L'utilisation régulière des commandes `tootctl` est essentielle pour libérer de l'espace disque et maintenir la performance de votre instance.
 
