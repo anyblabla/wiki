@@ -1,58 +1,58 @@
 ---
-title: HP Beats Audio PulseAudio
-description: Beats Audio est incomplet sous Ubuntu/Debian. C'est un problème fréquent que j'ai personnellement rencontré avec mon HP Pavilion DV7-6085eb. Après de nombreuses recherches sur les forums, j'ai trouvé une solution.
+title: Guide : Activer le Son Complet (Caisson de Basses) HP Beats Audio sous Ubuntu/Debian
+description: HP Beats Audio sur Linux : Son incomplet sur Ubuntu/Debian? Souvent causé par un mauvais réglage des haut-parleurs et du caisson de basses (LFE). Utilisez l'outil hdajackretask pour corriger et reconfigurer la sortie audio.
 published: true
-date: 2025-09-26T20:42:08.401Z
+date: 2025-10-28T13:49:48.241Z
 tags: debian, hp, beatsaudio, pulseaudio, sound, ubuntu
 editor: markdown
 dateCreated: 2025-09-26T18:10:25.732Z
 ---
 
-## Guide : Activer le son complet des haut-parleurs HP Beats Audio sous Ubuntu/Debian (PulseAudio)
+Si le son de votre PC portable HP Beats Audio (par exemple, HP Pavilion DV7) est incomplet sous Ubuntu/Debian, cela est souvent dû à une mauvaise configuration des haut-parleurs internes et du caisson de basses (**LFE**). Ce guide utilise l'outil **`hdajackretask`** pour reconfigurer la sortie audio.
 
-Si vous avez un ordinateur portable HP avec des haut-parleurs Beats Audio, vous avez peut-être remarqué que le son est incomplet sous Ubuntu/Debian. C'est un problème fréquent que j'ai personnellement rencontré avec mon HP Pavilion DV7-6085eb. Après de nombreuses recherches sur les forums, j'ai trouvé une solution qui permet d'activer tous les haut-parleurs, y compris le caisson de basses, sans compromettre la fonctionnalité des écouteurs.
+-----
 
-Ce guide utilise l'outil `hdajackretask` pour reconfigurer correctement la sortie audio.
+### Étapes de Configuration avec `hdajackretask`
 
-### Comment procéder
+#### Étape 1 : Installer l'Outil de Reconfiguration
 
-**Étape 1 : Installer `hdajackretask`**
+L'outil **`hdajackretask`** fait partie du paquet **`alsa-tools-gui`**.
 
-Ce dernier fait partie d'un pack d'utilitaires qui se nomme `alsa-tools-gui`.
+Ouvrez le terminal et exécutez les commandes suivantes :
 
-Ouvrez votre terminal pour installer ce paquet :
+1.  **Mettre à jour le système :**
+    ```bash
+    sudo apt update && sudo apt upgrade
+    ```
+2.  **Installer l'utilitaire :**
+    ```bash
+    sudo apt install alsa-tools-gui
+    ```
 
-`sudo apt update && sudo apt upgrade`
+#### Étape 2 : Lancer et Configurer
 
-`sudo apt install alsa-tools-gui`
+1.  Recherchez et lancez le programme **`hdajackretask`**.
+2.  Dans le menu déroulant **"Select a codec"**, choisissez votre codec, souvent **`IDT 92HD91BXX`** (le nom peut varier).
+3.  Cochez la case **"Show unconnected pins"** pour afficher toutes les broches de configuration.
 
-**Étape 2 : Lancer l'outil**
+#### Étape 3 : Reconfigurer les Broches Audio
 
-Recherchez et ouvrez le programme **hdajackretask**.
+Vous allez maintenant remapper les sorties physiques vers les bonnes fonctions audio.
 
-**Étape 3 : Sélectionner le codec**
+| Broche (Pin) | Option à sélectionner dans "Remap to" | Fonction |
+| :--- | :--- | :--- |
+| **`0x0d`** | **"Internal speaker"** | Haut-parleur interne (face avant) |
+| **`0x0f`** | **"Internal speaker"** | Haut-parleur interne (souvent sous l'écran) |
+| **`0x10`** | **"Internal speaker (LFE)"** | **Caisson de basses** (Low-Frequency Effects) |
 
-Dans le menu déroulant "Select a codec", choisissez **IDT 92HD91BXX**. *Note : Le nom du codec peut varier selon votre modèle d'ordinateur.*
+#### Étape 4 : Appliquer et Rendre les Changements Permanents
 
-**Étape 4 : Activer l'affichage des broches non connectées**
+1.  Cliquez sur le bouton **"Apply now"**.
+2.  **Testez immédiatement** le son avec votre lecteur audio : le son complet doit sortir, y compris les basses.
+3.  Si le test est concluant, cliquez sur **"Install boot override"** pour que ces réglages soient chargés à chaque démarrage.
 
-Cochez la case **"Show unconnected pins"**. Cette étape est cruciale, car les haut-parleurs internes ne sont pas toujours détectés comme connectés par défaut.
+#### Étape 5 : Finalisation
 
-**Étape 5 : Reconfigurer les haut-parleurs**
+**Redémarrez** votre ordinateur. Le son complet (y compris le caisson de basses) devrait être fonctionnel.
 
-Vous allez maintenant remapper les broches de votre carte son. Pour cela, cliquez sur chaque ligne listée ci-dessous et sélectionnez la bonne option dans le menu déroulant "Remap to":
-* Pour la broche **`0x0d`** (haut-parleur interne, face avant), sélectionnez **"Internal speaker"**.
-* Pour la broche **`0x0f`** (souvent "unconnected" mais correspondant aux haut-parleurs sous l'écran), sélectionnez **"Internal speaker"**.
-* Pour la broche **`0x10`** (souvent "unconnected" mais correspondant au caisson de basses), sélectionnez **"Internal speaker (LFE)"**.
-
-**Étape 6 : Appliquer et tester les changements**
-
-Cliquez sur le bouton **"Apply now"**. Testez immédiatement avec votre lecteur audio préféré pour vérifier que le son sort de tous les haut-parleurs, y compris le caisson de basses.
-
-**Étape 7 : Rendre les changements permanents**
-
-Si le test est concluant, cliquez sur **"Install boot override"**. Cela sauvegardera les paramètres pour qu'ils soient appliqués automatiquement à chaque démarrage.
-
-**Étape 8 : Redémarrer**
-
-Redémarrez votre ordinateur. Le son complet devrait maintenant fonctionner. N'oubliez pas de tester aussi la prise casque : l'audio des haut-parleurs internes doit se couper automatiquement lorsque vous branchez des écouteurs, comme c'est le cas avec un système fonctionnel.
+> **Vérification** : Assurez-vous que l'audio des haut-parleurs internes se coupe automatiquement lorsque vous branchez votre casque/vos écouteurs.
