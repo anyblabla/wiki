@@ -2,7 +2,7 @@
 title: Conversion Vidéo (MP4) avec FFMPEG
 description: Cette page documente les alias Bash basés sur FFMPEG, conçus pour la conversion et l'optimisation des fichiers vidéo au format MP4.
 published: false
-date: 2025-10-29T23:46:41.944Z
+date: 2025-10-29T23:59:04.068Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
@@ -20,15 +20,30 @@ Ces alias permettent de convertir tous les fichiers `*.mp4` du répertoire coura
 
 ## ⚙️ Alias et Débits Binaires
 
-Chaque alias utilise FFMPEG avec un **codec vidéo H.264** (`-c:v libx264`) et un débit audio standard de **96 kbps** (`-b:a 96k`), sauf si indiqué.
+Chaque alias utilise FFMPEG avec un **codec vidéo H.264** (`-c:v libx264`). La majorité utilise un débit audio standard de **$96\text{ kbps}$** (`-b:a 96k`), sauf l'alias `mp4convertnextcloud`.
 
 | Alias | Débit Binaire Vidéo (`-b:v`) | Qualité Relative |
 | :--- | :--- | :--- |
 | `mp4convert200` | 200k | Très faible (Aperçu) |
 | `mp4convert1000` | 1000k (1 Mbps) | Standard (Web, 720p) |
 | **`mp4convert3000`** | **3000k (3 Mbps)** | **Haute (Standard HD)** |
-| `mp4convert6000` | 6000k (6 Mbps) | Très Haute (Haute définition) |
-| `mp4convertnextcloud` | 6000k | Spécifique (pour plateformes) |
+| `mp4convert6000` | 6000k (6 Mbps) | Très Haute (Compression Audio) |
+| `mp4convertnextcloud` | 6000k | **Optimisation Spécifique (Audio Original)** |
+
+-----
+
+## 🧐 Focus Spécifique : Différence entre les Alias $6000\text{k}$
+
+Les deux alias de $6000\text{k}$ diffèrent par la manière dont ils gèrent la piste audio, ce qui influence leur usage final :
+
+| Alias | Débit Audio | Contexte d'Utilisation |
+| :--- | :--- | :--- |
+| **`mp4convert6000`** | **$96\text{k}$** (`-b:a 96k`) | Conversion de haute qualité où l'audio est compressé à un niveau standard (réduction de la taille globale du fichier). |
+| **`mp4convertnextcloud`** | **Original** (non spécifié) | Normalisation de sources de très haute qualité (ex: $1080\text{p} \text{ à } 60\text{ fps}$ et $25000\text{k}$ source). Il réduit la vidéo à $6\text{ Mbps}$ tout en **conservant la qualité sonore native**. |
+
+### Rôle de `mp4convertnextcloud`
+
+Cet alias permet de réduire la taille du fichier d'environ $75\%$ (en passant de $25\text{ Mbps}$ à $6\text{ Mbps}$ pour la vidéo) tout en **préservant l'intégrité audio** pour l'archivage haute fidélité ou le partage sur des plateformes exigeantes en qualité sonore.
 
 -----
 
@@ -63,13 +78,13 @@ Voici l'alias `mp4convert3000` décortiqué pour illustrer sa structure :
 
 ```bash
 alias mp4convert3000='
-    for file in *.mp4; # Pour chaque fichier .mp4 dans le dossier
+    for file in *.mp4; # 1. Initialise la boucle pour chaque fichier .mp4 dans le dossier actuel
     do 
         ffmpeg -i "$file" \
             -b:v 3000k \
             -b:a 96k \
             -c:v libx264 \
-            "$HOME/Vidéos/MP4convert/3000k-$file"; # Chemin de sortie portable
+            "$HOME/Vidéos/MP4convert/3000k-$file"; # 2. Chemin de sortie portable et préfixé
     done
 '
 ```
