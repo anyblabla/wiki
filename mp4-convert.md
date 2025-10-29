@@ -1,8 +1,8 @@
 ---
 title: Conversion Vidéo (MP4) avec FFMPEG
 description: Cette page documente les alias Bash basés sur FFMPEG, conçus pour la conversion et l'optimisation des fichiers vidéo au format MP4.
-published: false
-date: 2025-10-29T23:59:04.068Z
+published: true
+date: 2025-10-29T23:59:20.104Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
