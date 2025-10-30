@@ -1,8 +1,8 @@
 ---
-title: Script d'Update Proxmox VE par Cron avec Notification Gotify
+title: Script de mise à jour de Proxmox VE par Cron avec notification Gotify
 description: Script Cron pour mise à jour Proxmox VE : Automatisez apt-get dist-upgrade et recevez une notification immédiate via Gotify en cas de succès ou d'échec. Inclut les pré-requis curl.
 published: true
-date: 2025-10-30T20:46:29.289Z
+date: 2025-10-30T20:53:21.989Z
 tags: proxmox, cron, crontab, script, bash, pve, update, gotify
 editor: markdown
 dateCreated: 2025-10-30T20:46:02.780Z
@@ -17,9 +17,9 @@ L'automatisation des mises à jour système (surtout celles du noyau) comporte t
 
 -----
 
-## I. Pré-requis : Installation de `curl` et configuration Gotify 🔔
+## I. Pré-requis : installation de `curl` et configuration Gotify 🔔
 
-Le script utilise l'outil **`curl`** pour envoyer la notification au service Gotify. Vous devez également récupérer les identifiants de votre application Gotify.
+Le script utilise l'outil **`curl`** pour envoyer la notification au service **Gotify**. Vous devez vous assurer que `curl` est installé et que vous avez vos identifiants Gotify.
 
 ### 1\. Installation de `curl`
 
@@ -40,21 +40,17 @@ Vous aurez besoin de deux informations :
 
 ## II. Création du script Bash avec notification Gotify
 
-Nous allons créer un script exécutable dans le répertoire standard pour les commandes locales de l'administrateur : `/usr/local/bin/`.
+### Étape 1 : créer le fichier `update_pve.sh`
 
-### Étape 1 : Créer le fichier de script `update_pve.sh`
-
-1.  Connectez-vous à votre hôte Proxmox en SSH (en tant que `root`) et utilisez `nano` (ou `vi`) pour créer le fichier.
-
-<!-- end list -->
+Connectez-vous à votre hôte Proxmox en **SSH** (en tant que `root`) et utilisez `nano` pour créer et éditer le fichier :
 
 ```bash
 nano /usr/local/bin/update_pve.sh
 ```
 
-2.  Collez le contenu suivant. **⚠️ Remplacez `VOTRE_URL_GOTIFY` et `VOTRE_TOKEN_GOTIFY` par vos propres valeurs.**
+### Étape 2 : coller le contenu du script
 
-<!-- end list -->
+Collez le contenu suivant dans le fichier. **⚠️ Remplacez `VOTRE_URL_GOTIFY` et `VOTRE_TOKEN_GOTIFY` par vos propres valeurs.**
 
 ```bash
 #!/bin/bash
@@ -142,7 +138,7 @@ send_gotify_notification "$NOTIFICATION_TITLE" "$NOTIFICATION_MESSAGE" $NOTIFICA
 exit $UPDATE_SUCCESS
 ```
 
-### Étape 2 : rendre le script exécutable
+### Étape 3 : rendre le script exécutable
 
 ```bash
 chmod +x /usr/local/bin/update_pve.sh
@@ -154,13 +150,13 @@ chmod +x /usr/local/bin/update_pve.sh
 
 Nous allons ajouter une entrée au `crontab` de l'utilisateur `root` pour planifier l'exécution du script.
 
-### Étape 1 : Ouvrir le crontab de l'utilisateur root
+### Étape 1 : ouvrir le crontab de l'utilisateur root
 
 ```bash
 crontab -e
 ```
 
-### Étape 2 : Ajouter la ligne de planification
+### Étape 2 : ajouter la ligne de planification
 
 Ajoutez la ligne suivante à la fin du fichier. Cet exemple planifie l'exécution du script tous les **dimanches à 3h30 du matin**.
 
@@ -175,11 +171,11 @@ Ajoutez la ligne suivante à la fin du fichier. Cet exemple planifie l'exécutio
 | **Heure** | `3` | 3h du matin |
 | **Jour de la semaine** | `0` ou `7` | Dimanche (0 et 7 sont des alias pour le dimanche) |
 
-### Étape 3 : Enregistrer et quitter
+### Étape 3 : enregistrer et quitter
 
 -----
 
-## IV. Vérification (Post-exécution)
+## IV. Vérification (post-exécution)
 
 Après l'heure planifiée, vous recevrez une notification Gotify confirmant le statut. Vous devez ensuite vérifier le journal et la nécessité d'un redémarrage.
 
