@@ -1,8 +1,8 @@
 ---
-title: Script d'Update Proxmox Backup Server (PBS) par Cron avec Notification Gotify
+title: Script de mise à jour de Proxmox Backup Server par Cron avec notification Gotify
 description: Script Cron pour mise à jour Proxmox Backup Server : Automatisez apt-get dist-upgrade sur votre PBS et recevez une notification immédiate via Gotify en cas de succès ou d'échec. Inclut les pré-requis curl.
 published: true
-date: 2025-10-30T20:50:47.691Z
+date: 2025-10-30T20:54:59.129Z
 tags: proxmox, cron, crontab, script, bash, update, pbs, gotify
 editor: markdown
 dateCreated: 2025-10-30T20:50:47.691Z
@@ -37,9 +37,9 @@ Le script utilise les commandes `apt-get update` et `apt-get dist-upgrade` mais 
 
 -----
 
-## I. Pré-requis : Installation de `curl` et configuration Gotify 🔔
+## I. Pré-requis : installation de `curl` et configuration Gotify 🔔
 
-Le script utilise l'outil **`curl`** pour envoyer la notification au service Gotify. Vous devez vous assurer que `curl` est installé et que vous avez vos identifiants Gotify.
+Le script utilise l'outil **`curl`** pour envoyer la notification au service **Gotify**. Vous devez vous assurer que `curl` est installé et que vous avez vos identifiants Gotify.
 
 ### 1\. Installation de `curl`
 
@@ -60,15 +60,15 @@ Vous aurez besoin de deux informations :
 
 ## II. Création du script Bash avec notification Gotify
 
-### Étape 1 : Créer le fichier `update_pbs.sh`
+### Étape 1 : créer le fichier `update_pbs.sh`
 
-Connectez-vous à votre hôte PBS en SSH (en tant que `root`) et utilisez `nano` pour créer et éditer le fichier :
+Connectez-vous à votre hôte PBS en **SSH** (en tant que `root`) et utilisez `nano` pour créer et éditer le fichier :
 
 ```bash
 nano /usr/local/bin/update_pbs.sh
 ```
 
-### Étape 2 : Coller le contenu du script
+### Étape 2 : coller le contenu du script
 
 Collez le contenu suivant dans le fichier. **⚠️ Remplacez `VOTRE_URL_GOTIFY` et `VOTRE_TOKEN_GOTIFY` par vos propres valeurs.**
 
@@ -156,7 +156,7 @@ send_gotify_notification "$NOTIFICATION_TITLE" "$NOTIFICATION_MESSAGE" $NOTIFICA
 exit $UPDATE_SUCCESS
 ```
 
-### Étape 3 : Rendre le script exécutable
+### Étape 3 : rendre le script exécutable
 
 ```bash
 chmod +x /usr/local/bin/update_pbs.sh
@@ -168,13 +168,13 @@ chmod +x /usr/local/bin/update_pbs.sh
 
 Nous allons planifier l'exécution du script via l'outil de planification de tâches `cron`, spécifiquement pour l'utilisateur `root`.
 
-### Étape 1 : Ouvrir le crontab de l'utilisateur root
+### Étape 1 : ouvrir le crontab de l'utilisateur root
 
 ```bash
 crontab -e
 ```
 
-### Étape 2 : Ajouter la ligne de planification
+### Étape 2 : ajouter la ligne de planification
 
 Ajoutez la ligne suivante à la fin du fichier `crontab`.
 
@@ -193,13 +193,13 @@ Cet exemple planifie l'exécution du script **tous les dimanches à 3h30 du mati
 | **Mois** | `*` | Tous les mois |
 | **Jour de la semaine** | `0` ou `7` | Dimanche (0 et 7 sont des alias pour le dimanche) |
 
-### Étape 3 : Enregistrer et quitter
+### Étape 3 : enregistrer et quitter
 
 Enregistrez et quittez l'éditeur de `crontab`. La tâche planifiée est maintenant active.
 
 -----
 
-## IV. Vérification (Post-exécution)
+## IV. Vérification (post-exécution)
 
 L'étape la plus critique est la vérification après l'exécution planifiée. **Vous recevrez également une notification Gotify** confirmant le statut.
 
