@@ -2,7 +2,7 @@
 title: Script de mise à jour de Proxmox Backup Server par Cron avec notification Gotify
 description: Script Cron pour mise à jour Proxmox Backup Server : Automatisez apt-get dist-upgrade sur votre PBS et recevez une notification immédiate via Gotify en cas de succès ou d'échec. Inclut les pré-requis curl.
 published: true
-date: 2025-10-30T20:54:59.129Z
+date: 2025-10-30T21:49:53.825Z
 tags: proxmox, cron, crontab, script, bash, update, pbs, gotify
 editor: markdown
 dateCreated: 2025-10-30T20:50:47.691Z
@@ -39,8 +39,6 @@ Le script utilise les commandes `apt-get update` et `apt-get dist-upgrade` mais 
 
 ## I. Pré-requis : installation de `curl` et configuration Gotify 🔔
 
-Le script utilise l'outil **`curl`** pour envoyer la notification au service **Gotify**. Vous devez vous assurer que `curl` est installé et que vous avez vos identifiants Gotify.
-
 ### 1\. Installation de `curl`
 
 Si ce paquet n'est pas installé sur votre hôte Proxmox Backup Server, exécutez :
@@ -54,11 +52,11 @@ apt-get install curl -y
 Vous aurez besoin de deux informations :
 
   * **URL Gotify** : L'URL complète de votre serveur (ex: `https://gotify.mondomaine.com`).
-  * **Token Gotify** : Le jeton (Token) de l'application Gotify que vous souhaitez utiliser pour la notification.
+  * **Token Gotify** : Le jeton (Token) de l'application Gotify.
 
 -----
 
-## II. Création du script Bash avec notification Gotify
+## II. Création du script Bash avec notification Gotify (Form-Data)
 
 ### Étape 1 : créer le fichier `update_pbs.sh`
 
@@ -70,7 +68,7 @@ nano /usr/local/bin/update_pbs.sh
 
 ### Étape 2 : coller le contenu du script
 
-Collez le contenu suivant dans le fichier. **⚠️ Remplacez `VOTRE_URL_GOTIFY` et `VOTRE_TOKEN_GOTIFY` par vos propres valeurs.**
+Collez le contenu suivant. **⚠️ Remplacez `VOTRE_URL_GOTIFY` et `VOTRE_TOKEN_GOTIFY` par vos propres valeurs.**
 
 ```bash
 #!/bin/bash
@@ -83,27 +81,23 @@ GOTIFY_TOKEN="VOTRE_TOKEN_GOTIFY"
 # --- PARAMÈTRES DU SCRIPT ---
 LOGFILE="/var/log/proxmox_update.log"
 HOSTNAME=$(hostname)
-UPDATE_SUCCESS=0 # Statut de la mise à jour (0 = succès, 1 = échec)
+UPDATE_SUCCESS=0
 
 # Redirection de toute la sortie vers le fichier journal
 exec 1>>$LOGFILE 2>&1
 
-# --- FONCTION DE NOTIFICATION GOTIFY ---
-# Envoie un message à Gotify avec titre, corps et priorité
+# --- FONCTION DE NOTIFICATION GOTIFY (MÉTHODE FORM-DATA) ---
+# Le token est passé dans l'URL et l'option -k est utilisée pour ignorer les erreurs SSL/TLS.
 send_gotify_notification() {
     local title="$1"
     local message="$2"
-    local priority="$3" # 1 (normal) à 10 (critique)
+    local priority="$3"
     
     # Envoi de la notification via curl
-    curl -s -X POST "$GOTIFY_URL/message" \
-        -H "Content-Type: application/json" \
-        -d "{
-              \"title\": \"$title\",
-              \"message\": \"$message\",
-              \"priority\": $priority\",
-              \"token\": \"$GOTIFY_TOKEN\"
-            }" > /dev/null 2>&1
+    curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
+        -F "title=$title" \
+        -F "message=$message" \
+        -F "priority=$priority" > /dev/null 2>&1
 }
 
 # --- DÉBUT DU PROCESSUS DE MISE À JOUR ---
@@ -116,7 +110,6 @@ echo "--- Étape 1 : apt-get update (Mise à jour des listes de paquets) ---"
 apt-get update
 
 if [ $? -ne 0 ]; then
-    # Si apt-get update échoue, on marque l'échec
     echo "Échec de la mise à jour des listes de paquets. Arrêt du script."
     UPDATE_SUCCESS=1
 else
@@ -142,7 +135,7 @@ echo "======================================================"
 if [ $UPDATE_SUCCESS -eq 0 ]; then
     # Succès
     NOTIFICATION_TITLE="✅ PBS Update SUCCÈS sur $HOSTNAME"
-    NOTIFICATION_MESSAGE="La mise à jour Proxmox Backup Server s'est terminée avec succès. Vérifiez si un redémarrage est nécessaire."
+    NOTIFICATION_MESSAGE="La mise à jour PBS s'est terminée. Redémarrage nécessaire si nouveau noyau."
     NOTIFICATION_PRIORITY=4 # Priorité moyenne
 else
     # Échec
@@ -166,8 +159,6 @@ chmod +x /usr/local/bin/update_pbs.sh
 
 ## III. Configuration de la tâche Cron ⏱️
 
-Nous allons planifier l'exécution du script via l'outil de planification de tâches `cron`, spécifiquement pour l'utilisateur `root`.
-
 ### Étape 1 : ouvrir le crontab de l'utilisateur root
 
 ```bash
@@ -176,9 +167,7 @@ crontab -e
 
 ### Étape 2 : ajouter la ligne de planification
 
-Ajoutez la ligne suivante à la fin du fichier `crontab`.
-
-Cet exemple planifie l'exécution du script **tous les dimanches à 3h30 du matin**. Ajustez les valeurs selon votre fenêtre de maintenance préférée.
+Ajoutez la ligne suivante à la fin du fichier. Cet exemple planifie l'exécution du script tous les **dimanches à 3h30 du matin**.
 
 ```cron
 # Mettre à jour Proxmox Backup Server (PBS) tous les dimanches à 3h30 du matin
@@ -189,23 +178,17 @@ Cet exemple planifie l'exécution du script **tous les dimanches à 3h30 du mati
 | :--- | :--- | :--- |
 | **Minute** | `30` | 30e minute |
 | **Heure** | `3` | 3h du matin |
-| **Jour du mois** | `*` | Tous les jours |
-| **Mois** | `*` | Tous les mois |
 | **Jour de la semaine** | `0` ou `7` | Dimanche (0 et 7 sont des alias pour le dimanche) |
 
 ### Étape 3 : enregistrer et quitter
-
-Enregistrez et quittez l'éditeur de `crontab`. La tâche planifiée est maintenant active.
 
 -----
 
 ## IV. Vérification (post-exécution)
 
-L'étape la plus critique est la vérification après l'exécution planifiée. **Vous recevrez également une notification Gotify** confirmant le statut.
+Après l'heure planifiée, vous recevrez une notification Gotify confirmant le statut.
 
 ### 1\. Consulter le fichier journal
-
-Utilisez `tail` pour afficher les dernières entrées du journal et vérifier le bon déroulement de l'opération :
 
 ```bash
 tail -f /var/log/proxmox_update.log
@@ -213,9 +196,7 @@ tail -f /var/log/proxmox_update.log
 
 ### 2\. Vérifier la nécessité d'un redémarrage
 
-Si le journal mentionne l'installation de paquets tels que **`pbs-kernel-*`**, un redémarrage est nécessaire.
-
-Vous pouvez également utiliser cette commande pour vérifier si le système indique qu'un redémarrage est requis :
+Si le journal mentionne l'installation de paquets **`pbs-kernel-*`**, ou si la commande suivante retourne des informations, un redémarrage est nécessaire :
 
 ```bash
 apt-get install -s | grep "reboot is required"
@@ -223,7 +204,7 @@ apt-get install -s | grep "reboot is required"
 
 ### 3\. Redémarrer l'hôte si nécessaire
 
-Si un nouveau noyau a été installé ou si la commande précédente l'indique, redémarrez l'hôte PBS via l'interface Web ou en SSH :
+Si un nouveau noyau a été installé, redémarrez l'hôte PBS via l'interface Web ou en SSH :
 
 ```bash
 reboot
