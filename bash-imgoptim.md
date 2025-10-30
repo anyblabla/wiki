@@ -1,8 +1,8 @@
 ---
 title: Traitement d'Images (JPG) avec imgoptim
 description: Cette page documente la fonction Bash imgoptim, un outil essentiel pour le redimensionnement et la compression des fichiers d'images JPG/JPEG.
-published: false
-date: 2025-10-29T23:38:04.792Z
+published: true
+date: 2025-10-30T00:00:06.197Z
 tags: imgoptim, jpg, jpeg, convert
 editor: markdown
 dateCreated: 2025-10-29T23:38:04.792Z
