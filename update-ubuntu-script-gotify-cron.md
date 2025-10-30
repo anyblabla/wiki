@@ -2,7 +2,7 @@
 title: Script de mise à jour d'Ubuntu Server par Cron avec notification Gotify
 description: Script Cron pour mise à jour Ubuntu : Automatisez apt-get upgrade et snap refresh sur votre serveur Ubuntu. Recevez une notification immédiate via Gotify en cas de succès ou d'échec de la mise à jour.
 published: true
-date: 2025-10-30T21:01:00.149Z
+date: 2025-10-30T21:51:09.053Z
 tags: serveur, crontab, ubuntu, script, bash, update, gotify
 editor: markdown
 dateCreated: 2025-10-30T21:01:00.149Z
@@ -13,13 +13,11 @@ dateCreated: 2025-10-30T21:01:00.149Z
 L'automatisation des mises à jour système (surtout celles du noyau) comporte toujours un risque. **Ce script n'inclut pas de redémarrage automatique.**
 
   * **Action requise :** Après l'exécution du script, **vérifiez toujours** le fichier journal (`/var/log/ubuntu_update.log`). Si un nouveau noyau (kernel) a été installé, vous devez **redémarrer manuellement** le serveur pour que les mises à jour prennent effet.
-  * **Privilèges :** Les commandes dans le script utilisent `sudo`. La tâche Cron doit donc être configurée dans la **crontab de l'utilisateur `root`** pour éviter les problèmes d'authentification par mot de passe.
+  * **Privilèges :** La tâche Cron doit être configurée dans la **crontab de l'utilisateur `root`** pour gérer les commandes `sudo` sans problème d'authentification.
 
 -----
 
 ## I. Pré-requis : installation de `curl` et configuration Gotify 🔔
-
-Le script utilise l'outil **`curl`** pour envoyer la notification au service **Gotify**. Vous devez vous assurer que `curl` est installé et que vous avez vos identifiants Gotify.
 
 ### 1\. Installation de `curl`
 
@@ -34,11 +32,11 @@ sudo apt-get install curl -y
 Vous aurez besoin de deux informations :
 
   * **URL Gotify** : L'URL complète de votre serveur (ex: `https://gotify.mondomaine.com`).
-  * **Token Gotify** : Le jeton (Token) de l'application Gotify que vous souhaitez utiliser pour la notification.
+  * **Token Gotify** : Le jeton (Token) de l'application Gotify.
 
 -----
 
-## II. Création du script Bash avec notification Gotify
+## II. Création du script Bash avec notification Gotify (Form-Data)
 
 ### Étape 1 : créer le fichier `update_ubuntu.sh`
 
@@ -65,27 +63,23 @@ GOTIFY_TOKEN="VOTRE_TOKEN_GOTIFY"
 # --- PARAMÈTRES DU SCRIPT ---
 LOGFILE="/var/log/ubuntu_update.log"
 HOSTNAME=$(hostname)
-UPDATE_SUCCESS=0 # Statut de la mise à jour (0 = succès, 1 = échec)
+UPDATE_SUCCESS=0
 
 # Redirection de toute la sortie vers le fichier journal
 exec 1>>$LOGFILE 2>&1
 
-# --- FONCTION DE NOTIFICATION GOTIFY ---
-# Envoie un message à Gotify avec titre, corps et priorité
+# --- FONCTION DE NOTIFICATION GOTIFY (MÉTHODE FORM-DATA) ---
+# Le token est passé dans l'URL et l'option -k est utilisée pour ignorer les erreurs SSL/TLS.
 send_gotify_notification() {
     local title="$1"
     local message="$2"
-    local priority="$3" # 1 (normal) à 10 (critique)
+    local priority="$3"
     
-    # Envoi de la notification via curl (nécessite le paquet 'curl')
-    curl -s -X POST "$GOTIFY_URL/message" \
-        -H "Content-Type: application/json" \
-        -d "{
-              \"title\": \"$title\",
-              \"message\": \"$message\",
-              \"priority\": $priority\",
-              \"token\": \"$GOTIFY_TOKEN\"
-            }" > /dev/null 2>&1
+    # Envoi de la notification via curl
+    curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
+        -F "title=$title" \
+        -F "message=$message" \
+        -F "priority=$priority" > /dev/null 2>&1
 }
 
 # --- DÉBUT DU PROCESSUS DE MISE À JOUR ---
@@ -123,7 +117,7 @@ echo "======================================================"
 if [ $UPDATE_SUCCESS -eq 0 ]; then
     # Succès
     NOTIFICATION_TITLE="✅ Ubuntu Update SUCCÈS sur $HOSTNAME"
-    NOTIFICATION_MESSAGE="La mise à jour Ubuntu s'est terminée avec succès. Vérifiez si un redémarrage est nécessaire."
+    NOTIFICATION_MESSAGE="La mise à jour Ubuntu s'est terminée. Vérifiez si un redémarrage est nécessaire."
     NOTIFICATION_PRIORITY=4 # Priorité moyenne
 else
     # Échec
@@ -137,7 +131,7 @@ send_gotify_notification "$NOTIFICATION_TITLE" "$NOTIFICATION_MESSAGE" $NOTIFICA
 exit $UPDATE_SUCCESS
 ```
 
-### Étape 2 : rendre le script exécutable
+### Étape 3 : rendre le script exécutable
 
 ```bash
 sudo chmod +x /usr/local/bin/update_ubuntu.sh
@@ -146,8 +140,6 @@ sudo chmod +x /usr/local/bin/update_ubuntu.sh
 -----
 
 ## III. Configuration de la tâche Cron (recommandé : utilisateur root) ⏱️
-
-Pour exécuter des commandes nécessitant `sudo` sans interaction, nous utilisons le `crontab` de l'utilisateur `root`.
 
 ### Étape 1 : ouvrir le crontab de l'utilisateur root
 
@@ -176,7 +168,7 @@ Ajoutez la ligne suivante à la fin du fichier. Cet exemple planifie l'exécutio
 
 ## IV. Vérification (post-exécution)
 
-Après l'heure planifiée, **vous recevrez une notification Gotify** confirmant le statut. Vous devez ensuite vérifier le journal et la nécessité d'un redémarrage.
+Après l'heure planifiée, vous recevrez une notification Gotify confirmant le statut.
 
 ### 1\. Consulter le fichier journal
 
@@ -191,8 +183,6 @@ Utilisez cette commande pour vérifier si un redémarrage est nécessaire :
 ```bash
 apt-get install -s | grep "reboot is required"
 ```
-
-*(Note : Si vous voyez une sortie, un redémarrage est nécessaire.)*
 
 ### 3\. Redémarrer le serveur si nécessaire
 
