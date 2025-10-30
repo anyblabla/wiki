@@ -2,7 +2,7 @@
 title: Changer la Couleur Principale (Primaire) de votre Wiki.js (Guide Injection HEAD)
 description: Cette documentation explique comment modifier les couleurs par défaut du thème principal de votre installation Wiki.js (tel que le thème par défaut ou tout autre thème basé sur le framework Vuetify).
 published: true
-date: 2025-10-30T15:54:50.570Z
+date: 2025-10-30T15:59:32.461Z
 tags: wikijs, head, html, color, injection
 editor: markdown
 dateCreated: 2025-10-30T15:54:26.600Z
@@ -10,32 +10,32 @@ dateCreated: 2025-10-30T15:54:26.600Z
 
 ### 📝 Introduction
 
-**L'objectif est de remplacer la couleur principale de mise en surbrillance** (boutons, titres, éléments actifs) et d'autres couleurs spécifiques en utilisant l'outil d'**Injection de Code CSS** de Wiki.js.
+**L'objectif est de remplacer la couleur principale de mise en surbrillance** (boutons, titres, éléments actifs) et d'autres couleurs spécifiques en utilisant l'outil d'**Injection de code CSS** de Wiki.js.
 
-Cette méthode est **non-destructive**, car elle utilise un code CSS (`<style>`) injecté dans la section `<head>` du document pour surcharger les styles existants, garantissant que vos modifications persistent même après les mises à jour du thème.
+Cette méthode est **non destructive**, car elle utilise un code CSS (`<style>`) injecté dans la section `<head>` du document pour surcharger les styles existants, garantissant que vos modifications persistent même après les mises à jour du thème.
 
 -----
 
-### 1\. ⚙️ Procédure d'Injection
+### 1\. ⚙️ Procédure d'injection
 
 Suivez ces étapes pour placer le code de personnalisation au bon endroit :
 
-1.  Accédez à la **Zone d'administration** de votre Wiki.js.
+1.  Accédez à la **zone d'administration** de votre Wiki.js.
 2.  Naviguez vers la section **Thème**.
-3.  Cliquez sur l'onglet **Injection de Code**.
+3.  Cliquez sur l'onglet **Injection de code**.
 4.  Collez le code fourni à l'étape 2 dans le champ **Injection HTML dans le HEAD**.
 5.  Cliquez sur **Appliquer** pour sauvegarder et tester les changements.
 
 -----
 
-### 2\. 🎨 Le Code CSS d'Override à Injecter
+### 2\. 🎨 Le code CSS d'override à injecter
 
 Le code ci-dessous utilise des **variables CSS** pour définir vos couleurs et les applique en forçant la priorité sur les classes de couleur par défaut de Vuetify.
 
-  * **Couleur Principale (`--override`) :** `#125856` (Vert sombre/Canard)
-  * **Couleur du Texte (`--textcolor`) :** `#F88013` (Orange)
+  * **Couleur principale (`--override`) :** `#125856` (vert sombre/canard)
+  * **Couleur du texte (`--textcolor`) :** `#F88013` (orange)
 
-#### Code à Copier/Coller
+#### Code à copier/coller
 
 Collez le bloc complet ci-dessous dans le champ **Injection HTML dans le HEAD** :
 
@@ -94,7 +94,7 @@ Collez le bloc complet ci-dessous dans le champ **Injection HTML dans le HEAD** 
 
 -----
 
-### 3\. ✏️ Comment Modifier les Couleurs
+### 3\. ✏️ Comment modifier les couleurs
 
 Pour adapter le code à votre propre charte graphique, modifiez les deux lignes suivantes au début du code en remplaçant les codes hexadécimaux :
 
