@@ -1,16 +1,16 @@
 ---
-title: Debian : Activer les Mises à Jour Automatiques avec unattended-upgrades
+title: Debian : Activer les mises à jour automatiques avec unattended-upgrades
 description: Ce guide explique comment configurer et activer l'outil unattended-upgrades sur Debian afin d'appliquer automatiquement les mises à jour de sécurité et d'autres paquets.
 published: true
-date: 2025-11-01T00:14:07.294Z
+date: 2025-11-01T00:29:25.640Z
 tags: debian, upgrade, unattended-upgrades
 editor: markdown
 dateCreated: 2025-11-01T00:14:07.294Z
 ---
 
-## 1\. Installation du Paquet
+## 1\. Installation du paquet
 
-Le paquet `unattended-upgrades` doit d'abord être installé sur votre système Debian. Il est également recommandé d'installer `apt-listchanges` pour recevoir des notifications des modifications de paquets.
+Le paquet `unattended-upgrades` doit d'abord être installé sur votre système Debian. Il est également recommandé d'installer **`apt-listchanges`** pour recevoir des notifications des modifications de paquets.
 
 Exécutez la commande suivante en tant que `root` (ou avec `sudo`) :
 
@@ -21,11 +21,11 @@ apt install unattended-upgrades apt-listchanges -y
 
 -----
 
-## 2\. Activation Initiale
+## 2\. Activation initiale
 
-Après l'installation, vous pouvez activer le service de base pour les mises à jour de sécurité de manière non interactive ou via l'outil de configuration.
+Après l'installation, vous pouvez activer le service de base pour les mises à jour de sécurité.
 
-### A. Méthode Interactive (`dpkg-reconfigure`)
+### A. Méthode interactive (`dpkg-reconfigure`)
 
 Exécutez cette commande et **confirmez** l'activation des mises à jour automatiques lorsque vous y êtes invité :
 
@@ -33,7 +33,7 @@ Exécutez cette commande et **confirmez** l'activation des mises à jour automat
 dpkg-reconfigure unattended-upgrades
 ```
 
-### B. Méthode Non-Interactive (Recommandée)
+### B. Méthode non-interactive (recommandée)
 
 Cette méthode permet d'activer directement les mises à jour de sécurité sans passer par l'interface de `dpkg-reconfigure` :
 
@@ -44,11 +44,11 @@ dpkg-reconfigure -f noninteractive unattended-upgrades
 
 -----
 
-## 3\. Configuration des Fréquences
+## 3\. Configuration des fréquences
 
-Le système `apt` utilise un fichier de configuration pour définir la fréquence des opérations de maintenance automatique. Ce fichier se trouve généralement sous `/etc/apt/apt.conf.d/20auto-upgrades` ou est créé par la configuration initiale.
+Le système `apt` utilise un fichier de configuration pour définir la fréquence des opérations de maintenance automatique : `/etc/apt/apt.conf.d/20auto-upgrades`.
 
-Éditez (ou créez) le fichier `/etc/apt/apt.conf.d/20auto-upgrades` pour définir la fréquence des opérations. Les valeurs sont en jours.
+Éditez (ou créez) ce fichier pour définir la fréquence des opérations. Les valeurs sont en jours.
 
 | Option | Description | Valeur `1` (Quotidienne) | Valeur `7` (Hebdomadaire) | Valeur `0` (Désactivé) |
 | :--- | :--- | :--- | :--- | :--- |
@@ -69,28 +69,28 @@ APT::Periodic::Verbose "1";
 
 -----
 
-## 4\. Personnalisation Avancée (Fichier `50unattended-upgrades`)
+## 4\. Personnalisation avancée (fichier `50unattended-upgrades`)
 
 Le fichier `/etc/apt/apt.conf.d/50unattended-upgrades` permet d'affiner le comportement du processus de mise à jour.
 
-### A. Sources Autorisées (`Allowed-Origins`)
+### A. Sources autorisées (`Allowed-Origins`)
 
-Par défaut, seules les **mises à jour de sécurité** sont activées. Pour autoriser d'autres dépôts, décommentez ou ajoutez les lignes appropriées dans la section `Unattended-Upgrade::Allowed-Origins`.
+Par défaut, seules les **mises à jour de sécurité** sont activées. Pour autoriser d'autres dépôts, modifiez la section `Unattended-Upgrade::Allowed-Origins` :
 
 ```bash
 Unattended-Upgrade::Allowed-Origins {
-    "${distro_id}:${distro_codename}-security"; // La ligne de sécurité est toujours recommandée
+    "${distro_id}:${distro_codename}-security"; // La ligne de sécurité est toujours recommandée
 
-    // Décommenter pour les mises à jour standards et les mises à jour proposées
-    // "${distro_id}:${distro_codename}";
-    // "${distro_id}:${distro_codename}-updates";
-    // "${distro_id}:${distro_codename}-proposed-updates";
+    // Décommenter pour les mises à jour standards et les mises à jour proposées
+    // "${distro_id}:${distro_codename}";
+    // "${distro_id}:${distro_codename}-updates";
+    // "${distro_id}:${distro_codename}-proposed-updates";
 };
 ```
 
 > **⚠️ Attention :** L'activation des mises à jour non sécuritaires peut augmenter le risque de problèmes de stabilité sur les serveurs critiques.
 
-### B. Redémarrage Automatique (`Automatic-Reboot`)
+### B. Redémarrage automatique (`Automatic-Reboot`)
 
 Pour que le système redémarre automatiquement si une mise à jour de noyau ou d'une bibliothèque critique le nécessite, modifiez les options suivantes :
 
@@ -102,11 +102,11 @@ Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::Automatic-Reboot-Time "04:00";
 ```
 
-> **Remarque :** L'heure est exprimée en format 24h. Le système ne redémarrera que si le fichier `/var/run/reboot-required` est présent.
+> **Remarque :** Le système ne redémarrera que si le fichier `/var/run/reboot-required` est présent.
 
-### C. Notifications par Courriel (`Mail`)
+### C. Notifications par courriel (`Mail`)
 
-Pour être informé en cas de problème ou après une mise à jour, configurez une adresse e-mail. Un serveur de messagerie local doit être installé et configuré (ex: `postfix`, `msmtp`).
+Pour être informé en cas de problème ou après une mise à jour, configurez une adresse courriel (nécessite l'installation d'un serveur de messagerie local comme `postfix` ou `msmtp`) :
 
 ```bash
 // Adresse e-mail de notification
@@ -118,7 +118,7 @@ Unattended-Upgrade::MailReport "on-change";
 
 -----
 
-## 5\. Test et Débogage
+## 5\. Test et débogage
 
 Pour simuler l'exécution du processus et vérifier si les mises à jour fonctionneront comme prévu, utilisez les options `-d` (debug) et `--dry-run` (simulation) :
 
@@ -126,7 +126,7 @@ Pour simuler l'exécution du processus et vérifier si les mises à jour fonctio
 unattended-upgrade -d --dry-run
 ```
 
-### 🔎 Consultation des Logs
+### 🔎 Consultation des logs
 
 Les logs de l'exécution de `unattended-upgrades` se trouvent dans :
 
@@ -135,7 +135,7 @@ Les logs de l'exécution de `unattended-upgrades` se trouvent dans :
 
 -----
 
-## 6\. Vérification du Service
+## 6\. Vérification du service
 
 `unattended-upgrades` est souvent exécuté via les *timers* de `systemd` appelés par les scripts périodiques d'APT. Vous pouvez vérifier l'état des *timers* associés :
 
