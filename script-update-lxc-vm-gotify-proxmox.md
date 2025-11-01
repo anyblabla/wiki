@@ -2,7 +2,7 @@
 title: Script d'automatisation des mises à jour des VMs et LXC Proxmox avec notification Gotify
 description: Scripts Cron pour VMs/LXC Proxmox : Automatisez la mise à jour (apt-get/snap) et le redémarrage sécurisé de vos conteneurs et machines virtuelles Debian/Ubuntu. Recevez une notification détaillée via Gotify.
 published: true
-date: 2025-10-30T22:12:10.436Z
+date: 2025-11-01T16:52:17.431Z
 tags: lxc, proxmox, cron, crontab, script, bash, vm, pve, gotify
 editor: markdown
 dateCreated: 2025-10-30T22:12:10.436Z
@@ -72,6 +72,7 @@ LOGFILE="/var/log/update_vms_cron.log"
 EXCLUDED_VMS="" # IDs de VMs à exclure (séparés par des espaces)
 SUCCESS_COUNT=0
 FAILURE_COUNT=0
+UPDATED_VMS_COUNT=0 # Compteur de VMs qui ont réellement eu des MAJ
 REBOOT_LIST=""
 
 exec 1>>$LOGFILE 2>&1
@@ -92,12 +93,15 @@ echo "Démarrage de la mise à jour des VMs le $(date)"
 echo "=================================================="
 
 # Commandes internes pour la VM
-UPDATE_COMMAND="export DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 && \
-                apt-get update -y && \
-                apt-get full-upgrade -y && \
-                apt-get autoremove -y && \
-                apt-get clean && \
-                snap refresh 2>/dev/null || true" 
+UPDATE_COMMAND_DRY_RUN="export DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 && \
+                        (apt-get update -y 2>/dev/null && apt-get full-upgrade -s --assume-no 2>/dev/null) | grep -E '^(Inst|Upgr|Remv)' | wc -l"
+
+UPDATE_COMMAND_REAL="export DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 && \
+                     apt-get update -y && \
+                     apt-get full-upgrade -y && \
+                     apt-get autoremove -y && \
+                     apt-get clean && \
+                     snap refresh 2>/dev/null || true"
 
 REBOOT_CHECK_COMMAND="[ -f /var/run/reboot-required ] && echo 'REBOOT_YES' || echo 'REBOOT_NO'"
 
@@ -106,72 +110,98 @@ for VMID in $(/usr/sbin/qm list | grep running | awk '{print $1}')
 do
     if [[ " $EXCLUDED_VMS " =~ " $VMID " ]]; then
         echo "    [SKIP] VM $VMID exclue."
-        continue 
-    fi
-    
-    echo "--> Traitement de la VM VMID $VMID..."
-    
-    # 2. Exécution des mises à jour
-    echo "    - Exécution des mises à jour..."
-    /usr/sbin/qm guest exec $VMID --timeout 300 /bin/bash -- -c "$UPDATE_COMMAND"
-    
-    if [ $? -ne 0 ]; then
-        echo "    [ERREUR CRITIQUE] La mise à jour de la VM $VMID a échoué. Poursuite vers la prochaine VM."
-        FAILURE_COUNT=$((FAILURE_COUNT + 1))
         continue
     fi
+
+    echo "--> Traitement de la VM VMID $VMID..."
     
-    # 3. Vérification du besoin de redémarrage
-    echo "    - Vérification du besoin de redémarrage..."
-    REBOOT_CHECK_OUTPUT=$(/usr/sbin/qm guest exec $VMID --timeout 60 /bin/bash -- -c "$REBOOT_CHECK_COMMAND")
+    # 1. Vérification s'il y a des mises à jour disponibles (Simulation)
+    echo "    - Simulation des mises à jour..."
+    APT_UPDATES_COUNT=$(/usr/sbin/qm guest exec $VMID --timeout 60 /bin/bash -- -c "$UPDATE_COMMAND_DRY_RUN" 2>/dev/null)
+    APT_UPDATES_COUNT=${APT_UPDATES_COUNT//[^0-9]/} # Nettoyage de la sortie
     
-    if [[ "$REBOOT_CHECK_OUTPUT" == *"REBOOT_YES"* ]]; then
+    # S'assurer que le compteur est un nombre
+    if ! [[ "$APT_UPDATES_COUNT" =~ ^[0-9]+$ ]]; then
+        APT_UPDATES_COUNT=0
+    fi
 
-        echo "    [ALERTE] Redémarrage nécessaire pour la VM $VMID. Redémarrage en cours..."
-        REBOOT_LIST="$REBOOT_LIST VMID $VMID"
+    echo "    - $APT_UPDATES_COUNT paquets APT à mettre à jour."
+    
+    # Vérification si des mises à jour APT sont nécessaires (on ne peut pas simuler snap facilement ici, on le laisse s'exécuter si APT a des MAJ)
+    if [ "$APT_UPDATES_COUNT" -gt 0 ]; then
+        
+        UPDATED_VMS_COUNT=$((UPDATED_VMS_COUNT + 1))
+        echo "    - Exécution des mises à jour réelles..."
+        
+        # 2. Exécution des mises à jour réelles (inclut snap refresh)
+        /usr/sbin/qm guest exec $VMID --timeout 300 /bin/bash -- -c "$UPDATE_COMMAND_REAL"
 
-        # 4. Redémarrage sécurisé
-        echo "    - Arrêt de la VM $VMID (shutdown)..."
-        /usr/sbin/qm shutdown $VMID --timeout 120 
-
-        if /usr/sbin/qm status $VMID | grep -q running; then
-            echo "    - Arrêt gracieux échoué. Forçage de l'arrêt (stop)..."
-            /usr/sbin/qm stop $VMID
-            sleep 5
+        if [ $? -ne 0 ]; then
+            echo "    [ERREUR CRITIQUE] La mise à jour de la VM $VMID a échoué. Poursuite vers la prochaine VM."
+            FAILURE_COUNT=$((FAILURE_COUNT + 1))
+            continue
         fi
 
-        echo "    - Démarrage de la VM $VMID..."
-        /usr/sbin/qm start $VMID
-        echo "    [OK] Redémarrage de la VM $VMID terminé."
+        # 3. Vérification du besoin de redémarrage (Uniquement si MAJ effectuée)
+        echo "    - Vérification du besoin de redémarrage..."
+        REBOOT_CHECK_OUTPUT=$(/usr/sbin/qm guest exec $VMID --timeout 60 /bin/bash -- -c "$REBOOT_CHECK_COMMAND")
 
+        if [[ "$REBOOT_CHECK_OUTPUT" == *"REBOOT_YES"* ]]; then
+            echo "    [ALERTE] Redémarrage nécessaire pour la VM $VMID. Redémarrage en cours..."
+            REBOOT_LIST="$REBOOT_LIST VMID $VMID"
+
+            # 4. Redémarrage sécurisé
+            echo "    - Arrêt de la VM $VMID (shutdown)..."
+            /usr/sbin/qm shutdown $VMID --timeout 120
+
+            if /usr/sbin/qm status $VMID | grep -q running; then
+                echo "    - Arrêt gracieux échoué. Forçage de l'arrêt (stop)..."
+                /usr/sbin/qm stop $VMID
+                sleep 5
+            fi
+
+            echo "    - Démarrage de la VM $VMID..."
+            /usr/sbin/qm start $VMID
+            echo "    [OK] Redémarrage de la VM $VMID terminé."
+        else
+            echo "    [OK] VM $VMID mise à jour avec succès. Aucun redémarrage critique nécessaire."
+        fi
+        SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
     else
-        echo "    [OK] VM $VMID mise à jour avec succès. Aucun redémarrage critique nécessaire."
+        echo "    [SKIP] Aucune mise à jour APT détectée. VM $VMID ignorée."
+        # Si pas de MAJ, on ne compte pas dans SUCCESS_COUNT (seulement UPDATED_VMS_COUNT)
     fi
-    SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+
 done
 
 echo "=================================================="
 echo "Fin de la mise à jour des VMs le $(date)"
 echo "=================================================="
 
-# --- ENVOI DE LA NOTIFICATION FINALE ---
-TOTAL_VMS=$((SUCCESS_COUNT + FAILURE_COUNT))
+# --- ENVOI DE LA NOTIFICATION FINALE CONDITIONNELLE ---
+# On envoie la notification UNIQUEMENT si (il y a eu un échec) OU (au moins une VM a été mise à jour)
+if [ $FAILURE_COUNT -gt 0 ] || [ $UPDATED_VMS_COUNT -gt 0 ]; then
+    TOTAL_VMS_PROCESSED=$((SUCCESS_COUNT + FAILURE_COUNT)) # VMS qui ont tenté l'update
 
-if [ $FAILURE_COUNT -gt 0 ]; then
-    TITLE="❌ VMs Update ÉCHEC(s) sur $HOSTNAME"
-    MESSAGE="$FAILURE_COUNT VMs sur $TOTAL_VMS ont rencontré une ERREUR. $SUCCESS_COUNT VMs mises à jour. Redémarrées : $REBOOT_LIST"
-    PRIORITY=8
-elif [ -n "$REBOOT_LIST" ]; then
-    TITLE="⚠️ VMs Update Succès & Redémarrage(s)"
-    MESSAGE="$SUCCESS_COUNT VMs mises à jour. Redémarrage effectué sur : $REBOOT_LIST"
-    PRIORITY=6
+    if [ $FAILURE_COUNT -gt 0 ]; then
+        TITLE="❌ VMs Update ÉCHEC(s) sur $HOSTNAME"
+        MESSAGE="$FAILURE_COUNT VMs sur $TOTAL_VMS_PROCESSED ont rencontré une ERREUR. $SUCCESS_COUNT VMs mises à jour. Redémarrées : $REBOOT_LIST"
+        PRIORITY=8
+    elif [ -n "$REBOOT_LIST" ]; then
+        TITLE="⚠️ VMs Update Succès & Redémarrage(s)"
+        MESSAGE="$UPDATED_VMS_COUNT VMs mises à jour. Redémarrage effectué sur : $REBOOT_LIST"
+        PRIORITY=6
+    else
+        TITLE="✅ VMs Update SUCCÈS sur $HOSTNAME"
+        MESSAGE="$UPDATED_VMS_COUNT VMs mises à jour. Aucune VM n'a nécessité de redémarrage."
+        PRIORITY=4
+    fi
+
+    send_gotify_notification "$TITLE" "$MESSAGE" $PRIORITY
 else
-    TITLE="✅ VMs Update SUCCÈS sur $HOSTNAME"
-    MESSAGE="$SUCCESS_COUNT VMs mises à jour. Aucune VM n'a nécessité de redémarrage."
-    PRIORITY=4
+    # Aucune MAJ effectuée, aucun échec
+    echo "Aucune mise à jour nécessaire sur les VMs en cours d'exécution et aucune erreur. Aucune notification Gotify envoyée."
 fi
-
-send_gotify_notification "$TITLE" "$MESSAGE" $PRIORITY
 
 exec 1>&- 2>&-
 exit 0
@@ -214,6 +244,7 @@ LOGFILE="/var/log/update_lxcs_cron.log"
 EXCLUDED_CTIDS="" # CTIDs à exclure (séparés par des espaces)
 SUCCESS_COUNT=0
 FAILURE_COUNT=0
+UPDATED_CT_COUNT=0 # Nouveau compteur pour les CT qui ont réellement eu des MAJ
 REBOOT_LIST=""
 
 exec 1>>$LOGFILE 2>&1
@@ -234,12 +265,17 @@ echo "Démarrage de la mise à jour des LXC le $(date)"
 echo "=================================================="
 
 # Commandes internes pour le conteneur
-UPDATE_COMMAND="export DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 && \
-                apt-get update -y && \
-                apt-get full-upgrade -y && \
-                apt-get autoremove -y && \
-                apt-get clean && \
-                snap refresh 2>/dev/null || true" 
+# Simulation de mise à jour APT : compte les paquets à installer/mettre à jour/supprimer
+UPDATE_COMMAND_DRY_RUN="export DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 && \
+                        (apt-get update -y 2>/dev/null && apt-get full-upgrade -s --assume-no 2>/dev/null) | grep -E '^(Inst|Upgr|Remv)' | wc -l"
+
+# Commande réelle de mise à jour (inclut snap refresh)
+UPDATE_COMMAND_REAL="export DEBIAN_FRONTEND=noninteractive LC_ALL=C.UTF-8 && \
+                     apt-get update -y && \
+                     apt-get full-upgrade -y && \
+                     apt-get autoremove -y && \
+                     apt-get clean && \
+                     snap refresh 2>/dev/null || true"
 
 REBOOT_CHECK_COMMAND="[ -f /var/run/reboot-required ] && echo 'REBOOT_YES' || echo 'REBOOT_NO'"
 
@@ -248,63 +284,89 @@ for CTID in $(/usr/sbin/pct list | grep running | awk '{print $1}')
 do
     if [[ " $EXCLUDED_CTIDS " =~ " $CTID " ]]; then
         echo "    [SKIP] Conteneur $CTID exclu."
-        continue 
-    fi
-    
-    echo "--> Traitement du conteneur CTID $CTID..."
-    
-    # 2. Exécution des mises à jour
-    echo "    - Exécution des mises à jour..."
-    /usr/sbin/pct exec $CTID -- bash -c "$UPDATE_COMMAND"
-    
-    if [ $? -ne 0 ]; then
-        echo "    [ERREUR CRITIQUE] La mise à jour du conteneur $CTID a échoué. Poursuite vers le prochain LXC."
-        FAILURE_COUNT=$((FAILURE_COUNT + 1))
         continue
     fi
+
+    echo "--> Traitement du conteneur CTID $CTID..."
+
+    # 1. Vérification s'il y a des mises à jour disponibles (Simulation)
+    echo "    - Simulation des mises à jour..."
+    # Exécuter la simulation et capturer le décompte des paquets à mettre à jour
+    APT_UPDATES_COUNT=$(/usr/sbin/pct exec $CTID -- bash -c "$UPDATE_COMMAND_DRY_RUN" 2>/dev/null)
+    APT_UPDATES_COUNT=${APT_UPDATES_COUNT//[^0-9]/} # Nettoyage de la sortie pour ne garder que le nombre
     
-    # 3. Vérification du besoin de redémarrage
-    echo "    - Vérification du besoin de redémarrage..."
-    REBOOT_CHECK_OUTPUT=$(/usr/sbin/pct exec $CTID -- bash -c "$REBOOT_CHECK_COMMAND")
-    
-    if [[ "$REBOOT_CHECK_OUTPUT" == *"REBOOT_YES"* ]]; then
-
-        echo "    [ALERTE] Redémarrage nécessaire pour le conteneur $CTID. Redémarrage en cours..."
-        REBOOT_LIST="$REBOOT_LIST CTID $CTID"
-        
-        # 4. Redémarrage direct (pct reboot)
-        /usr/sbin/pct reboot $CTID --timeout 120 
-
-        echo "    [OK] Redémarrage du conteneur $CTID terminé."
-
-    else
-        echo "    [OK] Conteneur $CTID mis à jour avec succès. Aucun redémarrage critique nécessaire."
+    if ! [[ "$APT_UPDATES_COUNT" =~ ^[0-9]+$ ]]; then
+        APT_UPDATES_COUNT=0
     fi
-    SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+    
+    echo "    - $APT_UPDATES_COUNT paquets APT à mettre à jour."
+    
+    # 2. Exécution des mises à jour uniquement si nécessaire
+    if [ "$APT_UPDATES_COUNT" -gt 0 ]; then
+        
+        UPDATED_CT_COUNT=$((UPDATED_CT_COUNT + 1))
+        echo "    - Exécution des mises à jour réelles..."
+
+        # Exécution des mises à jour réelles
+        /usr/sbin/pct exec $CTID -- bash -c "$UPDATE_COMMAND_REAL"
+
+        if [ $? -ne 0 ]; then
+            echo "    [ERREUR CRITIQUE] La mise à jour du conteneur $CTID a échoué. Poursuite vers le prochain LXC."
+            FAILURE_COUNT=$((FAILURE_COUNT + 1))
+            continue
+        fi
+
+        # 3. Vérification du besoin de redémarrage (Uniquement si MAJ effectuée)
+        echo "    - Vérification du besoin de redémarrage..."
+        REBOOT_CHECK_OUTPUT=$(/usr/sbin/pct exec $CTID -- bash -c "$REBOOT_CHECK_COMMAND")
+
+        if [[ "$REBOOT_CHECK_OUTPUT" == *"REBOOT_YES"* ]]; then
+            echo "    [ALERTE] Redémarrage nécessaire pour le conteneur $CTID. Redémarrage en cours..."
+            REBOOT_LIST="$REBOOT_LIST CTID $CTID"
+
+            # 4. Redémarrage direct (pct reboot)
+            /usr/sbin/pct reboot $CTID --timeout 120
+
+            echo "    [OK] Redémarrage du conteneur $CTID terminé."
+
+        else
+            echo "    [OK] Conteneur $CTID mis à jour avec succès. Aucun redémarrage critique nécessaire."
+        fi
+        SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+    else
+        echo "    [SKIP] Aucune mise à jour APT détectée. Conteneur $CTID ignoré."
+        # Note : On ne compte pas dans SUCCESS_COUNT si aucune MAJ n'a été faite
+    fi
 done
 
 echo "=================================================="
 echo "Fin de la mise à jour des LXC le $(date)"
 echo "=================================================="
 
-# --- ENVOI DE LA NOTIFICATION FINALE ---
-TOTAL_CT=$((SUCCESS_COUNT + FAILURE_COUNT))
+# --- ENVOI DE LA NOTIFICATION FINALE CONDITIONNELLE ---
+# On envoie la notification UNIQUEMENT si (il y a eu un échec) OU (au moins un LXC a été mis à jour)
+if [ $FAILURE_COUNT -gt 0 ] || [ $UPDATED_CT_COUNT -gt 0 ]; then
+    TOTAL_CT_PROCESSED=$((SUCCESS_COUNT + FAILURE_COUNT)) # CTs qui ont tenté l'update
 
-if [ $FAILURE_COUNT -gt 0 ]; then
-    TITLE="❌ LXC Update ÉCHEC(s) sur $HOSTNAME"
-    MESSAGE="$FAILURE_COUNT LXC sur $TOTAL_CT ont rencontré une ERREUR. $SUCCESS_COUNT LXC mis à jour. Redémarrés : $REBOOT_LIST"
-    PRIORITY=8
-elif [ -n "$REBOOT_LIST" ]; then
-    TITLE="⚠️ LXC Update Succès & Redémarrage(s)"
-    MESSAGE="$SUCCESS_COUNT LXC mis à jour. Redémarrage effectué sur : $REBOOT_LIST"
-    PRIORITY=6
+    if [ $FAILURE_COUNT -gt 0 ]; then
+        TITLE="❌ LXC Update ÉCHEC(s) sur $HOSTNAME"
+        MESSAGE="$FAILURE_COUNT LXC ont rencontré une ERREUR. $SUCCESS_COUNT LXC mis à jour. Redémarrés : $REBOOT_LIST"
+        PRIORITY=8
+    elif [ -n "$REBOOT_LIST" ]; then
+        TITLE="⚠️ LXC Update Succès & Redémarrage(s)"
+        MESSAGE="$UPDATED_CT_COUNT LXC mis à jour. Redémarrage effectué sur : $REBOOT_LIST"
+        PRIORITY=6
+    else
+        TITLE="✅ LXC Update SUCCÈS sur $HOSTNAME"
+        MESSAGE="$UPDATED_CT_COUNT LXC mis à jour. Aucun LXC n'a nécessité de redémarrage."
+        PRIORITY=4
+    fi
+
+    send_gotify_notification "$TITLE" "$MESSAGE" $PRIORITY
 else
-    TITLE="✅ LXC Update SUCCÈS sur $HOSTNAME"
-    MESSAGE="$SUCCESS_COUNT LXC mis à jour. Aucun LXC n'a nécessité de redémarrage."
-    PRIORITY=4
+    # Aucune MAJ effectuée, aucun échec
+    echo "Aucune mise à jour nécessaire sur les conteneurs en cours d'exécution et aucune erreur. Aucune notification Gotify envoyée."
 fi
-
-send_gotify_notification "$TITLE" "$MESSAGE" $PRIORITY
 
 exec 1>&- 2>&-
 exit 0
