@@ -2,7 +2,7 @@
 title: Script de mise à jour de Proxmox Backup Server par Cron avec notification Gotify
 description: Script Cron pour mise à jour Proxmox Backup Server : Automatisez apt-get dist-upgrade sur votre PBS et recevez une notification immédiate via Gotify en cas de succès ou d'échec. Inclut les pré-requis curl.
 published: true
-date: 2025-10-30T21:49:53.825Z
+date: 2025-11-01T16:34:05.531Z
 tags: proxmox, cron, crontab, script, bash, update, pbs, gotify
 editor: markdown
 dateCreated: 2025-10-30T20:50:47.691Z
@@ -82,6 +82,7 @@ GOTIFY_TOKEN="VOTRE_TOKEN_GOTIFY"
 LOGFILE="/var/log/proxmox_update.log"
 HOSTNAME=$(hostname)
 UPDATE_SUCCESS=0
+PACKAGES_TO_UPGRADE=0 # Compteur pour les paquets à mettre à jour
 
 # Redirection de toute la sortie vers le fichier journal
 exec 1>>$LOGFILE 2>&1
@@ -92,7 +93,7 @@ send_gotify_notification() {
     local title="$1"
     local message="$2"
     local priority="$3"
-    
+
     # Envoi de la notification via curl
     curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
         -F "title=$title" \
@@ -102,7 +103,7 @@ send_gotify_notification() {
 
 # --- DÉBUT DU PROCESSUS DE MISE À JOUR ---
 echo "======================================================"
-echo "Début de la mise à jour Proxmox Backup Server (PBS) sur $HOSTNAME : $(date)"
+echo "Début du processus de mise à jour Proxmox Backup Server (PBS) sur $HOSTNAME : $(date)"
 echo "======================================================"
 
 # 1. Mise à jour de la liste des paquets (apt-get update)
@@ -113,38 +114,59 @@ if [ $? -ne 0 ]; then
     echo "Échec de la mise à jour des listes de paquets. Arrêt du script."
     UPDATE_SUCCESS=1
 else
-    # 2. Mise à niveau des paquets installés (apt-get dist-upgrade)
-    echo "--- Étape 2 : apt-get dist-upgrade (Mise à niveau des paquets) ---"
-    apt-get dist-upgrade -y
+    # 2. Vérification s'il y a des mises à jour disponibles (Simulation)
+    echo "--- Étape 2 : apt-get dist-upgrade -s (Simulation de mise à jour) ---"
+    
+    # Simuler dist-upgrade et compter les paquets qui seront installés (Inst),
+    # mis à jour (Upgr) ou supprimés (Remv)
+    PACKAGES_TO_UPGRADE=$(apt-get -s --assume-no dist-upgrade 2>/dev/null | grep -E '^(Inst|Upgr|Remv)' | wc -l)
+    
+    echo "Nombre de paquets à mettre à jour/installer/supprimer : $PACKAGES_TO_UPGRADE"
 
-    # 3. Suppression des dépendances inutiles (apt-get autoremove)
-    echo "--- Étape 3 : apt-get autoremove (Nettoyage des dépendances et anciens noyaux) ---"
-    apt-get autoremove -y
+    if [ "$PACKAGES_TO_UPGRADE" -gt 0 ]; then
+        echo "Des mises à jour sont disponibles. Démarrage de l'installation..."
+        
+        # 3. Mise à niveau des paquets installés (apt-get dist-upgrade)
+        echo "--- Étape 3 : apt-get dist-upgrade (Mise à niveau des paquets) ---"
+        apt-get dist-upgrade -y
 
-    # 4. Nettoyage du cache APT
-    echo "--- Étape 4 : apt-get clean (Nettoyage du cache APT) ---"
-    apt-get clean
+        # 4. Suppression des dépendances inutiles (apt-get autoremove)
+        echo "--- Étape 4 : apt-get autoremove (Nettoyage des dépendances et anciens noyaux) ---"
+        apt-get autoremove -y
+
+        # 5. Nettoyage du cache APT
+        echo "--- Étape 5 : apt-get clean (Nettoyage du cache APT) ---"
+        apt-get clean
+    else
+        echo "Aucune mise à jour de paquet disponible. Les étapes d'installation seront ignorées."
+    fi
 fi
 
 echo "======================================================"
-echo "Fin de la mise à jour Proxmox Backup Server (PBS) : $(date)"
+echo "Fin du processus Proxmox Backup Server (PBS) : $(date)"
 echo "======================================================"
 
 # --- ENVOI DE LA NOTIFICATION FINALE ---
 
-if [ $UPDATE_SUCCESS -eq 0 ]; then
-    # Succès
-    NOTIFICATION_TITLE="✅ PBS Update SUCCÈS sur $HOSTNAME"
-    NOTIFICATION_MESSAGE="La mise à jour PBS s'est terminée. Redémarrage nécessaire si nouveau noyau."
-    NOTIFICATION_PRIORITY=4 # Priorité moyenne
+# On envoie la notification UNIQUEMENT si (il y a eu des MAJ) OU (il y a eu un ÉCHEC)
+if [ "$PACKAGES_TO_UPGRADE" -gt 0 ] || [ $UPDATE_SUCCESS -ne 0 ]; then
+    if [ $UPDATE_SUCCESS -eq 0 ]; then
+        # Succès
+        NOTIFICATION_TITLE="✅ PBS Update SUCCÈS sur $HOSTNAME"
+        NOTIFICATION_MESSAGE="La mise à jour de $PACKAGES_TO_UPGRADE paquet(s) s'est terminée. Redémarrage nécessaire si nouveau noyau."
+        NOTIFICATION_PRIORITY=4 # Priorité moyenne
+    else
+        # Échec
+        NOTIFICATION_TITLE="❌ PBS Update ÉCHEC sur $HOSTNAME"
+        NOTIFICATION_MESSAGE="La mise à jour de PBS a ÉCHOUÉ (apt-get update). Consultez $LOGFILE sur l'hôte."
+        NOTIFICATION_PRIORITY=8 # Haute priorité
+    fi
+    
+    send_gotify_notification "$NOTIFICATION_TITLE" "$NOTIFICATION_MESSAGE" $NOTIFICATION_PRIORITY
 else
-    # Échec
-    NOTIFICATION_TITLE="❌ PBS Update ÉCHEC sur $HOSTNAME"
-    NOTIFICATION_MESSAGE="La mise à jour de PBS a ÉCHOUÉ (apt-get update). Consultez $LOGFILE sur l'hôte."
-    NOTIFICATION_PRIORITY=8 # Haute priorité
+    # Aucune mise à jour et pas d'échec
+    echo "Aucun paquet mis à jour et aucun échec. Aucune notification Gotify envoyée."
 fi
-
-send_gotify_notification "$NOTIFICATION_TITLE" "$NOTIFICATION_MESSAGE" $NOTIFICATION_PRIORITY
 
 exit $UPDATE_SUCCESS
 ```
