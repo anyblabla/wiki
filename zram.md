@@ -1,14 +1,14 @@
 ---
-title: Zram : Compresser la RAM au lieu de Swapper sur Linux
+title: Zram : Compresser la RAM au lieu de swapper sur Linux
 description: Zram est un module du noyau Linux qui crée un périphérique de stockage compressé en RAM.
 published: true
-date: 2025-11-01T00:19:53.610Z
+date: 2025-11-01T00:32:06.291Z
 tags: ram, zram, memory
 editor: markdown
 dateCreated: 2025-11-01T00:19:53.610Z
 ---
 
-Au lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque la mémoire vive est pleine, Zram intercepte les pages mémoire et les compresse, réduisant ainsi la quantité de données échangées vers le disque. Cela améliore considérablement la réactivité du système, en particulier sur les machines avec une faible quantité de RAM ou des disques lents (comme les cartes SD ou les disques eMMC).
+Au lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque la mémoire vive est pleine, **Zram** intercepte les pages mémoire et les compresse, réduisant ainsi la quantité de données échangées vers le disque. Cela améliore considérablement la réactivité du système, en particulier sur les machines avec une faible quantité de RAM ou des disques lents (comme les cartes SD ou les disques eMMC).
 
 -----
 
@@ -16,15 +16,15 @@ Au lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque
 
 Le principe de Zram est de transformer une partie de la RAM en un périphérique de *swap* compressé.
 
-1.  **Création du Périphérique :** Zram crée un ou plusieurs périphériques virtuels (`/dev/zramX`).
+1.  **Création du périphérique :** Zram crée un ou plusieurs périphériques virtuels (`/dev/zramX`).
 2.  **Compression :** Lorsqu'une page mémoire est destinée au *swap*, elle est compressée par le processeur.
 3.  **Stockage en RAM :** La page compressée est ensuite stockée dans une zone de la mémoire vive gérée par Zram.
 
 **Avantages :**
 
   * **Vitesse :** L'accès à la RAM, même compressée, est beaucoup plus rapide que l'accès au disque.
-  * **Usure Réduite :** Diminue les écritures sur les périphériques de stockage, prolongeant la durée de vie des SSD/cartes Flash.
-  * **Capacité Effective :** Permet d'augmenter la quantité de mémoire utilisable par le système (en fonction du taux de compression).
+  * **Usure réduite :** Diminue les écritures sur les périphériques de stockage, prolongeant la durée de vie des SSD/cartes Flash.
+  * **Capacité effective :** Permet d'augmenter la quantité de mémoire utilisable par le système (en fonction du taux de compression).
 
 **Inconvénient :**
 
@@ -32,7 +32,7 @@ Le principe de Zram est de transformer une partie de la RAM en un périphérique
 
 -----
 
-## 2\. Installation et Activation
+## 2\. Installation et activation
 
 Le module Zram est inclus dans le noyau Linux. Pour l'activer de manière persistante et automatique, il est recommandé d'utiliser le paquet d'utilitaires **`zram-tools`** ou **`zramswap-init`** (selon la distribution).
 
@@ -45,7 +45,7 @@ sudo apt update
 sudo apt install zram-tools -y
 ```
 
-### B. Configuration de la Taille (Optionnel)
+### B. Configuration de la taille (optionnel)
 
 Le paquet `zram-tools` configure par défaut la taille du *swap* Zram pour être une fraction de la RAM totale (souvent 50%).
 
@@ -67,7 +67,7 @@ sudo nano /etc/default/zramswap
 
 > Si vous définissez la taille en pourcentage (`PERCENT`), l'outil calculera la taille du périphérique `zram` à partir de la mémoire vive totale.
 
-### C. Redémarrage du Service
+### C. Redémarrage du service
 
 Après l'installation ou la modification de la configuration, activez ou redémarrez le service :
 
@@ -78,7 +78,7 @@ sudo systemctl start zramswap
 
 -----
 
-## 3\. Vérification de l'Activation
+## 3\. Vérification de l'activation
 
 Pour vérifier que Zram est actif et connaître sa taille, utilisez la commande `swapon` :
 
@@ -88,7 +88,7 @@ sudo swapon --show
 
 Le résultat affichera le périphérique Zram (ex: `/dev/zram0`) avec son type `partition` et sa taille :
 
-| NOM | TYPE | TAILLE | UTILISÉ | PRIORITÉ |
+| Nom | Type | Taille | Utilisé | Priorité |
 | :--- | :--- | :--- | :--- | :--- |
 | `/dev/zram0` | partition | 1,8G | 0B | 100 |
 | `/dev/sda3` | partition | 8G | 0B | -2 |
@@ -105,7 +105,7 @@ Les valeurs indiquent notamment la quantité de données écrites (`compr_data_s
 
 -----
 
-## 4\. Désactivation (Si Nécessaire)
+## 4\. Désactivation (si nécessaire)
 
 Si vous souhaitez désactiver Zram, exécutez les commandes suivantes pour arrêter le service et le désactiver au démarrage :
 
