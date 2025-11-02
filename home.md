@@ -2,7 +2,7 @@
 title: Bienvenue
 description: 
 published: true
-date: 2025-11-02T13:38:28.966Z
+date: 2025-11-02T13:40:05.021Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
