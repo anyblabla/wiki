@@ -2,11 +2,15 @@
 title: Amélioration du rendu mobile pour les visiteurs (Wiki.js)
 description: Cette page explique comment intégrer un code CSS personnalisé et une balise meta pour améliorer l'affichage de votre wiki sur les appareils mobiles (smartphones, petites tablettes).
 published: false
-date: 2025-11-02T20:51:12.179Z
+date: 2025-11-02T20:55:36.510Z
 tags: wikijs, head, css, mobile, responsive
 editor: markdown
 dateCreated: 2025-11-02T18:57:52.350Z
 ---
+
+C'est parfait. J'ai pris votre contenu existant et j'y ai ajouté la section dédiée aux captures d'écran, comme demandé.
+
+-----
 
 ### ⚠️ Avertissements importants
 
@@ -45,12 +49,14 @@ Dans votre interface d'administration Wiki.js :
 
 1.  Allez dans **Administration** ($\rightarrow$ l'icône de la roue dentée).
 2.  Dans le menu de gauche, sélectionnez **Thème**.
-3.  À droite, cherchez la section **Injection de code** partie **.
+3.  À droite, cherchez la section **Injection de code**.
 4.  Collez la ligne de code HTML dans le champ **Injection HTML dans le head**.
+
+-----
 
 ### 2\. Le code CSS (Feuille de style)
 
-Ce code utilise des **Media Queries** (`@media screen and (max-width:480px)`) pour n'appliquer les styles que sur les écrans dont la largeur est inférieure ou égale à 480 pixels (typiquement les smartphones). Il corrige le défilement horizontal et réarrange les éléments de la barre de navigation et de l'en-tête de page.
+Ce code utilise des **Media Queries** (`@media screen and (max-width:480px)`) pour n'appliquer les styles que sur les écrans dont la largeur est inférieure ou égale à **480 pixels** (typiquement les smartphones). Il corrige le défilement horizontal et réarrange les éléments de la barre de navigation et de l'en-tête de page.
 
 #### Explication détaillée des blocs CSS
 
@@ -71,7 +77,7 @@ Dans votre interface d'administration Wiki.js :
 
 1.  Allez dans **Administration** ($\rightarrow$ l'icône de la roue dentée).
 2.  Dans le menu de gauche, sélectionnez **Thème**.
-3.  À droite, cherchez la section **Injection de code** partie **.
+3.  À droite, cherchez la section **Injection de code**.
 4.  Collez le bloc de code CSS complet dans le champ **Remplacement de CSS**.
 
 -----
@@ -89,150 +95,168 @@ Dans votre interface d'administration Wiki.js :
 ```css
 body,
 html {
-  overflow-x: hidden;
-  max-width: 100vw;
-  box-sizing: border-box;
-  position: relative
+  overflow-x: hidden;
+  max-width: 100vw;
+  box-sizing: border-box;
+  position: relative
 }
 @media screen and (max-width:480px) {
-  .nav-header,
-  .nav-header-inner,
-  .v-toolbar,
-  .v-toolbar__content {
-    height: auto!important;
-    min-height: 64px!important;
-    box-sizing: border-box;
-    align-items: center!important;
-    flex-wrap: nowrap!important;
-    overflow: hidden!important
-  }
-  .v-toolbar__title.mx-1 {
-    display: none!important;
-    width: 0!important;
-    height: 0!important;
-    padding: 0!important;
-    margin: 0!important;
-    overflow: hidden!important
-  }
-  .navHeaderLoading[style*="display: none"] {
-    width: 0!important;
-    margin: 0!important;
-    padding: 0!important;
-    overflow: hidden!important
-  }
-  .v-btn[style*="height: 64px"] {
-    height: 56px!important;
-    max-height: 56px!important;
-    box-sizing: border-box;
-    align-items: center!important
-  }
-  .nav-header-inner .v-toolbar__content > * {
-    flex-shrink: 0!important;
-    margin-right: 6px
-  }
-  .page-header-section {
-    height: auto!important;
-    min-height: 120px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    padding: 12px;
-    box-sizing: border-box;
-    max-width: 100vw;
-    overflow-y: visible!important
-  }
-  .page-col-content.is-page-header {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
-    width: 100%;
-    max-width: 100vw;
-    box-sizing: border-box
-  }
-  .page-header-headings {
-    display: block;
-    width: 100%;
-    max-width: 100vw
-  }
-  .page-edit-shortcuts.is-right {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px
-  }
-  .caption,
-  .headline {
-    display: block;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    margin-bottom: .5rem;
-    max-width: 100%;
-    box-sizing: border-box
-  }
-  #discussion .caption {
-    writing-mode: horizontal-tb!important;
-    transform: none!important;
-    white-space: normal!important;
-    word-break: normal!important;
-    overflow-wrap: break-word!important;
-    font-size: 1rem
-  }
-  #discussion .caption.blue-grey--text,
-  #discussion .caption.mr-3 {
-    text-align: center!important;
-    justify-content: center;
-    align-items: center;
-    display: flex
-  }
-  #discussion .d-flex.align-center.pt-3 {
-    flex-direction: column!important;
-    align-items: center!important;
-    justify-content: center!important;
-    gap: 8px;
-    text-align: center
-  }
-  #discussion .d-flex.align-center.pt-3 > * {
-    width: auto;
-    max-width: 100%;
-    box-sizing: border-box;
-    text-align: center
-  }
-  #discussion .v-btn {
-    max-width: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    white-space: normal!important;
-    text-align: center;
-    padding: 8px 12px;
-    margin-top: 8px
-  }
-  #discussion .v-btn__content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    font-size: .95rem;
-    max-width: 100%;
-    box-sizing: border-box
-  }
-  #discussion a.is-external-link {
-    word-break: break-word;
-    overflow-wrap: break-word;
-    max-width: 100%;
-    display: inline-block;
-    box-sizing: border-box
-  }
-  a.is-external-link {
-    display: inline-block;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    white-space: normal
-  }
+  .nav-header,
+  .nav-header-inner,
+  .v-toolbar,
+  .v-toolbar__content {
+    height: auto!important;
+    min-height: 64px!important;
+    box-sizing: border-box;
+    align-items: center!important;
+    flex-wrap: nowrap!important;
+    overflow: hidden!important
+  }
+  .v-toolbar__title.mx-1 {
+    display: none!important;
+    width: 0!important;
+    height: 0!important;
+    padding: 0!important;
+    margin: 0!important;
+    overflow: hidden!important
+  }
+  .navHeaderLoading[style*="display: none"] {
+    width: 0!important;
+    margin: 0!important;
+    padding: 0!important;
+    overflow: hidden!important
+  }
+  .v-btn[style*="height: 64px"] {
+    height: 56px!important;
+    max-height: 56px!important;
+    box-sizing: border-box;
+    align-items: center!important
+  }
+  .nav-header-inner .v-toolbar__content > * {
+    flex-shrink: 0!important;
+    margin-right: 6px
+  }
+  .page-header-section {
+    height: auto!important;
+    min-height: 120px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 12px;
+    box-sizing: border-box;
+    max-width: 100vw;
+    overflow-y: visible!important
+  }
+  .page-col-content.is-page-header {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box
+  }
+  .page-header-headings {
+    display: block;
+    width: 100%;
+    max-width: 100vw
+  }
+  .page-edit-shortcuts.is-right {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px
+  }
+  .caption,
+  .headline {
+    display: block;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: .5rem;
+    max-width: 100%;
+    box-sizing: border-box
+  }
+  #discussion .caption {
+    writing-mode: horizontal-tb!important;
+    transform: none!important;
+    white-space: normal!important;
+    word-break: normal!important;
+    overflow-wrap: break-word!important;
+    font-size: 1rem
+  }
+  #discussion .caption.blue-grey--text,
+  #discussion .caption.mr-3 {
+    text-align: center!important;
+    justify-content: center;
+    align-items: center;
+    display: flex
+  }
+  #discussion .d-flex.align-center.pt-3 {
+    flex-direction: column!important;
+    align-items: center!important;
+    justify-content: center!important;
+    gap: 8px;
+    text-align: center
+  }
+  #discussion .d-flex.align-center.pt-3 > * {
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: center
+  }
+  #discussion .v-btn {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    white-space: normal!important;
+    text-align: center;
+    padding: 8px 12px;
+    margin-top: 8px
+  }
+  #discussion .v-btn__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: .95rem;
+    max-width: 100%;
+    box-sizing: border-box
+  }
+  #discussion a.is-external-link {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    display: inline-block;
+    box-sizing: border-box
+  }
+  a.is-external-link {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal
+  }
 }
 ```
+
+-----
+
+## 📸 Visualisation des résultats (Avant / Après)
+
+Cette section vous permet de présenter l'impact du code CSS personnalisé sur le rendu mobile de votre Wiki.js.
+
+### 1\. Aperçu avant la modification (Visuel par défaut)
+
+*Ajoutez ici la capture d'écran de votre wiki sur mobile **AVANT** l'injection du code. Cela montre généralement un défilement horizontal et des éléments mal dimensionnés.*
+
+### 2\. Aperçu après la modification (Visuel optimisé)
+
+*Ajoutez ici la capture d'écran de votre wiki sur mobile **APRÈS** l'injection du code CSS et de la balise viewport. Le contenu doit être centré et tenir dans l'écran sans défilement horizontal.*
+
+-----
+
+Si vous souhaitez modifier le texte d'introduction ou la description des captures d'écran, faites-le moi savoir \!
