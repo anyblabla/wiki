@@ -2,7 +2,7 @@
 title: Changer la Couleur Principale (Primaire) de votre Wiki.js (Guide Injection HEAD)
 description: Cette documentation explique comment modifier les couleurs par défaut du thème principal de votre installation Wiki.js (tel que le thème par défaut ou tout autre thème basé sur le framework Vuetify).
 published: true
-date: 2025-10-30T15:59:32.461Z
+date: 2025-11-02T21:45:43.300Z
 tags: wikijs, head, html, color, injection
 editor: markdown
 dateCreated: 2025-10-30T15:54:26.600Z
@@ -107,3 +107,13 @@ Pour adapter le code à votre propre charte graphique, modifiez les deux lignes 
     --textcolor: #F88013; 
 }
 ```
+
+-----
+
+## 📱 Aller plus loin : Optimisation du rendu mobile
+
+Après avoir personnalisé les couleurs de votre thème, vous souhaiterez peut-être améliorer l'expérience utilisateur sur smartphone. Le rendu mobile par défaut de Wiki.js peut présenter des problèmes de défilement horizontal et d'affichage des boutons.
+
+Nous avons créé un guide expliquant comment injecter du CSS additionnel pour rendre le thème plus **acceptable** sur les petits écrans pour vos visiteurs.
+
+👉 **Consultez la page :** [**Amélioration du rendu mobile pour les visiteurs (Wiki.js)**](https://wiki.blablalinux.be/fr/wikijs-css)
