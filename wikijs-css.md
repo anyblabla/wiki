@@ -2,7 +2,7 @@
 title: Amélioration du rendu mobile pour les visiteurs (Wiki.js)
 description: Cette page explique comment intégrer un code CSS personnalisé et une balise meta pour améliorer l'affichage de votre wiki sur les appareils mobiles (smartphones, petites tablettes).
 published: true
-date: 2025-11-02T21:49:37.570Z
+date: 2025-11-02T22:07:38.860Z
 tags: wikijs, head, css, mobile, responsive
 editor: markdown
 dateCreated: 2025-11-02T18:57:52.350Z
@@ -18,7 +18,7 @@ dateCreated: 2025-11-02T18:57:52.350Z
 
 ## 🔧 Explication et intégration du code
 
-Le code que vous avez utilisé se divise en deux parties : une balise HTML essentielle pour le mobile et un bloc de règles CSS spécifiques pour les petits écrans.
+Le code que vous allez utiliser se divise en deux parties : une balise HTML essentielle pour le mobile et un bloc de règles CSS spécifiques pour les petits écrans.
 
 ### 1\. La balise `viewport` (HTML)
 
