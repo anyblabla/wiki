@@ -2,7 +2,7 @@
 title: Amélioration du rendu mobile pour les visiteurs (Wiki.js)
 description: Cette page explique comment intégrer un code CSS personnalisé et une balise meta pour améliorer l'affichage de votre wiki sur les appareils mobiles (smartphones, petites tablettes).
 published: true
-date: 2025-11-02T22:08:27.307Z
+date: 2025-11-03T00:16:40.440Z
 tags: wikijs, head, css, mobile, responsive
 editor: markdown
 dateCreated: 2025-11-02T18:57:52.350Z
@@ -10,6 +10,7 @@ dateCreated: 2025-11-02T18:57:52.350Z
 
 ### ⚠️ Avertissements importants
 
+  * **Thème par défaut requis :** Ce code CSS est spécifiquement écrit pour les classes HTML et les sélecteurs du **thème par défaut de Wiki.js (Clarity)**. L'utilisation d'un thème tiers ou d'un thème profondément modifié peut entraîner des résultats inattendus ou inefficaces.
   * **Visiteurs seulement :** Cette amélioration est principalement destinée à offrir un visuel **acceptable** pour les **visiteurs non connectés**.
   * **Utilisateurs connectés :** Le rendu pour les utilisateurs connectés pourrait ne pas être parfait, en raison des éléments d'interface supplémentaires (barre d'édition, etc.).
   * **Administration :** Le code **n'est pas conçu** pour l'interface d'administration de Wiki.js. L'administration doit toujours être effectuée sur un écran de taille appropriée (ordinateur de bureau ou grande tablette).
@@ -24,7 +25,7 @@ Le code que vous allez utiliser se divise en deux parties : une balise HTML esse
 
 #### Explication
 
-La balise `meta name="viewport"` est **cruciale** pour le développement web mobile. Sans elle, le navigateur mobile considère la page comme un site de bureau et la zoom pour la faire tenir.
+La balise `meta name="viewport"` est **cruciale** pour le développement web mobile. Sans elle, le navigateur mobile considère la page comme un site de bureau et la zoome pour la faire tenir.
 
 Le code :
 
