@@ -1,8 +1,8 @@
 ---
 title: Traduction unifiée pour Nautilus, Nemo, Thunar, Dolphin et Texte sélectionné avec LibreTranslate
 description: Script Bash pour traduction unifiée (texte ou fichier) avec LibreTranslate. Intégration facile dans Nautilus, Nemo, Thunar, et Dolphin. Affiche les traductions complètes dans une fenêtre Zenity redimensionnable. Installation simple.
-published: false
-date: 2025-11-10T17:36:38.645Z
+published: true
+date: 2025-11-10T17:44:35.809Z
 tags: 
 editor: markdown
 dateCreated: 2025-11-10T17:35:33.344Z
