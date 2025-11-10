@@ -2,7 +2,7 @@
 title: Traduction via LibreTranslate avec Nautilus et raccourci clavier
 description: Ce guide complet permet de configurer la traduction instantanée de fichiers ou de texte sélectionné sur GNOME/Wayland via votre LibreTranslate local. Utilisez un raccourci clavier ou le menu Nautilus pour obtenir la traduction intégrale.
 published: true
-date: 2025-11-10T15:54:05.441Z
+date: 2025-11-10T17:46:27.527Z
 tags: script, translate, libretranslate, nautilus, raccourci, clavier
 editor: markdown
 dateCreated: 2025-11-10T13:08:12.330Z
@@ -10,7 +10,11 @@ dateCreated: 2025-11-10T13:08:12.330Z
 
 Ce guide explique comment créer un script unifié pour traduire des documents entiers ou du texte sélectionné en utilisant votre instance LibreTranslate. Le résultat complet de la traduction est affiché dans une fenêtre Zenity dédiée.
 
-⚠️ Bien que l'outil notify-send soit couramment utilisé pour les actions rapides (comme la confirmation ou les courtes notifications), il n'a pas été privilégié ici car les notifications GNOME limitent fortement le nombre de caractères affichés, empêchant de lire les traductions longues. Zenity permet, lui, de visualiser le texte intégral dans une fenêtre redimensionnable.
+> ⚠️ Bien que l'outil notify-send soit couramment utilisé pour les actions rapides (comme la confirmation ou les courtes notifications), il n'a pas été privilégié ici car les notifications GNOME limitent fortement le nombre de caractères affichés, empêchant de lire les traductions longues. Zenity permet, lui, de visualiser le texte intégral dans une fenêtre redimensionnable.
+
+☝️ Avant d'aller plus loin, voici une autre page qui pourrait vous intéresser 👇
+
+[Traduction unifiée pour Nautilus, Nemo, Thunar, Dolphin et Texte sélectionné avec LibreTranslate](/libretranslate-traduction-unifiee-gestionnaires-fichiers)
 
 -----
 
