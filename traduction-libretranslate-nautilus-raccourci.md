@@ -1,8 +1,8 @@
 ---
 title: Traduction via LibreTranslate avec Nautilus et raccourci clavier
 description: Ce guide complet permet de configurer la traduction instantanée de fichiers ou de texte sélectionné sur GNOME/Wayland via votre LibreTranslate local. Utilisez un raccourci clavier ou le menu Nautilus pour obtenir la traduction intégrale.
-published: false
-date: 2025-11-10T13:35:07.933Z
+published: true
+date: 2025-11-10T13:35:37.470Z
 tags: script, translate, libretranslate, nautilus, raccourci, clavier
 editor: markdown
 dateCreated: 2025-11-10T13:08:12.330Z
