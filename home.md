@@ -14,7 +14,7 @@ dateCreated: 2025-07-17T00:14:37.130Z
 
 ## 👋 Salut à tous et toutes !
 
-Vous nous connaissez peut-être déjà via le [blog](https://yourls.blablalinux.be/blog). Il est parfait pour partager les **nouvelles et actualités** autour de Blabla Linux, de notre communauté, des systèmes et des logiciels libres.
+Vous me connaissez peut-être déjà via le [blog](https://yourls.blablalinux.be/blog). Il est parfait pour partager les **nouvelles et actualités** autour de Blabla Linux, de notre communauté, des systèmes et des logiciels libres.
 
 Mais soyons honnêtes : le blog n'est pas l'endroit idéal pour maintenir des **méthodes d'installation** à jour ou des guides techniques précis. C'est là que ce Wiki entre en scène !
 
@@ -22,9 +22,9 @@ Mais soyons honnêtes : le blog n'est pas l'endroit idéal pour maintenir des **
 
 Au quotidien, Blabla Linux installe et teste de nombreux services. Parfois, ça fonctionne du premier coup... et parfois, c'est une sacrée aventure !
 
-Ce Wiki est conçu pour être notre **pense-bête public**, accessible en lecture seule.
+Ce Wiki est conçu pour être mon **pense-bête public**, accessible en lecture seule.
 
-* **Pourquoi ?** Pour que vous puissiez profiter de nos succès (et apprendre de nos galères 😉) en ayant toujours des guides techniques à jour et fonctionnels.
+* **Pourquoi ?** Pour que vous puissiez profiter de mes succès (et apprendre de mes galères 😉) en ayant toujours des guides techniques à jour et fonctionnels.
 * **Collaboration ?** Pour l'instant, je préfère garder la main sur le contenu pour garantir sa cohérence. Mais qui sait, le temps pourrait me faire changer d'avis !
 
 ---
