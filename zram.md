@@ -1,8 +1,8 @@
 ---
-title: Zram : Compresser la RAM au lieu de swapper sur Linux
+title: Zram - Compresser la RAM au lieu de swapper sur Linux
 description: Zram est un module du noyau Linux qui crée un périphérique de stockage compressé en RAM.
 published: true
-date: 2025-11-01T00:32:06.291Z
+date: 2025-11-14T19:05:00.833Z
 tags: ram, zram, memory
 editor: markdown
 dateCreated: 2025-11-01T00:19:53.610Z
