@@ -1,8 +1,8 @@
 ---
-title: mdadm : RAID logiciel sous Linux
+title: mdadm - RAID logiciel sous Linux
 description: mdadm (Multiple Devices ADMinistration) est l'utilitaire standard sous Linux pour gérer les grappes RAID (Redundant Array of Independent Disks) logiciels.
 published: true
-date: 2025-11-01T00:52:15.931Z
+date: 2025-11-14T19:05:23.912Z
 tags: mdadm, raid
 editor: markdown
 dateCreated: 2025-11-01T00:26:33.056Z
