@@ -1,8 +1,8 @@
 ---
-title: Debian : Activer les mises à jour automatiques avec unattended-upgrades
+title: Debian - Activer les mises à jour automatiques avec unattended-upgrades
 description: Ce guide explique comment configurer et activer l'outil unattended-upgrades sur Debian afin d'appliquer automatiquement les mises à jour de sécurité et d'autres paquets.
 published: true
-date: 2025-11-01T00:29:25.640Z
+date: 2025-11-14T19:03:45.905Z
 tags: debian, upgrade, unattended-upgrades
 editor: markdown
 dateCreated: 2025-11-01T00:14:07.294Z
