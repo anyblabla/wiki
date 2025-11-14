@@ -2,7 +2,7 @@
 title: Proxmox - Supprimer un nœud du cluster
 description: Découvrez comment supprimer un nœud d'un cluster Proxmox. Apprenez la commande pvecm delnode et les étapes cruciales (migration, mise hors ligne) pour retirer un serveur en toute sécurité.
 published: true
-date: 2025-11-05T13:52:16.222Z
+date: 2025-11-14T19:04:35.150Z
 tags: proxmox, pve, cluster, delnode, node
 editor: markdown
 dateCreated: 2025-11-05T13:52:16.222Z
