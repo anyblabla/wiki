@@ -2,7 +2,7 @@
 title: Zone de construction - Brouillons et articles en cours
 description: Zone de construction du wiki : Accédez aux brouillons d'articles (Joplin) en cours de rédaction. Le contenu est brut de fonderie et non validé. À utiliser avec prudence.
 published: true
-date: 2025-11-18T00:56:03.786Z
+date: 2025-11-18T21:44:46.514Z
 tags: brouillon, construction, en-cours, non-vérifié, non-finalisé
 editor: markdown
 dateCreated: 2025-11-18T00:47:12.674Z
@@ -32,4 +32,4 @@ Une fois qu'un article est jugé complet et validé, **je le retire** de cette s
 
 **Liste des articles en cours de rédaction (Liens Joplin)**
 
-* [https://joplin.blablalinux.be/shares/nHKG3cPGGe7LQ2PkdIkFPG] : (rsync)
+*
