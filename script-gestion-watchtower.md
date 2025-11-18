@@ -2,13 +2,13 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2025-11-18T12:39:13.340Z
+date: 2025-11-18T12:47:02.866Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
 ---
 
-## Introduction 📘
+## Introduction
 
 **Watchtower** est un outil qui surveille vos conteneurs Docker et les met à jour automatiquement.
 
@@ -22,6 +22,40 @@ Ce script permet de :
 Le script est adapté pour des LXC dont le répertoire Watchtower se trouve dans `/root` ou un sous-répertoire de `/root`.
 
 > **Note technique :** Ce script est conçu pour s'exécuter sur l'**hôte Proxmox** (ou le serveur gérant les LXC). Il utilise la commande `pct exec [ID] -- [commande]` pour exécuter les commandes Docker directement à l'intérieur des conteneurs LXC.
+
+-----
+
+## 🛠️ Installation et Exécution du script
+
+Ces étapes supposent que vous êtes connecté en **SSH** à votre **hôte Proxmox**.
+
+### Étape 1 : Créer et éditer le fichier
+
+Créez un nouveau fichier pour le script, par exemple `watchtower_manager.sh`, dans un répertoire approprié (`/usr/local/bin/` est souvent utilisé pour les scripts système) :
+
+```bash
+sudo nano /usr/local/bin/watchtower_manager.sh
+```
+
+### Étape 2 : Copier le script
+
+Collez l'intégralité du [Script complet](https://www.google.com/search?q=%23script-complet-%F0%9F%92%BE) ci-dessous dans l'éditeur. Sauvegardez le fichier (`Ctrl+O`, puis `Entrée`) et quittez l'éditeur (`Ctrl+X`).
+
+### Étape 3 : Rendre le script exécutable
+
+Donnez au fichier les permissions d'exécution :
+
+```bash
+sudo chmod +x /usr/local/bin/watchtower_manager.sh
+```
+
+### Étape 4 : Exécuter le script
+
+Vous pouvez maintenant exécuter le script simplement par son nom :
+
+```bash
+watchtower_manager.sh
+```
 
 -----
 
@@ -53,7 +87,7 @@ Lorsque vous lancez le script, le menu suivant apparaît :
 
 ### [1] Voir l’état actuel de Watchtower
 
-Affiche l’état des conteneurs Watchtower pour chaque LXC en ligne. Seuls les conteneurs actifs sont affichés.
+Affiche l’état des conteneurs Watchtower pour chaque LXC en ligne.
 
 ### [2] Démarrer Watchtower
 
@@ -69,15 +103,7 @@ Redémarre le conteneur Watchtower pour appliquer d’éventuelles modifications
 
 ### [5] Voir le contenu modifiable du `docker-compose.yml`
 
-Affiche uniquement les lignes suivantes pour chaque LXC :
-
-```yaml
-restart: always
-WATCHTOWER_NO_STARTUP_MESSAGE=false
-WATCHTOWER_CLEANUP=true
-WATCHTOWER_SCHEDULE=0 10 15 ? * 5
-WATCHTOWER_TIMEOUT=30s
-```
+Affiche les lignes essentielles modifiables pour chaque LXC (`restart:`, variables `WATCHTOWER_...`).
 
 ### [6] Définir restart policy
 
@@ -87,11 +113,11 @@ Affiche un sous-menu pour choisir explicitement la politique de redémarrage : `
 
 ### [7] Modifier `WATCHTOWER_NO_STARTUP_MESSAGE`
 
-Permet de définir `true` ou `false`. Après modification, le conteneur est redémarré automatiquement.
+Permet de définir `true` ou `false`. Redémarre le conteneur.
 
 ### [8] Modifier `WATCHTOWER_CLEANUP`
 
-Permet de définir `true` ou `false`. Après modification, le conteneur est redémarré automatiquement.
+Permet de définir `true` ou `false`. Redémarre le conteneur.
 
 ### [9] Modifier le schedule aléatoire
 
@@ -99,11 +125,11 @@ Génère un schedule aléatoire unique pour chaque LXC (heures entre 14h et 20h,
 
 ### [10] Fixer le même schedule pour tous
 
-Permet de saisir un schedule au format Spring Cron (6 champs). Exemple : `0 0 16 ? * 5`. Après modification, le conteneur est redémarré automatiquement.
+Permet de saisir un schedule au format Spring Cron (6 champs, ex: `0 0 16 ? * 5`). Redémarre le conteneur.
 
 ### [11] Modifier `WATCHTOWER_TIMEOUT`
 
-Permet de définir une valeur comme `30s`, `60s`, etc. Après modification, le conteneur est redémarré automatiquement.
+Permet de définir une valeur (ex: `30s`, `60s`). Redémarre le conteneur.
 
 -----
 
