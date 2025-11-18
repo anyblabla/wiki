@@ -2,7 +2,7 @@
 title: Bienvenue
 description: 🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de mes succès (et apprenez de mes "galères" 😉) !
 published: true
-date: 2025-11-18T01:06:46.254Z
+date: 2025-11-18T01:07:44.982Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
@@ -33,7 +33,7 @@ Ce wiki est conçu pour être mon **pense-bête public**, accessible en lecture 
 
 Ce wiki est un chantier permanent \! Vous voulez savoir sur quoi je travaille actuellement ?
 
-Consultez la page dédiée aux **[Articles en construction](https://www.google.com/search?q=%24/Page-Articles-En-Construction)** pour découvrir les sujets qui seront bientôt disponibles. C'est l'endroit idéal pour anticiper les prochains guides \!
+Consultez la page dédiée aux **[Articles en construction](/zone-construction-brouillons)** pour découvrir les sujets qui seront bientôt disponibles. C'est l'endroit idéal pour anticiper les prochains guides \!
 
 -----
 
