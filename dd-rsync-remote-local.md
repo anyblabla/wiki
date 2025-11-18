@@ -1,8 +1,8 @@
 ---
-title: Migration VPS vers Proxmox : Clonage de disque à chaud via DD et Rsync sur SSH
+title: Migration VPS vers Proxmox - Clonage de disque à chaud via DD et Rsync sur SSH
 description: Ce guide détaille la procédure technique pour cloner et synchroniser un disque complet d'un serveur VPS distant (OVH) vers un serveur local Proxmox VE en utilisant les commandes dd et rsync via SSH.
 published: true
-date: 2025-10-28T12:42:10.569Z
+date: 2025-11-18T21:34:33.905Z
 tags: rsync, clone
 editor: markdown
 dateCreated: 2024-12-01T15:36:34.400Z
