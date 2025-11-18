@@ -2,7 +2,7 @@
 title: Nano - L'éditeur léger, mais aux fonctionnalités robustes
 description: Guide complet de GNU nano, l'éditeur de texte léger pour Linux. Maîtrisez les commandes de base, les fonctions avancées, et apprenez à configurer la coloration syntaxique et les numéros de ligne via le fichier .nanorc.
 published: true
-date: 2025-11-18T00:08:30.133Z
+date: 2025-11-18T00:20:23.912Z
 tags: nano, éditeur, nanorc
 editor: markdown
 dateCreated: 2025-11-18T00:08:30.133Z
@@ -109,7 +109,7 @@ echo "set autoindent" > ~/.nanorc ; ls -c1 /usr/share/nano | sed "s/^/include \"
 
 > **⭐ Remarque Importante :** Utilisez soit la méthode de **copie de l'exemple complet** (dans la section ci-dessus), soit la méthode de la **commande rapide**, mais **jamais les deux** simultanément, car la commande écrase le fichier existant.
 
-> **⚠️ Note Technique :** Si la coloration syntaxique ne fonctionne pas après l'inclusion, cela signifie que les fichiers de définition de syntaxe sont manquants. Sur certaines distributions Linux (comme Debian/Ubuntu), il faut installer un paquet supplémentaire, généralement nommé **`nano-extra`** ou **`nano-syntax-files`**.
+> **⚠️ Note Technique :** Les fichiers de coloration syntaxique sont inclus dans le paquet **`nano`** sur Debian 13. Si la coloration ne fonctionne pas, assurez-vous que la ligne `include "/usr/share/nano/*.nanorc"` est présente et décommentée dans votre fichier `~/.nanorc`.
 
 #### Forcer un langage spécifique
 
