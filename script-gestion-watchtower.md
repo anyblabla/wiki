@@ -2,7 +2,7 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2025-11-18T12:47:02.866Z
+date: 2025-11-18T12:53:39.152Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
@@ -29,32 +29,40 @@ Le script est adapté pour des LXC dont le répertoire Watchtower se trouve dans
 
 Ces étapes supposent que vous êtes connecté en **SSH** à votre **hôte Proxmox**.
 
-### Étape 1 : Créer et éditer le fichier
+### Étape 1 : Créer le répertoire de scripts
 
-Créez un nouveau fichier pour le script, par exemple `watchtower_manager.sh`, dans un répertoire approprié (`/usr/local/bin/` est souvent utilisé pour les scripts système) :
+Si ce répertoire n'existe pas, créez-le dans `/root/` :
 
 ```bash
-sudo nano /usr/local/bin/watchtower_manager.sh
+sudo mkdir -p /root/scripts
 ```
 
-### Étape 2 : Copier le script
+### Étape 2 : Créer et éditer le fichier
+
+Créez le fichier de script nommé **`manage_watchtower.sh`** dans ce répertoire :
+
+```bash
+sudo nano /root/scripts/manage_watchtower.sh
+```
+
+### Étape 3 : Copier le script
 
 Collez l'intégralité du [Script complet](https://www.google.com/search?q=%23script-complet-%F0%9F%92%BE) ci-dessous dans l'éditeur. Sauvegardez le fichier (`Ctrl+O`, puis `Entrée`) et quittez l'éditeur (`Ctrl+X`).
 
-### Étape 3 : Rendre le script exécutable
+### Étape 4 : Rendre le script exécutable
 
 Donnez au fichier les permissions d'exécution :
 
 ```bash
-sudo chmod +x /usr/local/bin/watchtower_manager.sh
+sudo chmod +x /root/scripts/manage_watchtower.sh
 ```
 
-### Étape 4 : Exécuter le script
+### Étape 5 : Exécuter le script
 
-Vous pouvez maintenant exécuter le script simplement par son nom :
+Vous pouvez maintenant exécuter le script en spécifiant son chemin complet :
 
 ```bash
-watchtower_manager.sh
+/root/scripts/manage_watchtower.sh
 ```
 
 -----
@@ -262,7 +270,7 @@ modify_key_restart() {
     read -rp "Appuyez sur [Entrée] pour revenir au menu..."
 }
 
-# --- FONCTION CORRIGÉE POUR L'OPTION 6 ---
+# Définir restart policy
 set_restart_policy() {
     
     POLICY_MENU="
@@ -305,7 +313,6 @@ set_restart_policy() {
     
     read -rp "Appuyez sur [Entrée] pour revenir au menu..."
 }
-# --- FIN DE LA FONCTION CORRIGÉE ---
 
 # Schedule aléatoire (14h-20h, minutes multiples de 5) pour chaque LXC
 random_schedule() {
@@ -343,7 +350,7 @@ while true; do
         3) stop_watchtower ;;
         4) restart_watchtower ;;
         5) view_compose ;;
-        6) set_restart_policy ;; # Appel de la fonction corrigée
+        6) set_restart_policy ;; 
         7) read -rp "Entrez true ou false pour WATCHTOWER_NO_STARTUP_MESSAGE : " val; modify_key_restart "WATCHTOWER_NO_STARTUP_MESSAGE" "$val" ;;
         8) read -rp "Entrez true ou false pour WATCHTOWER_CLEANUP : " val; modify_key_restart "WATCHTOWER_CLEANUP" "$val" ;;
         9) random_schedule ;;
