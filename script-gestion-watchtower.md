@@ -2,27 +2,30 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2025-11-07T14:23:26.528Z
+date: 2025-11-18T12:39:13.340Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
 ---
 
-## Introduction
+## Introduction 📘
 
-Watchtower est un outil qui surveille vos conteneurs Docker et les met à jour automatiquement.
+**Watchtower** est un outil qui surveille vos conteneurs Docker et les met à jour automatiquement.
+
 Ce script permet de :
 
-* Identifier les LXC en ligne qui contiennent Docker.
-* Trouver les fichiers `docker-compose.yml` de Watchtower.
-* Voir et modifier les options essentielles de Watchtower.
-* Redémarrer automatiquement les containers après modification.
+  * Identifier les LXC en ligne qui contiennent **Docker**.
+  * Trouver les fichiers `docker-compose.yml` de Watchtower.
+  * Voir et modifier les options essentielles de Watchtower.
+  * Redémarrer automatiquement les containers après modification.
 
 Le script est adapté pour des LXC dont le répertoire Watchtower se trouve dans `/root` ou un sous-répertoire de `/root`.
 
----
+> **Note technique :** Ce script est conçu pour s'exécuter sur l'**hôte Proxmox** (ou le serveur gérant les LXC). Il utilise la commande `pct exec [ID] -- [commande]` pour exécuter les commandes Docker directement à l'intérieur des conteneurs LXC.
 
-## Menu du script
+-----
+
+## Menu du script 🧭
 
 Lorsque vous lancez le script, le menu suivant apparaît :
 
@@ -35,7 +38,7 @@ Lorsque vous lancez le script, le menu suivant apparaît :
  [3] 🛑 Arrêter Watchtower
  [4] 🔁 Redémarrer Watchtower
  [5] 📂 Voir le contenu modifiable du docker-compose.yml de Watchtower
- [6] 🔄 Basculer restart policy (always ↔ none)
+ [6] 🔄 Définir restart policy (always/none)
  [7] ✏️  Modifier WATCHTOWER_NO_STARTUP_MESSAGE (true/false)
  [8] ✏️  Modifier WATCHTOWER_CLEANUP (true/false)
  [9] 📅 Modifier le schedule aléatoire (14h-20h, min multiples de 5)
@@ -44,9 +47,9 @@ Lorsque vous lancez le script, le menu suivant apparaît :
  [Q] ❌ Quitter
 ```
 
----
+-----
 
-## Description des options
+## Description des options 📋
 
 ### [1] Voir l’état actuel de Watchtower
 
@@ -76,9 +79,11 @@ WATCHTOWER_SCHEDULE=0 10 15 ? * 5
 WATCHTOWER_TIMEOUT=30s
 ```
 
-### [6] Basculer restart policy
+### [6] Définir restart policy
 
-Change la valeur `restart:` entre `always` et `none` et redémarre le conteneur automatiquement.
+Affiche un sous-menu pour choisir explicitement la politique de redémarrage : `always` (redémarre toujours le conteneur en cas d'arrêt) ou `none` (ne redémarre pas automatiquement). Cette modification est appliquée et le conteneur est redémarré automatiquement.
+
+> **Note importante :** Cette modification est sensible à l'**indentation YAML** et a été corrigée dans le script pour fonctionner correctement.
 
 ### [7] Modifier `WATCHTOWER_NO_STARTUP_MESSAGE`
 
@@ -94,21 +99,15 @@ Génère un schedule aléatoire unique pour chaque LXC (heures entre 14h et 20h,
 
 ### [10] Fixer le même schedule pour tous
 
-Permet de saisir un schedule au format Spring Cron (6 champs). Exemple :
-
-```
-0 0 16 ? * 5
-```
-
-Après modification, le conteneur est redémarré automatiquement.
+Permet de saisir un schedule au format Spring Cron (6 champs). Exemple : `0 0 16 ? * 5`. Après modification, le conteneur est redémarré automatiquement.
 
 ### [11] Modifier `WATCHTOWER_TIMEOUT`
 
 Permet de définir une valeur comme `30s`, `60s`, etc. Après modification, le conteneur est redémarré automatiquement.
 
----
+-----
 
-## Script complet
+## Script complet 💾
 
 ```bash
 #!/bin/bash
@@ -123,7 +122,7 @@ MENU="
  [3] 🛑 Arrêter Watchtower
  [4] 🔁 Redémarrer Watchtower
  [5] 📂 Voir le contenu modifiable du docker-compose.yml de Watchtower
- [6] 🔄 Basculer restart policy (always ↔ none)
+ [6] 🔄 Définir restart policy (always/none)
  [7] ✏️  Modifier WATCHTOWER_NO_STARTUP_MESSAGE (true/false)
  [8] ✏️  Modifier WATCHTOWER_CLEANUP (true/false)
  [9] 📅 Modifier le schedule aléatoire (14h-20h, min multiples de 5)
@@ -237,23 +236,50 @@ modify_key_restart() {
     read -rp "Appuyez sur [Entrée] pour revenir au menu..."
 }
 
-# Basculer restart policy
-toggle_restart() {
+# --- FONCTION CORRIGÉE POUR L'OPTION 6 ---
+set_restart_policy() {
+    
+    POLICY_MENU="
+==============================
+   Définir la restart policy
+==============================
+ [1] always (Redémarrer toujours)
+ [2] none (Ne pas redémarrer auto)
+ [R] Retour au menu principal
+"
+    
+    while true; do
+        clear
+        echo "$POLICY_MENU"
+        read -rp "Votre choix : " sub_choice
+        
+        case $sub_choice in
+            1) new_policy="always" ; break ;;
+            2) new_policy="none" ; break ;;
+            [Rr]) return ;; # Retourne au menu principal
+            *) echo "Option invalide." ; read -rp "Appuyez sur [Entrée] pour continuer..." ;;
+        esac
+    done
+    
+    # Applique la politique choisie à tous les LXC
     for lxc_id in $(get_running_docker_lxc); do
         compose_file=$(find_watchtower_compose "$lxc_id")
+        
         if [ -n "$compose_file" ]; then
-            current=$(pct exec "$lxc_id" -- grep "restart:" "$compose_file" | awk '{print $2}')
-            if [ "$current" = "always" ]; then new="none"; else new="always"; fi
-            pct exec "$lxc_id" -- sed -i "s/^restart:.*/restart: $new/" "$compose_file"
+            # SED corrigé : utilise 4 ESPACES pour s'assurer de l'indentation correcte sous 'watchtower:' dans le YAML.
+            pct exec "$lxc_id" -- sed -i "s/^[[:space:]]*restart: .*/    restart: $new_policy/" "$compose_file"
+            
             dir=$(dirname "$compose_file")
             pct exec "$lxc_id" -- sh -c "cd $dir && docker compose down && docker compose up -d"
-            echo "🔄 Restart policy basculée et Watchtower redémarré dans LXC $lxc_id : $new"
+            echo "✅ Restart policy définie et Watchtower redémarré dans LXC $lxc_id : $new_policy"
         else
             echo "Pas de docker-compose.yml trouvé ou recherche expirée pour LXC $lxc_id."
         fi
     done
+    
     read -rp "Appuyez sur [Entrée] pour revenir au menu..."
 }
+# --- FIN DE LA FONCTION CORRIGÉE ---
 
 # Schedule aléatoire (14h-20h, minutes multiples de 5) pour chaque LXC
 random_schedule() {
@@ -291,7 +317,7 @@ while true; do
         3) stop_watchtower ;;
         4) restart_watchtower ;;
         5) view_compose ;;
-        6) toggle_restart ;;
+        6) set_restart_policy ;; # Appel de la fonction corrigée
         7) read -rp "Entrez true ou false pour WATCHTOWER_NO_STARTUP_MESSAGE : " val; modify_key_restart "WATCHTOWER_NO_STARTUP_MESSAGE" "$val" ;;
         8) read -rp "Entrez true ou false pour WATCHTOWER_CLEANUP : " val; modify_key_restart "WATCHTOWER_CLEANUP" "$val" ;;
         9) random_schedule ;;
@@ -303,13 +329,13 @@ while true; do
 done
 ```
 
----
+-----
 
-## Vidéo
+## Vidéo 🎬
 
-Une vidéo de démonstration existe, et celle-ci à été publié sur les réseaux-sociaux Blabla Linux 😎
+Une vidéo de démonstration existe, et celle-ci a été publiée sur les réseaux-sociaux Blabla Linux 😎
 
-- [Sur Facebook](https://www.facebook.com/share/v/1BZNkP7kk5/)
-- [Sur Twitter (X)](https://x.com/BlablaLinux/status/1986574526365507694)
-- [Sur Bluesky](https://bsky.app/profile/blablalinux.be/post/3m4ypfgobds2a)
-- [Sur Mastodon](https://mastodon.blablalinux.be/@blablalinux/115505322559841251)
+  * [Sur Facebook](https://www.facebook.com/share/v/1BZNkP7kk5/)
+  * [Sur Twitter (X)](https://x.com/BlablaLinux/status/1986574526365507694)
+  * [Sur Bluesky](https://bsky.app/profile/blablalinux.be/post/3m4ypfgobds2a)
+  * [Sur Mastodon](https://mastodon.blablalinux.be/@blablalinux/115505322559841251)
