@@ -2,7 +2,7 @@
 title: Installation de Jitsi Meet sur Debian 12 (Bookworm)
 description: Installez Jitsi Meet sur Debian 12 (Bookworm). Guide complet : dépôts, FQDN, SSL (Let's Encrypt ou Reverse Proxy), NAT (IP LAN/WAN) et optimisations de performance pour des visioconférences sécurisées.
 published: true
-date: 2025-11-19T18:03:20.391Z
+date: 2025-11-19T18:15:03.375Z
 tags: serveur, nginx, proxy, debian, jitsi, meet, prosody, nat, videobridge
 editor: markdown
 dateCreated: 2025-11-19T17:54:18.165Z
@@ -12,7 +12,7 @@ Cette page explique comment installer et configurer la plateforme de visioconfé
 
 -----
 
-## 1\. Prérequis 🛠️
+### 1\. Prérequis 🛠️
 
   * **Système d'exploitation :** Debian 12 (Bookworm).
   * **Accès root/sudo :** Un utilisateur avec des privilèges `sudo`.
@@ -255,33 +255,32 @@ sudo systemctl restart jitsi-videobridge2
 
 ### 12\. Dépannage courant 🩺
 
-#### A. Problèmes de connectivité vidéo/audio (pas d'image, écran noir)
+#### a. Problèmes de connectivité vidéo/audio (pas d'image, écran noir)
 
 La grande majorité des problèmes de Jitsi Meet sont liés à la gestion du trafic média, qui utilise le protocole **UDP 10000**.
 
   * **Vérifiez le pare-feu :** Assurez-vous que les ports **UDP 10000**, **TCP 4443** et **TCP 5222** sont ouverts sur le serveur Jitsi lui-même (`sudo ufw status verbose`).
-  * **Vérifiez le NAT/Redirection de ports :** Si votre serveur est derrière un routeur (IP LAN), il est **essentiel** que le trafic **UDP 10000** et **TCP 4443** soit correctement redirigé depuis l'extérieur vers l'adresse IP privée de votre serveur Jitsi.
-  * **Vérifiez la configuration NAT (Section 7) :** Confirmez que vous avez renseigné les adresses IP **LAN et WAN** dans la configuration de JVB (`jvb.conf` ou `sip-communicator.properties`) si le serveur est en environnement NAT. Un oubli ici empêche le serveur d'annoncer son adresse publique.
+  * **Vérifiez le NAT/Redirection de ports :** Si le serveur est derrière un routeur, il est **essentiel** que le trafic **UDP 10000** et **TCP 4443** soit correctement redirigé (port forwarding) vers l'adresse IP privée de votre serveur Jitsi.
+  * **Vérifiez la configuration NAT (Section 7) :** Confirmez que vous avez renseigné les adresses IP **LAN et WAN** dans la configuration de JVB si le serveur est en environnement NAT.
 
-#### B. Problèmes de certificat SSL
+#### b. Problèmes de certificat SSL
 
 Si le navigateur signale une erreur de sécurité ou un certificat non valide.
 
-  * **Option A (Directe) :** Assurez-vous que le **port 80** était ouvert lors de l'exécution du script Let's Encrypt et que votre FQDN pointe correctement vers le serveur. Le renouvellement du certificat utilise le port 80.
+  * **Option A (Directe) :** Assurez-vous que le **port 80** était ouvert lors de l'exécution du script Let's Encrypt et que votre FQDN pointe correctement vers le serveur.
   * **Option B (Reverse Proxy) :** Le Reverse Proxy doit être configuré pour parler en **HTTPS** au serveur Jitsi (port 443) et le Reverse Proxy doit détenir un certificat valide et public.
 
-#### C. Problèmes d'authentification
+#### c. Problèmes d'authentification
 
 Si le bouton "Start meeting" est remplacé par "Login" et que la connexion échoue.
 
   * **Vérifiez l'utilisateur :** Confirmez que vous avez créé l'utilisateur dans Prosody (Section **8.c**) et que vous utilisez les bonnes informations d'identification.
   * **Vérifiez les services :** Assurez-vous que les services `prosody` et `jicofo` sont actifs et ont été redémarrés après les modifications de configuration (Section **8.c**).
 
-#### D. Logs et journaux
+#### d. Logs et journaux
 
 Pour un diagnostic plus avancé, consultez les journaux des composants principaux :
 
   * **Jitsi Videobridge (Média) :** `sudo journalctl -u jitsi-videobridge2`
   * **Jicofo (Signalisation) :** `sudo journalctl -u jicofo`
   * **Prosody (Authentification/XMPP) :** `sudo journalctl -u prosody`
-  * **Nginx (Web/Reverse Proxy) :** `sudo tail -f /var/log/nginx/error.log`
