@@ -2,7 +2,7 @@
 title: Installation de Jitsi Meet sur Debian 12 (Bookworm)
 description: Installez Jitsi Meet sur Debian 12 (Bookworm). Guide complet : dépôts, FQDN, SSL (Let's Encrypt ou Reverse Proxy), NAT (IP LAN/WAN) et optimisations de performance pour des visioconférences sécurisées.
 published: true
-date: 2025-11-19T18:02:48.537Z
+date: 2025-11-19T18:03:20.391Z
 tags: serveur, nginx, proxy, debian, jitsi, meet, prosody, nat, videobridge
 editor: markdown
 dateCreated: 2025-11-19T17:54:18.165Z
@@ -12,7 +12,7 @@ Cette page explique comment installer et configurer la plateforme de visioconfé
 
 -----
 
-# 1\. Prérequis 🛠️
+## 1\. Prérequis 🛠️
 
   * **Système d'exploitation :** Debian 12 (Bookworm).
   * **Accès root/sudo :** Un utilisateur avec des privilèges `sudo`.
