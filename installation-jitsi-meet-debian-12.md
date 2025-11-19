@@ -2,7 +2,7 @@
 title: Installation de Jitsi Meet sur Debian 12 (Bookworm)
 description: Installez Jitsi Meet sur Debian 12 (Bookworm). Guide complet : dépôts, FQDN, SSL (Let's Encrypt ou Reverse Proxy), NAT (IP LAN/WAN) et optimisations de performance pour des visioconférences sécurisées.
 published: true
-date: 2025-11-19T18:26:14.707Z
+date: 2025-11-19T18:32:19.030Z
 tags: serveur, nginx, proxy, debian, jitsi, meet, prosody, nat, videobridge
 editor: markdown
 dateCreated: 2025-11-19T17:54:18.165Z
@@ -148,20 +148,20 @@ Si votre serveur Jitsi a une **adresse IP privée** et que le trafic est redirig
 
 ### Option B : Méthode classique (Fichier `sip-communicator.properties`)
 
-#### 1.  **Éditer le fichier de propriétés** :
+1.  **Éditer le fichier de propriétés** :
 
 ```bash
 sudo nano /etc/jitsi/videobridge/sip-communicator.properties
 ```
 
-#### 2.  **Ajouter les adresses** :
+2.  **Ajouter les adresses** :
 
 ```properties
 org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=<IP.LAN.Locale>
 org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=<IP.WAN.Publique>
 ```
 
-#### 3\. Redémarrer Jitsi Videobridge (pour les deux options)
+3. **Redémarrer Jitsi Videobridge (pour les deux options)** :
 
 ```bash
 sudo systemctl restart jitsi-videobridge2
@@ -248,13 +248,13 @@ sudo systemctl restart jitsi-videobridge2
 
 ## 11\. Vérification et accès ✅
 
-#### 1.  **Vérifier l'état des services :**
+### a.  **Vérifier l'état des services :**
 
 ```bash
 sudo systemctl status jitsi-videobridge2 jicofo nginx
 ```
 
-#### 2.  Votre Jitsi Meet est accessible via `https://meet.mondomaine.fr`.
+### b.  Votre Jitsi Meet est accessible via `https://meet.mondomaine.fr`.
 
 -----
 
