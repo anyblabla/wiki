@@ -2,7 +2,7 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2025-11-18T12:53:39.152Z
+date: 2025-11-20T20:02:15.469Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
@@ -14,12 +14,10 @@ dateCreated: 2025-11-06T18:26:43.925Z
 
 Ce script permet de :
 
-  * Identifier les LXC en ligne qui contiennent **Docker**.
+  * Identifier les **LXC** en ligne qui contiennent **Docker**.
   * Trouver les fichiers `docker-compose.yml` de Watchtower.
-  * Voir et modifier les options essentielles de Watchtower.
-  * Redémarrer automatiquement les containers après modification.
-
-Le script est adapté pour des LXC dont le répertoire Watchtower se trouve dans `/root` ou un sous-répertoire de `/root`.
+  * **Voir et modifier les options essentielles** de Watchtower.
+  * **Nettoyer les images** Docker non utilisées (`prune`).
 
 > **Note technique :** Ce script est conçu pour s'exécuter sur l'**hôte Proxmox** (ou le serveur gérant les LXC). Il utilise la commande `pct exec [ID] -- [commande]` pour exécuter les commandes Docker directement à l'intérieur des conteneurs LXC.
 
@@ -86,6 +84,8 @@ Lorsque vous lancez le script, le menu suivant apparaît :
  [9] 📅 Modifier le schedule aléatoire (14h-20h, min multiples de 5)
  [10] 📅 Fixer le même schedule pour tous (6 champs, Spring Cron)
  [11] ✏️  Modifier WATCHTOWER_TIMEOUT
+ [12] 🖼️  Modifier l'image Docker (ex: containrrr/watchtower:latest)
+ [13] 🧹 Nettoyer toutes les images non utilisées (docker image prune -a)
  [Q] ❌ Quitter
 ```
 
@@ -93,51 +93,19 @@ Lorsque vous lancez le script, le menu suivant apparaît :
 
 ## Description des options 📋
 
-### [1] Voir l’état actuel de Watchtower
-
-Affiche l’état des conteneurs Watchtower pour chaque LXC en ligne.
-
-### [2] Démarrer Watchtower
-
-Démarre le conteneur Watchtower dans chaque LXC identifié.
-
-### [3] Arrêter Watchtower
-
-Arrête le conteneur Watchtower.
-
-### [4] Redémarrer Watchtower
-
-Redémarre le conteneur Watchtower pour appliquer d’éventuelles modifications.
-
-### [5] Voir le contenu modifiable du `docker-compose.yml`
-
-Affiche les lignes essentielles modifiables pour chaque LXC (`restart:`, variables `WATCHTOWER_...`).
-
-### [6] Définir restart policy
-
-Affiche un sous-menu pour choisir explicitement la politique de redémarrage : `always` (redémarre toujours le conteneur en cas d'arrêt) ou `none` (ne redémarre pas automatiquement). Cette modification est appliquée et le conteneur est redémarré automatiquement.
-
-> **Note importante :** Cette modification est sensible à l'**indentation YAML** et a été corrigée dans le script pour fonctionner correctement.
-
-### [7] Modifier `WATCHTOWER_NO_STARTUP_MESSAGE`
-
-Permet de définir `true` ou `false`. Redémarre le conteneur.
-
-### [8] Modifier `WATCHTOWER_CLEANUP`
-
-Permet de définir `true` ou `false`. Redémarre le conteneur.
-
-### [9] Modifier le schedule aléatoire
-
-Génère un schedule aléatoire unique pour chaque LXC (heures entre 14h et 20h, minutes multiples de 5) et redémarre le conteneur.
-
-### [10] Fixer le même schedule pour tous
-
-Permet de saisir un schedule au format Spring Cron (6 champs, ex: `0 0 16 ? * 5`). Redémarre le conteneur.
-
-### [11] Modifier `WATCHTOWER_TIMEOUT`
-
-Permet de définir une valeur (ex: `30s`, `60s`). Redémarre le conteneur.
+  * **[1] Voir l’état actuel de Watchtower** : Affiche l’état des conteneurs Watchtower pour chaque LXC en ligne.
+  * **[2] Démarrer Watchtower** : Démarre le conteneur Watchtower dans chaque LXC identifié.
+  * **[3] Arrêter Watchtower** : Arrête le conteneur Watchtower.
+  * **[4] Redémarrer Watchtower** : Redémarre le conteneur Watchtower pour appliquer d’éventuelles modifications.
+  * **[5] Voir le contenu modifiable du `docker-compose.yml`** : Affiche les lignes essentielles modifiables pour chaque LXC (`image:`, `restart:`, variables `WATCHTOWER_...`).
+  * **[6] Définir restart policy** : Définit la politique de redémarrage : `always` ou `none`.
+  * **[7] Modifier `WATCHTOWER_NO_STARTUP_MESSAGE`** : Permet de définir `true` ou `false`.
+  * **[8] Modifier `WATCHTOWER_CLEANUP`** : Permet de définir `true` ou `false`.
+  * **[9] Modifier le schedule aléatoire** : Génère un schedule aléatoire unique pour chaque LXC (heures entre 14h et 20h, minutes multiples de 5).
+  * **[10] Fixer le même schedule pour tous** : Permet de saisir un schedule au format **Spring Cron** (6 champs, ex: `0 0 16 ? * 5`).
+  * **[11] Modifier `WATCHTOWER_TIMEOUT`** : Permet de définir une valeur (ex: `30s`, `60s`).
+  * **[12] Modifier l'image Docker** : Permet de définir une nouvelle image Docker (ex: `containrrr/watchtower:latest`). Le conteneur est redémarré pour appliquer le changement.
+  * **[13] Nettoyer toutes les images non utilisées** : Exécute `docker image prune -a -f` dans tous les LXC avec Docker pour supprimer les images inutilisées, libérant de l'espace disque.
 
 -----
 
@@ -162,6 +130,8 @@ MENU="
  [9] 📅 Modifier le schedule aléatoire (14h-20h, min multiples de 5)
  [10] 📅 Fixer le même schedule pour tous (6 champs, Spring Cron)
  [11] ✏️  Modifier WATCHTOWER_TIMEOUT
+ [12] 🖼️  Modifier l'image Docker (ex: containrrr/watchtower:latest)
+ [13] 🧹 Nettoyer toutes les images non utilisées (docker image prune -a)
  [Q] ❌ Quitter
 "
 
@@ -244,7 +214,8 @@ view_compose() {
         compose_file=$(find_watchtower_compose "$lxc_id")
         echo "→ LXC $lxc_id"
         if [ -n "$compose_file" ]; then
-            pct exec "$lxc_id" -- sh -c "grep -E 'restart:|WATCHTOWER_NO_STARTUP_MESSAGE|WATCHTOWER_CLEANUP|WATCHTOWER_SCHEDULE|WATCHTOWER_TIMEOUT' $compose_file"
+            # Ajout de 'image:' au grep pour voir l'image utilisée
+            pct exec "$lxc_id" -- sh -c "grep -E 'image:|restart:|WATCHTOWER_NO_STARTUP_MESSAGE|WATCHTOWER_CLEANUP|WATCHTOWER_SCHEDULE|WATCHTOWER_TIMEOUT' $compose_file"
         else
             echo "Pas de docker-compose.yml trouvé ou recherche expirée pour LXC $lxc_id."
         fi
@@ -272,7 +243,7 @@ modify_key_restart() {
 
 # Définir restart policy
 set_restart_policy() {
-    
+
     POLICY_MENU="
 ==============================
    Définir la restart policy
@@ -281,12 +252,12 @@ set_restart_policy() {
  [2] none (Ne pas redémarrer auto)
  [R] Retour au menu principal
 "
-    
+
     while true; do
         clear
         echo "$POLICY_MENU"
         read -rp "Votre choix : " sub_choice
-        
+
         case $sub_choice in
             1) new_policy="always" ; break ;;
             2) new_policy="none" ; break ;;
@@ -294,15 +265,15 @@ set_restart_policy() {
             *) echo "Option invalide." ; read -rp "Appuyez sur [Entrée] pour continuer..." ;;
         esac
     done
-    
+
     # Applique la politique choisie à tous les LXC
     for lxc_id in $(get_running_docker_lxc); do
         compose_file=$(find_watchtower_compose "$lxc_id")
-        
+
         if [ -n "$compose_file" ]; then
             # SED corrigé : utilise 4 ESPACES pour s'assurer de l'indentation correcte sous 'watchtower:' dans le YAML.
             pct exec "$lxc_id" -- sed -i "s/^[[:space:]]*restart: .*/    restart: $new_policy/" "$compose_file"
-            
+
             dir=$(dirname "$compose_file")
             pct exec "$lxc_id" -- sh -c "cd $dir && docker compose down && docker compose up -d"
             echo "✅ Restart policy définie et Watchtower redémarré dans LXC $lxc_id : $new_policy"
@@ -310,7 +281,7 @@ set_restart_policy() {
             echo "Pas de docker-compose.yml trouvé ou recherche expirée pour LXC $lxc_id."
         fi
     done
-    
+
     read -rp "Appuyez sur [Entrée] pour revenir au menu..."
 }
 
@@ -339,6 +310,52 @@ fixed_schedule() {
     modify_key_restart "WATCHTOWER_SCHEDULE" "$schedule"
 }
 
+# Nouvelle fonction pour modifier l'image Docker
+set_watchtower_image() {
+    read -rp "Entrez la nouvelle image Docker (ex: containrrr/watchtower:latest): " new_image
+    if [ -z "$new_image" ]; then
+        echo "❌ Image vide. Annulation."
+        read -rp "Appuyez sur [Entrée] pour revenir au menu..."
+        return
+    fi
+
+    for lxc_id in $(get_running_docker_lxc); do
+        compose_file=$(find_watchtower_compose "$lxc_id")
+
+        if [ -n "$compose_file" ]; then
+            # Utilisation de # comme délimiteur dans sed pour gérer les / dans le nom de l'image.
+            pct exec "$lxc_id" -- sed -i "s#^[[:space:]]*image: .*#    image: $new_image#" "$compose_file"
+
+            dir=$(dirname "$compose_file")
+            # Down et Up pour forcer le pull de la nouvelle image
+            pct exec "$lxc_id" -- sh -c "cd $dir && docker compose down && docker compose up -d"
+            echo "✅ Image Watchtower mise à jour et conteneur redémarré dans LXC $lxc_id : $new_image"
+        else
+            echo "Pas de docker-compose.yml trouvé ou recherche expirée pour LXC $lxc_id."
+        fi
+    done
+    read -rp "Appuyez sur [Entrée] pour revenir au menu..."
+}
+
+# Nouvelle fonction pour exécuter docker image prune -a dans tous les LXC
+prune_docker_images() {
+    echo "⚠️ Attention : Ceci supprimera toutes les images Docker non utilisées dans chaque LXC."
+    read -rp "Confirmez-vous l'exécution de 'docker image prune -a' dans tous les LXC? (oui/non): " confirmation
+
+    if [[ "$confirmation" =~ ^[Oo][Uu][Ii]$ ]]; then
+        for lxc_id in $(get_running_docker_lxc); do
+            echo "→ Nettoyage des images dans LXC $lxc_id..."
+            # Utilise 'docker image prune -a -f' pour forcer sans interaction utilisateur
+            pct exec "$lxc_id" -- docker image prune -a -f
+            echo "✅ Nettoyage terminé pour LXC $lxc_id."
+        done
+    else
+        echo "Opération annulée."
+    fi
+    read -rp "Appuyez sur [Entrée] pour revenir au menu..."
+}
+
+
 # Menu principal
 while true; do
     clear
@@ -356,19 +373,10 @@ while true; do
         9) random_schedule ;;
         10) fixed_schedule ;;
         11) read -rp "Entrez la valeur pour WATCHTOWER_TIMEOUT (ex: 30s) : " val; modify_key_restart "WATCHTOWER_TIMEOUT" "$val" ;;
+        12) set_watchtower_image ;;
+        13) prune_docker_images ;;
         [Qq]) exit ;;
         *) echo "Option invalide." ; read -rp "Appuyez sur [Entrée] pour continuer..." ;;
     esac
 done
 ```
-
------
-
-## Vidéo 🎬
-
-Une vidéo de démonstration existe, et celle-ci a été publiée sur les réseaux-sociaux Blabla Linux 😎
-
-  * [Sur Facebook](https://www.facebook.com/share/v/1BZNkP7kk5/)
-  * [Sur Twitter (X)](https://x.com/BlablaLinux/status/1986574526365507694)
-  * [Sur Bluesky](https://bsky.app/profile/blablalinux.be/post/3m4ypfgobds2a)
-  * [Sur Mastodon](https://mastodon.blablalinux.be/@blablalinux/115505322559841251)
