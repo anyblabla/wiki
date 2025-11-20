@@ -1,8 +1,8 @@
 ---
-title: AppArmor sur Proxmox 9 - comment j'ai réparé mes conteneurs Docker (LXC imbriqué)
+title: AppArmor sur Proxmox 9 - Comment j'ai réparé mes conteneurs Docker (LXC imbriqué)
 description: Conflit AppArmor/runc sur Proxmox 9 : réparez les erreurs de démarrage des conteneurs Docker dans les LXC imbriqués après la mise à jour de containerd.io. Solutions et retour arrière.
 published: true
-date: 2025-11-20T00:13:16.158Z
+date: 2025-11-20T00:21:10.533Z
 tags: docker, lxc, proxmox, pve, proxmox9, apparmor, conteneur, imbrication, runc, containerd.io, erreur, sécurité, dépannage
 editor: markdown
 dateCreated: 2025-11-20T00:13:16.158Z
