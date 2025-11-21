@@ -1,8 +1,8 @@
 ---
-title: Timeshift sur Serveur (CLI) : Configuration et Automatisation
+title: Timeshift sur Serveur (CLI) - Configuration et Automatisation
 description: Timeshift Serveur (CLI) : Guide pour installer et utiliser Timeshift sur Ubuntu Server. Concentré sur la configuration des instantanés automatiques via ligne de commande et le fichier JSON, puis l'activation par Cron.
 published: true
-date: 2025-10-28T14:05:08.262Z
+date: 2025-11-21T22:10:27.010Z
 tags: timeshift, sauvegarde, serveur, cron
 editor: markdown
 dateCreated: 2024-06-05T18:52:33.986Z
