@@ -2,7 +2,7 @@
 title: Bonnes Pratiques avec Docker Compose
 description: Configurez vos applications Docker avec des bonnes pratiques. Découvrez les meilleures méthodes pour structurer vos fichiers Compose, gérer les secrets, persister les données (volumes) et optimiser la sécurité en production.
 published: true
-date: 2025-11-22T15:23:23.332Z
+date: 2025-11-22T15:26:50.765Z
 tags: docker, compose, conteneurisation, déploiement
 editor: markdown
 dateCreated: 2025-11-22T15:18:58.075Z
@@ -212,13 +212,42 @@ volumes:
 
 Pour approfondir les concepts et consulter la référence officielle, voici quelques liens essentiels :
 
-  * **Référence du fichier Compose (le plus important)**
-      * [Lien de référence de Docker Compose (en anglais)](https://docs.docker.com/compose/compose-file/compose-file-v3/)
-  * **Bonnes pratiques générales de construction d'images**
-      * [Bonnes pratiques pour la construction d'images (en anglais)](https://docs.docker.com/build/building/best-practices/)
-  * **Gestion des secrets**
-      * [Gestion des secrets avec Docker (en anglais)](https://docs.docker.com/engine/swarm/secrets/)
-  * **Guide Docker Compose : Simplifiez le développement de conteneurs multiples (DataCamp)**
-      * [Guide Docker Compose : Simplifiez le développement de conteneurs multiples (DataCamp)](https://www.datacamp.com/fr/tutorial/docker-compose-guide)
-  * **Docker en production, les bonnes pratiques (Alfa-Safety)**
-      * [Docker en production, les bonnes pratiques (Alfa-Safety)](https://www.alfa-safety.fr/blog/docker-en-production-les-bonnes-pratiques/)
+### 🇫🇷 Tutoriels et guides en français
+
+  * **Guide Docker Compose : Simplifiez le développement de conteneurs multiples**
+
+    > Un guide complet qui explique les principes fondamentaux, la syntaxe YAML et les éléments clés (services, réseaux, volumes).
+
+    >   * [Lien DataCamp (en français)](https://www.datacamp.com/fr/tutorial/docker-compose-guide)
+
+  * **Docker Compose : tout ce qu'il faut savoir**
+
+    > Un aperçu détaillé des commandes de base, de l'utilisation des volumes persistants et des variables d'environnement.
+
+    >   * [Lien DataScientest (en français)](https://datascientest.com/docker-compose-tout-savoir)
+
+  * **Introduction à Docker Compose**
+
+    > Un article se concentrant sur la structure du fichier, l'utilisation et la gestion des secrets, souvent pertinent pour la transition vers la production.
+
+    >   * [Lien Stéphane ROBERT (en français)](https://blog.stephane-robert.info/docs/conteneurs/orchestrateurs/docker-compose/)
+
+  * **Tutoriel Docker Compose (vidéo)**
+
+    > Pour ceux qui préfèrent un support vidéo, ce tutoriel complet couvre les bases et la création d'un premier fichier Compose.
+
+    >   * [Lien YouTube - Docker Compose va vous ÉBLOUIR \!\!](https://www.youtube.com/watch?v=04TkqB5WdL0)
+
+### 🇬🇧 Référence officielle (en anglais, incontournable)
+
+  * **Référence du fichier Compose (Le guide technique ultime)**
+
+    > C'est la référence technique complète de toutes les clés (`services`, `volumes`, `networks`, `healthcheck`, etc.) que vous pouvez utiliser.
+
+    >   * [Lien de référence de Docker Compose (en anglais)](https://docs.docker.com/compose/compose-file/compose-file-v3/)
+
+  * **Bonnes pratiques pour la construction d'images**
+
+    > Crucial pour garantir la sécurité et la petite taille de vos images Docker.
+
+    >   * [Bonnes pratiques pour la construction d'images (en anglais)](https://docs.docker.com/build/building/best-practices/)
