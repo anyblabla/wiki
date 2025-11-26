@@ -1,9 +1,9 @@
 ---
-title: Déploiement de Stirling PDF avec Docker Compose
-description: Ce tutoriel explique comment déployer rapidement Stirling PDF (outil puissant de gestion PDF) en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML.
+title: Stirling PDF V1 (docker-compose)
+description: Ce tutoriel explique comment déployer rapidement Stirling PDF V1 (outil puissant de gestion PDF) en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML.
 published: true
-date: 2025-10-28T13:33:30.895Z
-tags: pdf, stirling
+date: 2025-11-26T14:23:19.289Z
+tags: docker, pdf, stirling, compose, tools
 editor: markdown
 dateCreated: 2024-06-14T12:54:05.800Z
 ---
@@ -18,9 +18,9 @@ Stirling PDF est une boîte à outils pour fichiers PDF permettant de fusionner,
 
 ### Liens utiles
 
-  - [Site officiel](https://stirlingtools.com)
-  - [GitHub](https://github.com/Stirling-Tools/Stirling-PDF)
-  - [Docker Hub](https://hub.docker.com/r/frooodle/s-pdf)
+  * [Site officiel](https://stirlingtools.com)
+  * [GitHub](https://github.com/Stirling-Tools/Stirling-PDF)
+  * [Docker Hub](https://hub.docker.com/r/stirlingtools/stirling-pdf)
 
 -----
 
@@ -28,11 +28,15 @@ Stirling PDF est une boîte à outils pour fichiers PDF permettant de fusionner,
 
 Le fichier Compose de base pour le déploiement de Stirling PDF :
 
+> ⚠️ **Note Importante sur l'Image Docker :**
+> L'image recommandée a été mise à jour de `frooodle/s-pdf` à **`stirlingtools/stirling-pdf`**.
+> La version **`1.6.0-fat`** est la toute dernière et la plus complète de la **V1** de Stirling PDF.
+
 ```yaml
 version: '3.3'
 services:
   stirling-pdf:
-    image: frooodle/s-pdf:latest
+    image: stirlingtools/stirling-pdf:1.6.0-fat # ⚠️ Nouvelle image et tag V1
     restart: always
     ports:
       - '8080:8080'
@@ -64,13 +68,13 @@ La configuration peut se faire soit via des **variables d'environnement** (qui p
 
 ### Choix de l'Image Docker (Tags)
 
-Plusieurs tags sont disponibles en fonction de la taille et des fonctionnalités souhaitées :
+Plusieurs tags sont disponibles en fonction de la taille et des fonctionnalités souhaitées. La version **1.6.0** est la dernière **V1**.
 
 | Tag | Poids (Compressé) | Fonctionnalités | Utilisation |
 | :--- | :--- | :--- | :--- |
-| **`latest`** | $\approx 700$ MB | Quasi toutes les fonctionnalités. | **Recommandé** (celui utilisé dans le Compose). |
-| **`latest-ultra-lite`** | $\approx 250$ MB | Moins de fonctionnalités (plus léger). | Idéal si le stockage est une contrainte. |
-| **`latest-fat`** | $\approx 1050$ MB | **Totalité** des fonctionnalités. | Si l'espace de stockage n'est pas un problème. |
+| **`1.6.0-fat`** | $\approx 1050$ MB | **Totalité** des fonctionnalités. | **Recommandé** (celui utilisé dans le Compose). |
+| **`1.6.0-lite`** | $\approx 700$ MB | Quasi toutes les fonctionnalités. | Si l'espace est une légère contrainte. |
+| **`1.6.0-ultra-lite`** | $\approx 250$ MB | Moins de fonctionnalités (plus léger). | Idéal si le stockage est une contrainte. |
 
 ### Configuration de l'Interface (UI)
 
@@ -130,12 +134,14 @@ Par défaut, seul l'anglais est géré. Pour ajouter d'autres langues :
 
 Je suis gentil, je vous fournis ces fichiers grâce au [cloud Blabla Linux](https://yourls.blablalinux.be/nextcloud).
 
--   [Fichiers légers](https://nextcloud.blablalinux.be/index.php/s/4ezDSHy3XoTZARb)
--   [Fichiers lourds](https://nextcloud.blablalinux.be/index.php/s/bPp4C7YXtTeKpXt)
+  - [Fichiers légers](https://nextcloud.blablalinux.be/index.php/s/4ezDSHy3XoTZARb)
+  - [Fichiers lourds](https://nextcloud.blablalinux.be/index.php/s/bPp4C7YXtTeKpXt)
+
+<!-- end list -->
 
 2.  **Placez** ces fichiers dans le répertoire de votre hôte que vous avez monté sur `/usr/share/tessdata` (ici : `/usr/share/tessdata`).
     > **Note :** Ne supprimez pas le fichier **`eng.traineddata`**, Stirling PDF en a besoin.
-    
+
 ![](/docker-compose-stirling-pdf/stirling-pdf-bbl-ocr.png)
 
 -----
