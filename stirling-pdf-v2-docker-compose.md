@@ -2,7 +2,7 @@
 title: Stirling PDF V2 (docker-compose)
 description: Déploiement de Stirling PDF V2 en auto-hébergement avec Docker Compose. Ce guide utilise l'image latest-fat pour toutes les fonctionnalités, le healthcheck, et les options de sécurité avancées (OAuth2, API).
 published: true
-date: 2025-11-26T14:41:02.102Z
+date: 2025-11-26T14:48:21.099Z
 tags: docker, pdf, stirling, compose, v2
 editor: markdown
 dateCreated: 2025-11-26T14:41:02.102Z
@@ -105,6 +105,8 @@ services:
     #- POSTGRES_USER=admin
     #- POSTGRES_PASSWORD=stirling # À changer pour un mot de passe sécurisé en production
 ```
+
+Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/s/00c501cad53b05674c31e329806d987d).
 
 ### Explications des volumes
 
