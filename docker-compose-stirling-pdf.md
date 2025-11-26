@@ -2,17 +2,13 @@
 title: Stirling PDF V1 (docker-compose)
 description: Ce tutoriel explique comment déployer rapidement Stirling PDF V1 (outil puissant de gestion PDF) en utilisant une pile Docker (stack) dans Portainer à partir d'un fichier compose YAML.
 published: true
-date: 2025-11-26T14:23:19.289Z
+date: 2025-11-26T14:44:21.685Z
 tags: docker, pdf, stirling, compose, tools
 editor: markdown
 dateCreated: 2024-06-14T12:54:05.800Z
 ---
 
-Je pars du principe que vous maîtrisez un minimum Docker (avec Portainer) 😉
-
------
-
-## 1\. Stirling PDF, c'est quoi ?
+## 1\. Stirling PDF, qu'est-ce que c'est ?
 
 Stirling PDF est une boîte à outils pour fichiers PDF permettant de fusionner, diviser, convertir et plus encore. L'application met l'accent sur la **sécurité et la confidentialité** : elle ne conserve aucun fichier, suivi ou donnée, et fonctionne entièrement sur votre machine locale. L'interface, le nom et la description sont personnalisables.
 
@@ -24,11 +20,11 @@ Stirling PDF est une boîte à outils pour fichiers PDF permettant de fusionner,
 
 -----
 
-## 2\. Fichier `docker-compose.yml` de Base
+## 2\. Fichier `docker-compose.yml` de base
 
 Le fichier Compose de base pour le déploiement de Stirling PDF :
 
-> ⚠️ **Note Importante sur l'Image Docker :**
+> ⚠️ **Note importante sur l'image Docker :**
 > L'image recommandée a été mise à jour de `frooodle/s-pdf` à **`stirlingtools/stirling-pdf`**.
 > La version **`1.6.0-fat`** est la toute dernière et la plus complète de la **V1** de Stirling PDF.
 
@@ -53,30 +49,30 @@ services:
 
 Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytestash.blablalinux.be/s/f1254114dd45f18e1aba759566f4fc29).
 
-### Explications des Volumes
+### Explications des volumes
 
-| Volume | Chemin Conteneur | Description |
+| Volume | Chemin conteneur | Description |
 | :--- | :--- | :--- |
 | **OCR** | `/usr/share/tessdata` | **Obligatoire** pour ajouter des langues supplémentaires pour la reconnaissance de caractères (OCR). |
 | **Configs** | `/configs` | Contient le fichier de configuration principal **`settings.yml`**. |
 
 -----
 
-## 3\. Personnalisation et Configuration
+## 3\. Personnalisation et configuration
 
 La configuration peut se faire soit via des **variables d'environnement** (qui priment toujours), soit en modifiant le fichier **`settings.yml`** situé dans le volume `/configs`.
 
-### Choix de l'Image Docker (Tags)
+### Choix de l'image Docker (tags)
 
 Plusieurs tags sont disponibles en fonction de la taille et des fonctionnalités souhaitées. La version **1.6.0** est la dernière **V1**.
 
-| Tag | Poids (Compressé) | Fonctionnalités | Utilisation |
+| Tag | Poids (compressé) | Fonctionnalités | Utilisation |
 | :--- | :--- | :--- | :--- |
 | **`1.6.0-fat`** | $\approx 1050$ MB | **Totalité** des fonctionnalités. | **Recommandé** (celui utilisé dans le Compose). |
 | **`1.6.0-lite`** | $\approx 700$ MB | Quasi toutes les fonctionnalités. | Si l'espace est une légère contrainte. |
 | **`1.6.0-ultra-lite`** | $\approx 250$ MB | Moins de fonctionnalités (plus léger). | Idéal si le stockage est une contrainte. |
 
-### Configuration de l'Interface (UI)
+### Configuration de l'interface utilisateur (UI)
 
 Vous pouvez personnaliser le nom et la description de l'application en ajoutant des variables d'environnement au service `stirling-pdf` :
 
@@ -90,7 +86,7 @@ Vous pouvez personnaliser le nom et la description de l'application en ajoutant 
 
 *(Ces variables remplacent les valeurs `null` dans la section `ui` du fichier `settings.yml`.)*
 
-### Activation de la Sécurité et de la Connexion
+### Activation de la sécurité et de la connexion
 
 Par défaut, l'application est accessible sans identifiant. Pour activer un écran de connexion (essentiel si exposé sur le web) :
 
@@ -104,7 +100,7 @@ Par défaut, l'application est accessible sans identifiant. Pour activer un écr
       enableLogin: true # set to 'true' to enable login
       # ...
     ```
-3.  **Identifiants Initiaux :** Dé-commenter et personnaliser les lignes suivantes dans `settings.yml` (ou utiliser des variables d'environnement) :
+3.  **Identifiants initiaux :** Dé-commenter et personnaliser les lignes suivantes dans `settings.yml` (ou utiliser des variables d'environnement) :
     ```yaml
     # settings.yml
     #  initialLogin:
@@ -117,7 +113,7 @@ Par défaut, l'application est accessible sans identifiant. Pour activer un écr
     - SECURITY_INITIALLOGIN_PASSWORD=stirling
     ```
 
-### Configuration de la Langue (Locale)
+### Configuration de la langue (locale)
 
 Pour passer l'interface en français, modifiez la ligne `defaultLocale` dans le fichier `settings.yml` :
 
@@ -126,7 +122,7 @@ system:
   defaultLocale: 'fr-FR' # Set the default language (e.g. 'de-DE', 'fr-FR', etc)
 ```
 
-### Ajout de Langues pour la Reconnaissance OCR
+### Ajout de langues pour la reconnaissance OCR
 
 Par défaut, seul l'anglais est géré. Pour ajouter d'autres langues :
 
@@ -134,19 +130,19 @@ Par défaut, seul l'anglais est géré. Pour ajouter d'autres langues :
 
 Je suis gentil, je vous fournis ces fichiers grâce au [cloud Blabla Linux](https://yourls.blablalinux.be/nextcloud).
 
-  - [Fichiers légers](https://nextcloud.blablalinux.be/index.php/s/4ezDSHy3XoTZARb)
-  - [Fichiers lourds](https://nextcloud.blablalinux.be/index.php/s/bPp4C7YXtTeKpXt)
+  * [Fichiers légers](https://nextcloud.blablalinux.be/index.php/s/4ezDSHy3XoTZARb)
+  * [Fichiers lourds](https://nextcloud.blablalinux.be/index.php/s/bPp4C7YXtTeKpXt)
 
 <!-- end list -->
 
 2.  **Placez** ces fichiers dans le répertoire de votre hôte que vous avez monté sur `/usr/share/tessdata` (ici : `/usr/share/tessdata`).
     > **Note :** Ne supprimez pas le fichier **`eng.traineddata`**, Stirling PDF en a besoin.
-
-![](/docker-compose-stirling-pdf/stirling-pdf-bbl-ocr.png)
+    
+![stirling-pdf-bbl-ocr.png](/docker-compose-stirling-pdf/stirling-pdf-bbl-ocr.png)    
 
 -----
 
-## 4\. Lancement et Minimum Requis
+## 4\. Lancement et minimum requis
 
 Une fois configuré, lancez votre pile :
 
@@ -161,6 +157,6 @@ docker compose up -d
 
 Vous accédez à l'interface à l'adresse **`http://<Votre_IP_Hôte>:8080`**.
 
-![](/docker-compose-stirling-pdf/stirling-pdf-bbl-outils.png)
+![stirling-pdf-bbl-outils.png](/docker-compose-stirling-pdf/stirling-pdf-bbl-outils.png)
 
 [Stirling PDF Blabla Linux - Outils](https://yourls.blablalinux.be/stirlingpdf)
