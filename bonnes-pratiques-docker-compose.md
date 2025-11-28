@@ -2,7 +2,7 @@
 title: Bonnes Pratiques avec Docker Compose
 description: Configurez vos applications Docker avec des bonnes pratiques. Découvrez les meilleures méthodes pour structurer vos fichiers Compose, gérer les secrets, persister les données (volumes) et optimiser la sécurité en production.
 published: true
-date: 2025-11-28T19:30:46.023Z
+date: 2025-11-28T19:32:30.322Z
 tags: docker, compose, conteneurisation, déploiement
 editor: markdown
 dateCreated: 2025-11-22T15:18:58.075Z
@@ -12,7 +12,7 @@ Docker Compose est un outil puissant pour définir et exécuter des applications
 
 -----
 
-### 1\. Organisation du fichier Compose
+## 1\. Organisation du fichier Compose
 
   * **Nom de fichier recommandé :** La nouvelle convention est d'utiliser **`compose.yaml`** (ou `.yml`) pour simplifier. L'ancien `docker-compose.yaml` fonctionne, mais le nouveau format est préféré.
   * **Version implicite (recommandée) :** La clé `version` (ex: `version: '3.8'`) est considérée comme **obsolète** et n'est plus nécessaire. Il est recommandé de l'omettre pour que Docker Compose (V2 et suivants) utilise automatiquement la dernière spécification.
@@ -39,7 +39,7 @@ Docker Compose est un outil puissant pour définir et exécuter des applications
 
 -----
 
-### 2\. Gestion des images et de la construction
+## 2\. Gestion des images et de la construction
 
   * **Préférer les images officielles/minimales :** Utilisez des images de base **officielles** (ex: `postgres:16-alpine`, `node:20-slim`) et privilégiez les variantes minimales (comme `alpine` ou `slim`) pour réduire la taille des images et la surface d'attaque.
 
@@ -74,7 +74,7 @@ Docker Compose est un outil puissant pour définir et exécuter des applications
 
 -----
 
-### 3\. Sécurité et gestion des secrets
+## 3\. Sécurité et gestion des secrets
 
   * **Ne jamais mettre les secrets en clair :** N'ajoutez **jamais** de mots de passe, clés API ou autres données sensibles directement dans le fichier Compose (**`compose.yaml`**).
 
@@ -120,7 +120,7 @@ Docker Compose est un outil puissant pour définir et exécuter des applications
 
 -----
 
-### 4\. Gestion des données et du stockage
+## 4\. Gestion des données et du stockage
 
   * **Utiliser des volumes nommés (`volumes`) :** Les volumes nommés sont le moyen **recommandé** de persister les données des conteneurs (bases de données, fichiers uploadés, etc.) car ils sont gérés par Docker et plus performants/sûrs que les montages de *bind* (liens vers le système de fichiers hôte).
     **Exemple de volume nommé :**
@@ -154,7 +154,7 @@ Docker Compose est un outil puissant pour définir et exécuter des applications
 
 -----
 
-### 5\. Réseautage et communication
+## 5\. Réseautage et communication
 
   * **Réseau par défaut :** Laissez Docker Compose créer le réseau par défaut (il est nommé d'après le nom du répertoire). Les services dans ce réseau peuvent communiquer entre eux simplement par leur **nom de service**.
     **Exemple :** Le service `app` peut accéder au service `db` en utilisant l'hôte `db` (ex: `jdbc:postgresql://db:5432/mydb`).
@@ -183,7 +183,7 @@ Docker Compose est un outil puissant pour définir et exécuter des applications
 
 -----
 
-### 6\. Robustesse et santé
+## 6\. Robustesse et santé
 
   * **Checks de santé (`healthcheck`) :** Définissez des *checks* de santé pour que Docker puisse déterminer si un conteneur est réellement prêt à servir du trafic (et non juste en cours d'exécution).
     **Exemple pour un service web simple :**
