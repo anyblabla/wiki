@@ -1,8 +1,8 @@
 ---
-title: Paquets Principaux de Proxmox Virtual Environment (PVE) 9.1.x
+title: Paquets principaux de Proxmox Virtual Environment (PVE) 9.1.x
 description: Guide complet des paquets principaux de Proxmox VE 9.1.x, y compris KVM, LXC, clustering (Corosync), et outils CLI (qm, pct). Idéal pour l'administration système.
 published: true
-date: 2025-11-28T23:03:37.590Z
+date: 2025-11-28T23:39:59.583Z
 tags: qemu, lxc, proxmox, debian, pve, cluster, corosync, paquets, packages, virtualisation, dkms, ha, pvesh, qm, pct, sysadmin, hyperviseur, zfs
 editor: markdown
 dateCreated: 2025-11-28T22:51:32.025Z
