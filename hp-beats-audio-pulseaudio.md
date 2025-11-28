@@ -1,8 +1,8 @@
 ---
-title: Guide - Activer le Son Complet (Caisson de Basses) HP Beats Audio sous Ubuntu/Debian
+title: Activer le son complet (caisson de basses) HP Beats Audio sous Ubuntu/Debian
 description: HP Beats Audio sur Linux : Son incomplet sur Ubuntu/Debian? Souvent causé par un mauvais réglage des haut-parleurs et du caisson de basses (LFE). Utilisez l'outil hdajackretask pour corriger et reconfigurer la sortie audio.
 published: true
-date: 2025-11-14T19:04:11.130Z
+date: 2025-11-28T12:06:17.074Z
 tags: debian, hp, beatsaudio, pulseaudio, sound, ubuntu
 editor: markdown
 dateCreated: 2025-09-26T18:10:25.732Z
