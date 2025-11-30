@@ -1,8 +1,8 @@
 ---
 title: Injection d'un logo personnalisé via Nginx Proxy Manager (NPM)
 description: Guide pas-à-pas pour injecter un logo flottant cliquable dans vos applications web via Nginx Proxy Manager (NPM). Inclut les scripts de base, les corrections anti-FOUC et les solutions aux erreurs de CSP.
-published: false
-date: 2025-11-30T23:33:04.427Z
+published: true
+date: 2025-11-30T23:33:47.977Z
 tags: nginx, proxy, npm, injection, css, logo, csp
 editor: markdown
 dateCreated: 2025-11-30T23:16:50.068Z
