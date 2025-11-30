@@ -1,8 +1,8 @@
 ---
-title: Analyse du fichier robots.txt de Gitea
+title: Analyse du fichier robots.txt de Gitea (blablalinux.be)
 description: Analyse du fichier robots.txt de l'instance Gitea blablalinux.be, qui applique une stratégie stricte de blocage des robots d’IA, tout en autorisant l'indexation sélective par les moteurs de recherche traditionnels.
 published: true
-date: 2025-11-30T17:03:01.338Z
+date: 2025-11-30T17:34:55.173Z
 tags: seo, indexation, robots.txt, anti-ia, gitea
 editor: markdown
 dateCreated: 2025-11-30T17:02:16.215Z
@@ -53,9 +53,9 @@ Cette configuration privilégie la **protection des données** tout en maintenan
 L'exclusion massive (Section 1) est une mesure défensive pour :
 
   * **Protéger la propriété intellectuelle (PI) :** Empêcher les entreprises d'IA d'utiliser le code source et le contenu du site pour l'entraînement de leurs modèles d'apprentissage.
-
+  
 ![web-scraping.jpeg](/robots-txt-gitea-blocage-ia/web-scraping.jpeg)
-
+  
   * **Réduire la charge serveur :** Diminuer le trafic généré par des robots souvent très gourmands en ressources, assurant une meilleure performance pour les utilisateurs humains.
 
 -----
@@ -301,7 +301,17 @@ Allow: /
 
 -----
 
-## IV. Instructions d'installation : où placer le fichier `robots.txt` dans Gitea
+## IV. Suivi et mises à jour du fichier `robots.txt`
+
+Le fichier `robots.txt` étant versionné sur Gitea, il est possible de s'abonner aux changements. Cela permet aux administrateurs ou aux utilisateurs intéressés d'être tenus informés de toute modification ou ajout (notamment pour bloquer de nouveaux robots d'IA).
+
+Vous pouvez vous **abonner au flux RSS** des mises à jour du fichier `robots.txt` sur Gitea Blablalinux en utilisant le lien suivant dans votre lecteur RSS favori :
+
+➡️ **Lien du flux RSS :** **[https://gitea.blablalinux.be/Stars/ai.robots.txt/rss/branch/main/robots.txt](https://gitea.blablalinux.be/Stars/ai.robots.txt/rss/branch/main/robots.txt)**
+
+-----
+
+## V. Instructions d'installation : où placer le fichier `robots.txt` dans Gitea
 
 Le fichier doit être placé dans le sous-répertoire `public` au sein du répertoire de personnalisation de Gitea (`custom`).
 
@@ -313,7 +323,7 @@ Le fichier doit être placé dans le sous-répertoire `public` au sein du réper
 **a. Préparation (Définir le chemin et créer le répertoire)**
 
 ```bash
-GITEA_BASE_DIR="/var/lib/gitea"  # À adapter au chemin réel
+GITEA_BASE_DIR="/var/lib/gitea"  # À adapter au chemin réel
 mkdir -p "$GITEA_BASE_DIR/custom/public"
 ```
 
