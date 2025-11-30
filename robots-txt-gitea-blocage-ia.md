@@ -2,7 +2,7 @@
 title: Analyse du fichier robots.txt de Gitea
 description: Analyse du fichier robots.txt de l'instance Gitea blablalinux.be, qui applique une stratégie stricte de blocage des robots d’IA, tout en autorisant l'indexation sélective par les moteurs de recherche traditionnels.
 published: true
-date: 2025-11-30T17:02:16.215Z
+date: 2025-11-30T17:03:01.338Z
 tags: seo, indexation, robots.txt, anti-ia, gitea
 editor: markdown
 dateCreated: 2025-11-30T17:02:16.215Z
@@ -14,7 +14,7 @@ Le fichier **`robots.txt`** de cette instance Gitea est un excellent exemple d'u
 
 -----
 
-## II. Décortication du fichier `robots.txt`
+## I. Décortication du fichier `robots.txt`
 
 Le fichier est structuré en deux grandes sections distinctes.
 
@@ -39,7 +39,7 @@ Cette section concerne les agents utilisateurs généralistes (moteurs de recher
 
 -----
 
-## III. Implications en référencement (SEO) et stratégie de visibilité
+## II. Implications en référencement (SEO) et stratégie de visibilité
 
 Cette configuration privilégie la **protection des données** tout en maintenant un **SEO ciblé** sur le contenu public du code.
 
@@ -60,7 +60,7 @@ L'exclusion massive (Section 1) est une mesure défensive pour :
 
 -----
 
-## IV. Fichier `robots.txt` complet
+## III. Fichier `robots.txt` complet
 
 Voici le contenu intégral du fichier, prêt à être déployé sur toute instance Gitea :
 
@@ -301,7 +301,7 @@ Allow: /
 
 -----
 
-## V. Instructions d'installation : où placer le fichier `robots.txt` dans Gitea
+## IV. Instructions d'installation : où placer le fichier `robots.txt` dans Gitea
 
 Le fichier doit être placé dans le sous-répertoire `public` au sein du répertoire de personnalisation de Gitea (`custom`).
 
