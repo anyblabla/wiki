@@ -2,7 +2,7 @@
 title: Injection d'un logo personnalisé via Nginx Proxy Manager (NPM)
 description: Guide pas-à-pas pour injecter un logo flottant cliquable dans vos applications web via Nginx Proxy Manager (NPM). Inclut les scripts de base, les corrections anti-FOUC et les solutions aux erreurs de CSP.
 published: false
-date: 2025-11-30T23:16:50.068Z
+date: 2025-11-30T23:33:04.427Z
 tags: nginx, proxy, npm, injection, css, logo, csp
 editor: markdown
 dateCreated: 2025-11-30T23:16:50.068Z
@@ -142,10 +142,30 @@ L'approche recommandée est d'utiliser le **Script de base** et d'ajouter les co
 
 Voici ce que donne l'injection du logo flottant sur quelques-uns de mes services **Blabla Linux** :
 
+![joplin.png](/injection-logo-flottant-nginx-npm/joplin.png)
+
   * [https://joplin.blablalinux.be](https://joplin.blablalinux.be)
+  
+![jitsimeet.png](/injection-logo-flottant-nginx-npm/jitsimeet.png)
+
   * [https://jitsimeet.blablalinux.be](https://jitsimeet.blablalinux.be)
+  
+![convertx.png](/injection-logo-flottant-nginx-npm/convertx.png)
+
   * [https://convertx.blablalinux.be](https://convertx.blablalinux.be)
+  
+![it-tools.png](/injection-logo-flottant-nginx-npm/it-tools.png)
+
   * [https://it-tools.blablalinux.be](https://it-tools.blablalinux.be)
+  
+![signpdf.png](/injection-logo-flottant-nginx-npm/signpdf.png)
+
   * [https://signpdf.blablalinux.be](https://signpdf.blablalinux.be)
+  
+![libre-translate.png](/injection-logo-flottant-nginx-npm/libre-translate.png)
+
   * [https://ltranslate.blablalinux.be](https://ltranslate.blablalinux.be)
+  
+![pwpush.png](/injection-logo-flottant-nginx-npm/pwpush.png)
+
   * [https://pwpush.blablalinux.be](https://pwpush.blablalinux.be)
