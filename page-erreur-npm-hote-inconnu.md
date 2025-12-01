@@ -2,8 +2,8 @@
 title: Page d'erreur personnalisée du proxy
 description: Réponse HTML/CSS personnalisée affichée par Nginx Proxy Manager (NPM) lorsqu'un hôte (nom de domaine) n'est pas configuré. Inclut le mode sombre et est entièrement responsive.
 published: true
-date: 2025-12-01T14:20:45.510Z
-tags: nginx, proxy, npm, erreur, 404
+date: 2025-12-01T14:21:22.885Z
+tags: nginx, proxy, npm, erreur, 404, logo
 editor: markdown
 dateCreated: 2025-11-28T00:37:05.212Z
 ---
