@@ -2,7 +2,7 @@
 title: Page d'erreur personnalisée du proxy
 description: Réponse HTML/CSS personnalisée affichée par Nginx Proxy Manager (NPM) lorsqu'un hôte (nom de domaine) n'est pas configuré. Inclut le mode sombre et est entièrement responsive.
 published: true
-date: 2025-12-01T14:31:44.788Z
+date: 2025-12-01T15:45:04.068Z
 tags: nginx, proxy, npm, erreur, 404, logo
 editor: markdown
 dateCreated: 2025-11-28T00:37:05.212Z
@@ -367,6 +367,8 @@ Ce code inclut le logo flottant cliquable ancré en **bas à gauche** de l'écra
 </body>
 </html>
 ```
+
+![erreur-404-white-logo.png](/page-erreur-npm-hote-inconnu/erreur-404-white-logo.png)
 
 ![erreur-404-logo.png](/page-erreur-npm-hote-inconnu/erreur-404-logo.png)
 
