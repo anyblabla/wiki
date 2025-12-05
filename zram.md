@@ -2,13 +2,23 @@
 title: Zram - Compresser la RAM au lieu de swapper sur Linux
 description: Zram est un module du noyau Linux qui crée un périphérique de stockage compressé en RAM.
 published: true
-date: 2025-11-14T19:05:00.833Z
+date: 2025-12-05T00:31:09.862Z
 tags: ram, zram, memory
 editor: markdown
 dateCreated: 2025-11-01T00:19:53.610Z
 ---
 
 Au lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque la mémoire vive est pleine, **Zram** intercepte les pages mémoire et les compresse, réduisant ainsi la quantité de données échangées vers le disque. Cela améliore considérablement la réactivité du système, en particulier sur les machines avec une faible quantité de RAM ou des disques lents (comme les cartes SD ou les disques eMMC).
+
+-----
+
+### 📰 Pour aller plus loin : Le Contexte de l'Activation
+
+> **Vous vous demandez pourquoi Zram n'est pas actif par défaut sous Linux ?**
+>
+> Avant de l'installer, comprenez pourquoi cette optimisation est cruciale, notamment dans le cadre du reconditionnement de matériel, en lisant notre article de blog détaillé :
+>
+> ➡️ **[Zram : Pourquoi ce "turbo" pour la RAM n'est pas activé par défaut sous Linux ?](https://www.google.com/search?q=https://blablalinux.be/zram-pourquoi-pas-defaut-linux)**
 
 -----
 
@@ -25,6 +35,7 @@ Le principe de Zram est de transformer une partie de la RAM en un périphérique
   * **Vitesse :** L'accès à la RAM, même compressée, est beaucoup plus rapide que l'accès au disque.
   * **Usure réduite :** Diminue les écritures sur les périphériques de stockage, prolongeant la durée de vie des SSD/cartes Flash.
   * **Capacité effective :** Permet d'augmenter la quantité de mémoire utilisable par le système (en fonction du taux de compression).
+  * **Note Reconditionnement :** C'est pour ces raisons que des distributions comme **Emmabuntüs** l'activent par défaut, rendant le matériel reconditionné plus réactif \!
 
 **Inconvénient :**
 
