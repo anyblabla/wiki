@@ -2,7 +2,7 @@
 title: Zram - Compresser la RAM au lieu de swapper sur Linux
 description: Zram est un module du noyau Linux qui crée un périphérique de stockage compressé en RAM.
 published: true
-date: 2025-12-05T00:31:09.862Z
+date: 2025-12-05T00:32:01.559Z
 tags: ram, zram, memory
 editor: markdown
 dateCreated: 2025-11-01T00:19:53.610Z
@@ -18,7 +18,7 @@ Au lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque
 >
 > Avant de l'installer, comprenez pourquoi cette optimisation est cruciale, notamment dans le cadre du reconditionnement de matériel, en lisant notre article de blog détaillé :
 >
-> ➡️ **[Zram : Pourquoi ce "turbo" pour la RAM n'est pas activé par défaut sous Linux ?](https://www.google.com/search?q=https://blablalinux.be/zram-pourquoi-pas-defaut-linux)**
+> ➡️ **[Zram : Pourquoi ce "turbo" pour la RAM n'est pas activé par défaut sous Linux ?](https://blablalinux.be/2025/12/05/zram-pourquoi-pas-actif/)**
 
 -----
 
