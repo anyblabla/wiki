@@ -2,7 +2,7 @@
 title: Les meilleurs headers pour NPM : sécurité, Gzip et gestion du proxy NGINX
 description: Ce guide essentiel détaille les configurations NGINX avancées pour NPM. Il couvre l'amélioration de la sécurité via les entêtes HTTP, l'optimisation des performances avec Gzip et la gestion des connexions longues pour les applications modernes.
 published: true
-date: 2025-12-07T01:55:06.144Z
+date: 2025-12-07T01:56:14.310Z
 tags: docker, lxc, nginx, proxy, npm, gzip, performance
 editor: markdown
 dateCreated: 2025-12-07T01:26:52.363Z
@@ -14,11 +14,11 @@ Cette configuration vise à renforcer la sécurité, optimiser les performances 
 
 -----
 
-### 1\. Bloc `Custom Locations (Advanced)` : sécurité et entêtes HTTP
+## 1\. Bloc `Custom Locations (Advanced)` : sécurité et entêtes HTTP
 
 Ce bloc de code doit être inséré dans la section **Custom Locations (Advanced)** de votre hôte NPM. Il permet de modifier les entêtes HTTP échangés avec le client, principalement pour des raisons de sécurité.
 
-#### Le bloc de code complet
+### Le bloc de code complet
 
 ```nginx
 proxy_hide_header X-Powered-By;
@@ -30,7 +30,7 @@ add_header X-Robots-Tag "noindex, noarchive, nofollow" always;
 
 ![headers-gzip-npm.png](/meilleurs-headers-npm-nginx-securite-gzip/headers-gzip-npm.png)
 
-#### Explication directive par directive
+### Explication directive par directive
 
 | Directive | Explication | Objectif |
 | :--- | :--- | :--- |
@@ -42,11 +42,11 @@ add_header X-Robots-Tag "noindex, noarchive, nofollow" always;
 
 -----
 
-### 2\. Bloc `Settings (Custom Nginx Configuration)` : optimisation globale et proxification
+## 2\. Bloc `Settings (Custom Nginx Configuration)` : optimisation globale et proxification
 
 Ce bloc doit être inséré dans la section **Settings** de NPM, dans la zone **Custom Nginx Configuration**. Il définit des paramètres globaux pour l'instance **NGINX** (compression, buffers) et les entêtes pour la **communication avec le serveur backend**.
 
-#### Le bloc de code complet
+### Le bloc de code complet
 
 ```nginx
 gzip on;
@@ -71,7 +71,7 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 ![headers-gzip-npm-02.png](/meilleurs-headers-npm-nginx-securite-gzip/headers-gzip-npm-02.png)
 
-#### A. Compression GZIP (performance)
+### A. Compression GZIP (performance)
 
 | Directive | Explication | Objectif |
 | :--- | :--- | :--- |
@@ -84,7 +84,7 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 | `gzip_http_version 1.1;` | Spécifie la version HTTP minimale pour la compression. | **Compatibilité.** |
 | `gzip_types text/plain ... application/xml+rss text/javascript;` | Liste des **types MIME** à compresser. | **Performance.** |
 
-#### B. Gestion des connexions et des entêtes (stabilité)
+### B. Gestion des connexions et des entêtes (stabilité)
 
 | Directive | Explication | Objectif |
 | :--- | :--- | :--- |
@@ -97,7 +97,7 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 -----
 
-### 3\. ⚠️ Problèmes courants et solutions
+## 3\. ⚠️ Problèmes courants et solutions
 
 Voici les problèmes que ces configurations peuvent engendrer et les lignes à retirer ou modifier pour les résoudre :
 
@@ -110,7 +110,7 @@ Voici les problèmes que ces configurations peuvent engendrer et les lignes à r
 
 -----
 
-### 💡 Note sur l'optimisation et le logiciel libre
+## 💡 Note sur l'optimisation et le logiciel libre
 
 Ces configurations **NGINX** avancées ne sont pas seulement pour la performance : elles sont essentielles dans l'esprit du **logiciel libre** et du **reconditionnement** que je soutiens. En optimisant la compression **Gzip** et la gestion des ressources, on s'assure que même le matériel reconditionné fonctionne avec une efficacité maximale. Chaque cycle CPU gagné, chaque paquet de données réduit, contribue à prolonger la vie du matériel et à garantir une expérience utilisateur rapide, même sur des machines modestes, un principe clé que je partage avec le collectif **Emmabuntüs**.
 
