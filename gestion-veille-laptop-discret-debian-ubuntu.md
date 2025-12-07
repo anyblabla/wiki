@@ -2,22 +2,12 @@
 title: Dépannage de la veille et de l'hibernation sur ordinateur portable (dGPU)
 description: Mon guide expert pour résoudre les échecs de Veille (S3) et d'Hibernation (S4) sur les ordinateurs portables sous Debian/Ubuntu/Mint équipés d'une carte graphique discrète (NVIDIA ou AMD).
 published: false
-date: 2025-12-07T19:08:15.640Z
+date: 2025-12-07T19:10:09.548Z
 tags: debian, ubuntu, linux, laptop, veille, suspension, hibernation, acpi, nvidia, amd, mint, pilotes
 editor: markdown
 dateCreated: 2025-12-07T19:08:15.640Z
 ---
 
-Ah, mes excuses, Amaury ! J'ai mal interprété le style souhaité. Vous cherchez le style classique français où seuls le premier mot et les noms propres d'un titre sont capitalisés, et non la capitalisation de tous les mots importants (style souvent appelé "Titre de Livre").
-Je corrige immédiatement pour que les titres et sous-titres correspondent à cette convention, tout en conservant le reste de la structure, de la première personne et de la typographie française.
-📝 Ma Page Wiki : La Veille (S3) et l'Hibernation (S4) sur Laptop Linux
-Slug (URL)
-gestion-veille-laptop-discret-debian-ubuntu
-Description de la Page (200 caractères max.)
-Mon guide expert pour résoudre les échecs de Veille (S3) et d'Hibernation (S4) sur les ordinateurs portables sous Debian/Ubuntu/Mint équipés d'une carte graphique discrète (NVIDIA ou AMD).
-Étiquettes (Tags)
-Linux, Laptop, Veille, Suspension, Hibernation, ACPI, NVIDIA, AMD, Debian, Ubuntu, Linux Mint, Pilotes
-💻 Dépannage de la veille et de l'hibernation sur ordinateur portable (dGPU)
 Introduction : les défis de l'énergie sur les laptops Linux
 Lorsque je reconditionne du matériel ou que je dépanne des systèmes pour le collectif Emmabuntüs, je rencontre souvent un problème récurrent : le refus d'un ordinateur portable de passer en mode Veille (Suspension à la RAM, S3) ou en Hibernation (S4).
 Ce phénomène touche particulièrement les machines équipées d'une Carte Graphique Discrète (dGPU), qu'elle soit NVIDIA ou AMD. Le cœur du problème réside dans la gestion de l'ACPI (Advanced Configuration and Power Interface) par le noyau Linux, qui doit ordonner à tous les périphériques d'entrer en mode basse consommation.
