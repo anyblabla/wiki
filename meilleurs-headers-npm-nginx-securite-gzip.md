@@ -2,7 +2,7 @@
 title: Les meilleurs Headers pour NPM - Sécurité, Gzip et gestion du Proxy NGINX
 description: Ce guide essentiel détaille les configurations NGINX avancées pour NPM. Il couvre l'amélioration de la sécurité via les entêtes HTTP, l'optimisation des performances avec Gzip et la gestion des connexions longues pour les applications modernes.
 published: true
-date: 2025-12-07T01:29:09.337Z
+date: 2025-12-07T01:30:53.673Z
 tags: docker, lxc, nginx, proxy, npm, gzip, performance
 editor: markdown
 dateCreated: 2025-12-07T01:26:52.363Z
@@ -71,7 +71,7 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 ![headers-gzip-npm-02.png](/meilleurs-headers-npm-nginx-securite-gzip/headers-gzip-npm-02.png)
 
-#### A. Compression GZIP (Performance)
+### A. Compression GZIP (Performance)
 
 | Directive | Explication | Objectif |
 | :--- | :--- | :--- |
@@ -84,7 +84,7 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 | `gzip_http_version 1.1;` | Spécifie la version HTTP minimale pour la compression. | **Compatibilité.** |
 | `gzip_types text/plain ... application/xml+rss text/javascript;` | Liste des **types MIME** à compresser. | **Performance.** |
 
-#### B. Gestion des Connexions et des En-têtes (Stabilité)
+### B. Gestion des Connexions et des En-têtes (Stabilité)
 
 | Directive | Explication | Objectif |
 | :--- | :--- | :--- |
