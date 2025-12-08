@@ -2,13 +2,13 @@
 title: Les meilleurs headers pour NPM : sécurité, Gzip et gestion du proxy NGINX
 description: Ce guide essentiel détaille les configurations NGINX avancées pour NPM. Il couvre l'amélioration de la sécurité via les entêtes HTTP, l'optimisation des performances avec Gzip et la gestion des connexions longues pour les applications modernes.
 published: true
-date: 2025-12-08T00:03:40.524Z
+date: 2025-12-08T00:03:52.543Z
 tags: docker, lxc, nginx, proxy, npm, gzip, performance
 editor: markdown
 dateCreated: 2025-12-07T01:26:52.363Z
 ---
 
-En tant que technicien et administrateur système spécialisé dans le reconditionnement de matériel sous Linux, documenter mes configurations est essentiel. Cette page présente les blocs de code **NGINX** personnalisés que j'utilise avec **Nginx Proxy Manager (NPM)** pour garantir une **sécurité maximale** et une **performance optimale** sur mes environnements.
+123En tant que technicien et administrateur système spécialisé dans le reconditionnement de matériel sous Linux, documenter mes configurations est essentiel. Cette page présente les blocs de code **NGINX** personnalisés que j'utilise avec **Nginx Proxy Manager (NPM)** pour garantir une **sécurité maximale** et une **performance optimale** sur mes environnements.
 
 Cette configuration vise à renforcer la sécurité, optimiser les performances et assurer la bonne transmission des requêtes pour les hôtes gérés par NPM.
 
