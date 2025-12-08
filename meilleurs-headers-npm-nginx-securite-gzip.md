@@ -2,7 +2,7 @@
 title: Les meilleurs headers pour NPM : sécurité, Gzip et gestion du proxy NGINX
 description: Ce guide essentiel détaille les configurations NGINX avancées pour NPM. Il couvre l'amélioration de la sécurité via les entêtes HTTP, l'optimisation des performances avec Gzip et la gestion des connexions longues pour les applications modernes.
 published: true
-date: 2025-12-08T00:24:23.144Z
+date: 2025-12-08T00:28:10.033Z
 tags: docker, lxc, nginx, proxy, npm, gzip, performance
 editor: markdown
 dateCreated: 2025-12-07T01:26:52.363Z
@@ -49,7 +49,7 @@ Ce bloc doit être inséré dans la section **Settings** de NPM, dans la zone **
 ### Le bloc de code complet
 
 ```nginx
-# --- 1. Optimisation de la Performance (Compression Gzip) ---
+# Optimisation de la Performance
 gzip on;
 gzip_min_length 1000;
 gzip_disable "msie6";
@@ -59,13 +59,11 @@ gzip_comp_level 6;
 gzip_buffers 16 8k;
 gzip_http_version 1.1;
 gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-
-# --- 2. Gestion des Requêtes et du Proxy (Fiabilité) ---
+# Gestion des Requêtes et du Proxy
 client_body_buffer_size 512k;
 proxy_read_timeout 86400s;
 client_max_body_size 0;
-
-# Transmission des en-têtes vitaux au backend (Adresse IP, Hôte, Protocole)
+# Transmission des en-têtes vitaux au backend
 proxy_set_header Host $host;
 proxy_set_header X-Scheme $scheme;
 proxy_set_header X-Real-IP $remote_addr;
