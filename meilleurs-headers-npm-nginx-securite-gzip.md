@@ -2,7 +2,7 @@
 title: Les meilleurs headers pour NPM : sécurité, Gzip et gestion du proxy NGINX
 description: Ce guide essentiel détaille les configurations NGINX avancées pour NPM. Il couvre l'amélioration de la sécurité via les entêtes HTTP, l'optimisation des performances avec Gzip et la gestion des connexions longues pour les applications modernes.
 published: true
-date: 2025-12-08T00:28:10.033Z
+date: 2025-12-08T00:30:26.315Z
 tags: docker, lxc, nginx, proxy, npm, gzip, performance
 editor: markdown
 dateCreated: 2025-12-07T01:26:52.363Z
@@ -89,11 +89,11 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 | `gzip_http_version 1.1;` | Spécifie la version HTTP minimale pour la compression. | **Compatibilité.** |
 | `gzip_types text/plain ... application/xml+rss text/javascript;` | Liste des **types MIME** à compresser. | **Performance.** |
 
-#### ℹ️ Note sur `gzip_min_length` (Clarté sur la compression)
+#### ℹ️ Note sur `gzip_min_length` (clarté sur la compression)
 
 La directive `gzip_min_length` est essentielle pour contrôler précisément ce qui est compressé :
 
-1.  **Valeur par Défaut (Compression "Tout-Venant") :**
+1.  **Valeur par Défaut :**
 
       * Si la directive **`gzip_min_length` est absente** de votre configuration, Nginx applique la **valeur par défaut de 20 octets**.
       * **Conséquence :** Nginx compressera tous les fichiers au-dessus de 20 octets, générant une charge CPU inutile sur des centaines de petits fichiers.
