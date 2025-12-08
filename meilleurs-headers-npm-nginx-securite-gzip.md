@@ -2,7 +2,7 @@
 title: Les meilleurs headers pour NPM : sécurité, Gzip et gestion du proxy NGINX
 description: Ce guide essentiel détaille les configurations NGINX avancées pour NPM. Il couvre l'amélioration de la sécurité via les entêtes HTTP, l'optimisation des performances avec Gzip et la gestion des connexions longues pour les applications modernes.
 published: true
-date: 2025-12-08T00:31:13.019Z
+date: 2025-12-08T00:32:19.517Z
 tags: docker, lxc, nginx, proxy, npm, gzip, performance
 editor: markdown
 dateCreated: 2025-12-07T01:26:52.363Z
@@ -42,7 +42,7 @@ add_header X-Robots-Tag "noindex, noarchive, nofollow" always;
 
 -----
 
-## 2\. Bloc `Settings (Custom Nginx Configuration)` : Optimisation Globale et Proxification
+## 2\. Bloc `Settings (Custom Nginx Configuration)` : optimisation globale et proxification
 
 Ce bloc doit être inséré dans la section **Settings** de NPM, dans la zone **Custom Nginx Configuration**. Il définit des paramètres globaux pour l'instance **NGINX** (compression, buffers) et les entêtes pour la **communication avec le serveur backend**.
 
