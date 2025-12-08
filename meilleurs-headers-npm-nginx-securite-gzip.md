@@ -2,13 +2,15 @@
 title: Les meilleurs headers pour NPM : sécurité, Gzip et gestion du proxy NGINX
 description: Ce guide essentiel détaille les configurations NGINX avancées pour NPM. Il couvre l'amélioration de la sécurité via les entêtes HTTP, l'optimisation des performances avec Gzip et la gestion des connexions longues pour les applications modernes.
 published: true
-date: 2025-12-08T00:32:19.517Z
+date: 2025-12-08T00:39:46.279Z
 tags: docker, lxc, nginx, proxy, npm, gzip, performance
 editor: markdown
 dateCreated: 2025-12-07T01:26:52.363Z
 ---
 
 En tant que technicien et administrateur système spécialisé dans le reconditionnement de matériel sous Linux, documenter mes configurations est essentiel. Cette page présente les blocs de code **NGINX** personnalisés que j'utilise avec **Nginx Proxy Manager (NPM)** pour garantir une **sécurité maximale** et une **performance optimale** sur mes environnements.
+
+> ℹ️ Toutes les directives NGINX utilisées ici peuvent être vérifiées dans la [documentation officielle NGINX](https://nginx.org/en/docs/).
 
 Cette configuration vise à renforcer la sécurité, optimiser les performances et assurer la bonne transmission des requêtes pour les hôtes gérés par NPM.
 
@@ -77,6 +79,8 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 ### A. Compression GZIP (performance)
 
+> 🔗 Plus de détails sur les directives Gzip dans la [documentation officielle NGINX](https://nginx.org/en/docs/http/ngx_http_gzip_module.html).
+
 | Directive | Explication | Objectif |
 | :--- | :--- | :--- |
 | `gzip on;` | **Active la compression Gzip** des réponses. | **Performance :** Réduit la taille des données transférées. |
@@ -95,7 +99,7 @@ La directive `gzip_min_length` est essentielle pour contrôler précisément ce 
 
 1.  **Valeur par Défaut :**
 
-      * Si la directive **`gzip_min_length` est absente** de votre configuration, Nginx applique la **valeur par défaut de 20 octets**.
+      * Si la directive **`gzip_min_length` est absente** de votre configuration, Nginx applique la **valeur par défaut de 20 octets** (voir la [documentation officielle NGINX](https://nginx.org/en/docs/)).
       * **Conséquence :** Nginx compressera tous les fichiers au-dessus de 20 octets, générant une charge CPU inutile sur des centaines de petits fichiers.
 
 2.  **Surcharge et Optimisation :**
@@ -104,6 +108,8 @@ La directive `gzip_min_length` est essentielle pour contrôler précisément ce 
       * **Le choix des 1000 octets** : Cette valeur est choisie pour des raisons d'**économie de ressources CPU**. Elle garantit que Nginx concentre ses efforts uniquement sur les fichiers qui apportent un **gain de performance significatif** (fichiers \> 1ko), optimisant ainsi l'efficacité de votre machine Linux.
 
 ### B. Gestion des connexions et des entêtes (stabilité)
+
+> 🔗 Plus de détails sur les directives de proxy dans la [documentation officielle NGINX](https://nginx.org/en/docs/http/ngx_http_proxy_module.html).
 
 | Directive | Explication | Objectif |
 | :--- | :--- | :--- |
