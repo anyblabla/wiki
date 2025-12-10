@@ -2,7 +2,7 @@
 title: RSSHub - Agrégateur de flux universel
 description: Instance publique de RSSHub auto-hébergée par Blabla Linux. Générez des flux RSS pour tout contenu web qui n'en propose pas, et intégrez-les directement à notre FreshRSS.
 published: true
-date: 2025-12-10T22:53:15.790Z
+date: 2025-12-10T23:03:42.957Z
 tags: veille, rsshub, freshrss, hub, rss, agrégation, flux, libre, logiciel, auto-hébergement
 editor: markdown
 dateCreated: 2025-12-10T22:42:17.517Z
@@ -66,7 +66,9 @@ Pour que le plugin envoie directement le flux détecté vers votre agrégateur :
 
 ### Ajouter un flux RSSHub en un clic
 
-Le plugin vous permet alors d'ajouter n'importe quel flux détecté directement à votre compte FreshRSS en un seul clic !
+Le plugin vous permet alors d'ajouter n'importe quel flux détecté directement à votre compte FreshRSS en un seul clic ! Il devient simple, par exemple, d'obtenir le flux RSS d'un profil Mastodon, de l'envoyer directement vers FreshRSS, de copier son lien ou de visualiser le flux généré en pleine page 😉
+
+![rsshub-flux-mastodon.png](/rsshub-flux-universel/rsshub-flux-mastodon.png)
 
 ## ❓ Une question ?
 
