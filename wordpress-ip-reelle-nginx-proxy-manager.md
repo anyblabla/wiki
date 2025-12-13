@@ -1,8 +1,8 @@
 ---
 title: Correction de l'adresse IP réelle de l'utilisateur dans WordPress derrière Nginx Proxy Manager (NPM)
 description: Correction du problème d'affichage de l'adresse IP réelle de l'utilisateur dans WordPress lorsque celui-ci est placé derrière un proxy inverse comme Nginx Proxy Manager (NPM).
-published: false
-date: 2025-12-13T21:06:53.862Z
+published: true
+date: 2025-12-13T21:07:42.267Z
 tags: nginx, proxy, ip, wordpress, x-forwarded-for
 editor: markdown
 dateCreated: 2025-12-13T21:05:51.386Z
