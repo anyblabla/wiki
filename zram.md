@@ -2,126 +2,131 @@
 title: Zram - Compresser la RAM au lieu de swapper sur Linux
 description: Zram est un module du noyau Linux qui crée un périphérique de stockage compressé en RAM.
 published: true
-date: 2025-12-13T16:35:07.014Z
-tags: ram, zram, memory
+date: 2025-12-13T22:09:41.106Z
+tags: 
 editor: markdown
 dateCreated: 2025-11-01T00:19:53.610Z
 ---
 
-## 1. Introduction
-Cette page documente la méthode pour ajouter un effet de flocons de neige discret et performant à l'ensemble du site **wiki.blablalinux.be**.
+Au lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque la mémoire vive est pleine, **Zram** intercepte les pages mémoire et les compresse, réduisant ainsi la quantité de données échangées vers le disque. Cela améliore considérablement la réactivité du système, en particulier sur les machines avec une faible quantité de RAM ou des disques lents (comme les cartes SD ou les disques eMMC).
 
-L'objectif est d'utiliser la fonctionnalité d'injection de code intégrée à l'administration de Wiki.js pour insérer du CSS et du JavaScript, garantissant que l'effet ne sera **jamais écrasé** lors des mises à jour du système.
+-----
 
-## 2. Code CSS : le style et l'animation
-Le CSS est responsable de la forme des flocons, de leur positionnement fixe, et surtout, de l'animation de chute via les *keyframes*.
+### 📰 Pour aller plus loin : Le Contexte de l'Activation
 
-### 2.1 Emplacement de l'injection
-Le code CSS doit être placé dans la fenêtre dédiée au remplacement de la feuille de style.
+> **Vous vous demandez pourquoi Zram n'est pas actif par défaut sous Linux ?**
+>
+> Avant de l'installer, comprenez pourquoi cette optimisation est cruciale, notamment dans le cadre du reconditionnement de matériel, en lisant notre article de blog détaillé :
+>
+> ➡️ **[Zram : Pourquoi ce "turbo" pour la RAM n'est pas activé par défaut sous Linux ?](https://blablalinux.be/2025/12/05/zram-pourquoi-pas-actif/)**
 
-> **Chemin précis :** `Administration` -> `Theme` -> `Injection de code` -> **Remplacement de CSS**
+-----
 
-### 2.2 Code à ajouter
-Ce code doit être ajouté **à la suite** de votre code CSS existant :
+## 1\. Fonctionnement de Zram
 
-```css
-/* --- Code des Flocons de Neige (À ajouter dans "Remplacement de CSS") --- */
+Le principe de Zram est de transformer une partie de la RAM en un périphérique de *swap* compressé.
 
-#snow-container {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Crucial : permet d'interagir avec le contenu */
-    z-index: 9999; /* Assure la superposition au-dessus de l'interface Vuetify */
-    overflow: hidden;
-}
+1.  **Création du périphérique :** Zram crée un ou plusieurs périphériques virtuels (`/dev/zramX`).
+2.  **Compression :** Lorsqu'une page mémoire est destinée au *swap*, elle est compressée par le processeur.
+3.  **Stockage en RAM :** La page compressée est ensuite stockée dans une zone de la mémoire vive gérée par Zram.
 
-.flake {
-    position: absolute;
-    background: #fff; /* Couleur par défaut : blanc */
-    border-radius: 50%;
-    opacity: 0.8;
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
+**Avantages :**
 
-/* Définition de l'animation de chute */
-@keyframes fall {
-    0% {
-        transform: translateY(-10vh); /* Départ au-dessus de l'écran */
-    }
-    100% {
-        transform: translateY(100vh); /* Arrivée sous l'écran */
-    }
-}
+  * **Vitesse :** L'accès à la RAM, même compressée, est beaucoup plus rapide que l'accès au disque.
+  * **Usure réduite :** Diminue les écritures sur les périphériques de stockage, prolongeant la durée de vie des SSD/cartes Flash.
+  * **Capacité effective :** Permet d'augmenter la quantité de mémoire utilisable par le système (en fonction du taux de compression).
+  * **Note Reconditionnement :** C'est pour ces raisons que des distributions comme **Emmabuntüs** l'activent par défaut, rendant le matériel reconditionné plus réactif \!
 
+**Inconvénient :**
+
+  * **Charge CPU :** Le processus de compression/décompression utilise le processeur, mais l'impact est généralement négligeable par rapport au gain de performance.
+
+-----
+
+## 2\. Installation et activation
+
+Le module Zram est inclus dans le noyau Linux. Pour l'activer de manière persistante et automatique, il est recommandé d'utiliser le paquet d'utilitaires **`zram-tools`** ou **`zramswap-init`** (selon la distribution).
+
+### A. Installation sur Debian/Ubuntu
+
+Installez le paquet qui gère l'activation automatique de Zram :
+
+```bash
+sudo apt update
+sudo apt install zram-tools -y
 ```
 
-## 3. Code JavaScript : la création et la logique
-Le JavaScript crée dynamiquement les éléments HTML (`<div class="flake">`) et leur attribue des propriétés aléatoires (taille, position, vitesse) pour un effet plus naturel.
+### B. Configuration de la taille (optionnel)
 
-### 3.1. Emplacement de l'injection
-Le JavaScript doit être placé à la fin du corps de la page (`<body>`), ce qui est la meilleure pratique pour les performances.
+Le paquet `zram-tools` configure par défaut la taille du *swap* Zram pour être une fraction de la RAM totale (souvent 50%).
 
-> **Chemin précis :** `Administration` -> `Theme` -> `Injection de code` -> **Injection HTML dans le body**
+Vous pouvez modifier cette configuration dans le fichier `/etc/default/zramswap` ou `/etc/default/zram-tools` (le nom exact dépend de la version de l'outil).
 
-### 3.2. Code à ajouter
-Collez ce bloc complet (incluant la balise `<script>`) dans cet emplacement :
+Par exemple, pour définir la taille à 100% de la RAM disponible (ou une valeur fixe) :
 
-```html
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Création du conteneur qui couvre l'écran
-    const snowContainer = document.createElement('div');
-    snowContainer.id = 'snow-container';
-    document.body.appendChild(snowContainer); 
+```bash
+# Éditer le fichier de configuration (chemin à ajuster si besoin)
+sudo nano /etc/default/zramswap
 
-    const numberOfFlakes = 60; // DENSITÉ: 60 flocons par défaut.
+# Définir la taille (exemples) :
+# - 100% de la RAM :
+# PERCENT=100
 
-    for (let i = 0; i < numberOfFlakes; i++) {
-        const flake = document.createElement('div');
-        flake.classList.add('flake');
-        
-        // Position horizontale aléatoire
-        flake.style.left = `${Math.random() * 100}%`; 
-        
-        // Taille aléatoire (entre 3px et 6px)
-        const size = Math.random() * 3 + 3; 
-        flake.style.width = `${size}px`;
-        flake.style.height = `${size}px`;
-        
-        // Durée (Vitesse) et Délai (Départ) aléatoires
-        flake.style.animationDuration = `${Math.random() * 8 + 12}s`; 
-        flake.style.animationDelay = `${Math.random() * 8}s`; 
-
-        snowContainer.appendChild(flake);
-    }
-});
-</script>
-
+# - Taille fixe de 2 Go :
+# SIZE=2048
 ```
 
-## 4. Personnalisation des paramètres
-L'un des avantages de cette méthode est que vous pouvez facilement ajuster l'effet en modifiant quelques variables dans les codes injectés.
+> Si vous définissez la taille en pourcentage (`PERCENT`), l'outil calculera la taille du périphérique `zram` à partir de la mémoire vive totale.
 
-### 4.1. Densité et mouvement (JavaScript)
-Les variables JavaScript définissent la quantité et la vitesse de la neige.
+### C. Redémarrage du service
 
-| Paramètre | Ligne de code | Description et ajustement |
-| --- | --- | --- |
-| **Densité** | `const numberOfFlakes = 60;` | C'est le nombre total de flocons affichés à l'écran. **Augmenter** la valeur rend la neige plus dense. |
-| **Taille** | `const size = Math.random() * 3 + 3;` | Modifie la plage de taille (ici, entre 3px et 6px). <br>
+Après l'installation ou la modification de la configuration, activez ou redémarrez le service :
 
-<br>– Pour des flocons plus petits : essayez `Math.random() * 2 + 2;` (entre 2px et 4px). |
-| **Vitesse (Lenteur)** | `animationDuration = ${Math.random() * 8 + 12}s` | Définit le temps de chute (en secondes). **Augmenter** les nombres rend la chute **plus lente**. |
+```bash
+sudo systemctl enable zramswap
+sudo systemctl start zramswap
+```
 
-### 4.2. Couleur et Opacité (CSS)
-Ces paramètres sont gérés par les règles CSS appliquées à la classe `.flake`.
+-----
 
-| Paramètre | Bloc de code CSS | Description et ajustement |
-| --- | --- | --- |
-| **Couleur** | `.flake { background: #fff; }` | Modifiez le code hexadécimal. Exemple : `#ADD8E6` pour une teinte bleu clair. |
-| **Opacité (Transparence)** | `.flake { opacity: 0.8; }` | **Diminuer** la valeur (ex: `0.5`) rend les flocons plus transparents. |
+## 3\. Vérification de l'activation
+
+Pour vérifier que Zram est actif et connaître sa taille, utilisez la commande `swapon` :
+
+```bash
+sudo swapon --show
+```
+
+Le résultat affichera le périphérique Zram (ex: `/dev/zram0`) avec son type `partition` et sa taille :
+
+| Nom | Type | Taille | Utilisé | Priorité |
+| :--- | :--- | :--- | :--- | :--- |
+| `/dev/zram0` | partition | 1,8G | 0B | 100 |
+| `/dev/sda3` | partition | 8G | 0B | -2 |
+
+> **Remarque :** Zram doit avoir une **priorité** plus élevée (nombre positif, ex: `100`) que votre *swap* sur disque (nombre négatif, ex: `-2`) pour être utilisé en premier.
+
+Vous pouvez également vérifier l'état détaillé de Zram pour le périphérique `/dev/zram0` :
+
+```bash
+cat /sys/block/zram0/mm_stat
+```
+
+Les valeurs indiquent notamment la quantité de données écrites (`compr_data_size`) et la taille de la mémoire occupée par les données compressées.
+
+-----
+
+## 4\. Désactivation (si nécessaire)
+
+Si vous souhaitez désactiver Zram, exécutez les commandes suivantes pour arrêter le service et le désactiver au démarrage :
+
+```bash
+# Arrêter le service (cela désactive le périphérique swap zramX)
+sudo systemctl stop zramswap
+
+# Désactiver le service au démarrage
+sudo systemctl disable zramswap
+
+# Désinstaller les outils (optionnel)
+sudo apt purge zram-tools
+```
