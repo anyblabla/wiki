@@ -2,7 +2,7 @@
 title: Effet de neige léger sur Wiki.js
 description: Guide d'intégration d'un effet visuel de flocons de neige léger sur Wiki.js. Utilise l'injection de code CSS et JavaScript pour une performance optimale sans toucher aux fichiers sources.
 published: true
-date: 2025-12-13T17:05:43.890Z
+date: 2025-12-13T17:09:01.658Z
 tags: css, vuetify, javascript, personnalisation, snow, neige
 editor: markdown
 dateCreated: 2025-12-13T16:24:19.006Z
@@ -29,8 +29,6 @@ Le code CSS doit être placé dans la fenêtre dédiée au remplacement de la fe
 Ce code doit être ajouté à la suite de votre code CSS existant :
 
 ```css
-/* --- Code des Flocons de Neige (À ajouter dans "Remplacement de CSS") --- */
-
 #snow-container {
     position: fixed; 
     top: 0;
