@@ -2,7 +2,7 @@
 title: Correction de l'adresse IP réelle de l'utilisateur dans WordPress derrière Nginx Proxy Manager (NPM)
 description: Correction du problème d'affichage de l'adresse IP réelle de l'utilisateur dans WordPress lorsque celui-ci est placé derrière un proxy inverse comme Nginx Proxy Manager (NPM).
 published: true
-date: 2025-12-13T21:07:42.267Z
+date: 2025-12-14T13:48:33.042Z
 tags: nginx, proxy, ip, wordpress, x-forwarded-for
 editor: markdown
 dateCreated: 2025-12-13T21:05:51.386Z
@@ -26,12 +26,14 @@ Lorsque le trafic passe par un proxy inverse, le client qui contacte WordPress n
 
 ## 🛠️ Prérequis
 1. Accès SSH/Console au conteneur LXC hébergeant l'installation WordPress.
-2. Le fichier de configuration Nginx du proxy inverse doit inclure les en-têtes de transfert d'IP (ce qui est le cas avec la configuration par défaut de NPM) :
+2. Le fichier de configuration Nginx du proxy inverse doit inclure les en-têtes de transfert d'IP :
 ```nginx
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; 
 
 ```
+
+![npm-headers-real-ip.png](/wordpress-ip-reelle-nginx-proxy-manager/npm-headers-real-ip.png)
 
 
 
