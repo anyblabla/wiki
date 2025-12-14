@@ -2,7 +2,7 @@
 title: Effet noir et blanc au repos, couleur au survol (WordPress/Astra)
 description: Appliquez un filtre noir et blanc par défaut sur les images d'articles WordPress (thème Astra) et activez la couleur au survol de la souris. Ce guide CSS étape par étape vous montre comment ajouter un style dynamique et professionnel à votre blog.
 published: true
-date: 2025-12-14T09:21:57.998Z
+date: 2025-12-14T09:34:21.449Z
 tags: css, wordpress, astra, thème, featured image, technique, webdesign, filtrer
 editor: markdown
 dateCreated: 2025-12-14T09:20:54.224Z
@@ -73,3 +73,7 @@ Si l'effet n'apparaît pas, assurez-vous de vider :
 * `filter: grayscale(100%)` : La propriété CSS essentielle qui applique le filtre noir et blanc.
 * `transition` : Assure une animation fluide (0.5 seconde) entre les états.
 * `transform: scale(1.05)` : Ajoute un léger zoom au survol pour améliorer l'effet visuel.
+
+## V. Résultat
+
+![nb.gif](/effet-nb-couleur-images-wordpress-css/nb.gif)
