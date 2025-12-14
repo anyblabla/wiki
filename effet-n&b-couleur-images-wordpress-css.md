@@ -2,7 +2,7 @@
 title: Effet noir et blanc au repos, couleur au survol (WordPress/Astra)
 description: Appliquez un filtre noir et blanc par défaut sur les images d'articles WordPress (thème Astra) et activez la couleur au survol de la souris. Ce guide CSS étape par étape vous montre comment ajouter un style dynamique et professionnel à votre blog.
 published: true
-date: 2025-12-14T09:20:54.224Z
+date: 2025-12-14T09:21:57.998Z
 tags: css, wordpress, astra, thème, featured image, technique, webdesign, filtrer
 editor: markdown
 dateCreated: 2025-12-14T09:20:54.224Z
@@ -10,10 +10,10 @@ dateCreated: 2025-12-14T09:20:54.224Z
 
 Ce guide explique comment ajouter un effet visuel dynamique sur les images de mise en avant (images vedettes) de la page d'accueil d'un blog WordPress utilisant le thème Astra, en utilisant uniquement du code CSS personnalisé.
 
-### I. Objectif de l'implémentation
+## I. Objectif de l'implémentation
 L'objectif est d'appliquer un filtre de couleur **noir et blanc** (*Grayscale*) par défaut sur toutes les images de la page d'accueil, et de retirer ce filtre (image en **couleur**) avec une transition douce lorsque l'utilisateur passe la souris sur l'image (effet `:hover`).
 
-### II. Code CSS à injecter
+## II. Code CSS à injecter
 Le code suivant est optimisé pour fonctionner avec le thème **Astra** et la classe standard des images de mise en avant WordPress (`.wp-post-image`). L'utilisation de `!important` garantit que le style personnalisé prime sur les styles par défaut du thème.
 
 > **Note technique :** Nous ciblons la classe `.wp-post-image`, car c'est la balise `<img>` elle-même qui reçoit le filtre CSS.
@@ -47,7 +47,7 @@ Le code suivant est optimisé pour fonctionner avec le thème **Astra** et la cl
 
 ```
 
-### III. Étapes d'implémentation dans WordPress
+## III. Étapes d'implémentation dans WordPress
 1. **Accès au personnalisateur :**
 * Dans le tableau de bord WordPress, naviguez vers **Apparence** > **Personnaliser**.
 
@@ -62,14 +62,14 @@ Le code suivant est optimisé pour fonctionner avec le thème **Astra** et la cl
 
 
 
-### IV. Dépannage et vérification
-#### 1. Le code ne s'applique pas
+## IV. Dépannage et vérification
+### 1. Le code ne s'applique pas
 Si l'effet n'apparaît pas, assurez-vous de vider :
 
 * Le cache de votre navigateur (Ctrl+Shift+R ou Cmd+Shift+R).
 * Le cache de tout plugin d'optimisation WordPress (si vous en utilisez un).
 
-#### 2. Comprendre les propriétés utilisées
+### 2. Comprendre les propriétés utilisées
 * `filter: grayscale(100%)` : La propriété CSS essentielle qui applique le filtre noir et blanc.
 * `transition` : Assure une animation fluide (0.5 seconde) entre les états.
 * `transform: scale(1.05)` : Ajoute un léger zoom au survol pour améliorer l'effet visuel.
