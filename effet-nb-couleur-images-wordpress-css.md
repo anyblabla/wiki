@@ -2,7 +2,7 @@
 title: Effet noir et blanc au repos, couleur au survol (WordPress/Astra)
 description: Appliquez un filtre noir et blanc par défaut sur les images d'articles WordPress (thème Astra) et activez la couleur au survol de la souris. Ce guide CSS étape par étape vous montre comment ajouter un style dynamique et professionnel à votre blog.
 published: true
-date: 2025-12-14T09:47:49.991Z
+date: 2025-12-14T10:08:39.070Z
 tags: css, wordpress, astra, thème, featured image, technique, webdesign, filtrer
 editor: markdown
 dateCreated: 2025-12-14T09:20:54.224Z
@@ -63,17 +63,28 @@ Le code suivant est optimisé pour fonctionner avec le thème **Astra** et la cl
 
 
 ## IV. Dépannage et vérification
-### 1. Le code ne s'applique pas
-Si l'effet n'apparaît pas, assurez-vous de vider :
+#### 1. Le code ne s'applique pasSi l'effet n'apparaît pas, assurez-vous de vider :
 
 * Le cache de votre navigateur (Ctrl+Shift+R ou Cmd+Shift+R).
 * Le cache de tout plugin d'optimisation WordPress (si vous en utilisez un).
 
-### 2. Comprendre les propriétés utilisées
+#### 2. Comprendre les propriétés utilisées
 * `filter: grayscale(100%)` : La propriété CSS essentielle qui applique le filtre noir et blanc.
 * `transition` : Assure une animation fluide (0.5 seconde) entre les états.
 * `transform: scale(1.05)` : Ajoute un léger zoom au survol pour améliorer l'effet visuel.
 
-## V. Résultat
+---
+
+## V. Paramètres modifiables et personnalisation avancée
+Le code CSS est conçu pour être facilement adaptable à vos préférences sans modifier la structure HTML. Les éléments suivants peuvent être ajustés pour personnaliser l'effet :
+
+| Propriété | Ligne(s) de Code | Description de la Modification |
+| --- | --- | --- |
+| **Durée de la transition** | `transition: filter 0.5s ease-in-out, transform 0.3s ease-in-out;` | Modifiez `0.5s` (0.5 seconde) pour accélérer (ex: `0.3s`) ou ralentir (ex: `1s`) la transition N&B vers Couleur. |
+| **Intensité du filtre N&B** | `filter: grayscale(100%)` | Pour un effet N&B moins prononcé, vous pouvez diminuer cette valeur. Par exemple, `grayscale(50%)` laissera 50% de la couleur d'origine. |
+| **Portée de l'effet** | `.home .wp-post-image` | **Pour appliquer l'effet partout** sur le blog (archives, catégories, etc.), supprimez simplement le sélecteur `.home` pour ne laisser que `.wp-post-image`. |
+| **Facteur de zoom** | `transform: scale(1.05);` | Si vous souhaitez augmenter le zoom, changez `1.05` à une valeur supérieure (ex: `1.1`). **Pour retirer complètement l'effet de zoom**, supprimez cette ligne, ainsi que les lignes `transform 0.3s ease-in-out;` et `display: block;`. |
+
+## VI. Résultat
 
 ![nb.gif](/effet-nb-couleur-images-wordpress-css/nb.gif)
