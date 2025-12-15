@@ -1,8 +1,8 @@
 ---
-title: Gestion de l'IP Publique Quasi-Statique dans Fail2Ban (LXC/Docker)
+title: Gestion de l'IP publique quasi-statique dans Fail2Ban (LXC/Docker)
 description: Solution pour IP quasi-statique : Un script met à jour automatiquement votre IP publique dans la config Fail2Ban (jail NPM) via Cron pour éviter un bannissement lors d'un changement d'IP. Fini les bannissements intempestifs !
 published: true
-date: 2025-10-28T13:45:06.423Z
+date: 2025-12-15T11:04:03.873Z
 tags: docker, lxc, proxmox, fail2ban, ip
 editor: markdown
 dateCreated: 2025-09-25T21:59:07.073Z
