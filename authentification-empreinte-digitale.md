@@ -1,8 +1,8 @@
 ---
-title: Authentification par Empreinte Digitale
+title: Authentification par empreinte digitale
 description: Installez fprintd et libpam-fprintd. Enregistrez votre doigt (CLI ou GUI). Activez la fonction système avec pam-auth-update. Important : Utilisez le mot de passe pour la connexion initiale afin de déverrouiller le trousseau de clés.
 published: true
-date: 2025-10-28T11:54:03.359Z
+date: 2025-12-15T12:24:42.268Z
 tags: debian, authentification, empreinte, fingerprint, fprintd
 editor: markdown
 dateCreated: 2025-09-26T18:28:24.997Z
