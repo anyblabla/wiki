@@ -1,8 +1,8 @@
 ---
-title: Monitoring des Logs - Déploiement de GoAccess pour Nginx Proxy Manager avec Docker
+title: Monitoring des logs - Déploiement de GoAccess pour Nginx Proxy Manager avec Docker
 description: Ce tutoriel détaille comment déployer rapidement GoAccess pour analyser les logs de Nginx Proxy Manager (NPM). Le déploiement s'effectue via une pile Docker (stack) dans Portainer ou en utilisant Docker Compose.
 published: true
-date: 2025-11-28T12:08:33.292Z
+date: 2025-12-15T11:05:17.576Z
 tags: nginx, monitoring, analytic, real-time, npm
 editor: markdown
 dateCreated: 2025-02-06T12:30:45.317Z
