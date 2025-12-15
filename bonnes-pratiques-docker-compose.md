@@ -1,8 +1,8 @@
 ---
-title: Bonnes Pratiques avec Docker Compose
+title: Bonnes pratiques avec Docker Compose
 description: Configurez vos applications Docker avec des bonnes pratiques. Découvrez les meilleures méthodes pour structurer vos fichiers Compose, gérer les secrets, persister les données (volumes) et optimiser la sécurité en production.
 published: true
-date: 2025-11-28T19:33:35.241Z
+date: 2025-12-15T11:01:30.604Z
 tags: docker, compose, conteneurisation, déploiement
 editor: markdown
 dateCreated: 2025-11-22T15:18:58.075Z
