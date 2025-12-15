@@ -1,8 +1,8 @@
 ---
-title: Automatiser les Mises à Jour de Proxmox Backup Server (PBS)
+title: Automatiser les mises à jour de Proxmox Backup Server (PBS)
 description: Cette page de wiki détaille la procédure pour automatiser les mises à jour système de votre hôte Proxmox Backup Server (PBS) à l'aide d'un script Bash et de Cron.
 published: true
-date: 2025-10-30T16:01:24.060Z
+date: 2025-12-15T11:02:06.953Z
 tags: proxmox, cron, crontab, script, update, pbs
 editor: markdown
 dateCreated: 2025-10-30T13:23:36.129Z
