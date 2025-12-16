@@ -2,7 +2,7 @@
 title: Bloquer les robots d’IA directement via NGINX Proxy Manager
 description: Apprenez à centraliser le blocage des principaux crawlers d’IA dans NGINX Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: 2025-12-16T14:36:57.469Z
+date: 2025-12-16T14:52:07.102Z
 tags: nginx, proxy, npm, blocage-crawlers, robots, ia, ai, crawlers
 editor: markdown
 dateCreated: 2025-12-15T23:32:58.582Z
@@ -232,3 +232,50 @@ Ajoutez la ligne suivante à la fin du fichier Crontab :
 0 3 * * 0 /usr/local/bin/update_ai_blocklist.sh >> /var/log/update_ai_blocklist.log 2>&1
 
 ```
+
+Absolument ! Ajouter une section 6, dédiée au test manuel du script, rendra votre documentation complète et professionnelle en offrant aux utilisateurs la procédure de validation finale.
+
+Je vais ajouter cette nouvelle section, en utilisant un titre approprié pour un wiki en français.
+
+## 6. Test manuel du script de mise à jour
+Avant de faire confiance à `cron` pour exécuter la tâche hebdomadaire, il est essentiel de tester manuellement le script `update_ai_blocklist.sh` pour s'assurer qu'il télécharge le fichier, met à jour le chemin correct et recharge NGINX sans interruption.
+
+### A. Exécution du script
+Exécutez le script en utilisant la même redirection que celle prévue pour la tâche `cron`. Cela enregistrera la sortie dans le fichier journal pour vérification :
+
+```bash
+# Exécution du script en tant que root (ou l'utilisateur qui gère Docker)
+sudo /usr/local/bin/update_ai_blocklist.sh >> /var/log/update_ai_blocklist.log 2>&1
+
+```
+
+### B. Vérification du journal
+Consultez le fichier journal pour vous assurer que le script a réussi toutes les étapes, notamment le téléchargement, la vérification de la syntaxe NGINX et la recharge gracieuse :
+
+```bash
+sudo tail -n 20 /var/log/update_ai_blocklist.log
+
+```
+
+**Résultat attendu en cas de succès :**
+
+```
+[Date et heure] - Démarrage de la mise à jour de la liste de blocage AI...
+Téléchargement réussi.
+Fichier de configuration mis à jour.
+Syntaxe NGINX OK. Recharge gracieuse en cours...
+NGINX rechargé avec succès.
+[Date et heure] - Mise à jour terminée.
+
+```
+
+### C. Validation finale (test du proxy)
+Même si le journal indique une réussite, utilisez la commande `curl` documentée dans la section 4 pour confirmer que le service est opérationnel et que la liste de blocage mise à jour est active :
+
+```bash
+# Test du blocage (doit retourner 403 Forbidden)
+curl -A "GPTBot" -I https://votre-site.com/
+
+```
+
+Si le test renvoie `HTTP/2 403`, le script a fonctionné parfaitement et la tâche `cron` peut être planifiée en toute confiance.
