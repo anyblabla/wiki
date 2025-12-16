@@ -2,7 +2,7 @@
 title: Bloquer les robots d’IA directement via NGINX Proxy Manager
 description: Apprenez à centraliser le blocage des principaux crawlers d’IA dans NGINX Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: 2025-12-15T23:32:58.582Z
+date: 2025-12-16T14:36:57.469Z
 tags: nginx, proxy, npm, blocage-crawlers, robots, ia, ai, crawlers
 editor: markdown
 dateCreated: 2025-12-15T23:32:58.582Z
@@ -132,3 +132,103 @@ curl -I https://votre-site.com/
 **Résultat attendu :** Vous devriez recevoir une réponse de succès ou la redirection normale de votre application.
 
 Si ces trois tests renvoient les codes attendus, votre configuration est fonctionnelle !
+
+C'est noté, Amaury ! L'approche d'une **recharge gracieuse (`nginx -s reload`)** est en effet la norme professionnelle pour les changements de configuration NGINX, car elle assure une continuité de service maximale.
+
+J'ai réintégré la méthode de recharge gracieuse dans le script Bash pour votre section wiki.
+
+Voici la nouvelle section (et la version finale du script) que vous pouvez ajouter à votre page :
+
+---
+
+## 5. Automatisation de la mise à jour de la liste de blocage
+Pour garantir que votre liste de User-Agents bloqués reste à jour face à l'apparition de nouveaux robots d'IA, il est recommandé d'automatiser la mise à jour du fichier `server_proxy.conf` depuis la source GitHub communautaire.
+
+### A. Création du script de mise à jour
+Créez le script dans un répertoire d'exécution standard (par exemple, `/usr/local/bin/`) :
+
+```bash
+sudo nano /usr/local/bin/update_ai_blocklist.sh
+
+```
+
+Insérez le contenu suivant dans le fichier. **Attention : vous devez adapter les chemins (`CONFIG_FILE`) et le nom du conteneur (`NPM_CONTAINER_NAME`) à votre installation !**
+
+```bash
+#!/bin/bash
+
+# Chemins et noms (À ADAPTER !)
+# Chemin de votre fichier de configuration NPM (doit pointer vers le volume monté)
+CONFIG_FILE="/chemin/vers/data/nginx/custom/server_proxy.conf"
+# URL du fichier brut NGINX sur GitHub
+GITHUB_URL="https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/main/nginx-block-ai-bots.conf"
+# Nom de votre conteneur Docker NGINX Proxy Manager
+NPM_CONTAINER_NAME="npm" 
+
+# --- Début de l'exécution ---
+
+echo "$(date) - Démarrage de la mise à jour de la liste de blocage AI..."
+
+# 1. Téléchargement de la nouvelle configuration
+if curl -sL "$GITHUB_URL" -o "$CONFIG_FILE.new"; then
+    echo "Téléchargement réussi."
+else
+    echo "Erreur lors du téléchargement depuis GitHub."
+    exit 1
+fi
+
+# 2. Vérification et remplacement du fichier
+if [ -s "$CONFIG_FILE.new" ]; then
+    # Déplacement du nouveau fichier à son emplacement final
+    mv "$CONFIG_FILE.new" "$CONFIG_FILE"
+    echo "Fichier de configuration mis à jour."
+
+    # 3. Validation de la syntaxe NGINX et recharge gracieuse
+    # Vérification de la syntaxe avant de recharger pour éviter de casser le proxy.
+    if docker exec "$NPM_CONTAINER_NAME" nginx -t &> /dev/null; then
+        echo "Syntaxe NGINX OK. Recharge gracieuse en cours..."
+        
+        # Commande pour une recharge gracieuse (moins disruptive que le restart)
+        docker exec "$NPM_CONTAINER_NAME" nginx -s reload
+        echo "NGINX rechargé avec succès."
+    else
+        echo "ERREUR : Erreur de syntaxe NGINX trouvée dans le nouveau fichier."
+        echo "Le proxy n'a PAS été rechargé. Veuillez vérifier le fichier : $CONFIG_FILE"
+        # Optionnel : Si vous aviez une ancienne version du fichier, vous pourriez la restaurer ici.
+        exit 1
+    fi
+else
+    echo "Le fichier téléchargé est vide ou invalide. Aucune action effectuée."
+    rm -f "$CONFIG_FILE.new" # Nettoyer le fichier invalide
+    exit 1
+fi
+
+echo "$(date) - Mise à jour terminée."
+
+```
+
+### B. Rendre le script exécutable
+Assurez-vous que le script a les permissions d'exécution :
+
+```bash
+sudo chmod +x /usr/local/bin/update_ai_blocklist.sh
+
+```
+
+### C. Planification de la tâche Cron
+Nous allons planifier ce script pour qu'il s'exécute **une fois par semaine** (par exemple, chaque dimanche à 3h00 du matin).
+
+Ouvrez le crontab :
+
+```bash
+sudo crontab -e
+
+```
+
+Ajoutez la ligne suivante à la fin du fichier Crontab :
+
+```crontab
+# Mise à jour hebdomadaire de la liste de blocage AI pour NGINX Proxy Manager
+0 3 * * 0 /usr/local/bin/update_ai_blocklist.sh >> /var/log/update_ai_blocklist.log 2>&1
+
+```
