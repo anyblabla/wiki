@@ -2,7 +2,7 @@
 title: Optimisation des campagnes Listmonk - Le preheader invisible
 description: Guide technique pour ajouter un texte d'aperçu (preheader) dans Listmonk via HTML et configurer des données d'abonné fictives pour tester la personnalisation des messages.
 published: true
-date: 2025-12-19T15:19:31.897Z
+date: 2025-12-19T15:25:29.468Z
 tags: listmonk, mail, header, preheader, newsletter, email, mailing
 editor: markdown
 dateCreated: 2025-12-19T15:19:31.897Z
@@ -98,3 +98,9 @@ Exemple de JSON à utiliser pour tester le message :
 * **Longueur :** Visez entre 40 et 100 caractères pour le texte d'aperçu.
 * **Complémentarité :** Le preheader doit compléter l'objet du mail, pas le répéter.
 * **Nettoyage :** N'oubliez pas la chaîne `&nbsp;&zwnj;` pour éviter que le début du corps du mail ne vienne "polluer" l'aperçu dans la boîte de réception.
+
+## Campagne
+
+Exemple campagne de difusion Listmonk BlablaLinux, liste "Wiki" 👇
+
+![listmonk-optimisation-preheader.png](/listmonk-optimisation-preheader/listmonk-optimisation-preheader.png)
