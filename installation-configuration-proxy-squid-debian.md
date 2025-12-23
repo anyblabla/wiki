@@ -2,7 +2,7 @@
 title: Déploiement d'un serveur proxy cache Squid sur Debian
 description: Apprenez à déployer Squid sur Debian pour optimiser votre navigation. Ce guide couvre l'installation, la configuration du cache et l'utilisation d'alias GNOME pour un contrôle total de vos flux web.
 published: true
-date: 2025-12-23T03:24:32.519Z
+date: 2025-12-23T03:36:35.098Z
 tags: cache, proxy, debian, squid, administration système
 editor: markdown
 dateCreated: 2025-12-23T00:16:17.440Z
@@ -116,6 +116,12 @@ systemctl start squid
 2. Allez dans **Réseau**.
 3. Cliquez sur **Serveur mandataire réseau**.
 4. Sélectionnez le mode **Manuel** : IP du serveur, port **3128**.
+5. Dans "Ignorer pour", saisissez : `localhost, 127.0.0.0/8, ::1, 192.168.2.0/24`.
+
+### Cas particulier : Smartphone Android
+
+Sur Android, la syntaxe est plus rigide. Si le service se coupe, utilisez cette liste d'exceptions (sans espaces après les virgules et avec une astérisque pour le réseau local) :
+`localhost,127.0.0.1,192.168.2.*`
 
 ### Via les alias Bash (Terminal)
 
@@ -158,5 +164,5 @@ source ~/.bashrc
 
 #### Explication des alias :
 
-* `gproxyon` / `gproxyoff` : Agit directement sur les paramètres système. C'est comme si vous cliquiez manuellement dans les réglages de Gnome. Très pratique pour tout le surf web.
-* `proxyon` / `proxyoff` : Indique à vos logiciels en ligne de commande (comme `apt` ou `curl`) d'utiliser le proxy. Cela ne dure que le temps où votre fenêtre de terminal est ouverte.
+* `gproxyon` / `gproxyoff` : Agit directement sur les paramètres système (Gnome).
+* `proxyon` / `proxyoff` : Indique aux logiciels en ligne de commande (comme `apt` ou `curl`) d'utiliser le proxy pour la session en cours.
