@@ -2,7 +2,7 @@
 title: Déploiement d'un serveur proxy cache Squid sur Debian
 description: Apprenez à déployer Squid sur Debian pour optimiser votre navigation. Ce guide couvre l'installation, la configuration du cache et l'utilisation d'alias GNOME pour un contrôle total de vos flux web.
 published: true
-date: 2025-12-23T00:52:47.824Z
+date: 2025-12-23T03:22:09.296Z
 tags: cache, proxy, debian, squid, administration système
 editor: markdown
 dateCreated: 2025-12-23T00:16:17.440Z
@@ -16,161 +16,147 @@ Un serveur proxy est un intermédiaire entre votre ordinateur (le client) et int
 
 Squid est la référence absolue dans le monde du logiciel libre pour les serveurs mandataires. Mes raisons pour ce choix sont simples :
 
-* **Performances :** Une gestion du cache (RAM et disque) extrêmement robuste pour économiser de la bande passante.
+* **Performances :** Une gestion du cache (RAM et disque) robuste.
 * **Contrôle :** Une visibilité totale sur les flux sortants via les journaux d'accès.
-* **Légèreté :** Il consomme très peu de ressources, ce qui en fait un candidat idéal pour un container LXC sous Proxmox.
-* **Confidentialité :** Il permet d'anonymiser le trafic local en masquant l'adresse IP réelle de la machine cliente.
+* **Légèreté :** Consomme très peu de ressources (~50 Mo de RAM).
+* **Confidentialité :** Anonymise le trafic local en masquant l'IP réelle des clients.
+
+## Le rôle de Squid en 2025 (L'ère du tout HTTPS)
+
+Pourquoi utiliser un proxy alors que 95% du web est chiffré ? Par sécurité, Squid ne peut pas "voir" ni mettre en cache le contenu des flux HTTPS (tunneling). Cependant, il reste indispensable pour :
+
+1. **L'observabilité :** Squid logue les domaines consultés. C'est votre "boîte noire" réseau.
+2. **L'anonymisation :** Il masque l'empreinte de vos navigateurs et l'IP de vos machines.
+3. **Le cache résiduel :** Redoutable pour les dépôts `apt` (Debian/Ubuntu) qui utilisent encore le HTTP.
 
 ## Installation sur une base Debian
-
-Connectez-vous en root sur votre machine ou container Debian :
 
 ```bash
 apt update && apt install squid -y
 
 ```
 
-## Paramétrage complet du fichier de configuration
+## Paramétrage du fichier de configuration
 
-Le fichier par défaut étant saturé de commentaires, nous allons le vider pour repartir sur une base saine, lisible et sécurisée.
-
-1. Sauvegardez le fichier d'origine :
-`cp /etc/squid/squid.conf /etc/squid/squid.conf.bak`
-2. Videz le contenu et ouvrez le fichier :
-`true > /etc/squid/squid.conf && nano /etc/squid/squid.conf`
+1. **Sauvegardez l'origine :** `cp /etc/squid/squid.conf /etc/squid/squid.conf.bak`
+2. **Videz et éditez :** `true > /etc/squid/squid.conf && nano /etc/squid/squid.conf`
 
 ### Configuration optimisée
 
+> **Note :** Pensez à remplacer `192.168.2.0/24` par votre propre plage réseau.
+> **Conseil Proxmox :** Pour un container LXC de **8 Go** de disque, nous allons allouer **3 Go** au cache.
+
 ```text
-# Définition du réseau local
+# --- 1. ACL ET ACCÈS ---
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 443
+acl CONNECT method CONNECT
+
+# REMPLACER l'adresse ci-dessous par votre propre plage réseau
 acl mon_reseau_local src 192.168.2.0/24
 
-# Règles d'accès (http_access)
-# Interdire les ports dangereux
 http_access deny !Safe_ports
 http_access deny CONNECT !SSL_ports
-
-# Autoriser le manager uniquement depuis localhost
 http_access allow localhost manager
 http_access deny manager
-
-# Autorisation du réseau local et de la machine elle-même
 http_access allow mon_reseau_local
 http_access allow localhost
-
-# Protection contre les accès aux services locaux du container
 http_access deny to_localhost
-
-# Interdire tout le reste
 http_access deny all
 
-# Paramètres réseau et anonymisation
+# --- 2. RÉSEAU ET ANONYMISATION ---
 http_port 3128
-
-# Masquer l'adresse IP réelle des clients (Anonymisation)
 forwarded_for off
 request_header_access Via deny all
 request_header_access X-Forwarded-For deny all
 
-# Gestion du cache (Optionnel)
-# Décommentez la ligne suivante pour activer le cache disque (100 Mo)
-# cache_dir ufs /var/spool/squid 100 16 256
+# --- 3. GESTION DU CACHE OPTIMISÉE ---
+cache_mem 100 MB
+maximum_object_size_in_memory 512 KB
+cache_dir ufs /var/spool/squid 3000 16 256
+maximum_object_size 50 MB
+minimum_object_size 0 KB
 
-# Emplacement des fichiers de log
+# --- 4. PERSISTENCE DU CACHE (BOOST) ---
+refresh_pattern -i \.(gif|png|jpg|jpeg|ico|svg|webp)$ 10080 90% 43200 override-expire
+refresh_pattern -i \.(js|css|woff|woff2|otf|ttf)$ 10080 90% 43200 override-expire
+
 access_log daemon:/var/log/squid/access.log squid
 
 ```
 
-## Gestion du service et démarrage automatique
+## Focus sur l'optimisation du cache
 
-Appliquez la configuration et assurez-vous que le service démarre avec le système :
+* **`cache_mem 100 MB`** : Alloue 100 Mo de RAM pour les objets récents.
+* **`cache_dir ufs ... 3000`** : 3 Go d'espace disque dédié au cache.
+* **`maximum_object_size 50 MB`** : On privilégie les petits fichiers web et paquets `.deb` pour ne pas saturer le stockage.
+* **`override-expire`** : Force la conservation des images/scripts pour booster la navigation.
+
+## Initialisation et Gestion du service
 
 ```bash
-# Activer le démarrage automatique
+systemctl stop squid
+squid -z
 systemctl enable squid
-
-# Redémarrer pour appliquer les changements
-systemctl restart squid
-
-# Vérifier le statut
-systemctl status squid
+systemctl start squid
 
 ```
 
-## Vérification du bon fonctionnement
+## Monitoring et Diagnostic
 
-Une fois le service redémarré, il est indispensable de vérifier que Squid est bien opérationnel.
+* **Voir tout le trafic :** `tail -f /var/log/squid/access.log`
+* **Vérifier les succès du cache (HIT) :** `tail -f /var/log/squid/access.log | grep -E "TCP_HIT|TCP_MEM_HIT"`
 
-### 1. Vérifier l'écoute du port 3128
+## Activation sur les clients
 
-Vérifiez que Squid attend bien des connexions :
+### Via l'interface Gnome (Graphique)
 
-```bash
-ss -tulpn | grep 3128
+1. Ouvrez les **Paramètres**.
+2. Allez dans **Réseau**.
+3. Cliquez sur **Serveur mandataire réseau**.
+4. Sélectionnez le mode **Manuel** : IP du serveur, port **3128**.
 
-```
+### Via les alias Bash (Terminal)
 
-### 2. Tester le proxy localement
+Pour éviter de retourner dans les menus de Gnome à chaque fois, nous allons créer des "raccourcis" clavier appelés **Alias**.
 
-Simulez une requête web pour confirmer que le proxy répond :
+#### 1. Éditer le fichier des alias
 
-```bash
-curl -I -x http://localhost:3128 http://www.google.com
-
-```
-
-*Un code `HTTP/1.1 200 OK` indique un succès.*
-
-### 3. Surveiller les journaux
-
-Pour voir les accès en temps réel, utilisez la commande suivante. **Notez bien** que vous ne verrez défiler des lignes qu'une fois le proxy activé sur votre client (Gnome ou Terminal) et après avoir effectué vos premières requêtes (navigation web) :
-
-```bash
-tail -f /var/log/squid/access.log
-
-```
-
-## Activation via les paramètres de Gnome
-
-Pour que l'ensemble de votre système utilise le proxy, suivez cette procédure :
-
-1. Ouvrez les **Paramètres** de Gnome > **Réseau**.
-2. Cliquez sur la roue crantée de **Serveur mandataire réseau**.
-3. Sélectionnez le mode **Manuel**.
-4. Remplissez **HTTP**, **HTTPS** et **FTP** avec l'adresse IP du serveur et le port **3128**.
-5. **Important :** Laissez le champ **Hôte SOCKS** vide.
-6. Dans la section **Ignorer pour**, saisissez : `localhost, 127.0.0.0/8, ::1, 192.168.2.0/24`.
-
-## Automatisation via les alias Bash
-
-L'utilisation de l'interface graphique est fastidieuse. Ces alias permettent d'activer ou désactiver le serveur mandataire instantanément sans ouvrir les paramètres de Gnome.
-
-Pour éditer vos alias :
+Sur votre machine Linux (client), ouvrez le fichier caché `.bash_aliases` situé dans votre dossier personnel :
 
 ```bash
 nano ~/.bash_aliases
 
 ```
 
-### Raccourcis à ajouter
+#### 2. Ajouter les commandes
+
+Copiez et collez les lignes suivantes à la fin du fichier (n'oubliez pas d'adapter l'IP du serveur proxy) :
 
 ```bash
-### --- SECTION PROXY SQUID ---
+# --- SECTION PROXY SQUID ---
 
-## Proxy pour le terminal (Session shell actuelle)
-alias proxyon='export http_proxy="http://192.168.2.153:3128" https_proxy="http://192.168.2.153:3128" ftp_proxy="http://192.168.2.153:3128"'
-alias proxyoff='unset http_proxy https_proxy ftp_proxy'
-alias checkproxy='curl -I http://www.google.com | grep -i "Via\|Squid"'
-
-## Proxy pour l'environnement Gnome (Système complet)
-# gproxyon  : Active le mode proxy manuel (évite l'interface graphique)
-# gproxyoff : Désactive le proxy système
+# Pour tout le système (Gnome) : gproxyon active le proxy, gproxyoff le désactive.
 alias gproxyon='gsettings set org.gnome.system.proxy mode "manual"'
 alias gproxyoff='gsettings set org.gnome.system.proxy mode "none"'
-alias gproxycheck='gsettings get org.gnome.system.proxy mode'
+
+# Pour le terminal uniquement : proxyon active le passage par le proxy pour les commandes comme curl ou wget.
+alias proxyon='export http_proxy="http://192.168.2.153:3128" https_proxy="http://192.168.2.153:3128"'
+alias proxyoff='unset http_proxy https_proxy'
 
 ```
 
-Rechargez avec : `source ~/.bash_aliases`. Désormais, un simple `gproxyon` au clavier remplacera avantageusement toute la navigation dans les menus de Gnome.
+#### 3. Appliquer les changements
 
-> Si vous souhaitez utiliser ce proxy à l'extérieur, ne redirigez jamais le port 3128 sur votre routeur. Connectez-vous via votre VPN (WireGuard par exemple) et utilisez l'adresse IP locale du serveur.
+Pour que votre terminal prenne en compte ces nouveaux raccourcis immédiatement, tapez :
+
+```bash
+source ~/.bashrc
+
+```
+
+#### Explication des alias :
+
+* **`gproxyon` / `gproxyoff**` : Agit directement sur les paramètres système. C'est comme si vous cliquiez manuellement dans les réglages de Gnome. Très pratique pour tout le surf web.
+* **`proxyon` / `proxyoff**` : Indique à vos logiciels en ligne de commande (comme `apt` ou `curl`) d'utiliser le proxy. Cela ne dure que le temps où votre fenêtre de terminal est ouverte.
