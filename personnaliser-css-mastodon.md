@@ -1,8 +1,8 @@
 ---
 title: Personnaliser l'apparence de Mastodon avec du CSS
 description: Découvrez comment modifier l'identité visuelle de votre instance Mastodon. Guide basé sur la configuration réelle de Blabla Linux pour harmoniser votre serveur avec votre charte.
-published: false
-date: 2025-12-23T14:09:45.319Z
+published: true
+date: 2025-12-23T14:16:46.462Z
 tags: mastodon, css, auto-hébergement, design, administration, tutoriel
 editor: markdown
 dateCreated: 2025-12-23T14:09:45.319Z
@@ -106,3 +106,5 @@ La procédure est simple et ne nécessite pas de redémarrer vos conteneurs Dock
 4. Cliquez sur l'onglet **Apparence**.
 5. Repérez la zone de texte nommée **CSS personnalisé**.
 6. Collez votre code et cliquez sur **Enregistrer les modifications**.
+
+![personnaliser-css-mastodon.jpg](/personnaliser-css-mastodon/personnaliser-css-mastodon.jpg)
