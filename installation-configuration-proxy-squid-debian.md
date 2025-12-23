@@ -2,7 +2,7 @@
 title: Déploiement d'un serveur proxy cache Squid sur Debian
 description: Apprenez à déployer Squid sur Debian pour optimiser votre navigation. Ce guide couvre l'installation, la configuration du cache et l'utilisation d'alias GNOME pour un contrôle total de vos flux web.
 published: true
-date: 2025-12-23T00:23:20.608Z
+date: 2025-12-23T00:52:47.824Z
 tags: cache, proxy, debian, squid, administration système
 editor: markdown
 dateCreated: 2025-12-23T00:16:17.440Z
@@ -172,3 +172,5 @@ alias gproxycheck='gsettings get org.gnome.system.proxy mode'
 ```
 
 Rechargez avec : `source ~/.bash_aliases`. Désormais, un simple `gproxyon` au clavier remplacera avantageusement toute la navigation dans les menus de Gnome.
+
+> Si vous souhaitez utiliser ce proxy à l'extérieur, ne redirigez jamais le port 3128 sur votre routeur. Connectez-vous via votre VPN (WireGuard par exemple) et utilisez l'adresse IP locale du serveur.
