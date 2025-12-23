@@ -2,7 +2,7 @@
 title: Déploiement d'un serveur proxy cache Squid sur Debian
 description: Apprenez à déployer Squid sur Debian pour optimiser votre navigation. Ce guide couvre l'installation, la configuration du cache et l'utilisation d'alias GNOME pour un contrôle total de vos flux web.
 published: true
-date: 2025-12-23T00:16:17.440Z
+date: 2025-12-23T00:23:20.608Z
 tags: cache, proxy, debian, squid, administration système
 editor: markdown
 dateCreated: 2025-12-23T00:16:17.440Z
@@ -97,46 +97,78 @@ systemctl status squid
 
 ```
 
+## Vérification du bon fonctionnement
+
+Une fois le service redémarré, il est indispensable de vérifier que Squid est bien opérationnel.
+
+### 1. Vérifier l'écoute du port 3128
+
+Vérifiez que Squid attend bien des connexions :
+
+```bash
+ss -tulpn | grep 3128
+
+```
+
+### 2. Tester le proxy localement
+
+Simulez une requête web pour confirmer que le proxy répond :
+
+```bash
+curl -I -x http://localhost:3128 http://www.google.com
+
+```
+
+*Un code `HTTP/1.1 200 OK` indique un succès.*
+
+### 3. Surveiller les journaux
+
+Pour voir les accès en temps réel, utilisez la commande suivante. **Notez bien** que vous ne verrez défiler des lignes qu'une fois le proxy activé sur votre client (Gnome ou Terminal) et après avoir effectué vos premières requêtes (navigation web) :
+
+```bash
+tail -f /var/log/squid/access.log
+
+```
+
 ## Activation via les paramètres de Gnome
 
 Pour que l'ensemble de votre système utilise le proxy, suivez cette procédure :
 
-1. Ouvrez les **Paramètres** de Gnome.
-2. Cliquez sur l'onglet **Réseau** dans la colonne de gauche.
-3. Repérez la section **Serveur mandataire réseau** et cliquez sur le bouton de configuration (roue crantée).
-4. Sélectionnez le mode **Manuel**.
-5. Remplissez les champs **HTTP**, **HTTPS** et **FTP** avec l'adresse IP de votre serveur Squid (ex: 192.168.2.153) et le port **3128**.
-6. **Attention :** Laissez le champ **Hôte SOCKS** vide.
-7. Dans la section **Ignorer pour**, saisissez : `localhost, 127.0.0.0/8, ::1, 192.168.2.0/24`. Cela permet d'accéder à vos serveurs locaux sans passer par le proxy.
+1. Ouvrez les **Paramètres** de Gnome > **Réseau**.
+2. Cliquez sur la roue crantée de **Serveur mandataire réseau**.
+3. Sélectionnez le mode **Manuel**.
+4. Remplissez **HTTP**, **HTTPS** et **FTP** avec l'adresse IP du serveur et le port **3128**.
+5. **Important :** Laissez le champ **Hôte SOCKS** vide.
+6. Dans la section **Ignorer pour**, saisissez : `localhost, 127.0.0.0/8, ::1, 192.168.2.0/24`.
 
 ## Automatisation via les alias Bash
 
-L'utilisation de l'interface graphique peut être fastidieuse. En utilisant des alias, vous pouvez activer ou désactiver le serveur mandataire instantanément sans ouvrir les paramètres de Gnome.
+L'utilisation de l'interface graphique est fastidieuse. Ces alias permettent d'activer ou désactiver le serveur mandataire instantanément sans ouvrir les paramètres de Gnome.
 
-Pour ajouter ces raccourcis, éditez votre fichier d'alias avec la commande suivante :
+Pour éditer vos alias :
 
 ```bash
 nano ~/.bash_aliases
 
 ```
 
-### Raccourcis à copier-coller
+### Raccourcis à ajouter
 
 ```bash
 ### --- SECTION PROXY SQUID ---
 
-## Proxy pour le terminal (Session shell actuelle uniquement)
+## Proxy pour le terminal (Session shell actuelle)
 alias proxyon='export http_proxy="http://192.168.2.153:3128" https_proxy="http://192.168.2.153:3128" ftp_proxy="http://192.168.2.153:3128"'
 alias proxyoff='unset http_proxy https_proxy ftp_proxy'
 alias checkproxy='curl -I http://www.google.com | grep -i "Via\|Squid"'
 
-## Proxy pour l'environnement Gnome (Contrôle le bouton Système complet)
-# gproxyon  : Active physiquement le mode proxy manuel de Gnome
-# gproxyoff : Désactive physiquement le proxy dans les paramètres Gnome
+## Proxy pour l'environnement Gnome (Système complet)
+# gproxyon  : Active le mode proxy manuel (évite l'interface graphique)
+# gproxyoff : Désactive le proxy système
 alias gproxyon='gsettings set org.gnome.system.proxy mode "manual"'
 alias gproxyoff='gsettings set org.gnome.system.proxy mode "none"'
 alias gproxycheck='gsettings get org.gnome.system.proxy mode'
 
 ```
 
-Pour activer ces changements immédiatement dans votre terminal actuel, tapez : `source ~/.bash_aliases`. Désormais, un simple `gproxyon` au clavier remplacera avantageusement toute la navigation dans les menus de Gnome.
+Rechargez avec : `source ~/.bash_aliases`. Désormais, un simple `gproxyon` au clavier remplacera avantageusement toute la navigation dans les menus de Gnome.
