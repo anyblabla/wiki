@@ -1,8 +1,8 @@
 ---
 title: Sécurité pdf - Pourquoi le masquage graphique est une illusion
 description: Apprenez pourquoi masquer un texte avec un rectangle noir dans un PDF est inefficace. Ce guide montre comment extraire les données cachées sous OnlyOffice ou LibreOffice avec un script Python dédié.
-published: false
-date: 2025-12-24T12:56:30.807Z
+published: true
+date: 2025-12-24T16:45:21.501Z
 tags: pdf, debian, sécurité, tutoriel, python
 editor: markdown
 dateCreated: 2025-12-24T12:40:16.902Z
