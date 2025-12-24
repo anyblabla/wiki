@@ -2,7 +2,7 @@
 title: Mastodon - Alerte visuelle pour l'accessibilité (alt-text)
 description: Améliorez l'accessibilité de Mastodon avec ce script CSS. Il affiche une bordure hachurée personnalisée autour des images, vidéos et GIF sans texte alternatif pour ne plus oublier les descriptions.
 published: true
-date: 2025-12-24T16:34:41.302Z
+date: 2025-12-24T17:08:15.092Z
 tags: mastodon, css, design, tutoriel, accessibilité, fediverse
 editor: markdown
 dateCreated: 2025-12-24T01:36:11.083Z
@@ -14,7 +14,7 @@ Sur Mastodon et le Fediverse, l'accessibilité est une valeur fondamentale. Cepe
 
 Ce tutoriel explique comment ajouter un style CSS personnalisé qui entourera automatiquement d'une bordure hachurée (style ruban de signalisation) tout média publié sans texte alternatif. C'est un excellent outil d'auto-discipline et de sensibilisation.
 
-> **Remerciement :** Un grand merci à **[@jfmblinux@mastodon.jfmblinux.fr](https://www.google.com/search?q=https://mastodon.jfmblinux.fr/%40jfmblinux)** qui m'a partagé ce code précieux pour la communauté.
+> **Remerciement :** Un grand merci à **<a href="[https://mastodon.jfmblinux.fr/@jfmblinux](https://www.google.com/search?q=https://mastodon.jfmblinux.fr/%40jfmblinux)" target="_blank" rel="noopener">@jfmblinux@mastodon.jfmblinux.fr</a>** qui m'a partagé ce code précieux pour la communauté.
 
 ## Le code CSS (version Blabla Linux)
 
@@ -66,6 +66,23 @@ La propriété `repeating-linear-gradient` crée l'effet visuel :
 
 L'utilisation de `box-sizing: border-box` est cruciale. Elle force la bordure à s'afficher vers l'intérieur de l'image pour ne pas briser la mise en page de l'instance.
 
+## Cas particulier : correctif pour les GIF et vidéos
+
+Lors de l'utilisation de vidéos ou de GIF (qui sont techniquement des vidéos lues en boucle sur Mastodon), le texte alternatif est souvent injecté dans l'attribut HTML `aria-label` plutôt que dans le `title`.
+
+Si vous remarquez que la bordure apparaît sur vos vidéos alors que vous avez bien rempli la description, utilisez cette version améliorée du sélecteur :
+
+```css
+/* Version optimisée pour éviter les faux positifs sur vidéos et GIF */
+.video-player video:not([title]):not([aria-label]),
+.media-gallery__gifv video:not([title]):not([aria-label]),
+.video-player video[title=""][aria-label=""],
+.media-gallery__gifv video[title=""][aria-label=""]
+
+```
+
+Ce correctif vérifie la présence de la description dans les deux attributs (`title` et `aria-label`) avant de déclencher l'alerte visuelle.
+
 ## Personnalisation possible
 
 | Propriété | Effet | Suggestion |
@@ -78,11 +95,12 @@ L'utilisation de `box-sizing: border-box` est cruciale. Elle force la bordure à
 
 ### Pour un usage personnel (utilisateur)
 
-Si vous souhaitez voir ces alertes uniquement sur votre navigateur (sur votre propre instance ou celles des autres), installez l'extension libre **Stylus** :
+Si vous souhaitez voir ces alertes uniquement sur votre navigateur, installez l'extension libre **Stylus** :
 
-1. **Installer Stylus :** <a href="https://addons.mozilla.org/fr/firefox/addon/styl-us/" target="_blank" rel="noopener">Version Firefox</a> | <a href="https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne" target="_blank" rel="noopener">Version Chrome / Vivaldi</a>
-2. Créez un nouveau style pour le domaine de votre instance (ex: `mastodon.social`).
-3. Collez le code CSS et enregistrez.
+1. **Installer Stylus :** <a href="[https://addons.mozilla.org/fr/firefox/addon/styl-us/](https://addons.mozilla.org/fr/firefox/addon/styl-us/)" target="_blank" rel="noopener">Version Firefox</a> | <a href="[https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne)" target="_blank" rel="noopener">Version Chrome / Vivaldi</a>
+2. Cliquez sur l'icône de l'extension et choisissez **"Gérer"** puis **"Créer un nouveau style"**.
+3. Spécifiez le domaine de votre instance (ex: `mastodon.social`).
+4. Collez le code CSS et enregistrez.
 
 ### Pour une instance (administrateur)
 
