@@ -2,7 +2,7 @@
 title: Mastodon - Alerte visuelle pour l'accessibilité (alt-text)
 description: Améliorez l'accessibilité de Mastodon avec ce script CSS. Il affiche une bordure hachurée personnalisée autour des images, vidéos et GIF sans texte alternatif pour ne plus oublier les descriptions.
 published: false
-date: 2025-12-24T01:48:07.305Z
+date: 2025-12-24T01:48:18.079Z
 tags: mastodon, css, design, tutoriel, accessibilité, fediverse
 editor: markdown
 dateCreated: 2025-12-24T01:36:11.083Z
