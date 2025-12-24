@@ -2,7 +2,7 @@
 title: Mastodon - Alerte visuelle pour l'accessibilité (alt-text)
 description: Améliorez l'accessibilité de Mastodon avec ce script CSS. Il affiche une bordure hachurée personnalisée autour des images, vidéos et GIF sans texte alternatif pour ne plus oublier les descriptions.
 published: false
-date: 2025-12-24T01:52:41.498Z
+date: 2025-12-24T02:07:31.467Z
 tags: mastodon, css, design, tutoriel, accessibilité, fediverse
 editor: markdown
 dateCreated: 2025-12-24T01:36:11.083Z
@@ -53,14 +53,14 @@ Ce code utilise les couleurs identitaires de **Blabla Linux** (vert et orange) p
 Le code repère deux types d'erreurs d'accessibilité dans le code HTML :
 
 * **:not([alt])** ou **:not([title])** : l'attribut est totalement absent.
-* **[alt=""]** ou **[title=""]** : l'attribut est présent mais vide.
+* **[alt=""]** ou **[title=""]** : l'attribut est présent mais vide (validation trop rapide).
 
 ### 2. L'aspect visuel (le dégradé)
 
 La propriété `repeating-linear-gradient` crée l'effet visuel :
 
 * **L'angle (-55deg)** : incline les bandes pour l'aspect "chantier".
-* **Les paliers (15px / 30px)** : définissent la largeur des bandes.
+* **Les paliers (15px / 30px)** : définissent la largeur des bandes colorées.
 
 ### 3. La mise en page (le cadre)
 
@@ -78,15 +78,19 @@ L'utilisation de `box-sizing: border-box` est cruciale. Elle force la bordure à
 
 ### Pour un usage personnel (utilisateur)
 
-1. Installez l'extension libre **Stylus** (Firefox ou Chromium).
+Si vous souhaitez voir ces alertes uniquement sur votre navigateur (sur votre propre instance ou celles des autres), installez l'extension libre **Stylus** :
+
+1. **Installer Stylus :** <a href="https://addons.mozilla.org/fr/firefox/addon/styl-us/" target="_blank" rel="noopener">Version Firefox</a> | <a href="https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne" target="_blank" rel="noopener">Version Chrome / Vivaldi</a>
 2. Créez un nouveau style pour le domaine de votre instance (ex: `mastodon.social`).
 3. Collez le code CSS et enregistrez.
 
 ### Pour une instance (administrateur)
 
+Si vous gérez votre propre instance Mastodon :
+
 1. Rendez-vous dans **Administration** > **Configuration de l'instance** > **Apparence**.
 2. Collez le code dans le champ **CSS personnalisé**.
-3. Enregistrez les modifications.
+3. Enregistrez les modifications pour que l'alerte soit visible par tous vos membres.
 
 ---
 
