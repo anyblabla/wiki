@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de Mastodon sous Docker
 description: Apprenez à automatiser le nettoyage de votre instance Mastodon sous Docker. Script de maintenance, configuration Cron et commandes tootctl pour optimiser l'espace disque de votre serveur.
 published: false
-date: 2025-12-25T13:04:37.877Z
+date: 2025-12-25T13:09:18.048Z
 tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
@@ -27,7 +27,17 @@ Cependant, je privilégie l'automatisation externe pour plusieurs raisons :
 
 ---
 
-## 2. Les commandes de nettoyage (tootctl)
+## 2. Ma recommandation : la stratégie de nettoyage hybride
+
+Faut-il désactiver les réglages de l'interface si on utilise un script ? Ma réponse est **non**. Je conseille une approche hybride pour une sécurité maximale :
+
+1. **Le script (Prioritaire) :** Il effectue un nettoyage en profondeur et rapide tous les dimanches (rétention de 7 jours).
+2. **L'interface (Sécurité) :** Je règle la rétention des médias sur **14 ou 30 jours** dans l'interface. Ainsi, si mon script échoue pour une raison technique, Mastodon dispose d'un filet de sécurité automatique pour éviter la saturation du disque.
+3. **La zone de danger :** Je laisse la "Durée de rétention du contenu distant" sur **0 (désactivé)**. Je laisse mon script gérer la purge des messages via `statuses remove`, car c'est beaucoup plus respectueux des favoris et signets de mes utilisateurs.
+
+---
+
+## 3. Les commandes de nettoyage (tootctl)
 
 Voici les commandes que j'utilise. Sous Docker, elles s'exécutent via l'outil `docker exec`.
 
@@ -41,7 +51,7 @@ Voici les commandes que j'utilise. Sous Docker, elles s'exécutent via l'outil `
 
 ---
 
-## 3. Exécution manuelle sous Docker
+## 4. Exécution manuelle sous Docker
 
 Idéal pour un nettoyage ponctuel. J'envoie directement la commande au conteneur web.
 
@@ -91,7 +101,7 @@ docker exec -u mastodon mastodon-web bin/tootctl statuses remove
 
 ---
 
-## 4. Ma méthode d'automatisation (pas à pas)
+## 5. Ma méthode d'automatisation (pas à pas)
 
 ### Étape A : Créer le dossier pour vos scripts
 
@@ -157,7 +167,7 @@ Ajoutez cette ligne tout en bas :
 
 ---
 
-## 5. Cas particulier d'Elasticsearch
+## 6. Cas particulier d'Elasticsearch
 
 Si vous utilisez le moteur de recherche **Elasticsearch**, lancez ponctuellement cette commande pour réindexer le contenu :
 
@@ -168,7 +178,7 @@ docker exec -u mastodon mastodon-web bin/tootctl search deploy
 
 ---
 
-## 6. Mes recommandations finales
+## 7. Mes recommandations finales
 
 **Fréquence de maintenance :** Si vous effectuez les nettoyages manuellement, je vous recommande d'exécuter `media remove` et `accounts prune` au moins une fois par semaine ou par mois.
 
