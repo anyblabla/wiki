@@ -2,14 +2,13 @@
 title: Maintenance et nettoyage de Mastodon sous Docker
 description: Apprenez à automatiser le nettoyage de votre instance Mastodon sous Docker. Script de maintenance, configuration Cron et commandes tootctl pour optimiser l'espace disque de votre serveur.
 published: false
-date: 2025-12-25T13:00:52.896Z
+date: 2025-12-25T13:04:37.877Z
 tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
 ---
 
-> [!IMPORTANT]
-> Ce guide est spécifiquement conçu pour une installation de Mastodon tournant sous **Docker** (souvent via un conteneur LXC sur Proxmox). Si vous utilisez une installation "classique" (non Docker) sur base Debian, je vous invite à consulter mon autre page dédiée : [Maintenance Mastodon (Installation classique)](https://wiki.blablalinux.be/fr/mastodon-cache).
+> ⚠️ Ce guide est spécifiquement conçu pour une installation de Mastodon tournant sous **Docker** (souvent via un conteneur LXC sur Proxmox). Si vous utilisez une installation "classique" (non Docker) sur base Debian, je vous invite à consulter mon autre page dédiée : [Maintenance Mastodon (Installation classique)](https://wiki.blablalinux.be/fr/mastodon-cache).
 
 Dans cet article, je partage ma méthode pour entretenir mon instance Mastodon lorsqu'elle fonctionne sous Docker. Le nettoyage régulier est indispensable pour éviter que le cache des médias et la base de données ne saturent l'espace disque de mon système.
 
