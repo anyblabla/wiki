@@ -2,14 +2,13 @@
 title: Maintenance Mastodon - Nettoyage et optimisation des caches avec tootctl
 description: Mastodon accumule divers types de données et de caches au fil du temps (images, médias, comptes distants, etc.). L'utilisation régulière des commandes tootctl est essentielle pour libérer de l'espace disque et maintenir la performance de votre instance.
 published: true
-date: 2025-12-25T13:03:05.917Z
+date: 2025-12-25T13:04:01.436Z
 tags: mastodon, cache, delete
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
 ---
 
-> [!IMPORTANT]
-> Ce guide concerne une installation "classique" (non Docker) de Mastodon sur base Debian. Si vous utilisez une installation tournant sous **Docker**, je vous invite à consulter cette page dédiée : [Maintenance Mastodon sous Docker](https://www.google.com/search?q=https://wiki.blablalinux.be/fr/maintenance-mastodon-docker).
+> ⚠️ Ce guide concerne une installation "classique" (non Docker) de Mastodon sur base Debian. Si vous utilisez une installation tournant sous **Docker**, je vous invite à consulter cette page dédiée : [Maintenance Mastodon sous Docker](https://www.google.com/search?q=https://wiki.blablalinux.be/fr/maintenance-mastodon-docker).
 
 Mastodon accumule divers types de données et de caches au fil du temps (images, médias, comptes distants, etc.). L'utilisation régulière des commandes `tootctl` est essentielle pour libérer de l'espace disque et maintenir la performance de votre instance.
 
