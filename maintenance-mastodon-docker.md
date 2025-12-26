@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de Mastodon sous Docker
 description: Apprenez à automatiser le nettoyage de votre instance Mastodon sous Docker. Script de maintenance, configuration Cron et commandes tootctl pour optimiser l'espace disque de votre serveur.
 published: true
-date: 2025-12-25T13:17:41.909Z
+date: 2025-12-26T12:47:13.222Z
 tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
@@ -32,7 +32,7 @@ Cependant, je privilégie l'automatisation externe pour plusieurs raisons :
 Faut-il désactiver les réglages de l'interface si on utilise un script ? Ma réponse est **non**. Je conseille une approche hybride pour une sécurité maximale :
 
 1. **Le script (Prioritaire) :** Il effectue un nettoyage en profondeur et rapide tous les dimanches (rétention de 7 jours).
-2. **L'interface (Sécurité) :** Je règle la rétention des médias sur **14 ou 30 jours** dans l'interface. Ainsi, si mon script échoue pour une raison technique, Mastodon dispose d'un filet de sécurité automatique pour éviter la saturation du disque.
+2. **L'interface (Sécurité) :** Je règle la rétention des médias sur **14 ou 30 jours** dans l'interface. Ainsi, si mon script échoue pour une raison technique, Mastodon dispose d'un filet de sécurité automatique.
 3. **La zone de danger :** Je laisse la "Durée de rétention du contenu distant" sur **0 (désactivé)**. Je laisse mon script gérer la purge des messages via `statuses remove`, car c'est beaucoup plus respectueux des favoris et signets de mes utilisateurs.
 
 ---
@@ -105,15 +105,17 @@ docker exec -u mastodon mastodon-web bin/tootctl statuses remove
 
 ### Étape A : Créer le dossier pour vos scripts
 
+Sur un LXC où vous êtes root par défaut, utilisez ce dossier dédié :
+
 ```bash
-mkdir -p /home/scripts
+mkdir -p /root/scripts
 
 ```
 
 ### Étape B : Créer le fichier du script
 
 ```bash
-nano /home/scripts/mastodon-cleanup.sh
+nano /root/scripts/mastodon-cleanup.sh
 
 ```
 
@@ -142,10 +144,12 @@ echo "--- Maintenance terminée : $(date) ---"
 
 ```
 
-### Étape D : Rendre le script exécutable
+### Étape D : Rendre le script exécutable (sécurisé)
+
+On restreint l'accès au seul utilisateur root :
 
 ```bash
-chmod +x /home/scripts/mastodon-cleanup.sh
+chmod 700 /root/scripts/mastodon-cleanup.sh
 
 ```
 
@@ -161,7 +165,7 @@ crontab -e
 Ajoutez cette ligne tout en bas :
 
 ```cron
-00 03 * * 0 /bin/bash /home/scripts/mastodon-cleanup.sh >> /var/log/mastodon-cleanup.log 2>&1
+00 03 * * 0 /bin/bash /root/scripts/mastodon-cleanup.sh >> /var/log/mastodon-cleanup.log 2>&1
 
 ```
 
@@ -182,8 +186,8 @@ docker exec -u mastodon mastodon-web bin/tootctl search deploy
 
 **Fréquence de maintenance :** Si vous effectuez les nettoyages manuellement, je vous recommande d'exécuter `media remove` et `accounts prune` au moins une fois par semaine ou par mois.
 
-**Impact de l'automatisation :** Avec le script et la tâche Cron que je vous propose, ce nettoyage devient **hebdomadaire**. C'est le compromis idéal pour maintenir un espace disque stable sur une petite instance sans solliciter inutilement les ressources CPU tous les jours.
+**Impact de l'automatisation :** Avec le script et la tâche Cron que je vous propose, ce nettoyage devient **hebdomadaire**. C'est le compromis idéal pour maintenir un espace disque stable sur une petite instance.
 
-**Horaires :** Je planifie toujours l'exécution à 3h du matin. Les commandes peuvent être gourmandes en ressources ; il est donc préférable de les lancer durant les heures creuses de votre instance.
+**Horaires :** Je planifie toujours l'exécution à 3h du matin. Les commandes peuvent être gourmandes en ressources ; il est donc préférable de les lancer durant les heures creuses.
 
 [https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
