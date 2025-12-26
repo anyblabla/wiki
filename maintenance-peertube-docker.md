@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de PeerTube sous Docker
 description: Comment libérer de l'espace disque sur votre instance PeerTube Docker : nettoyage des fichiers temporaires, des transcodages échoués et des caches.
 published: true
-date: 2025-12-26T17:26:55.699Z
+date: 2025-12-26T18:40:07.475Z
 tags: docker, lxc, proxmox, linux, maintenance, peertube
 editor: markdown
 dateCreated: 2025-12-26T16:55:44.444Z
@@ -23,8 +23,7 @@ docker ps --format "{{.Names}}" | grep peertube
 
 ```
 
-> [!IMPORTANT]
-> Dans la suite de ce guide et dans le script, j'utiliserai le nom **`peertube-peertube-1`**. Si vous avez personnalisé votre fichier `docker-compose.yml` avec un `container_name: peertube`, pensez à adapter le nom dans les commandes.
+> ⚠️ Dans la suite de ce guide et dans le script, j'utiliserai le nom **`peertube-peertube-1`**. Si vous avez personnalisé votre fichier `docker-compose.yml` avec un `container_name: peertube`, pensez à adapter le nom dans les commandes.
 
 ---
 
