@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de Mastodon sous Docker
 description: Guide complet pour automatiser le nettoyage de Mastodon sous Docker. Tutoriel pas à pas : commandes tootctl, script de maintenance, cron et optimisation de la RAM.
 published: true
-date: 2025-12-26T16:30:25.709Z
+date: 2025-12-26T17:15:20.767Z
 tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
@@ -55,47 +55,47 @@ Voici les commandes que j'utilise. Sous Docker, elles s'exécutent via l'outil `
 
 Idéal pour un nettoyage ponctuel. J'envoie directement la commande au conteneur web.
 
-1. **Identifier le conteneur :**
+1. **Identifier le conteneur :** Dans la configuration officielle, le conteneur se nomme souvent **`mastodon-web-1`**. Pour vérifier le vôtre :
+
 ```bash
-docker ps --format "{{.Names}}"
+docker ps --format "{{.Names}}" | grep web
 
 ```
 
-
-2. **Lancer le nettoyage (Exemples complets) :**
+2. **Lancer le nettoyage (Exemples complets) :** J'utilise toujours l'utilisateur `mastodon`.
 
 **Nettoyer les vignettes en cache :**
 
 ```bash
-docker exec -u mastodon mastodon-web bin/tootctl cache clear
+docker exec -u mastodon mastodon-web-1 bin/tootctl cache clear
 
 ```
 
 **Supprimer les médias distants de plus de 7 jours :**
 
 ```bash
-docker exec -u mastodon mastodon-web bin/tootctl media remove --days 7
+docker exec -u mastodon mastodon-web-1 bin/tootctl media remove --days 7
 
 ```
 
 **Supprimer les fichiers médias orphelins :**
 
 ```bash
-docker exec -u mastodon mastodon-web bin/tootctl media remove-orphans
+docker exec -u mastodon mastodon-web-1 bin/tootctl media remove-orphans
 
 ```
 
 **Purger les comptes distants inactifs :**
 
 ```bash
-docker exec -u mastodon mastodon-web bin/tootctl accounts prune
+docker exec -u mastodon mastodon-web-1 bin/tootctl accounts prune
 
 ```
 
 **Supprimer les anciens statuts (messages) distants :**
 
 ```bash
-docker exec -u mastodon mastodon-web bin/tootctl statuses remove
+docker exec -u mastodon mastodon-web-1 bin/tootctl statuses remove
 
 ```
 
@@ -121,18 +121,24 @@ nano /root/scripts/mastodon-cleanup.sh
 
 ### Étape C : Contenu du script (avec optimisation RAM)
 
-Ce script inclut désormais une commande pour libérer le cache mémoire après le nettoyage intensif de la base de données.
+Ce script inclut désormais une commande pour libérer le cache mémoire après le nettoyage intensif de la base de données. **Note :** Adaptez `CONTAINER_NAME` si votre conteneur porte un nom différent.
 
 ```bash
 #!/bin/bash
 # Script de maintenance Mastodon pour Docker
 # Auteur : Amaury Libert (Blabla Linux)
 
-CONTAINER_NAME="mastodon-web"
+CONTAINER_NAME="mastodon-web-1"
 DAYS_MEDIA=7
 THREADS=4 
 
 echo "--- Début de la maintenance : $(date) ---"
+
+# Vérification de la présence du conteneur
+if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+    echo "Erreur : Le conteneur $CONTAINER_NAME est introuvable."
+    exit 1
+fi
 
 # Nettoyage des médias et miniatures de liens
 docker exec -u mastodon $CONTAINER_NAME bin/tootctl media remove --days=$DAYS_MEDIA --concurrency=$THREADS
@@ -143,7 +149,6 @@ docker exec -u mastodon $CONTAINER_NAME bin/tootctl statuses remove --days=30
 docker exec -u mastodon $CONTAINER_NAME bin/tootctl accounts prune
 
 # Optimisation RAM : Libérer le cache système (PageCache, dentries et inodes)
-# Très utile après le passage de "statuses remove"
 sync; echo 3 > /proc/sys/vm/drop_caches
 
 echo "--- Maintenance terminée : $(date) ---"
@@ -178,7 +183,7 @@ Ajoutez cette ligne tout en bas (exécution le dimanche à 3h00) :
 Si vous utilisez le moteur de recherche **Elasticsearch**, lancez ponctuellement cette commande pour réindexer le contenu :
 
 ```bash
-docker exec -u mastodon mastodon-web bin/tootctl search deploy
+docker exec -u mastodon mastodon-web-1 bin/tootctl search deploy
 
 ```
 
