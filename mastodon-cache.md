@@ -2,7 +2,7 @@
 title: Maintenance Mastodon - Nettoyage et optimisation des caches avec tootctl
 description: Mastodon accumule divers types de données et de caches au fil du temps (images, médias, comptes distants, etc.). L'utilisation régulière des commandes tootctl est essentielle pour libérer de l'espace disque et maintenir la performance de votre instance.
 published: true
-date: 2025-12-26T12:52:38.721Z
+date: 2025-12-26T16:33:03.350Z
 tags: mastodon, cache, delete
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
@@ -40,47 +40,28 @@ Voici les commandes de base pour vider les différents niveaux de cache et suppr
 
 Toutes les commandes de nettoyage `tootctl` doivent être exécutées en tant qu'utilisateur `mastodon` depuis le répertoire `live` de votre instance.
 
-* Tous les caches peuvent être nettoyés par grâce à **tootctl**, utilisable comme suit :
-
 1. **Passer en mode super-utilisateur (root) :**
 
-```plaintext
+```bash
 su -
 
 ```
 
 2. **Se déplacer dans le répertoire de l'instance Mastodon :**
 
-```plaintext
+```bash
 cd /var/www/mastodon/live
 
 ```
 
 3. **Exécuter chaque commande de nettoyage :**
+On utilise `sudo -u mastodon` avec les variables d'environnement nécessaires.
 
-Pour chaque commande, on utilise `sudo -u mastodon` (pour s'assurer que l'utilisateur `mastodon` exécute la tâche), on définit la variable d'environnement Rails sur `production`, et on indique le chemin d'accès au binaire `tootctl`.
-
-```plaintext
+```bash
 sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl cache clear
-
-```
-
-```plaintext
 sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl media remove
-
-```
-
-```plaintext
 sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl media remove-orphans
-
-```
-
-```plaintext
 sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl accounts cull 
-
-```
-
-```plaintext
 sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl statuses remove
 
 ```
@@ -88,8 +69,6 @@ sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/
 ---
 
 ## III. Ma méthode d'automatisation (pas à pas)
-
-Pour éviter de saturer le disque manuellement, j'automatise ces tâches avec un script exécuté chaque semaine.
 
 ### Étape A : Créer le dossier et le script
 
@@ -99,9 +78,9 @@ nano /root/scripts/mastodon-cleanup.sh
 
 ```
 
-### Étape B : Contenu du script
+### Étape B : Contenu du script (avec optimisation RAM/SWAP)
 
-Copiez ce code (adapté pour votre installation classique) :
+Ce script inclut désormais la libération du cache RAM et la purge du SWAP pour garantir que le système retrouve toute sa réactivité après le nettoyage.
 
 ```bash
 #!/bin/bash
@@ -124,13 +103,16 @@ sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl cache clear
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl accounts cull
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl statuses remove
 
+# Optimisation avancée de la mémoire
+echo "Optimisation de la RAM et du SWAP..."
+sync; echo 3 > /proc/sys/vm/drop_caches
+swapoff -a && swapon -a
+
 echo "--- Maintenance terminée : $(date) ---"
 
 ```
 
 ### Étape C : Permissions et planification
-
-Rendez le script exécutable uniquement par root et planifiez-le avec Cron :
 
 ```bash
 chmod 700 /root/scripts/mastodon-cleanup.sh
@@ -138,7 +120,7 @@ crontab -e
 
 ```
 
-Ajoutez cette ligne tout en bas pour un lancement chaque dimanche à 3h00 du matin :
+Ajoutez cette ligne (dimanche à 3h00) :
 
 ```cron
 00 03 * * 0 /bin/bash /root/scripts/mastodon-cleanup.sh >> /var/log/mastodon-cleanup.log 2>&1
@@ -149,10 +131,10 @@ Ajoutez cette ligne tout en bas pour un lancement chaque dimanche à 3h00 du mat
 
 ## IV. Notes importantes
 
-**Calendrier de maintenance :** Les commandes `media remove` et `accounts cull` sont recommandées pour une exécution régulière (hebdomadaire ou mensuelle). Les commandes `statuses remove` et `accounts cull` peuvent prendre beaucoup de temps et sont gourmandes en ressources.
+**Calendrier de maintenance :** Les commandes `media remove` et `accounts cull` sont recommandées pour une exécution régulière. La commande `statuses remove` peut prendre beaucoup de temps.
 
-**Stratégie hybride :** Je conseille de garder les réglages de l'interface (Rétention du contenu) actifs avec des valeurs de sécurité (14 ou 30 jours), tandis que ce script gère le nettoyage en profondeur de manière hebdomadaire.
+**Optimisation de la mémoire :** La commande `drop_caches` et la réinitialisation du SWAP en fin de script permettent de libérer les ressources mobilisées par PostgreSQL et Ruby pendant le nettoyage. Assurez-vous d'avoir assez de RAM disponible pour vider le SWAP.
 
-**Ressource :** Pour en savoir plus sur les pratiques de l'administrateur de l'instance :
+**Stratégie hybride :** Gardez les réglages de l'interface (Rétention du contenu) actifs avec des valeurs de sécurité (14 ou 30 jours) comme filet de sécurité.
 
 [https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
