@@ -2,81 +2,70 @@
 title: Maintenance et nettoyage de PeerTube sous Docker
 description: Comment libérer de l'espace disque sur votre instance PeerTube Docker : nettoyage des fichiers temporaires, des transcodages échoués et des caches.
 published: false
-date: 2025-12-26T16:55:44.444Z
+date: 2025-12-26T17:05:49.702Z
 tags: docker, lxc, proxmox, linux, maintenance, peertube
 editor: markdown
 dateCreated: 2025-12-26T16:55:44.444Z
 ---
 
-Bien que PeerTube gère une partie de sa rétention via l'interface d'administration, certaines opérations de maintenance manuelle sont nécessaires pour supprimer les fichiers "fantômes" (résidus de transcodage ou téléchargements interrompus) qui finissent par saturer l'espace disque de votre conteneur ou de votre LXC.
+Bien que PeerTube gère une partie de sa rétention via l'interface d'administration, certaines opérations manuelles sont nécessaires pour supprimer les résidus de transcodage ou les fichiers temporaires qui finissent par saturer l'espace disque.
 
 ---
 
-## 1. Identifier le nom de votre conteneur
+## 1. Identifier votre conteneur PeerTube
 
-Avant de lancer les commandes ou d'installer le script, vous devez connaître le nom exact de votre conteneur PeerTube. Dans ma configuration, il s'appelle `peertube`, mais selon votre installation, il peut s'appeler `peertube_peertube_1`.
+Dans la configuration Docker par défaut, PeerTube n'a pas de nom fixe. Il est nommé selon votre dossier (souvent `peertube-peertube-1`).
 
-Pour le vérifier, lancez :
+Pour connaître le nom exact sur votre système, lancez :
 
 ```bash
 docker ps --format "{{.Names}}" | grep peertube
 
 ```
 
+> [!IMPORTANT]
+> Dans la suite de ce guide et dans le script, j'utiliserai le nom **`peertube-peertube-1`**. Si vous avez personnalisé votre fichier `docker-compose.yml` avec un `container_name: peertube`, pensez à adapter le nom dans les commandes.
+
 ---
 
 ## 2. Les commandes de nettoyage manuel
 
-Si vous souhaitez effectuer un nettoyage ponctuel, voici les commandes à exécuter (en remplaçant `peertube` par le nom de votre conteneur si nécessaire) :
+Voici les commandes pour un nettoyage ponctuel. Elles s'exécutent via `docker exec`.
 
-| Type de nettoyage | Commande (via docker exec) |
+| Action | Commande |
 | --- | --- |
-| **Vidéos temporaires** | `docker exec -u peertube peertube npm run command -- clean-tmp-videos` |
-| **Miniatures (previews)** | `docker exec -u peertube peertube npm run command -- clean-previews` |
-| **Fichiers orphelins** | `docker exec -u peertube peertube npm run command -- check-storage --delete-unreferenced` |
+| **Vidéos temporaires** | `docker exec -u peertube peertube-peertube-1 npm run command -- clean-tmp-videos` |
+| **Miniatures (previews)** | `docker exec -u peertube peertube-peertube-1 npm run command -- clean-previews` |
+| **Fichiers orphelins** | `docker exec -u peertube peertube-peertube-1 npm run command -- check-storage --delete-unreferenced` |
 
 ---
 
-## 3. Ma méthode d'automatisation (pas à pas)
+## 3. Automatisation par script
 
-Pour garantir une instance toujours propre, j'utilise un script qui automatise ces purges et optimise la RAM du système.
+Pour ne plus y penser, nous allons créer un script qui nettoie les fichiers et libère la RAM du système.
 
-### Étape A : Créer le dossier pour vos scripts
-
-Sur un LXC où vous êtes root par défaut :
+### Étape A : Créer le fichier
 
 ```bash
 mkdir -p /root/scripts
-
-```
-
-### Étape B : Créer le fichier du script
-
-```bash
 nano /root/scripts/peertube-cleanup.sh
 
 ```
 
-### Étape C : Contenu du script (avec détection automatique)
+### Étape B : Contenu du script
 
-Ce script détecte tout seul le nom de votre conteneur et libère le cache RAM à la fin.
+Copiez ce code. **Note :** Si votre conteneur ne s'appelle pas `peertube-peertube-1`, modifiez la deuxième ligne.
 
 ```bash
 #!/bin/bash
 # Script de maintenance PeerTube pour Docker
 # Auteur : Amaury Libert (Blabla Linux)
 
-# Détection automatique du nom du conteneur PeerTube
-CONTAINER_NAME=$(docker ps --format "{{.Names}}" | grep -m 1 "peertube")
+CONTAINER_NAME="peertube-peertube-1"
 
-if [ -z "$CONTAINER_NAME" ]; then
-    echo "Erreur : Conteneur PeerTube introuvable."
-    exit 1
-fi
+echo "--- Début de la maintenance PeerTube : $(date) ---"
 
-echo "--- Début de la maintenance PeerTube ($CONTAINER_NAME) : $(date) ---"
-
-# 1. Nettoyage des vidéos temporaires (résidus de transcodages plantés)
+# 1. Nettoyage des vidéos temporaires (résidus de transcodages échoués)
 docker exec -u peertube $CONTAINER_NAME npm run command -- clean-tmp-videos
 
 # 2. Nettoyage des miniatures distantes (previews)
@@ -89,15 +78,11 @@ echo "--- Maintenance terminée : $(date) ---"
 
 ```
 
-### Étape D : Permissions et planification
+### Étape C : Planification
 
-```bash
-chmod 700 /root/scripts/peertube-cleanup.sh
-crontab -e
-
-```
-
-Ajoutez cette ligne pour une exécution le dimanche à 3h30 (pour ne pas interférer avec le nettoyage de Mastodon à 3h00) :
+1. Rendre le script exécutable : `chmod 700 /root/scripts/peertube-cleanup.sh`
+2. Ouvrir la crontab : `crontab -e`
+3. Ajouter la ligne suivante (exécution le dimanche à 3h30) :
 
 ```cron
 30 03 * * 0 /bin/bash /root/scripts/peertube-cleanup.sh >> /var/log/peertube-cleanup.log 2>&1
@@ -106,11 +91,9 @@ Ajoutez cette ligne pour une exécution le dimanche à 3h30 (pour ne pas interf�
 
 ---
 
-## 4. Recommandation : La redondance
+## 4. Conseils supplémentaires
 
-N'oubliez pas que PeerTube peut aussi remplir votre disque avec les vidéos des autres instances si la **Redondance** est activée. Pensez à limiter cet espace dans :
-**Administration** > **Configuration** > **VOD** > **Redondance**.
-
-Fixer une limite (ex: 50 Go ou 100 Go) permet d'éviter que votre LXC ne sature de manière imprévue.
+* **Stockage :** Si vous fédérez beaucoup d'instances, surveillez votre dossier `./docker-volume/data`.
+* **Redondance :** Pensez à limiter l'espace alloué aux vidéos des autres instances dans l'interface d'administration de PeerTube (Configuration > VOD > Redondance).
 
 [https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
