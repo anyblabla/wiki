@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de PeerTube sous Docker
 description: Comment libérer de l'espace disque sur votre instance PeerTube Docker : nettoyage des fichiers temporaires, des transcodages échoués et des caches.
 published: true
-date: 2025-12-28T18:32:15.100Z
+date: 2025-12-28T18:40:13.515Z
 tags: docker, lxc, proxmox, linux, maintenance, peertube
 editor: markdown
 dateCreated: 2025-12-26T16:55:44.444Z
@@ -101,5 +101,3 @@ echo "--- Maintenance terminée : $(date) ---"
 
 * **Stockage :** Si vous fédérez beaucoup d'instances, surveillez votre dossier `./docker-volume/data`.
 * **Redondance :** Pensez à limiter l'espace alloué aux vidéos des autres instances dans l'interface d'administration de PeerTube (Configuration > VOD > Redondance).
-
-[https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
