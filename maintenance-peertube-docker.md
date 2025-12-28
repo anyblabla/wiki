@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de PeerTube sous Docker
 description: Comment libérer de l'espace disque sur votre instance PeerTube Docker : nettoyage des fichiers temporaires, des transcodages échoués et des caches.
 published: true
-date: 2025-12-26T23:25:14.581Z
+date: 2025-12-28T18:32:15.100Z
 tags: docker, lxc, proxmox, linux, maintenance, peertube
 editor: markdown
 dateCreated: 2025-12-26T16:55:44.444Z
@@ -12,7 +12,7 @@ Bien que PeerTube gère une partie de sa rétention via l'interface d'administra
 
 > [!TIP]
 > **Pourquoi ce script ?**
-> PeerTube possède son propre système de rétention, mais il fournit également des outils de maintenance officiels (`npm run command`) pour les tâches lourdes ou spécifiques. Mon script ne remplace pas le code des développeurs : il automatise simplement le lancement de ces outils internes à des heures creuses. C'est un complément d'administration pour garder une machine propre et réactive sans intervention manuelle.
+> PeerTube possède son propre système de rétention, mais il fournit également des outils de maintenance officiels (accessibles via `npm run`) pour les tâches lourdes ou spécifiques. Mon script ne remplace pas le code des développeurs : il automatise simplement le lancement de ces outils internes à des heures creuses. C'est un complément d'administration pour garder une machine propre et réactive sans intervention manuelle.
 
 ---
 
@@ -33,13 +33,13 @@ docker ps --format "{{.Names}}" | grep peertube
 
 ## 2. Les commandes de nettoyage manuel
 
-Voici les commandes pour un nettoyage ponctuel. Elles s'exécutent via `docker exec`.
+Voici les commandes officielles pour un nettoyage ponctuel. Elles s'exécutent via `docker exec`.
 
-| Action | Commande |
+| Action | Commande officielle |
 | --- | --- |
-| **Vidéos temporaires** | `docker exec -u peertube peertube-peertube-1 npm run command -- clean-tmp-videos` |
-| **Miniatures (previews)** | `docker exec -u peertube peertube-peertube-1 npm run command -- clean-previews` |
-| **Fichiers orphelins** | `docker exec -u peertube peertube-peertube-1 npm run command -- check-storage --delete-unreferenced` |
+| **Prune (Fichiers orphelins)** | `docker exec -u peertube peertube-peertube-1 npm run prune-storage` |
+| **Nettoyage fichiers distants** | `docker exec -u peertube peertube-peertube-1 npm run house-keeping -- --delete-remote-files` |
+| **Régénérer les miniatures** | `docker exec -u peertube peertube-peertube-1 npm run regenerate-thumbnails` |
 
 ---
 
@@ -62,17 +62,20 @@ Copiez ce code. **Note :** Si votre conteneur ne s'appelle pas `peertube-peertub
 ```bash
 #!/bin/bash
 # Script de maintenance PeerTube pour Docker
+# S'aligne sur les outils officiels (Server Tools) de PeerTube >= 6.2
 # Auteur : Amaury Libert (Blabla Linux)
 
 CONTAINER_NAME="peertube-peertube-1"
 
 echo "--- Début de la maintenance PeerTube : $(date) ---"
 
-# 1. Nettoyage des vidéos temporaires (résidus de transcodages échoués)
-docker exec -u peertube $CONTAINER_NAME npm run command -- clean-tmp-videos
+# 1. Nettoyage du stockage (vidéos transcodées inutilisées ou fichiers orphelins)
+# Ref: https://docs.joinpeertube.org/maintain/tools#prune-filesystem-object-storage
+docker exec -u peertube $CONTAINER_NAME npm run prune-storage
 
-# 2. Nettoyage des miniatures distantes (previews)
-docker exec -u peertube $CONTAINER_NAME npm run command -- clean-previews
+# 2. Suppression des fichiers distants (vignettes, avatars d'autres instances)
+# Ref: https://docs.joinpeertube.org/maintain/tools#cleanup-remote-files
+docker exec -u peertube $CONTAINER_NAME npm run house-keeping -- --delete-remote-files
 
 # 3. Optimisation RAM : Libérer le cache système
 sync; echo 3 > /proc/sys/vm/drop_caches
