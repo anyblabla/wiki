@@ -2,7 +2,7 @@
 title: Maintenance PeerTube (installation classique)
 description: Maintenance de PeerTube en installation classique (bare-metal) : automatisation du nettoyage du stockage, des fichiers distants et optimisation RAM avec notifications Gotify.
 published: true
-date: 2025-12-28T20:54:50.932Z
+date: 2025-12-28T21:07:30.875Z
 tags: serveur, debian, script, gotify, administration système, maintenance, peertube, logiciel libre
 editor: markdown
 dateCreated: 2025-12-28T18:39:33.530Z
@@ -52,7 +52,7 @@ Ce script centralise les commandes de maintenance et peut vous informer via **Go
 #!/bin/bash
 # Script de maintenance PeerTube (installation classique)
 # S'aligne sur les outils officiels (Server tools) de PeerTube >= 6.2
-# Auteur : Amaury Libert (Blabla Linux)
+# Auteur : Amaury aka BlablaLinux
 
 # --- PARAMÈTRES DE GOTIFY (Optionnel) ---
 GOTIFY_URL=""
