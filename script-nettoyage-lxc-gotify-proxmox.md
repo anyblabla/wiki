@@ -2,8 +2,8 @@
 title: Script de nettoyage LXC Proxmox avec Gotify
 description: Automatisez le nettoyage de vos LXC (Debian/Ubuntu/Alpine) sur Proxmox. Ce script supprime caches, logs et paquets inutiles, puis envoie un rapport détaillé via Gotify.
 published: true
-date: 2025-11-22T21:55:39.053Z
-tags: lxc, proxmox, debian, ubuntu, script, bash, nettoyage, cleanup, gotigy, alpine
+date: 2025-12-28T21:10:13.668Z
+tags: lxc, proxmox, debian, ubuntu, script, bash, gotify, nettoyage, cleanup, alpine
 editor: markdown
 dateCreated: 2025-11-22T21:55:39.053Z
 ---
