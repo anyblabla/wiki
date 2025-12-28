@@ -1,9 +1,9 @@
 ---
 title: Maintenance PeerTube (installation classique)
-description: Apprenez à maintenir votre instance PeerTube en installation classique (bare-metal) : nettoyage automatique du stockage, des fichiers distants et optimisation système pour Debian et Ubuntu.
+description: Maintenance de PeerTube en installation classique (bare-metal) : automatisation du nettoyage du stockage, des fichiers distants et optimisation RAM avec notifications Gotify.
 published: true
-date: 2025-12-28T19:00:14.434Z
-tags: serveur, debian, script, administration système, maintenance, peertube, logiciel libre
+date: 2025-12-28T20:54:50.932Z
+tags: serveur, debian, script, gotify, administration système, maintenance, peertube, logiciel libre
 editor: markdown
 dateCreated: 2025-12-28T18:39:33.530Z
 ---
@@ -38,19 +38,15 @@ Ces commandes doivent être lancées depuis le dossier `peertube-latest` pour fo
 
 ---
 
-## 3. Automatisation par script
+## 3. Automatisation par script (avec Gotify optionnel)
 
-Nous allons créer un script qui centralise ces commandes de maintenance recommandées par les développeurs.
+Ce script centralise les commandes de maintenance et peut vous informer via **Gotify**.
 
-### Étape A : créer le fichier
+> [!IMPORTANT]
+> **Vous n'utilisez pas Gotify ?**
+> Laissez simplement les variables `GOTIFY_URL` et `GOTIFY_TOKEN` vides. Le script détectera l'absence de configuration et ignorera l'envoi des notifications sans générer d'erreur.
 
-```bash
-mkdir -p /root/scripts
-nano /root/scripts/peertube-cleanup-classic.sh
-
-```
-
-### Étape B : contenu du script
+### Contenu du script : `peertube-cleanup-classic.sh`
 
 ```bash
 #!/bin/bash
@@ -58,39 +54,67 @@ nano /root/scripts/peertube-cleanup-classic.sh
 # S'aligne sur les outils officiels (Server tools) de PeerTube >= 6.2
 # Auteur : Amaury Libert (Blabla Linux)
 
-# Configuration des chemins (à adapter selon votre installation)
+# --- PARAMÈTRES DE GOTIFY (Optionnel) ---
+GOTIFY_URL=""
+GOTIFY_TOKEN=""
+
+# --- PARAMÈTRES DE MAINTENANCE ---
 PT_DIR="/var/www/peertube/peertube-latest"
 export NODE_CONFIG_DIR="/var/www/peertube/config"
 export NODE_ENV="production"
+LOGFILE="/var/log/peertube-cleanup-classic.log"
+HOSTNAME=$(hostname)
 
-echo "--- Début de la maintenance PeerTube : $(date) ---"
+# Redirection de toute la sortie vers le fichier journal
+exec 1>>$LOGFILE 2>&1
+
+# --- FONCTION DE NOTIFICATION GOTIFY ---
+send_gotify_notification() {
+    if [ -n "$GOTIFY_URL" ] && [ -n "$GOTIFY_TOKEN" ]; then
+        local title="$1"
+        local message="$2"
+        local priority="$3"
+
+        curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
+            -F "title=$title" \
+            -F "message=$message" \
+            -F "priority=$priority" > /dev/null 2>&1
+    fi
+}
+
+echo "======================================================"
+echo "Début de la maintenance PeerTube sur $HOSTNAME : $(date)"
+echo "======================================================"
 
 # On se déplace dans le dossier de l'instance
-cd $PT_DIR || { echo "Erreur : dossier PeerTube introuvable"; exit 1; }
+cd $PT_DIR || { 
+    echo "Erreur : dossier PeerTube introuvable"; 
+    send_gotify_notification "❌ PeerTube Classic Cleanup ÉCHEC" "Dossier $PT_DIR introuvable sur $HOSTNAME." 8
+    exit 1; 
+}
 
 # 1. Nettoyage du stockage (vidéos transcodées inutilisées ou fichiers orphelins)
 # Ref: https://docs.joinpeertube.org/maintain/tools#prune-filesystem-object-storage
+echo "--- Étape 1 : Nettoyage du stockage (Prune) ---"
 sudo -u peertube NODE_CONFIG_DIR=$NODE_CONFIG_DIR NODE_ENV=$NODE_ENV npm run prune-storage
 
 # 2. Suppression des fichiers distants (vignettes, avatars d'autres instances)
 # Ref: https://docs.joinpeertube.org/maintain/tools#cleanup-remote-files
+echo "--- Étape 2 : Nettoyage des fichiers distants ---"
 sudo -u peertube NODE_CONFIG_DIR=$NODE_CONFIG_DIR NODE_ENV=$NODE_ENV npm run house-keeping -- --delete-remote-files
 
 # 3. Optimisation RAM : libérer le cache système
+echo "--- Étape 3 : Libération du cache RAM ---"
 sync; echo 3 > /proc/sys/vm/drop_caches
 
-echo "--- Maintenance terminée : $(date) ---"
+echo "======================================================"
+echo "Maintenance terminée avec succès : $(date)"
+echo "======================================================"
 
-```
+# Envoi de la notification de succès
+send_gotify_notification "✅ PeerTube Classic Cleanup SUCCÈS" "La maintenance hebdomadaire sur $HOSTNAME s'est terminée correctement." 4
 
-### Étape C : planification
-
-1. Rendre le script exécutable : `chmod 700 /root/scripts/peertube-cleanup-classic.sh`
-2. Ouvrir la crontab : `crontab -e`
-3. Ajouter l'exécution automatique (par exemple, le dimanche à 3h30) :
-
-```cron
-30 03 * * 0 /bin/bash /root/scripts/peertube-cleanup-classic.sh >> /var/log/peertube-cleanup.log 2>&1
+exit 0
 
 ```
 
