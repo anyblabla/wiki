@@ -2,7 +2,7 @@
 title: Maintenance Mastodon - Nettoyage et optimisation des caches avec tootctl
 description: Maintenance de Mastodon en installation classique (bare-metal) : automatisation du nettoyage du cache, des médias et des comptes inactifs avec notifications Gotify.
 published: true
-date: 2025-12-28T20:50:59.750Z
+date: 2025-12-28T21:09:03.279Z
 tags: mastodon, cache, delete, gotify
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
@@ -41,7 +41,7 @@ Ce script centralise les tâches de nettoyage pour votre installation bare-metal
 ```bash
 #!/bin/bash
 # Script de maintenance Mastodon (installation classique)
-# Auteur : Amaury Libert (Blabla Linux)
+# Auteur : Amaury aka BlablaLinux
 
 # --- PARAMÈTRES DE GOTIFY (Optionnel) ---
 GOTIFY_URL=""
