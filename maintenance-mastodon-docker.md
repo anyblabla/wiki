@@ -1,9 +1,9 @@
 ---
 title: Maintenance et nettoyage de Mastodon sous Docker
-description: Guide complet pour automatiser le nettoyage de Mastodon sous Docker. Tutoriel pas à pas : commandes tootctl, script de maintenance, cron et optimisation de la RAM.
+description: Maintenance de Mastodon sous Docker : nettoyage automatique du cache média, des comptes inactifs et des vieux messages avec notifications Gotify optionnelles.
 published: true
-date: 2025-12-28T20:48:00.014Z
-tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, maintenance, automatisation
+date: 2025-12-28T20:49:28.545Z
+tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, gotify, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
 ---
