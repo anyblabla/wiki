@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de PeerTube sous Docker
 description: Maintenance de PeerTube sous Docker : automatisation du nettoyage du stockage, des fichiers distants et optimisation RAM avec notifications Gotify optionnelles.
 published: true
-date: 2025-12-28T20:53:00.183Z
+date: 2025-12-28T21:07:59.700Z
 tags: docker, lxc, proxmox, gotify, linux, maintenance, peertube
 editor: markdown
 dateCreated: 2025-12-26T16:55:44.444Z
@@ -57,7 +57,7 @@ Ce script automatise les tâches de nettoyage recommandées et peut vous envoyer
 #!/bin/bash
 # Script de maintenance PeerTube pour Docker
 # S'aligne sur les outils officiels (Server tools) de PeerTube >= 6.2
-# Auteur : Amaury Libert (Blabla Linux)
+# Auteur : Amaury aka BlablaLinux
 
 # --- PARAMÈTRES DE GOTIFY (Optionnel) ---
 GOTIFY_URL=""
