@@ -1,9 +1,9 @@
 ---
 title: Maintenance et nettoyage de PeerTube sous Docker
-description: Comment libérer de l'espace disque sur votre instance PeerTube Docker : nettoyage des fichiers temporaires, des transcodages échoués et des caches.
+description: Maintenance de PeerTube sous Docker : automatisation du nettoyage du stockage, des fichiers distants et optimisation RAM avec notifications Gotify optionnelles.
 published: true
-date: 2025-12-28T18:50:04.777Z
-tags: docker, lxc, proxmox, linux, maintenance, peertube
+date: 2025-12-28T20:53:00.183Z
+tags: docker, lxc, proxmox, gotify, linux, maintenance, peertube
 editor: markdown
 dateCreated: 2025-12-26T16:55:44.444Z
 ---
@@ -43,21 +43,15 @@ Voici les commandes officielles pour un nettoyage ponctuel. Elles s'exécutent v
 
 ---
 
-## 3. Automatisation par script
+## 3. Automatisation par script (avec Gotify optionnel)
 
-Pour ne plus y penser, nous allons créer un script qui nettoie les fichiers et libère la RAM du système.
+Ce script automatise les tâches de nettoyage recommandées et peut vous envoyer une notification via **Gotify**.
 
-### Étape A : créer le fichier
+> [!IMPORTANT]
+> **Vous n'utilisez pas Gotify ?**
+> Laissez simplement les variables `GOTIFY_URL` et `GOTIFY_TOKEN` vides. Le script détectera l'absence de configuration et ignorera l'envoi des notifications sans générer d'erreur.
 
-```bash
-mkdir -p /root/scripts
-nano /root/scripts/peertube-cleanup.sh
-
-```
-
-### Étape B : contenu du script
-
-Copiez ce code. **Note :** si votre conteneur ne s'appelle pas `peertube-peertube-1`, modifiez la deuxième ligne.
+### Contenu du script : `peertube-cleanup.sh`
 
 ```bash
 #!/bin/bash
@@ -65,33 +59,65 @@ Copiez ce code. **Note :** si votre conteneur ne s'appelle pas `peertube-peertub
 # S'aligne sur les outils officiels (Server tools) de PeerTube >= 6.2
 # Auteur : Amaury Libert (Blabla Linux)
 
+# --- PARAMÈTRES DE GOTIFY (Optionnel) ---
+GOTIFY_URL=""
+GOTIFY_TOKEN=""
+
+# --- PARAMÈTRES DE MAINTENANCE ---
 CONTAINER_NAME="peertube-peertube-1"
+LOGFILE="/var/log/peertube-cleanup.log"
+HOSTNAME=$(hostname)
 
-echo "--- Début de la maintenance PeerTube : $(date) ---"
+# Redirection de toute la sortie vers le fichier journal
+exec 1>>$LOGFILE 2>&1
 
-# 1. Nettoyage du stockage (vidéos transcodées inutilisées ou fichiers orphelins)
+# --- FONCTION DE NOTIFICATION GOTIFY ---
+send_gotify_notification() {
+    if [ -n "$GOTIFY_URL" ] && [ -n "$GOTIFY_TOKEN" ]; then
+        local title="$1"
+        local message="$2"
+        local priority="$3"
+
+        curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
+            -F "title=$title" \
+            -F "message=$message" \
+            -F "priority=$priority" > /dev/null 2>&1
+    fi
+}
+
+echo "======================================================"
+echo "Début de la maintenance PeerTube sur $HOSTNAME : $(date)"
+echo "======================================================"
+
+# 1. Vérification de la présence du conteneur
+if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+    echo "Erreur : Le conteneur $CONTAINER_NAME est introuvable."
+    send_gotify_notification "❌ PeerTube Cleanup ÉCHEC" "Le conteneur $CONTAINER_NAME est introuvable sur $HOSTNAME." 8
+    exit 1
+fi
+
+# 2. Nettoyage du stockage (vidéos transcodées inutilisées ou fichiers orphelins)
 # Ref: https://docs.joinpeertube.org/maintain/tools#prune-filesystem-object-storage
+echo "--- Étape 1 : Nettoyage du stockage (Prune) ---"
 docker exec -u peertube $CONTAINER_NAME npm run prune-storage
 
-# 2. Suppression des fichiers distants (vignettes, avatars d'autres instances)
+# 3. Suppression des fichiers distants (vignettes, avatars d'autres instances)
 # Ref: https://docs.joinpeertube.org/maintain/tools#cleanup-remote-files
+echo "--- Étape 2 : Nettoyage des fichiers distants ---"
 docker exec -u peertube $CONTAINER_NAME npm run house-keeping -- --delete-remote-files
 
-# 3. Optimisation RAM : libérer le cache système
+# 4. Optimisation RAM : libérer le cache système
+echo "--- Étape 3 : Libération du cache RAM ---"
 sync; echo 3 > /proc/sys/vm/drop_caches
 
-echo "--- Maintenance terminée : $(date) ---"
+echo "======================================================"
+echo "Maintenance terminée avec succès : $(date)"
+echo "======================================================"
 
-```
+# Envoi de la notification de succès
+send_gotify_notification "✅ PeerTube Cleanup SUCCÈS" "La maintenance hebdomadaire sur $HOSTNAME s'est terminée correctement." 4
 
-### Étape C : planification
-
-1. Rendre le script exécutable : `chmod 700 /root/scripts/peertube-cleanup.sh`
-2. Ouvrir la crontab : `crontab -e`
-3. Ajouter la ligne suivante (exécution le dimanche à 3h30) :
-
-```cron
-30 03 * * 0 /bin/bash /root/scripts/peertube-cleanup.sh >> /var/log/peertube-cleanup.log 2>&1
+exit 0
 
 ```
 
