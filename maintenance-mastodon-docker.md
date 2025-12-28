@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de Mastodon sous Docker
 description: Maintenance de Mastodon sous Docker : nettoyage automatique du cache média, des comptes inactifs et des vieux messages avec notifications Gotify optionnelles.
 published: true
-date: 2025-12-28T20:49:28.545Z
+date: 2025-12-28T21:08:33.766Z
 tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, gotify, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
@@ -34,7 +34,7 @@ Ce script automatise le nettoyage et peut vous informer via **Gotify**.
 ```bash
 #!/bin/bash
 # Script de maintenance Mastodon pour Docker
-# Auteur : Amaury Libert (Blabla Linux)
+# Auteur : Amaury aka BlablaLinux
 
 # --- PARAMÈTRES DE GOTIFY (Optionnel) ---
 # Laissez vide si vous n'utilisez pas Gotify
