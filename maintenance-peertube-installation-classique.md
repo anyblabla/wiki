@@ -2,7 +2,7 @@
 title: Maintenance PeerTube (installation classique)
 description: Apprenez à maintenir votre instance PeerTube en installation classique (bare-metal) : nettoyage automatique du stockage, des fichiers distants et optimisation système pour Debian et Ubuntu.
 published: true
-date: 2025-12-28T18:46:07.345Z
+date: 2025-12-28T19:00:14.434Z
 tags: serveur, debian, script, administration système, maintenance, peertube, logiciel libre
 editor: markdown
 dateCreated: 2025-12-28T18:39:33.530Z
@@ -63,7 +63,7 @@ PT_DIR="/var/www/peertube/peertube-latest"
 export NODE_CONFIG_DIR="/var/www/peertube/config"
 export NODE_ENV="production"
 
-echo "--- Déun de la maintenance PeerTube : $(date) ---"
+echo "--- Début de la maintenance PeerTube : $(date) ---"
 
 # On se déplace dans le dossier de l'instance
 cd $PT_DIR || { echo "Erreur : dossier PeerTube introuvable"; exit 1; }
