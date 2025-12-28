@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de PeerTube sous Docker
 description: Comment libérer de l'espace disque sur votre instance PeerTube Docker : nettoyage des fichiers temporaires, des transcodages échoués et des caches.
 published: true
-date: 2025-12-28T18:40:13.515Z
+date: 2025-12-28T18:50:04.777Z
 tags: docker, lxc, proxmox, linux, maintenance, peertube
 editor: markdown
 dateCreated: 2025-12-26T16:55:44.444Z
@@ -31,13 +31,13 @@ docker ps --format "{{.Names}}" | grep peertube
 
 ---
 
-## 2. Les commandes de nettoyage manuel
+## 2. Commandes de nettoyage manuel
 
 Voici les commandes officielles pour un nettoyage ponctuel. Elles s'exécutent via `docker exec`.
 
 | Action | Commande officielle |
 | --- | --- |
-| **Prune (Fichiers orphelins)** | `docker exec -u peertube peertube-peertube-1 npm run prune-storage` |
+| **Prune (fichiers orphelins)** | `docker exec -u peertube peertube-peertube-1 npm run prune-storage` |
 | **Nettoyage fichiers distants** | `docker exec -u peertube peertube-peertube-1 npm run house-keeping -- --delete-remote-files` |
 | **Régénérer les miniatures** | `docker exec -u peertube peertube-peertube-1 npm run regenerate-thumbnails` |
 
@@ -47,7 +47,7 @@ Voici les commandes officielles pour un nettoyage ponctuel. Elles s'exécutent v
 
 Pour ne plus y penser, nous allons créer un script qui nettoie les fichiers et libère la RAM du système.
 
-### Étape A : Créer le fichier
+### Étape A : créer le fichier
 
 ```bash
 mkdir -p /root/scripts
@@ -55,14 +55,14 @@ nano /root/scripts/peertube-cleanup.sh
 
 ```
 
-### Étape B : Contenu du script
+### Étape B : contenu du script
 
-Copiez ce code. **Note :** Si votre conteneur ne s'appelle pas `peertube-peertube-1`, modifiez la deuxième ligne.
+Copiez ce code. **Note :** si votre conteneur ne s'appelle pas `peertube-peertube-1`, modifiez la deuxième ligne.
 
 ```bash
 #!/bin/bash
 # Script de maintenance PeerTube pour Docker
-# S'aligne sur les outils officiels (Server Tools) de PeerTube >= 6.2
+# S'aligne sur les outils officiels (Server tools) de PeerTube >= 6.2
 # Auteur : Amaury Libert (Blabla Linux)
 
 CONTAINER_NAME="peertube-peertube-1"
@@ -77,14 +77,14 @@ docker exec -u peertube $CONTAINER_NAME npm run prune-storage
 # Ref: https://docs.joinpeertube.org/maintain/tools#cleanup-remote-files
 docker exec -u peertube $CONTAINER_NAME npm run house-keeping -- --delete-remote-files
 
-# 3. Optimisation RAM : Libérer le cache système
+# 3. Optimisation RAM : libérer le cache système
 sync; echo 3 > /proc/sys/vm/drop_caches
 
 echo "--- Maintenance terminée : $(date) ---"
 
 ```
 
-### Étape C : Planification
+### Étape C : planification
 
 1. Rendre le script exécutable : `chmod 700 /root/scripts/peertube-cleanup.sh`
 2. Ouvrir la crontab : `crontab -e`
@@ -99,5 +99,8 @@ echo "--- Maintenance terminée : $(date) ---"
 
 ## 4. Conseils supplémentaires
 
-* **Stockage :** Si vous fédérez beaucoup d'instances, surveillez votre dossier `./docker-volume/data`.
-* **Redondance :** Pensez à limiter l'espace alloué aux vidéos des autres instances dans l'interface d'administration de PeerTube (Configuration > VOD > Redondance).
+* **Stockage :** si vous fédérez beaucoup d'instances, surveillez votre dossier `./docker-volume/data`.
+* **Redondance :** pensez à limiter l'espace alloué aux vidéos des autres instances dans l'interface d'administration de PeerTube (Configuration > VOD > Redondance).
+* **Installation classique :** pour ceux qui n'utilisent pas Docker, consultez la page dédiée : [Maintenance PeerTube (installation classique)](https://wiki.blablalinux.be/fr/maintenance-peertube-installation-classique).
+
+[https://peertube.blablalinux.be/a/blablalinux/video-channels](https://peertube.blablalinux.be/a/blablalinux/video-channels)
