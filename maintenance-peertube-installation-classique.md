@@ -1,8 +1,8 @@
 ---
 title: Maintenance PeerTube (installation classique)
 description: Apprenez à maintenir votre instance PeerTube en installation classique (bare-metal) : nettoyage automatique du stockage, des fichiers distants et optimisation système pour Debian et Ubuntu.
-published: false
-date: 2025-12-28T18:39:33.530Z
+published: true
+date: 2025-12-28T18:46:07.345Z
 tags: serveur, debian, script, administration système, maintenance, peertube, logiciel libre
 editor: markdown
 dateCreated: 2025-12-28T18:39:33.530Z
@@ -63,7 +63,7 @@ PT_DIR="/var/www/peertube/peertube-latest"
 export NODE_CONFIG_DIR="/var/www/peertube/config"
 export NODE_ENV="production"
 
-echo "--- Début de la maintenance PeerTube : $(date) ---"
+echo "--- Déun de la maintenance PeerTube : $(date) ---"
 
 # On se déplace dans le dossier de l'instance
 cd $PT_DIR || { echo "Erreur : dossier PeerTube introuvable"; exit 1; }
@@ -99,4 +99,7 @@ echo "--- Maintenance terminée : $(date) ---"
 ## 4. Conseils supplémentaires
 
 * **Permissions :** ne lancez jamais ces commandes directement en tant qu'utilisateur `root` sans spécifier `sudo -u peertube`. Cela pourrait corrompre les permissions de vos fichiers de données.
+* **Version Docker :** pour ceux qui utilisent PeerTube via Docker, consultez la page dédiée : [Maintenance et nettoyage de PeerTube sous Docker](https://wiki.blablalinux.be/fr/maintenance-peertube-docker).
 * **Mises à jour :** pensez à vérifier régulièrement la documentation officielle si vous effectuez des montées de version majeures de PeerTube.
+
+[https://peertube.blablalinux.be/a/blablalinux/video-channels](https://peertube.blablalinux.be/a/blablalinux/video-channels)
