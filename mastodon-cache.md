@@ -1,9 +1,9 @@
 ---
 title: Maintenance Mastodon - Nettoyage et optimisation des caches avec tootctl
-description: Mastodon accumule divers types de données et de caches au fil du temps (images, médias, comptes distants, etc.). L'utilisation régulière des commandes tootctl est essentielle pour libérer de l'espace disque et maintenir la performance de votre instance.
+description: Maintenance de Mastodon en installation classique (bare-metal) : automatisation du nettoyage du cache, des médias et des comptes inactifs avec notifications Gotify.
 published: true
-date: 2025-12-26T17:22:47.673Z
-tags: mastodon, cache, delete
+date: 2025-12-28T20:50:59.750Z
+tags: mastodon, cache, delete, gotify
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
 ---
@@ -14,113 +14,105 @@ Mastodon accumule divers types de données et de caches au fil du temps (images,
 
 ---
 
-## I. Les principaux niveaux de nettoyage
+## 1. Niveaux de nettoyage principaux
 
 Voici les commandes de base pour vider les différents niveaux de cache et supprimer les données obsolètes :
 
-| Nettoyage | Commande `tootctl` | Description | Poids / Impact |
-| --- | --- | --- | --- |
-| **Vignettes en cache** | `tootctl cache clear` | Supprime les petites vignettes mises en cache (provenant d'autres serveurs). | Léger |
-| **Vieux médias** | `tootctl media remove` | Supprime les médias (images, vidéos) plus anciens que la période de rétention. | Lourd |
-| **Médias non référencés** | `tootctl media remove-orphans` | Supprime les fichiers médias qui ne sont plus liés à aucun statut ou profil. | Variable |
-| **Comptes distants obsolètes** | `tootctl accounts prune` | Supprime les profils distants inactifs qui n'ont plus d'utilité locale. | Lourd |
-| **Statuts obsolètes** | `tootctl statuses remove` | Supprime les statuts (toots) qui ont expiré ou qui n'existent plus sur la fédération. | Très lourd |
-
-* Les principaux niveaux de nettoyage :
-
-1. Vignettes en cache : **tootctl cache clear**
-2. Vieux média : **tootctl media remove**
-3. Médias non référencés : **tootctl media remove-orphans**
-4. Comptes distants inactifs (lourd) : **tootctl accounts prune**
-5. Statuts qui n’existent plus (très lourd) : **tootctl statuses remove**
+| Nettoyage | Commande `tootctl` | Description |
+| --- | --- | --- |
+| **Vignettes en cache** | `tootctl cache clear` | Supprime les petites vignettes provenant d'autres serveurs. |
+| **Vieux médias** | `tootctl media remove` | Supprime les images/vidéos plus anciennes que la période de rétention. |
+| **Médias orphelins** | `tootctl media remove-orphans` | Supprime les fichiers médias qui ne sont plus liés à rien. |
+| **Comptes obsolètes** | `tootctl accounts prune` | Supprime les profils distants inactifs (lourd). |
+| **Statuts obsolètes** | `tootctl statuses remove` | Supprime les toots qui n'existent plus sur la fédération (très lourd). |
 
 ---
 
-## II. Exécution des commandes de nettoyage
+## 2. Automatisation par script (avec Gotify optionnel)
 
-Toutes les commandes de nettoyage `tootctl` doivent être exécutées en tant qu'utilisateur `mastodon` depuis le répertoire `live` de votre instance.
+Ce script centralise les tâches de nettoyage pour votre installation bare-metal. Il peut vous envoyer une notification via **Gotify** s'il est configuré.
 
-1. **Passer en mode super-utilisateur (root) :**
+> [!IMPORTANT]
+> **Vous n'utilisez pas Gotify ?**
+> Laissez simplement les variables `GOTIFY_URL` et `GOTIFY_TOKEN` vides. Le script détectera l'absence de configuration et ignorera l'envoi des messages sans faire d'erreur.
 
-```bash
-su -
-
-```
-
-2. **Se déplacer dans le répertoire de l'instance Mastodon :**
-
-```bash
-cd /var/www/mastodon/live
-
-```
-
-3. **Exécuter chaque commande de nettoyage :**
-On utilise `sudo -u mastodon` avec les variables d'environnement nécessaires.
-
-```bash
-sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl cache clear
-sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl media remove --days 7 --concurrency 4
-sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl media remove-orphans
-sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl accounts prune
-sudo -u mastodon RAILS_ENV=production PATH=/opt/rbenv/versions/mastodon/bin bin/tootctl statuses remove
-
-```
-
----
-
-## III. Ma méthode d'automatisation (pas à pas)
-
-### Étape A : Créer le dossier et le script
-
-```bash
-mkdir -p /root/scripts
-nano /root/scripts/mastodon-cleanup.sh
-
-```
-
-### Étape B : Contenu du script (avec optimisation RAM)
-
-Ce script inclut désormais la libération du cache RAM pour garantir que le système retrouve toute sa réactivité après le nettoyage intensif de la base de données.
+### Contenu du script : `mastodon-cleanup.sh`
 
 ```bash
 #!/bin/bash
-# Script de maintenance Mastodon (Installation Classique)
+# Script de maintenance Mastodon (installation classique)
 # Auteur : Amaury Libert (Blabla Linux)
 
+# --- PARAMÈTRES DE GOTIFY (Optionnel) ---
+GOTIFY_URL=""
+GOTIFY_TOKEN=""
+
+# --- PARAMÈTRES DE MAINTENANCE ---
 MASTODON_DIR="/var/www/mastodon/live"
 RBENV_PATH="/opt/rbenv/versions/mastodon/bin"
+LOGFILE="/var/log/mastodon-cleanup.log"
+HOSTNAME=$(hostname)
 DAYS_MEDIA=7
 THREADS=4
 
-echo "--- Début de la maintenance : $(date) ---"
+# Redirection de toute la sortie vers le fichier journal
+exec 1>>$LOGFILE 2>&1
 
-cd $MASTODON_DIR
+# --- FONCTION DE NOTIFICATION GOTIFY ---
+send_gotify_notification() {
+    if [ -n "$GOTIFY_URL" ] && [ -n "$GOTIFY_TOKEN" ]; then
+        local title="$1"
+        local message="$2"
+        local priority="$3"
 
-# Nettoyage des médias et vignettes
+        curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
+            -F "title=$title" \
+            -F "message=$message" \
+            -F "priority=$priority" > /dev/null 2>&1
+    fi
+}
+
+echo "======================================================"
+echo "Début de la maintenance Mastodon sur $HOSTNAME : $(date)"
+echo "======================================================"
+
+cd $MASTODON_DIR || {
+    echo "Erreur : dossier Mastodon introuvable."
+    send_gotify_notification "❌ Mastodon Cleanup ÉCHEC" "Dossier $MASTODON_DIR introuvable sur $HOSTNAME." 8
+    exit 1
+}
+
+# 1. Nettoyage des médias et vignettes
+echo "--- Étape 1 : Nettoyage des médias et vignettes ---"
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl media remove --days=$DAYS_MEDIA --concurrency=$THREADS
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl cache clear
 
-# Nettoyage des comptes et statuts
+# 2. Nettoyage des comptes et statuts
+echo "--- Étape 2 : Nettoyage des comptes et statuts ---"
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl accounts prune
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl statuses remove
 
-# Optimisation avancée de la mémoire
-echo "Optimisation de la RAM..."
+# 3. Optimisation de la mémoire RAM
+echo "--- Étape 3 : Libération du cache RAM ---"
 sync; echo 3 > /proc/sys/vm/drop_caches
 
-echo "--- Maintenance terminée : $(date) ---"
+echo "======================================================"
+echo "Maintenance terminée avec succès : $(date)"
+echo "======================================================"
+
+# Envoi de la notification de succès
+send_gotify_notification "✅ Mastodon Cleanup SUCCÈS" "La maintenance hebdomadaire sur $HOSTNAME s'est terminée correctement." 4
+
+exit 0
 
 ```
 
-### Étape C : Permissions et planification
+---
 
-```bash
-chmod 700 /root/scripts/mastodon-cleanup.sh
-crontab -e
+## 3. Planification avec Crontab
 
-```
-
-Ajoutez cette ligne (dimanche à 3h00) :
+1. Rendre le script exécutable : `chmod 700 /root/scripts/mastodon-cleanup.sh`
+2. Ajouter à la crontab (`crontab -e`) pour une exécution le dimanche à 3h00 :
 
 ```cron
 00 03 * * 0 /bin/bash /root/scripts/mastodon-cleanup.sh >> /var/log/mastodon-cleanup.log 2>&1
@@ -129,12 +121,10 @@ Ajoutez cette ligne (dimanche à 3h00) :
 
 ---
 
-## IV. Notes importantes
+## 4. Notes importantes
 
-**Calendrier de maintenance :** Les commandes `media remove` et `accounts prune` sont recommandées pour une exécution régulière. La commande `statuses remove` peut prendre beaucoup de temps.
+**Optimisation de la mémoire :** la commande `drop_caches` permet de libérer les ressources mobilisées par PostgreSQL et Ruby pendant le nettoyage. Laissez le noyau Linux gérer le SWAP naturellement après cette opération.
 
-**Optimisation de la mémoire :** La commande `drop_caches` ajoutée au script permet de libérer les ressources (PageCache) mobilisées par PostgreSQL et Ruby pendant le nettoyage. Concernant le SWAP, il est préférable de ne pas forcer son vidage par script (swapoff) pour éviter tout risque de plantage système si la RAM est saturée. Laissez le noyau Linux gérer le SWAP naturellement après le `drop_caches`.
+**Stratégie hybride :** gardez les réglages de l'interface (Rétention du contenu) actifs avec des valeurs de sécurité (14 ou 30 jours) comme filet de sécurité si le script ne s'exécute pas.
 
-**Stratégie hybride :** Gardez les réglages de l'interface (Rétention du contenu) actifs avec des valeurs de sécurité (14 ou 30 jours) comme filet de sécurité.
-
-[https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
+[https://peertube.blablalinux.be/a/blablalinux/video-channels](https://peertube.blablalinux.be/a/blablalinux/video-channels)
