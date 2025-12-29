@@ -2,7 +2,7 @@
 title: Maintenance et nettoyage de Mastodon sous Docker
 description: Maintenance de Mastodon sous Docker : nettoyage automatique du cache média, des comptes inactifs et des vieux messages avec notifications Gotify optionnelles.
 published: true
-date: 2025-12-29T13:04:44.001Z
+date: 2025-12-29T21:46:28.301Z
 tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, gotify, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
@@ -128,5 +128,11 @@ exit 0
 ## 4. Conseils supplémentaires
 
 **Libération de la RAM :** La commande `drop_caches` est incluse dans un test de permission. Si votre Mastodon tourne dans un conteneur LXC non privilégié sur Proxmox, le script ignorera simplement cette étape sans planter, ce qui permet de garantir l'envoi de la notification Gotify finale.
+
+## 5. Captures
+
+![maintenance-mastodon-docker.jpg](/maintenance-mastodon-docker/maintenance-mastodon-docker.jpg)
+
+![maintenance-mastodon-docker-02.jpg](/maintenance-mastodon-docker/maintenance-mastodon-docker-02.jpg)
 
 [https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
