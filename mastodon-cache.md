@@ -2,7 +2,7 @@
 title: Maintenance Mastodon - Nettoyage et optimisation des caches avec tootctl
 description: Maintenance de Mastodon en installation classique (bare-metal) : automatisation du nettoyage du cache, des médias et des comptes inactifs avec notifications Gotify.
 published: true
-date: 2025-12-29T12:20:04.273Z
+date: 2025-12-29T12:25:20.332Z
 tags: mastodon, cache, delete, gotify
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
@@ -32,8 +32,7 @@ Voici les commandes de base pour vider les différents niveaux de cache et suppr
 
 Ce script centralise les tâches de nettoyage pour votre installation bare-metal. Il peut vous envoyer une notification via **Gotify** s'il est configuré.
 
-> 🔴
-> **Vous n'utilisez pas Gotify ?**
+> 🔴 **Vous n'utilisez pas Gotify ?**
 > Laissez simplement les variables `GOTIFY_URL` et `GOTIFY_TOKEN` vides. Le script détectera l'absence de configuration et ignorera l'envoi des messages sans faire d'erreur.
 
 ### Contenu du script : `mastodon-cleanup.sh`
