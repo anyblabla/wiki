@@ -2,7 +2,7 @@
 title: Maintenance PeerTube (installation classique)
 description: Maintenance de PeerTube en installation classique (bare-metal) : automatisation du nettoyage du stockage, des fichiers distants et optimisation RAM avec notifications Gotify.
 published: true
-date: 2025-12-29T12:21:12.595Z
+date: 2025-12-29T12:24:30.442Z
 tags: serveur, debian, script, gotify, administration système, maintenance, peertube, logiciel libre
 editor: markdown
 dateCreated: 2025-12-28T18:39:33.530Z
@@ -10,8 +10,7 @@ dateCreated: 2025-12-28T18:39:33.530Z
 
 Bien que PeerTube gère une partie de sa rétention via l'interface d'administration, certaines opérations manuelles sont nécessaires pour supprimer les résidus de transcodage ou les fichiers temporaires qui finissent par saturer l'espace disque.
 
-> 💡
-> **Pourquoi ce script ?**
+> 💡 **Pourquoi ce script ?**
 > Sur une installation classique, il est crucial de lancer les commandes avec l'utilisateur `peertube` et de charger les bonnes variables d'environnement. Ce script automatise ces tâches répétitives pour maintenir votre instance propre sans risque d'erreur de permissions ou d'oubli de paramètres.
 
 ---
@@ -42,8 +41,7 @@ Ces commandes doivent être lancées depuis le dossier `peertube-latest` pour fo
 
 Ce script centralise les commandes de maintenance et peut vous informer via **Gotify**.
 
-> 🔴
-> **Vous n'utilisez pas Gotify ?**
+> 🔴 **Vous n'utilisez pas Gotify ?**
 > Laissez simplement les variables `GOTIFY_URL` et `GOTIFY_TOKEN` vides. Le script détectera l'absence de configuration et ignorera l'envoi des notifications sans générer d'erreur.
 
 ### Contenu du script : `peertube-cleanup-classic.sh`
