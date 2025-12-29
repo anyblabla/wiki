@@ -2,7 +2,7 @@
 title: Maintenance PeerTube (installation classique)
 description: Maintenance de PeerTube en installation classique (bare-metal) : automatisation du nettoyage du stockage, des fichiers distants et optimisation RAM avec notifications Gotify.
 published: true
-date: 2025-12-29T12:24:30.442Z
+date: 2025-12-29T13:23:22.430Z
 tags: serveur, debian, script, gotify, administration système, maintenance, peertube, logiciel libre
 editor: markdown
 dateCreated: 2025-12-28T18:39:33.530Z
@@ -17,7 +17,7 @@ Bien que PeerTube gère une partie de sa rétention via l'interface d'administra
 
 ## 1. Prérequis : chemins par défaut
 
-Ce guide considère que votre installation suit la structure standard de la documentation :
+Ce guide considère que votre installation suit la structure standard de la documentation officielle :
 
 * **Dossier de l'instance :** `/var/www/peertube/peertube-latest`
 * **Dossier de configuration :** `/var/www/peertube/config`
@@ -73,10 +73,10 @@ send_gotify_notification() {
         local message="$2"
         local priority="$3"
 
-        curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
-            -F "title=$title" \
-            -F "message=$message" \
-            -F "priority=$priority" > /dev/null 2>&1
+        curl -k -s -X POST "${GOTIFY_URL}/message?token=${GOTIFY_TOKEN}" \
+            -F "title=${title}" \
+            -F "message=${message}" \
+            -F "priority=${priority}" > /dev/null 2>&1
     fi
 }
 
@@ -86,31 +86,42 @@ echo "======================================================"
 
 # On se déplace dans le dossier de l'instance
 cd $PT_DIR || { 
-    echo "Erreur : dossier PeerTube introuvable"; 
-    send_gotify_notification "❌ PeerTube Classic Cleanup ÉCHEC" "Dossier $PT_DIR introuvable sur $HOSTNAME." 8
-    exit 1; 
+    MSG="Erreur : dossier PeerTube introuvable."
+    echo "$MSG"
+    send_gotify_notification "❌ PeerTube Classic Cleanup ÉCHEC" "$MSG sur $HOSTNAME." 8
+    exit 1
 }
 
 # 1. Nettoyage du stockage (vidéos transcodées inutilisées ou fichiers orphelins)
-# Ref: https://docs.joinpeertube.org/maintain/tools#prune-filesystem-object-storage
 echo "--- Étape 1 : Nettoyage du stockage (Prune) ---"
 sudo -u peertube NODE_CONFIG_DIR=$NODE_CONFIG_DIR NODE_ENV=$NODE_ENV npm run prune-storage
+if [ $? -ne 0 ]; then
+    send_gotify_notification "⚠️ PeerTube Classic ALERTE" "Échec partiel du nettoyage Prune sur $HOSTNAME." 5
+fi
 
-# 2. Suppression des fichiers distants (vignettes, avatars d'autres instances)
-# Ref: https://docs.joinpeertube.org/maintain/tools#cleanup-remote-files
+# 2. Suppression des fichiers distants (vignettes, avatars d'instances distantes)
 echo "--- Étape 2 : Nettoyage des fichiers distants ---"
 sudo -u peertube NODE_CONFIG_DIR=$NODE_CONFIG_DIR NODE_ENV=$NODE_ENV npm run house-keeping -- --delete-remote-files
+if [ $? -ne 0 ]; then
+    send_gotify_notification "⚠️ PeerTube Classic ALERTE" "Échec du nettoyage des fichiers distants sur $HOSTNAME." 5
+fi
 
-# 3. Optimisation RAM : libérer le cache système
+# 3. Optimisation RAM (Protection LXC)
 echo "--- Étape 3 : Libération du cache RAM ---"
-sync; echo 3 > /proc/sys/vm/drop_caches
+sync
+if [ -w /proc/sys/vm/drop_caches ]; then
+    echo 3 > /proc/sys/vm/drop_caches
+    echo "Cache RAM libéré avec succès."
+else
+    echo "Note : Droits insuffisants pour drop_caches (LXC), ignoré."
+fi
 
 echo "======================================================"
-echo "Maintenance terminée avec succès : $(date)"
+echo "Maintenance terminée : $(date)"
 echo "======================================================"
 
-# Envoi de la notification de succès
-send_gotify_notification "✅ PeerTube Classic Cleanup SUCCÈS" "La maintenance hebdomadaire sur $HOSTNAME s'est terminée correctement." 4
+# 4. Envoi de la notification de succès final
+send_gotify_notification "✅ PeerTube Classic Cleanup TERMINÉ" "La maintenance PeerTube sur $HOSTNAME est terminée avec succès." 4
 
 exit 0
 
@@ -120,8 +131,9 @@ exit 0
 
 ## 4. Conseils supplémentaires
 
-* **Permissions :** ne lancez jamais ces commandes directement en tant qu'utilisateur `root` sans spécifier `sudo -u peertube`. Cela pourrait corrompre les permissions de vos fichiers de données.
-* **Version Docker :** pour ceux qui utilisent PeerTube via Docker, consultez la page dédiée : [Maintenance et nettoyage de PeerTube sous Docker](https://wiki.blablalinux.be/fr/maintenance-peertube-docker).
-* **Mises à jour :** pensez à vérifier régulièrement la documentation officielle si vous effectuez des montées de version majeures de PeerTube.
+1. **Permissions :** Ne lancez jamais ces commandes directement en tant qu'utilisateur `root` sans spécifier `sudo -u peertube`. Cela pourrait corrompre les permissions de vos fichiers de données.
+2. **Sécurité du script :** Appliquez des permissions restrictives pour protéger vos tokens Gotify :
+`chmod 700 /root/scripts/peertube-cleanup-classic.sh`
+3. **Planification (Crontab) :** `00 04 * * 0 /bin/bash /root/scripts/peertube-cleanup-classic.sh >> /var/log/peertube-cleanup-classic.log 2>&1`
 
 [https://peertube.blablalinux.be/a/blablalinux/video-channels](https://peertube.blablalinux.be/a/blablalinux/video-channels)
