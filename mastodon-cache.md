@@ -2,7 +2,7 @@
 title: Maintenance Mastodon - Nettoyage et optimisation des caches avec tootctl
 description: Maintenance de Mastodon en installation classique (bare-metal) : automatisation du nettoyage du cache, des médias et des comptes inactifs avec notifications Gotify.
 published: true
-date: 2025-12-29T12:25:20.332Z
+date: 2025-12-29T13:08:51.196Z
 tags: mastodon, cache, delete, gotify
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
@@ -64,10 +64,10 @@ send_gotify_notification() {
         local message="$2"
         local priority="$3"
 
-        curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
-            -F "title=$title" \
-            -F "message=$message" \
-            -F "priority=$priority" > /dev/null 2>&1
+        curl -k -s -X POST "${GOTIFY_URL}/message?token=${GOTIFY_TOKEN}" \
+            -F "title=${title}" \
+            -F "message=${message}" \
+            -F "priority=${priority}" > /dev/null 2>&1
     fi
 }
 
@@ -76,8 +76,9 @@ echo "Début de la maintenance Mastodon sur $HOSTNAME : $(date)"
 echo "======================================================"
 
 cd $MASTODON_DIR || {
-    echo "Erreur : dossier Mastodon introuvable."
-    send_gotify_notification "❌ Mastodon Cleanup ÉCHEC" "Dossier $MASTODON_DIR introuvable sur $HOSTNAME." 8
+    MSG="Erreur : dossier Mastodon introuvable."
+    echo "$MSG"
+    send_gotify_notification "❌ Mastodon Cleanup ÉCHEC" "$MSG sur $HOSTNAME." 8
     exit 1
 }
 
@@ -90,17 +91,26 @@ sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl cache clear
 echo "--- Étape 2 : Nettoyage des comptes et statuts ---"
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl accounts prune
 sudo -u mastodon RAILS_ENV=production PATH=$RBENV_PATH bin/tootctl statuses remove
+if [ $? -ne 0 ]; then
+    send_gotify_notification "⚠️ Mastodon Cleanup ALERTE" "Le nettoyage des statuts a rencontré une erreur sur $HOSTNAME." 5
+fi
 
-# 3. Optimisation de la mémoire RAM
+# 3. Optimisation de la mémoire RAM (Protection LXC)
 echo "--- Étape 3 : Libération du cache RAM ---"
-sync; echo 3 > /proc/sys/vm/drop_caches
+sync
+if [ -w /proc/sys/vm/drop_caches ]; then
+    echo 3 > /proc/sys/vm/drop_caches
+    echo "Cache RAM libéré avec succès."
+else
+    echo "Note : Droits insuffisants pour drop_caches (LXC), ignoré."
+fi
 
 echo "======================================================"
-echo "Maintenance terminée avec succès : $(date)"
+echo "Maintenance terminée : $(date)"
 echo "======================================================"
 
-# Envoi de la notification de succès
-send_gotify_notification "✅ Mastodon Cleanup SUCCÈS" "La maintenance hebdomadaire sur $HOSTNAME s'est terminée correctement." 4
+# 4. Envoi de la notification de succès final
+send_gotify_notification "✅ Mastodon Cleanup TERMINÉ" "La maintenance sur $HOSTNAME est terminée avec succès." 4
 
 exit 0
 
@@ -110,7 +120,7 @@ exit 0
 
 ## 3. Planification avec Crontab
 
-1. Rendre le script exécutable : `chmod 700 /root/scripts/mastodon-cleanup.sh`
+1. Rendre le script exécutable (uniquement pour root) : `chmod 700 /root/scripts/mastodon-cleanup.sh`
 2. Ajouter à la crontab (`crontab -e`) pour une exécution le dimanche à 3h00 :
 
 ```cron
@@ -122,8 +132,8 @@ exit 0
 
 ## 4. Notes importantes
 
-**Optimisation de la mémoire :** la commande `drop_caches` permet de libérer les ressources mobilisées par PostgreSQL et Ruby pendant le nettoyage. Laissez le noyau Linux gérer le SWAP naturellement après cette opération.
+**Optimisation de la mémoire :** La commande `drop_caches` incluse dans le script permet de libérer les ressources mobilisées par PostgreSQL et Ruby. Si votre serveur est un conteneur LXC, le script gère automatiquement les restrictions de droits pour ne pas planter.
 
-**Stratégie hybride :** gardez les réglages de l'interface (Rétention du contenu) actifs avec des valeurs de sécurité (14 ou 30 jours) comme filet de sécurité si le script ne s'exécute pas.
+**Stratégie hybride :** Gardez les réglages de l'interface (Rétention du contenu) actifs avec des valeurs de sécurité (14 ou 30 jours) comme filet de sécurité si le script ne s'exécute pas.
 
 [https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
