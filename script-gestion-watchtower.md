@@ -2,7 +2,7 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2026-01-02T17:02:41.373Z
+date: 2026-01-02T18:08:15.399Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
@@ -395,3 +395,7 @@ while true; do
 done
 
 ```
+
+### Démonstration
+
+Retrouvez la vidéo de démonstration de ce script sur les réseaux sociaux, et plus particulièrement sur l'instance <a href="https://mastodon.blablalinux.be/about" target="_blank">Mastodon de Blabla Linux</a> : <a href="https://mastodon.blablalinux.be/@blablalinux/115826788636738220" target="_blank">https://mastodon.blablalinux.be/@blablalinux/115826788636738220</a>
