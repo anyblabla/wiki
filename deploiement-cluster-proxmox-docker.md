@@ -2,13 +2,15 @@
 title: Guide de déploiement d'un cluster Proxmox à trois nœuds avec Docker
 description: Apprenez à déployer un cluster Proxmox VE complet avec trois nœuds via Docker Compose. Un guide idéal pour tester le quorum, la haute disponibilité et le réseau sans matériel supplémentaire.
 published: true
-date: 2026-01-03T21:50:40.907Z
+date: 2026-01-03T21:56:45.212Z
 tags: docker, proxmox, pve, cluster, virtualisation, ha, haute disponibilité, lab
 editor: markdown
 dateCreated: 2026-01-03T21:50:40.907Z
 ---
 
 Ce guide explique comment faire fonctionner un environnement **Proxmox Virtual Environment (PVE)** complet à l'intérieur de conteneurs Docker. C'est la solution parfaite pour tester des scénarios de haute disponibilité (HA), de quorum ou de migration sans mobiliser plusieurs serveurs physiques.
+
+> **Note :** Pour installer Docker avant de commencer, vous pouvez consulter cette page : [Installer Docker, Portainer et les agents LXC sur Debian/Proxmox](https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox).
 
 ## Prérequis du système
 
