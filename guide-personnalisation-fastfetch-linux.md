@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: true
-date: 2026-01-03T15:29:52.021Z
+date: 2026-01-03T15:49:53.499Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -43,6 +43,8 @@ fastfetch --gen-config
 ```
 
 Le fichier se trouvera dans votre dossier personnel : `~/.config/fastfetch/config.jsonc`.
+
+Sinon : `fastfetch --gen-config .config/fastfetch/config.jsonc`.
 
 ### Utiliser mes réglages personnalisés
 
