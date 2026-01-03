@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: true
-date: 2026-01-03T21:21:23.776Z
+date: 2026-01-03T22:44:51.627Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -129,7 +129,7 @@ Voici à quoi ressemble la structure globale d'un fichier `config.jsonc` intégr
         "break",
         { "type": "custom", "format": " \u001b[45m\u001b[30m RESSOURCES \u001b[0m", "key": " " },
         { "type": "host", "key": "  󰌢 Machine  " },
-        { "type": "cpu", "key": "  󰻠 CPU      ", "temp": true },
+        { "type": "cpu", "key": "  󰻠 CPU       ", "temp": true },
         "break", "colors"
     ]
 }
@@ -240,7 +240,7 @@ Ce modèle organise l'information par catégories.
         "title",
         { "type": "custom", "format": "┌─ Informations système ────────────────────────────────" },
         { "type": "os", "key": "│ 🐧 Système  ", "format": "{3} {8}" },
-        { "type": "kernel", "key": "│ ⚙️  Noyau    ", "format": "{1} {2}" },
+        { "type": "kernel", "key": "│ ⚙️  Noyau     ", "format": "{1} {2}" },
         { "type": "uptime", "key": "│ ⏱️  Activité ", "format": "{1}{2} {3}{4}" },
         { "type": "custom", "format": "├─ Matériel et température ─────────────────────────────" },
         { "type": "host", "key": "│ 💻 Machine  " },
@@ -249,7 +249,7 @@ Ce modèle organise l'information par catégories.
         { "type": "memory", "key": "│ 💾 Mémoire  " },
         { "type": "custom", "format": "├─ Stockage et réseau ──────────────────────────────────" },
         { "type": "disk", "key": "│ 💽 Disque   ", "folders": "/" },
-        { "type": "localip", "key": "│ 🌐 IP v4    ", "showIpv6": false },
+        { "type": "localip", "key": "│ 🌐 IP v4     ", "showIpv6": false },
         { "type": "custom", "format": "└───────────────────────────────────────────────────────" },
         "break", "colors"
     ]
@@ -279,18 +279,18 @@ Ma création favorite avec des bannières de couleurs ANSI.
         "title",
         { "type": "custom", "format": " \u001b[46m\u001b[30m ARCHITECTURE SYSTÈME \u001b[0m", "key": " " },
         { "type": "os", "key": "  🐧 Système  ", "format": "{3} {8}" },
-        { "type": "kernel", "key": "  ⚙️  Noyau    ", "format": "{1} {2}" },
-        { "type": "shell", "key": "  🐚 Shell    " },
+        { "type": "kernel", "key": "  ⚙️  Noyau     ", "format": "{1} {2}" },
+        { "type": "shell", "key": "  🐚 Shell     " },
         { "type": "packages", "key": "  📦 Paquets   " },
         "break",
         { "type": "custom", "format": " \u001b[45m\u001b[30m RESSOURCES MATÉRIELLES \u001b[0m", "key": " " },
         { "type": "host", "key": "  💻 Machine  " },
-        { "type": "cpu", "key": "  🧠 CPU      ", "temp": true, "format": "{6} @ {7} - {8}" },
-        { "type": "gpu", "key": "  🎮 GPU      ", "hideType": "all", "format": "{2}" },
+        { "type": "cpu", "key": "  🧠 CPU       ", "temp": true, "format": "{6} @ {7} - {8}" },
+        { "type": "gpu", "key": "  🎮 GPU       ", "hideType": "all", "format": "{2}" },
         { "type": "memory", "key": "  💾 Mémoire  ", "format": "{1} / {2} ({3})" },
         "break",
-        { "type": "custom", "format": " \u001b[42m\u001b[30m RÉSEAU ET STATUT      \u001b[0m", "key": " " },
-        { "type": "localip", "key": "  🌐 IP v4    ", "showIpv6": false },
+        { "type": "custom", "format": " \u001b[42m\u001b[30m RÉSEAU ET STATUT       \u001b[0m", "key": " " },
+        { "type": "localip", "key": "  🌐 IP v4     ", "showIpv6": false },
         { "type": "battery", "key": "  🔋 Énergie  ", "format": "{4} ({5})" },
         "break", "colors"
     ]
@@ -316,18 +316,18 @@ Ma création favorite avec des bannières de couleurs ANSI.
         "title",
         { "type": "custom", "format": " \u001b[46m\u001b[30m ARCHITECTURE SYSTÈME \u001b[0m", "key": " " },
         { "type": "os", "key": "   Système  ", "format": "{3} {8}" },
-        { "type": "kernel", "key": "  󰒋 Noyau    ", "format": "{1} {2}" },
-        { "type": "shell", "key": "  󱆃 Shell    " },
+        { "type": "kernel", "key": "  󰒋 Noyau     ", "format": "{1} {2}" },
+        { "type": "shell", "key": "  󱆃 Shell     " },
         { "type": "packages", "key": "  󰏖 Paquets   " },
         "break",
         { "type": "custom", "format": " \u001b[45m\u001b[30m RESSOURCES MATÉRIELLES \u001b[0m", "key": " " },
         { "type": "host", "key": "  󰌢 Machine  " },
-        { "type": "cpu", "key": "  󰻠 CPU      ", "temp": true, "format": "{6} @ {7} - {8}" },
-        { "type": "gpu", "key": "  󰢮 GPU      ", "hideType": "all", "format": "{2}" },
+        { "type": "cpu", "key": "  󰻠 CPU       ", "temp": true, "format": "{6} @ {7} - {8}" },
+        { "type": "gpu", "key": "  󰢮 GPU       ", "hideType": "all", "format": "{2}" },
         { "type": "memory", "key": "  󰍛 Mémoire  ", "format": "{1} / {2} ({3})" },
         "break",
-        { "type": "custom", "format": " \u001b[42m\u001b[30m RÉSEAU ET STATUT      \u001b[0m", "key": " " },
-        { "type": "localip", "key": "  󰩟 IP v4    ", "showIpv6": false },
+        { "type": "custom", "format": " \u001b[42m\u001b[30m RÉSEAU ET STATUT       \u001b[0m", "key": " " },
+        { "type": "localip", "key": "  󰩟 IP v4     ", "showIpv6": false },
         { "type": "battery", "key": "  󰁹 Énergie  ", "format": "{4} ({5})" },
         "break", "colors"
     ]
@@ -338,6 +338,47 @@ Ma création favorite avec des bannières de couleurs ANSI.
 </details>
 
 ![fastfetch-neon-cyber-nerd.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
+
+### 5. Style "The Thin Line" (Minimaliste)
+
+Une configuration ultra-fine qui prend très peu de place en largeur, parfaite pour les terminaux divisés (split screen).
+
+<details>
+<summary>Voir le code (Minimaliste)</summary>
+
+```jsonc
+// # Modèle "The Thin Line" par Blabla Linux
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "debian_small",
+        "padding": { "top": 1, "left": 2 },
+        "color": { "1": "white" }
+    },
+    "display": {
+        "separator": " ",
+        "color": { "keys": "magenta" }
+    },
+    "modules": [
+        { "type": "title", "format": "{1}@{2}" },
+        { "type": "custom", "format": " \u001b[90m│\u001b[0m" },
+        { "type": "os", "key": " \u001b[90m│\u001b[0m 🐧" },
+        { "type": "kernel", "key": " \u001b[90m│\u001b[0m ⚙️ " },
+        { "type": "uptime", "key": " \u001b[90m│\u001b[0m ⏱️ " },
+        { "type": "cpu", "key": " \u001b[90m│\u001b[0m 🧠", "temp": true },
+        { "type": "memory", "key": " \u001b[90m│\u001b[0m 💾" },
+        { "type": "localip", "key": " \u001b[90m│\u001b[0m 🌐", "showIpv6": false },
+        { "type": "custom", "format": " \u001b[90m╰───────\u001b[0m" }
+    ]
+}
+
+```
+
+</details>
+
+![fastfetch-minimal.png](/guide-personnalisation-fastfetch-linux/fastfetch-minimal.png)
+
+---
 
 ## 🎁 Bonus : Le modèle Spécial Proxmox
 
@@ -394,4 +435,4 @@ Pour les utilisateurs de Proxmox, j'ai préparé une configuration qui affiche l
 
 > ☝️ Je vous invite à retrouver ces différents fichiers de configuration Fastfetch sur <a href="[https://bytestash.blablalinux.be/public/snippets](https://bytestash.blablalinux.be/public/snippets)" target="_blank" rel="noopener noreferrer">mon instance ByteStash</a> ✔️
 
-> ☝️ Vous trouverez d'autres exemples de fichiers `config.jsonc` pour Fastfetch sur la **[page du projet GitHub](https://github.com/fastfetch-cli/fastfetch){.target-blank}** : [https://github.com/fastfetch-cli/fastfetch/tree/dev/presets/examples](https://github.com/fastfetch-cli/fastfetch/tree/dev/presets/examples){.target-blank}
+> ☝️ Vous trouverez d'autres exemples de fichiers `config.jsonc` pour Fastfetch sur la **[page du projet GitHub](https://github.com/fastfetch-cli/fastfetch)** : [https://github.com/fastfetch-cli/fastfetch/tree/dev/presets/examples](https://github.com/fastfetch-cli/fastfetch/tree/dev/presets/examples)
