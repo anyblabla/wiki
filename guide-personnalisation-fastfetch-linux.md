@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: true
-date: 2026-01-03T02:32:53.330Z
+date: 2026-01-03T02:45:47.324Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -72,7 +72,7 @@ unzip Hack.zip && rm Hack.zip && fc-cache -fv
 Inutile de forcer la police dans les réglages de votre terminal ! Dans les préférences de votre terminal (comme GNOME Terminal), **décochez "Police personnalisée"**. Le système utilisera sa police par défaut pour le texte et piochera automatiquement dans la Nerd Font fraîchement installée pour afficher les icônes.
 
 > 💡 **Voici le résultat du rendu avec les Nerd Fonts sur mon terminal :**
-> ![fastfetch-neon-cyber-nerd.jpg](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.jpg)
+> ![fastfetch-neon-cyber-nerd.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
 
 ---
 
@@ -118,7 +118,7 @@ C'est le modèle le plus complet en termes de données brutes. Je l'utilise quan
 
 </details>
 
-![fastfetch-classic.jpg](/guide-personnalisation-fastfetch-linux/fastfetch-classic.jpg)
+![fastfetch-classic.png](/guide-personnalisation-fastfetch-linux/fastfetch-classic.png)
 
 ### 2. Style moderne avec émojis
 
@@ -156,7 +156,7 @@ Parfait pour une identification visuelle instantanée des composants.
 
 </details>
 
-![fastfetch-emoji.jpg](/guide-personnalisation-fastfetch-linux/fastfetch-emoji.jpg)
+![fastfetch-emoji.png](/guide-personnalisation-fastfetch-linux/fastfetch-emoji.png)
 
 ### 3. Style tableau de bord (Dashboard)
 
@@ -193,7 +193,7 @@ Ce modèle organise l'information par catégories.
 
 </details>
 
-![fastfetch-open-dashboard.jpg](/guide-personnalisation-fastfetch-linux/fastfetch-open-dashboard.jpg)
+![fastfetch-open-dashboard.png](/guide-personnalisation-fastfetch-linux/fastfetch-open-dashboard.png)
 
 ### 4. Style Néon Cyberpunk
 
@@ -234,7 +234,7 @@ Ma création favorite avec des bannières de couleurs ANSI.
 
 </details>
 
-![fastfetch-neon-cyber.jpg](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber.jpg)
+![fastfetch-neon-cyber.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber.png)
 
 #### Option B : Version Nerd Fonts (Icônes HD)
 
