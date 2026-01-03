@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: true
-date: 2026-01-03T02:45:47.324Z
+date: 2026-01-03T14:03:01.675Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -73,6 +73,70 @@ Inutile de forcer la police dans les réglages de votre terminal ! Dans les pré
 
 > 💡 **Voici le résultat du rendu avec les Nerd Fonts sur mon terminal :**
 > ![fastfetch-neon-cyber-nerd.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
+
+---
+
+## ⚙️ Personnaliser votre fichier config.jsonc
+
+Le fichier est structuré en **JSONC** (JSON avec commentaires). Voici comment adapter les modèles à votre machine :
+
+### 🖼️ Changer le logo
+
+Par défaut, Fastfetch détecte votre distribution. Mais vous pouvez forcer un logo spécifique (comme le `debian_small` que j'affectionne) ou même une image. Cela se place **avant** la section des modules :
+
+```jsonc
+    "logo": {
+        "source": "debian_small", // Options : debian_small, ubuntu_small, arch_small, etc.
+        "padding": {
+            "top": 1,
+            "left": 2
+        }
+    },
+
+```
+
+### 🧩 Les Modules
+
+Chaque bloc `{ "type": "..." }` est un module.
+
+* **Key :** C'est l'étiquette à gauche (ex: `"key": "󰻠 CPU"`).
+* **Format :** Permet de choisir quelles données afficher.
+* **Temp :** Ajoutez `"temp": true` pour afficher la température.
+* **Le Host :** Par défaut, il affiche le nom du modèle détecté par le système.
+
+### 📄 Exemple d'un fichier complet personnalisé
+
+Voici à quoi ressemble la structure globale d'un fichier `config.jsonc` intégrant un logo spécifique et le style Néon :
+
+<details>
+<summary>Voir le code complet (Exemple Logo + Néon)</summary>
+
+```jsonc
+// # Modifications apportées par Blabla Linux
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "debian_small",
+        "padding": { "top": 1, "left": 2 }
+    },
+    "display": { "separator": " ➜ ", "color": { "keys": "cyan", "output": "white" } },
+    "modules": [
+        "title",
+        { "type": "custom", "format": " \u001b[46m\u001b[30m ARCHITECTURE SYSTÈME \u001b[0m", "key": " " },
+        { "type": "os", "key": "   Système  ", "format": "{3} {8}" },
+        "break",
+        { "type": "custom", "format": " \u001b[45m\u001b[30m RESSOURCES \u001b[0m", "key": " " },
+        { "type": "host", "key": "  󰌢 Machine  " },
+        { "type": "cpu", "key": "  󰻠 CPU      ", "temp": true },
+        "break", "colors"
+    ]
+}
+
+```
+
+</details>
+
+![fastfetch-neon-cyber-nerd-debian-small.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd-debian-small.png)
 
 ---
 
@@ -270,6 +334,8 @@ Ma création favorite avec des bannières de couleurs ANSI.
 ```
 
 </details>
+
+![fastfetch-neon-cyber-nerd.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
 
 > ☝️ Je vous invite à retrouver ces différents fichiers de configuration Fastfetch sur <a href="[https://bytestash.blablalinux.be/public/snippets](https://bytestash.blablalinux.be/public/snippets)" target="_blank" rel="noopener noreferrer">mon instance ByteStash</a> ✔️
 
