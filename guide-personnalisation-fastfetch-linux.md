@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: true
-date: 2026-01-03T15:49:53.499Z
+date: 2026-01-03T21:21:23.776Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -341,7 +341,7 @@ Ma création favorite avec des bannières de couleurs ANSI.
 
 ## 🎁 Bonus : Le modèle Spécial Proxmox
 
-Pour les utilisateurs de Proxmox, j'ai préparé une configuration qui affiche les infos vitales de l'hyperviseur (version PVE, charge CPU, stockage ZFS/LVM, etc.) avec le logo ASCII orange officiel.
+Pour les utilisateurs de Proxmox, j'ai préparé une configuration qui affiche les infos vitales de l'hyperviseur avec le logo ASCII orange officiel.
 
 <details>
 <summary>Voir le code Proxmox (Pixel-Perfect)</summary>
