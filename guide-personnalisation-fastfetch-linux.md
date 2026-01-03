@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: false
-date: 2026-01-03T00:55:28.798Z
+date: 2026-01-03T01:02:09.333Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -210,3 +210,5 @@ C'est ma création favorite. J'utilise des bannières de couleurs ANSI pour un r
 </details>
 
 ![fastfetc-neon-cyber.jpg](/guide-personnalisation-fastfetch-linux/fastfetc-neon-cyber.jpg)
+
+> ☝️ Je vous invite à retrouver ces différents fichiers de configuration Fastfetch sur <a href="https://bytestash.blablalinux.be/public/snippets" target="_blank" rel="noopener noreferrer">mon instance ByteStash</a> ✔️
