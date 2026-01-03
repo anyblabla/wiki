@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: true
-date: 2026-01-03T14:03:01.675Z
+date: 2026-01-03T15:29:52.021Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -336,6 +336,59 @@ Ma création favorite avec des bannières de couleurs ANSI.
 </details>
 
 ![fastfetch-neon-cyber-nerd.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
+
+## 🎁 Bonus : Le modèle Spécial Proxmox
+
+Pour les utilisateurs de Proxmox, j'ai préparé une configuration qui affiche les infos vitales de l'hyperviseur (version PVE, charge CPU, stockage ZFS/LVM, etc.) avec le logo ASCII orange officiel.
+
+<details>
+<summary>Voir le code Proxmox (Pixel-Perfect)</summary>
+
+```jsonc
+// # Configuration Proxmox (Pixel-Perfect) - Blabla Linux
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "proxmox",
+        "color": { "1": "38;5;208", "2": "38;5;214" },
+        "padding": { "top": 2, "left": 2 }
+    },
+    "display": { 
+        "separator": " ➜  ", 
+        "color": { "keys": "38;5;208", "output": "white" }
+    },
+    "modules": [
+        "title",
+        { "type": "custom", "format": "\u001b[48;5;208m\u001b[30m INFOS HYPERVISEUR     \u001b[0m" },
+        { "type": "os", "key": "  🐧 Système      " },
+        { "type": "command", "key": "  💎 PVE Ver      ", "shell": "bash", "text": "pveversion | cut -d'/' -f2" },
+        { "type": "host", "key": "  💻 Machine      " },
+        { "type": "kernel", "key": "  ⚙️  Noyau        " },
+        { "type": "uptime", "key": "  ⏱️  Activité     " },
+        { "type": "packages", "key": "  📦 Paquets      " },
+        { "type": "shell", "key": "  🐚 Shell        " },
+        "break",
+        { "type": "custom", "format": "\u001b[48;5;208m\u001b[30m RESSOURCES PHYSIQUES  \u001b[0m" },
+        { "type": "cpu", "key": "  🧠 CPU          ", "temp": true },
+        { "type": "gpu", "key": "  🎮 GPU          " },
+        { "type": "memory", "key": "  💾 RAM          " },
+        { "type": "swap", "key": "  🔄 Swap         " },
+        { "type": "disk", "key": "  💽 Stockage     ", "folders": "/" },
+        { "type": "loadavg", "key": "  📈 Charge       " },
+        { "type": "processes", "key": "  🔢 Processus    " },
+        "break",
+        { "type": "custom", "format": "\u001b[48;5;208m\u001b[30m RÉSEAU ET ACCÈS       \u001b[0m" },
+        { "type": "localip", "key": "  🌐 IP Admin     ", "showIpv6": false },
+        { "type": "dns", "key": "  🔍 DNS          " },
+        { "type": "publicip", "key": "  🌍 IP Publique  " }
+    ]
+}
+
+```
+
+</details>
+
+![fastfetch-bonus-pve.png](/guide-personnalisation-fastfetch-linux/fastfetch-bonus-pve.png)
 
 > ☝️ Je vous invite à retrouver ces différents fichiers de configuration Fastfetch sur <a href="[https://bytestash.blablalinux.be/public/snippets](https://bytestash.blablalinux.be/public/snippets)" target="_blank" rel="noopener noreferrer">mon instance ByteStash</a> ✔️
 
