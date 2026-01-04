@@ -2,7 +2,7 @@
 title: Gestion centralisée des fichiers robots.txt avec Nginx Proxy Manager
 description: Découvrez comment centraliser et configurer les fichiers robots.txt pour 15 services auto-hébergés via NPM afin de sécuriser vos accès et uniformiser le blocage des robots d'IA.
 published: true
-date: 2026-01-04T12:00:52.948Z
+date: 2026-01-04T12:02:59.461Z
 tags: nginx, npm, sécurité, sysadmin, seo, robots.txt, auto-hébergement, ia
 editor: markdown
 dateCreated: 2025-12-23T22:33:31.704Z
@@ -144,7 +144,7 @@ location = /robots.txt {
 
 ```
 
-#### 11. Vert.sh
+#### 11. Vert SH
 
 ```nginx
 location = /robots.txt {
