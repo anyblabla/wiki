@@ -2,7 +2,7 @@
 title: Bloquer les robots d’IA directement via NGINX Proxy Manager
 description: Apprenez à centraliser le blocage des principaux crawlers d’IA dans NGINX Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: 2025-12-16T14:52:58.407Z
+date: 2026-01-04T23:54:23.314Z
 tags: nginx, proxy, npm, blocage-crawlers, robots, ia, ai, crawlers
 editor: markdown
 dateCreated: 2025-12-15T23:32:58.582Z
@@ -275,3 +275,75 @@ curl -A "GPTBot" -I https://votre-site.com/
 ```
 
 Si le test renvoie `HTTP/2 403`, le script a fonctionné parfaitement et la tâche `cron` peut être planifiée en toute confiance.
+
+## 7. Retours d'expérience : Le cas des réseaux sociaux (Facebook OGP)
+
+### Le Problème : Disparition des prévisualisations
+
+Lors de l'implémentation de ce blocage centralisé, vous pourriez constater que lors du partage d'un lien sur les réseaux sociaux, l'image d'illustration, le titre et la description ne s'affichent plus (Code d'erreur HTTP 403).
+
+Cela arrive car certains réseaux sociaux utilisent des robots de "scraping" qui sont inclus par défaut dans les listes de blocage IA communautaires. Pour Facebook, il s'agit des agents :
+
+* `facebookexternalhit` (le plus critique pour les aperçus)
+* `FacebookBot`
+
+### La Solution : Mise à jour du script d'automatisation avec filtrage
+
+Pour conserver la mise à jour automatique via GitHub tout en protégeant la visibilité de vos liens, nous modifions le script pour qu'il "nettoie" la liste téléchargée (via la commande `sed`) avant de l'appliquer.
+
+Voici la version optimisée et sécurisée du script `/usr/local/bin/update_ai_blocklist.sh` :
+
+```bash
+#!/bin/bash
+
+# Chemins et noms (À ADAPTER !)
+# Chemin de votre fichier de configuration NPM (doit pointer vers le volume monté)
+CONFIG_FILE="/chemin/vers/data/nginx/custom/server_proxy.conf"
+# URL du fichier brut NGINX sur GitHub
+GITHUB_URL="https://raw.githubusercontent.com/ai-robots-txt/ai.robots.txt/main/nginx-block-ai-bots.conf"
+# Nom de votre conteneur Docker NGINX Proxy Manager
+NPM_CONTAINER_NAME="npm"
+
+# --- Début de l'exécution ---
+
+echo "$(date) - Démarrage de la mise à jour de la liste de blocage AI..."
+
+# 1. Téléchargement de la nouvelle configuration
+if curl -sL "$GITHUB_URL" -o "$CONFIG_FILE.new"; then
+    echo "Téléchargement réussi."
+    
+    # 2. FILTRAGE SÉLECTIF : On retire les crawlers Facebook pour préserver les prévisualisations (OGP)
+    # On supprime les occurrences pour éviter le blocage 403 sur les réseaux sociaux
+    sed -i 's/FacebookBot|//g' "$CONFIG_FILE.new"
+    sed -i 's/facebookexternalhit|//g' "$CONFIG_FILE.new"
+    echo "Nettoyage des crawlers Facebook effectué."
+else
+    echo "Erreur lors du téléchargement depuis GitHub."
+    exit 1
+fi
+
+# 3. Vérification et remplacement du fichier
+if [ -s "$CONFIG_FILE.new" ]; then
+    # Déplacement du nouveau fichier à son emplacement final
+    mv "$CONFIG_FILE.new" "$CONFIG_FILE"
+    echo "Fichier de configuration mis à jour."
+
+    # 4. Validation de la syntaxe NGINX et recharge gracieuse
+    if docker exec "$NPM_CONTAINER_NAME" nginx -t &> /dev/null; then
+        echo "Syntaxe NGINX OK. Recharge gracieuse en cours..."
+        docker exec "$NPM_CONTAINER_NAME" nginx -s reload
+        echo "NGINX rechargé avec succès."
+    else
+        echo "ERREUR : Syntaxe NGINX invalide. Le proxy n'a PAS été rechargé."
+        echo "Veuillez vérifier le fichier : $CONFIG_FILE"
+        exit 1
+    fi
+else
+    echo "Le fichier téléchargé est vide ou invalide. Aucune action effectuée."
+    rm -f "$CONFIG_FILE.new"
+    exit 1
+fi
+
+echo "$(date) - Mise à jour terminée."
+
+```
