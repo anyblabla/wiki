@@ -2,7 +2,7 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2026-01-02T18:08:15.399Z
+date: 2026-01-05T22:29:32.209Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
@@ -12,6 +12,8 @@ dateCreated: 2025-11-06T18:26:43.925Z
 
 **Watchtower** est un outil qui surveille vos conteneurs Docker et les met à jour automatiquement. Cette page documente deux méthodes pour gérer vos instances Watchtower déployées dans des conteneurs LXC directement depuis l'hôte Proxmox.
 
+📺 **Démonstration :** Retrouvez la vidéo de démonstration de ce script sur l'instance <a href="[https://mastodon.blablalinux.be/about](https://mastodon.blablalinux.be/about)" target="_blank">Mastodon de Blabla Linux</a> : <a href="[https://mastodon.blablalinux.be/@blablalinux/115826788636738220](https://mastodon.blablalinux.be/@blablalinux/115826788636738220)" target="_blank">[https://mastodon.blablalinux.be/@blablalinux/115826788636738220](https://mastodon.blablalinux.be/@blablalinux/115826788636738220)</a>
+
 Ces scripts permettent de :
 
 * Identifier les **LXC** contenant **Docker**.
@@ -20,6 +22,15 @@ Ces scripts permettent de :
 * **Nettoyer les images** Docker non utilisées (`prune`).
 
 > **Note technique :** Ces scripts s'exécutent sur l'**hôte Proxmox**. Ils utilisent la commande `pct exec [ID]` pour piloter Docker à l'intérieur des conteneurs sans avoir à s'y connecter individuellement.
+
+---
+
+## 🔗 Dépôts Officiels
+
+Retrouvez les sources et contribuez au projet sur nos dépôts (liens externes) :
+
+* **GitHub :** <a href="[https://github.com/anyblabla/proxmox-watchtower-manager](https://github.com/anyblabla/proxmox-watchtower-manager)" target="_blank">anyblabla/proxmox-watchtower-manager</a>
+* **Gitea :** <a href="[https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager](https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager)" target="_blank">gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager</a>
 
 ---
 
@@ -66,7 +77,15 @@ Ce script est idéal pour des modifications rapides sur vos services en producti
 
 ```bash
 #!/bin/bash
-# Gestion de Watchtower dans LXC (Allumés uniquement)
+# ==============================================================================
+# Script: manage_watchtower.sh
+# Description: Gestion centralisée de Watchtower pour LXC (allumés uniquement).
+# Author: Amaury aka BlablaLinux
+# Website: https://blablalinux.be
+# Wiki: https://wiki.blablalinux.be/fr/script-gestion-watchtower
+# License: GPL-3.0
+# Version: 1.0.0
+# ==============================================================================
 
 MENU="
 ===============================================
@@ -220,7 +239,7 @@ while true; do
         3) stop_watchtower ;;
         4) restart_watchtower ;;
         5) view_compose ;;
-        6) set_restart_policy ;; 
+        6) set_restart_policy ;;
         7) read -rp "true/false : " v; modify_key_restart "WATCHTOWER_NO_STARTUP_MESSAGE" "$v" ;;
         8) read -rp "true/false : " v; modify_key_restart "WATCHTOWER_CLEANUP" "$v" ;;
         9) random_schedule ;;
@@ -246,9 +265,21 @@ Ce script est conçu pour la maintenance de masse. **Il démarrera les conteneur
 
 Pour que ce script traite un conteneur, vous devez lui ajouter le tag **watchtower** dans l'interface Proxmox (ou via `pct set ID --tags watchtower`).
 
+<details>
+<summary>👉 Cliquez pour voir le code source du Script Maintenance</summary>
+
 ```bash
 #!/bin/bash
-# Gestion Watchtower - Filtrage par tag "watchtower" (All States)
+# ==============================================================================
+# Script: manage_watchtower_all.sh
+# Description: Gestion de Watchtower pour tous les LXC (All states) via Tags.
+# Features: Auto-start/stop LXC, Tag filtering (watchtower), Docker wait-loop.
+# Author: Amaury aka BlablaLinux
+# Website: https://blablalinux.be
+# Wiki: https://wiki.blablalinux.be/fr/script-gestion-watchtower
+# License: GPL-3.0
+# Version: 1.1.0
+# ==============================================================================
 
 MENU="
 ===============================================
@@ -396,6 +427,10 @@ done
 
 ```
 
-### Démonstration
+</details>
 
-Retrouvez la vidéo de démonstration de ce script sur les réseaux sociaux, et plus particulièrement sur l'instance <a href="https://mastodon.blablalinux.be/about" target="_blank">Mastodon de Blabla Linux</a> : <a href="https://mastodon.blablalinux.be/@blablalinux/115826788636738220" target="_blank">https://mastodon.blablalinux.be/@blablalinux/115826788636738220</a>
+---
+
+## 📘 Notes Additionnelles
+
+* Pour installer Docker facilement sur vos LXC, consultez notre page dédiée : <a href="[https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox](https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox)" target="_blank">Docker/Portainer sur Debian/Proxmox</a>.
