@@ -2,7 +2,7 @@
 title: Maîtriser Fastfetch : le guide de personnalisation par Blabla Linux
 description: Je vous présente mon guide complet pour installer et personnaliser Fastfetch. Découvrez mes quatre modèles de configuration exclusifs, du style classique au look néon cyberpunk pour Linux.
 published: true
-date: 2026-01-04T15:58:30.159Z
+date: 2026-01-05T22:55:09.559Z
 tags: debian, ubuntu, personnalisation, fastfetch, terminal, ressource
 editor: markdown
 dateCreated: 2026-01-03T00:55:28.798Z
@@ -436,8 +436,6 @@ Pour les utilisateurs de Proxmox, j'ai préparé une configuration qui affiche l
 > ☝️ Je vous invite à retrouver ces différents fichiers de configuration Fastfetch sur <a href="[https://bytestash.blablalinux.be/public/snippets](https://bytestash.blablalinux.be/public/snippets)" target="_blank" rel="noopener noreferrer">mon instance ByteStash</a> ✔️
 
 > ☝️ Vous trouverez d'autres exemples de fichiers `config.jsonc` pour Fastfetch sur la **[page du projet GitHub](https://github.com/fastfetch-cli/fastfetch)** : [https://github.com/fastfetch-cli/fastfetch/tree/dev/presets/examples](https://github.com/fastfetch-cli/fastfetch/tree/dev/presets/examples)
-
-Voici une proposition pour ton paragraphe final, rédigée dans ton style habituel (pro, mais accessible et passionné), pour conclure ta page wiki en beauté :
 
 ## 🚀 Et ce n'est que le début !
 
