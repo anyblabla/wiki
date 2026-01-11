@@ -2,7 +2,7 @@
 title: Bienvenue
 description: 🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de mes succès (et apprenez de mes "galères" 😉) !
 published: true
-date: 2026-01-11T02:01:25.205Z
+date: 2026-01-11T02:06:11.944Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
@@ -11,7 +11,7 @@ dateCreated: 2025-07-17T00:14:37.130Z
 ![](/welcome/header2.png)
 
 # 🥳 Bienvenue sur le wiki de Blabla Linux \!
-
+hihi
 ## 👋 Salut à tous et toutes \!
 
 Vous me connaissez peut-être déjà via le [blog](https://yourls.blablalinux.be/blog). Il est parfait pour partager les **nouvelles et actualités** autour de **Blabla Linux**, de notre communauté, des systèmes et des logiciels libres.
