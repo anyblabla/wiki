@@ -2,7 +2,7 @@
 title: Automating Phanpy updates
 description: Learn how to automate Phanpy updates on a Debian server. This guide provides a Bash script to check GitHub releases, manage installation, and configure a Cron job for daily updates.
 published: true
-date: 2026-01-08T23:14:38.620Z
+date: 2026-01-11T00:21:37.507Z
 tags: mastodon, lxc, debian, script, bash, phanpy, automation
 editor: markdown
 dateCreated: 2026-01-08T23:10:31.448Z
@@ -12,9 +12,9 @@ This page documents how to set up a Bash script to keep your **Phanpy** instance
 
 ## Useful links
 
-* **Official repository:** [cheeaun/phanpy](https://github.com/cheeaun/phanpy){:target="_blank"}
-* **GitHub releases:** [Phanpy Releases](https://github.com/cheeaun/phanpy/releases){:target="_blank"}
-* **Demo instance:** [Phanpy by Blabla Linux](https://phanpy.blablalinux.be){:target="_blank"}
+* **Official repository:** [cheeaun/phanpy](https://github.com/cheeaun/phanpy)
+* **GitHub releases:** [Phanpy Releases](https://github.com/cheeaun/phanpy/releases)
+* **Demo instance:** [Phanpy by Blabla Linux](https://phanpy.blablalinux.be)
 
 ---
 
