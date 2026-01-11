@@ -2,7 +2,7 @@
 title: Conception d'un outil en ligne de commande pour Wiki.js
 description: Apprenez à créer et installer un script Python personnalisé pour gérer votre instance Wiki.js (CRUD) directement depuis le terminal Debian, avec gestion automatique des langues et des slugs.
 published: true
-date: 2026-01-11T02:36:59.643Z
+date: 2026-01-11T03:28:49.901Z
 tags: wikijs, api, python, graphql, cli
 editor: markdown
 dateCreated: 2026-01-11T01:38:11.338Z
@@ -56,7 +56,6 @@ import os
 import tempfile
 import subprocess
 
-# --- Configuration Blabla Linux ---
 # Script conçu par BlablaLinux
 # Remplacez les valeurs ci-dessous par vos propres accès API
 WIKI_URL = "https://wiki.votre-domaine.be/graphql"
