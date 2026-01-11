@@ -2,7 +2,7 @@
 title: Automatisation de la mise à jour de Phanpy
 description: Découvrez comment automatiser la mise à jour de Phanpy sur un serveur Debian. Ce guide propose un script Bash pour vérifier les releases GitHub, gérer l'installation et configurer une tâche Cron.
 published: true
-date: 2026-01-08T22:58:27.325Z
+date: 2026-01-11T00:17:07.879Z
 tags: mastodon, lxc, debian, script, automatisation, phanpy
 editor: markdown
 dateCreated: 2026-01-08T22:58:27.325Z
@@ -12,9 +12,9 @@ Cette page documente la mise en place d'un script Bash permettant de maintenir �
 
 ## Liens utiles
 
-* **Dépôt officiel :** [cheeaun/phanpy](https://github.com/cheeaun/phanpy){:target="_blank"}
-* **Releases GitHub :** [Phanpy Releases](https://github.com/cheeaun/phanpy/releases){:target="_blank"}
-* **Instance de démonstration :** [Phanpy par Blabla Linux](https://phanpy.blablalinux.be){:target="_blank"}
+* **Dépôt officiel :** [cheeaun/phanpy](https://github.com/cheeaun/phanpy)
+* **Releases GitHub :** [Phanpy Releases](https://github.com/cheeaun/phanpy/releases)
+* **Instance de démonstration :** [Phanpy par Blabla Linux](https://phanpy.blablalinux.be)
 
 ---
 
