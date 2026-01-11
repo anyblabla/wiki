@@ -2,7 +2,7 @@
 title: Conception d'un outil en ligne de commande pour Wiki.js
 description: Apprenez à créer et installer un script Python personnalisé pour gérer votre instance Wiki.js (CRUD) directement depuis le terminal Debian, avec gestion automatique des langues et des slugs.
 published: true
-date: 2026-01-11T02:30:58.418Z
+date: 2026-01-11T02:36:59.643Z
 tags: wikijs, api, python, graphql, cli
 editor: markdown
 dateCreated: 2026-01-11T01:38:11.338Z
@@ -295,6 +295,6 @@ sudo ln -s ~/Scripts/wiki_cli.py /usr/local/bin/wiki
 * **Création** : Le script détecte si vous voulez une page en anglais. Si le slug commence par `en/`, il règle la langue sur anglais. Sinon, il choisit français par défaut.
 * **Édition** : Pour le contenu, le script ouvre votre éditeur par défaut. Si vous n'en avez pas défini, il utilisera `nano`. Une fois votre texte rédigé, sauvegardez et quittez (`Ctrl+O` puis `Ctrl+X` sous Nano) pour que le script envoie les données au serveur.
 
-## 7. Démonstration en vidéo
+## 7. Démonstration
 
-[python-conception-cli-wikijs.mp4](/python-conception-cli-wikijs/python-conception-cli-wikijs.mp4)
+![python-conception-cli-wikijs.gif](/python-conception-cli-wikijs/python-conception-cli-wikijs.gif)
