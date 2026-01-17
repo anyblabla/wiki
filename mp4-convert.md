@@ -1,59 +1,92 @@
 ---
-title: Conversion vidéo (MP4) avec FFMPEG
-description: Cette page documente les alias Bash basés sur FFMPEG, conçus pour la conversion et l'optimisation des fichiers vidéo au format MP4.
+title: Conversion vidéo optimisée (FFMPEG)
+description: Guide complet pour automatiser la conversion vidéo massive sous Linux via FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour l'encodage CPU et GPU.
 published: true
-date: 2025-12-15T11:03:12.638Z
+date: 2026-01-17T23:02:56.709Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
 ---
 
-## 🎯 Objectif
+## Objectif
 
-Ces alias permettent de convertir tous les fichiers `*.mp4` du répertoire courant en appliquant un **débit binaire vidéo** spécifique (`-b:v`) pour contrôler la taille et la qualité du fichier de sortie.
+Ces alias permettent de convertir tous les fichiers `*.mp4` du répertoire courant en appliquant un débit binaire vidéo spécifique (`-b:v`) pour contrôler la taille et la qualité du fichier de sortie.
 
-  * **Portabilité :** Les alias utilisent la variable `$HOME` pour garantir qu'ils fonctionnent quel que soit l'utilisateur.
-  * **Répertoire de sortie :** Tous les fichiers convertis sont placés dans **`$HOME/Vidéos/MP4convert/`**.
-  * **Sécurité :** Le fichier de sortie est préfixé par le débit binaire (ex: `3000k-`) pour **éviter d'écraser** l'original.
+* **Portabilité :** les alias utilisent la variable `$HOME` pour garantir qu'ils fonctionnent quel que soit l'utilisateur.
+* **Répertoire de sortie :** tous les fichiers convertis sont placés dans **`$HOME/Vidéos/MP4convert/`**.
+* **Sécurité :** le fichier de sortie est préfixé par le débit ou la méthode (ex: `3000k-` ou `gpu-`) pour **éviter d'écraser** l'original.
 
------
+L'utilisation d'alias permet de basculer entre deux stratégies :
 
-## ⚙️ Alias et Débits Binaires
+1. **Méthode CPU (logicielle) :** utilise `libx264`. Meilleure qualité d'image par bit.
+2. **Méthode GPU (matérielle) :** utilise `VA-API`. Conversions ultra-rapides sans solliciter le processeur.
 
-Chaque alias utilise FFMPEG avec un **codec vidéo H.264** (`-c:v libx264`). La majorité utilise un débit audio standard de **$96\text{ kbps}$** (`-b:a 96k`), sauf l'alias `mp4convertnextcloud`.
+---
 
-| Alias | Débit Binaire Vidéo (`-b:v`) | Qualité Relative |
-| :--- | :--- | :--- |
-| `mp4convert200` | 200k | Très faible (Aperçu) |
-| `mp4convert1000` | 1000k (1 Mbps) | Standard (Web, 720p) |
-| **`mp4convert3000`** | **3000k (3 Mbps)** | **Haute (Standard HD)** |
-| `mp4convert6000` | 6000k (6 Mbps) | Très Haute (Compression Audio) |
-| `mp4convertnextcloud` | 6000k | **Optimisation Spécifique (Audio Original)** |
+## Installation des pilotes VA-API (Intel)
 
------
+Pour activer l'accélération matérielle (alias préfixés par `gpu-`), installez le pilote correspondant à votre processeur.
 
-## 🧐 Focus Spécifique : Différence entre les Alias $6000\text{k}$
-
-Les deux alias de $6000\text{k}$ diffèrent par la manière dont ils gèrent la piste audio, ce qui influence leur usage final :
-
-| Alias | Débit Audio | Contexte d'Utilisation |
-| :--- | :--- | :--- |
-| **`mp4convert6000`** | **$96\text{k}$** (`-b:a 96k`) | Conversion de haute qualité où l'audio est compressé à un niveau standard (réduction de la taille globale du fichier). |
-| **`mp4convertnextcloud`** | **Original** (non spécifié) | Normalisation de sources de très haute qualité (ex: $1080\text{p} \text{ à } 60\text{ fps}$ et $25000\text{k}$ source). Il réduit la vidéo à $6\text{ Mbps}$ tout en **conservant la qualité sonore native**. |
-
-### Rôle de `mp4convertnextcloud`
-
-Cet alias permet de réduire la taille du fichier d'environ $75\%$ (en passant de $25\text{ Mbps}$ à $6\text{ Mbps}$ pour la vidéo) tout en **préservant l'intégrité audio** pour l'archivage haute fidélité ou le partage sur des plateformes exigeantes en qualité sonore.
-
------
-
-## 💾 Code à Insérer dans `.bash_aliases`
-
-Ces alias doivent être placés dans votre fichier **`~/.bash_aliases`** :
+### 1. Installation des paquets de base
 
 ```bash
-## 🎥 Conversion Vidéo (FFMPEG)
-# Utilise $HOME/Vidéos/MP4convert/ pour la portabilité inter-utilisateurs.
+sudo apt update
+sudo apt install -y vainfo ffmpeg
+
+```
+
+### 2. Choix du pilote selon la génération
+
+* **Générations anciennes (Broadwell et antérieurs) :**
+```bash
+sudo apt install -y i965-va-driver
+echo "LIBVA_DRIVER_NAME=i965" | sudo tee -a /etc/environment
+
+```
+
+
+* **Générations récentes (Skylake et plus récent) :**
+```bash
+sudo apt install -y intel-media-va-driver-non-free
+echo "LIBVA_DRIVER_NAME=iHD" | sudo tee -a /etc/environment
+
+```
+
+
+
+> **💡 Note sur les systèmes hybrides :**
+> Fixer la variable `LIBVA_DRIVER_NAME` est crucial si votre machine possède deux processeurs graphiques (ex : Intel + NVIDIA). Cela force l'utilisation du bon moteur pour piloter l'accélération Intel.
+
+---
+
+## Alias et débits binaires
+
+Chaque alias utilise un codec H.264. La majorité utilise un débit audio standard de **96 kbps** (`-b:a 96k`), sauf l'alias spécifique à Nextcloud.
+
+| Alias | Débit binaire vidéo (`-b:v`) | Qualité relative |
+| --- | --- | --- |
+| `mp4convert200` | 200k | Très faible (aperçu) |
+| `mp4convert1000` | 1000k (1 Mbps) | Standard (web, 720p) |
+| **`mp4convert3000`** | **3000k (3 Mbps)** | **Haute (standard HD)** |
+| `mp4convert6000` | 6000k (6 Mbps) | Très haute |
+| `mp4convertnextcloud` | 6000k | **Optimisation audio original** |
+
+### Focus spécifique : différence entre les alias 6000k
+
+Les deux alias de 6000k diffèrent par la gestion de la piste audio :
+
+| Alias | Débit audio | Contexte d'utilisation |
+| --- | --- | --- |
+| **`mp4convert6000`** | **96k** | Conversion de haute qualité avec compression audio standard (gain de place). |
+| **`mp4convertnextcloud`** | **Original** | Réduction du débit vidéo à 6 Mbps tout en **conservant la qualité sonore native**. |
+
+---
+
+## Code à insérer dans .bash_aliases
+
+### 1. Méthode CPU (qualité maximale / libx264)
+
+```bash
 alias mp4convert200='for file in *.mp4; do ffmpeg -i "$file" -b:v 200k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/200k-$file"; done'
 alias mp4convert500='for file in *.mp4; do ffmpeg -i "$file" -b:v 500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/500k-$file"; done'
 alias mp4convert1000='for file in *.mp4; do ffmpeg -i "$file" -b:v 1000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/1000k-$file"; done'
@@ -68,23 +101,46 @@ alias mp4convert5000='for file in *.mp4; do ffmpeg -i "$file" -b:v 5000k -b:a 96
 alias mp4convert5500='for file in *.mp4; do ffmpeg -i "$file" -b:v 5500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/5500k-$file"; done'
 alias mp4convert6000='for file in *.mp4; do ffmpeg -i "$file" -b:v 6000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/6000k-$file"; done'
 alias mp4convertnextcloud='for file in *.mp4; do ffmpeg -i "$file" -b:v 6000k -c:v libx264 "$HOME/Vidéos/MP4convert/nextcloud-$file"; done'
+
 ```
 
------
-
-## 🧪 Exemple complet d'Alias
-
-Voici l'alias `mp4convert3000` décortiqué pour illustrer sa structure :
+### 2. Méthode GPU (vitesse éclair - VA-API Intel)
 
 ```bash
-alias mp4convert3000='
-    for file in *.mp4; # 1. Initialise la boucle pour chaque fichier .mp4 dans le dossier actuel
+alias gpu-mp4convert200='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 200k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-200k-$file"; done'
+alias gpu-mp4convert500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-500k-$file"; done'
+alias gpu-mp4convert1000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1000k-$file"; done'
+alias gpu-mp4convert1500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1500k-$file"; done'
+alias gpu-mp4convert2000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2000k-$file"; done'
+alias gpu-mp4convert2500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2500k-$file"; done'
+alias gpu-mp4convert3000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; done'
+alias gpu-mp4convert3500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3500k-$file"; done'
+alias gpu-mp4convert4000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4000k-$file"; done'
+alias gpu-mp4convert4500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4500k-$file"; done'
+alias gpu-mp4convert5000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5000k-$file"; done'
+alias gpu-mp4convert5500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5500k-$file"; done'
+alias gpu-mp4convert6000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-6000k-$file"; done'
+alias gpu-mp4convertnextcloud='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k "$HOME/Vidéos/MP4convert/gpu-nextcloud-$file"; done'
+
+```
+
+---
+
+##🧪 Exemple complet d'alias décortiqué
+
+Voici l'alias `gpu-mp4convert3000` illustré pour comprendre sa structure :
+
+```bash
+alias gpu-mp4convert3000='
+    for file in *.mp4; # 1. boucle pour chaque fichier .mp4 du dossier
     do 
-        ffmpeg -i "$file" \
-            -b:v 3000k \
-            -b:a 96k \
-            -c:v libx264 \
-            "$HOME/Vidéos/MP4convert/3000k-$file"; # 2. Chemin de sortie portable et préfixé
+        ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 \ # 2. activation accélération matérielle
+            -i "$file" \
+            -vf "format=nv12,hwupload" \ # 3. préparation du flux pour le GPU
+            -c:v h264_vaapi \ # 4. utilisation de l encodeur matériel
+            -b:v 3000k -b:a 96k \ # 5. réglage des débits vidéo et audio
+            "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; # 6. sortie sécurisée et préfixée
     done
 '
+
 ```
