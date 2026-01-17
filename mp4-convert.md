@@ -2,7 +2,7 @@
 title: Conversion vidéo optimisée (FFMPEG)
 description: Guide complet pour automatiser la conversion vidéo massive sous Linux via FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour l'encodage CPU et GPU.
 published: true
-date: 2026-01-17T23:02:56.709Z
+date: 2026-01-17T23:26:26.985Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
@@ -14,12 +14,15 @@ Ces alias permettent de convertir tous les fichiers `*.mp4` du répertoire coura
 
 * **Portabilité :** les alias utilisent la variable `$HOME` pour garantir qu'ils fonctionnent quel que soit l'utilisateur.
 * **Répertoire de sortie :** tous les fichiers convertis sont placés dans **`$HOME/Vidéos/MP4convert/`**.
-* **Sécurité :** le fichier de sortie est préfixé par le débit ou la méthode (ex: `3000k-` ou `gpu-`) pour **éviter d'écraser** l'original.
+* **Sécurité :** le fichier de sortie est préfixé par le débit ou la méthode (ex : `3000k-` ou `gpu-`) pour **éviter d'écraser** l'original.
 
 L'utilisation d'alias permet de basculer entre deux stratégies :
 
 1. **Méthode CPU (logicielle) :** utilise `libx264`. Meilleure qualité d'image par bit.
 2. **Méthode GPU (matérielle) :** utilise `VA-API`. Conversions ultra-rapides sans solliciter le processeur.
+
+> **⚠️ Avertissement sur le matériel ancien (reconditionnement) :**
+> Si vous utilisez un processeur Intel d'ancienne génération (ex : Sandy Bridge / Core i7-2xxx), l'accélération matérielle (GPU) peut échouer malgré une configuration correcte. Les noyaux Linux récents (6.x+) restreignent parfois l'accès à ces puces pour des raisons de sécurité. Dans ce cas, les alias **CPU** restent votre solution la plus fiable.
 
 ---
 
@@ -38,24 +41,25 @@ sudo apt install -y vainfo ffmpeg
 ### 2. Choix du pilote selon la génération
 
 * **Générations anciennes (Broadwell et antérieurs) :**
+*Note : Pour les processeurs de 2ème à 4ème génération, installez la version `-shaders` pour débloquer l'encodage.*
+
 ```bash
-sudo apt install -y i965-va-driver
+sudo apt install -y i965-va-driver-shaders
 echo "LIBVA_DRIVER_NAME=i965" | sudo tee -a /etc/environment
 
 ```
 
-
 * **Générations récentes (Skylake et plus récent) :**
+
 ```bash
 sudo apt install -y intel-media-va-driver-non-free
 echo "LIBVA_DRIVER_NAME=iHD" | sudo tee -a /etc/environment
 
 ```
 
-
-
-> **💡 Note sur les systèmes hybrides :**
-> Fixer la variable `LIBVA_DRIVER_NAME` est crucial si votre machine possède deux processeurs graphiques (ex : Intel + NVIDIA). Cela force l'utilisation du bon moteur pour piloter l'accélération Intel.
+> **💡 Note sur les droits d'accès :**
+> Pour que le GPU soit accessible, votre utilisateur doit impérativement appartenir aux groupes `video` et `render`.
+> `sudo usermod -aG video,render $USER` (puis redémarrez votre session).
 
 ---
 
@@ -77,8 +81,8 @@ Les deux alias de 6000k diffèrent par la gestion de la piste audio :
 
 | Alias | Débit audio | Contexte d'utilisation |
 | --- | --- | --- |
-| **`mp4convert6000`** | **96k** | Conversion de haute qualité avec compression audio standard (gain de place). |
-| **`mp4convertnextcloud`** | **Original** | Réduction du débit vidéo à 6 Mbps tout en **conservant la qualité sonore native**. |
+| **`mp4convert6000`** | **96k** | Conversion haute qualité avec compression audio standard (gain de place). |
+| **`mp4convertnextcloud`** | **Original** | Réduction vidéo à 6 Mbps tout en **conservant la qualité sonore native**. |
 
 ---
 
@@ -126,7 +130,7 @@ alias gpu-mp4convertnextcloud='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaap
 
 ---
 
-##🧪 Exemple complet d'alias décortiqué
+## 🧪 Exemple complet d'alias décortiqué
 
 Voici l'alias `gpu-mp4convert3000` illustré pour comprendre sa structure :
 
@@ -144,3 +148,13 @@ alias gpu-mp4convert3000='
 '
 
 ```
+
+---
+
+## Dépannage (Troubleshooting)
+
+### Erreur : `get chip id failed: -1 [13]` ou `Permission denied`
+
+Si vous obtenez cette erreur avec un alias `gpu-` alors que vous êtes bien dans le groupe `render`, cela confirme que votre processeur est trop ancien (ex : Sandy Bridge / Core i7-2xxx) pour les pilotes DRM actuels du noyau Linux 6.x.
+
+**Solution :** Ne perdez pas de temps à essayer de forcer le GPU. Votre CPU possède suffisamment de threads pour gérer la conversion via les alias **CPU** classiques sans le préfixe `gpu-`.
