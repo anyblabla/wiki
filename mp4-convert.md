@@ -2,7 +2,7 @@
 title: Conversion vidéo optimisée (FFMPEG)
 description: Guide complet pour automatiser la conversion vidéo massive sous Linux via FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour l'encodage CPU et GPU.
 published: true
-date: 2026-01-17T23:26:26.985Z
+date: 2026-01-17T23:52:41.409Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
@@ -26,22 +26,48 @@ L'utilisation d'alias permet de basculer entre deux stratégies :
 
 ---
 
-## Installation des pilotes VA-API (Intel)
+## Préparation du système
 
-Pour activer l'accélération matérielle (alias préfixés par `gpu-`), installez le pilote correspondant à votre processeur.
+### 1. Création du répertoire de sortie
+
+FFmpeg ne créera pas le dossier automatiquement. Lancez cette commande avant d'utiliser les alias :
+
+```bash
+mkdir -p $HOME/Vidéos/MP4convert/
+
+```
+
+*Note : Si vous choisissez une autre destination, vous devrez modifier les alias en conséquence.*
+
+### 2. Droits d'accès et groupes
+
+Pour que le GPU soit accessible, votre utilisateur doit impérativement appartenir aux groupes `video` et `render`.
+
+* **Vérifier vos groupes :** `groups`
+* **S'ajouter aux groupes :**
+
+```bash
+sudo usermod -aG video,render $USER
+
+```
+
+*(Un redémarrage de session ou du système est nécessaire).*
+
+---
+
+## Installation des pilotes VA-API (Intel)
 
 ### 1. Installation des paquets de base
 
 ```bash
 sudo apt update
-sudo apt install -y vainfo ffmpeg
+sudo apt install -y vainfo ffmpeg intel-gpu-tools nano
 
 ```
 
 ### 2. Choix du pilote selon la génération
 
 * **Générations anciennes (Broadwell et antérieurs) :**
-*Note : Pour les processeurs de 2ème à 4ème génération, installez la version `-shaders` pour débloquer l'encodage.*
 
 ```bash
 sudo apt install -y i965-va-driver-shaders
@@ -57,9 +83,18 @@ echo "LIBVA_DRIVER_NAME=iHD" | sudo tee -a /etc/environment
 
 ```
 
-> **💡 Note sur les droits d'accès :**
-> Pour que le GPU soit accessible, votre utilisateur doit impérativement appartenir aux groupes `video` et `render`.
-> `sudo usermod -aG video,render $USER` (puis redémarrez votre session).
+> **💡 Note sur les systèmes hybrides (Double GPU) :**
+> Sur certains PC portables (ex: HP Pavilion dv7), vous avez un **iGPU Intel** (intégré) et un **GPU discret AMD/NVIDIA**.
+> Lancez `intel_gpu_top`. Si le GPU Intel apparaît sur `/dev/dri/card1`, vous devrez utiliser **`/dev/dri/renderD129`** dans vos alias. Si c'est sur `card0`, utilisez **`/dev/dri/renderD128`**.
+
+---
+
+## Installation des Alias avec Nano
+
+1. Ouvrez le fichier de configuration : `nano ~/.bash_aliases`
+2. Collez les blocs de code CPU et GPU ci-dessous.
+3. Sauvegardez (`Ctrl+O` puis `Entrée`) et quittez (`Ctrl+X`).
+4. Actualisez votre terminal : `source ~/.bashrc`
 
 ---
 
@@ -76,8 +111,6 @@ Chaque alias utilise un codec H.264. La majorité utilise un débit audio standa
 | `mp4convertnextcloud` | 6000k | **Optimisation audio original** |
 
 ### Focus spécifique : différence entre les alias 6000k
-
-Les deux alias de 6000k diffèrent par la gestion de la piste audio :
 
 | Alias | Débit audio | Contexte d'utilisation |
 | --- | --- | --- |
@@ -110,21 +143,23 @@ alias mp4convertnextcloud='for file in *.mp4; do ffmpeg -i "$file" -b:v 6000k -c
 
 ### 2. Méthode GPU (vitesse éclair - VA-API Intel)
 
+*Note : Adapté pour renderD129 (systèmes hybrides). Changez en renderD128 si nécessaire.*
+
 ```bash
-alias gpu-mp4convert200='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 200k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-200k-$file"; done'
-alias gpu-mp4convert500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-500k-$file"; done'
-alias gpu-mp4convert1000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1000k-$file"; done'
-alias gpu-mp4convert1500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1500k-$file"; done'
-alias gpu-mp4convert2000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2000k-$file"; done'
-alias gpu-mp4convert2500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2500k-$file"; done'
-alias gpu-mp4convert3000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; done'
-alias gpu-mp4convert3500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3500k-$file"; done'
-alias gpu-mp4convert4000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4000k-$file"; done'
-alias gpu-mp4convert4500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4500k-$file"; done'
-alias gpu-mp4convert5000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5000k-$file"; done'
-alias gpu-mp4convert5500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5500k-$file"; done'
-alias gpu-mp4convert6000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-6000k-$file"; done'
-alias gpu-mp4convertnextcloud='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k "$HOME/Vidéos/MP4convert/gpu-nextcloud-$file"; done'
+alias gpu-mp4convert200='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 200k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-200k-$file"; done'
+alias gpu-mp4convert500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-500k-$file"; done'
+alias gpu-mp4convert1000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1000k-$file"; done'
+alias gpu-mp4convert1500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1500k-$file"; done'
+alias gpu-mp4convert2000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2000k-$file"; done'
+alias gpu-mp4convert2500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2500k-$file"; done'
+alias gpu-mp4convert3000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; done'
+alias gpu-mp4convert3500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3500k-$file"; done'
+alias gpu-mp4convert4000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4000k-$file"; done'
+alias gpu-mp4convert4500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4500k-$file"; done'
+alias gpu-mp4convert5000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5000k-$file"; done'
+alias gpu-mp4convert5500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5500k-$file"; done'
+alias gpu-mp4convert6000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-6000k-$file"; done'
+alias gpu-mp4convertnextcloud='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k "$HOME/Vidéos/MP4convert/gpu-nextcloud-$file"; done'
 
 ```
 
@@ -136,14 +171,14 @@ Voici l'alias `gpu-mp4convert3000` illustré pour comprendre sa structure :
 
 ```bash
 alias gpu-mp4convert3000='
-    for file in *.mp4; # 1. boucle pour chaque fichier .mp4 du dossier
+    for file in *.mp4; # 1. boucle pour chaque fichier .mp4 du dossier actuel
     do 
-        ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 \ # 2. activation accélération matérielle
-            -i "$file" \
-            -vf "format=nv12,hwupload" \ # 3. préparation du flux pour le GPU
-            -c:v h264_vaapi \ # 4. utilisation de l encodeur matériel
-            -b:v 3000k -b:a 96k \ # 5. réglage des débits vidéo et audio
-            "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; # 6. sortie sécurisée et préfixée
+        ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 \ # 2. Hardware Acceleration : cible l iGPU Intel spécifique
+            -i "$file" \ # 3. Input : fichier source
+            -vf "format=nv12,hwupload" \ # 4. Video Filter : prépare le format pour le GPU
+            -c:v h264_vaapi \ # 5. Codec Video : utilise l encodeur matériel
+            -b:v 3000k -b:a 96k \ # 6. Bitrate : règle les débits vidéo et audio
+            "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; # 7. Output : dossier de destination sécurisé
     done
 '
 
@@ -155,6 +190,9 @@ alias gpu-mp4convert3000='
 
 ### Erreur : `get chip id failed: -1 [13]` ou `Permission denied`
 
-Si vous obtenez cette erreur avec un alias `gpu-` alors que vous êtes bien dans le groupe `render`, cela confirme que votre processeur est trop ancien (ex : Sandy Bridge / Core i7-2xxx) pour les pilotes DRM actuels du noyau Linux 6.x.
+Si vous obtenez cette erreur avec un alias `gpu-` alors que vous êtes bien dans le groupe `render`, cela peut signifier deux choses :
+
+1. **Conflit de périphérique :** Vous ciblez peut-être la mauvaise carte (D128 au lieu de D129).
+2. **Obsolescence :** Votre processeur est trop ancien (ex : Sandy Bridge) pour les pilotes récents.
 
 **Solution :** Ne perdez pas de temps à essayer de forcer le GPU. Votre CPU possède suffisamment de threads pour gérer la conversion via les alias **CPU** classiques sans le préfixe `gpu-`.
