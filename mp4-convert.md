@@ -2,7 +2,7 @@
 title: Conversion vidéo optimisée (FFMPEG)
 description: Guide complet pour automatiser la conversion vidéo massive sous Linux via FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour l'encodage CPU et GPU.
 published: true
-date: 2026-01-18T00:13:43.701Z
+date: 2026-01-18T00:58:40.233Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
@@ -198,3 +198,9 @@ Si vous obtenez cette erreur avec un alias `gpu-` alors que vous êtes bien dans
 2. **Obsolescence :** Votre processeur est trop ancien (ex : Sandy Bridge) pour les pilotes récents.
 
 **Solution :** Ne perdez pas de temps à essayer de forcer le GPU. Votre CPU possède suffisamment de threads pour gérer la conversion via les alias **CPU** classiques sans le préfixe `gpu-`.
+
+## Démonstration
+
+Dans cette vidéo, je vous montre comment j'utilise mes alias personnalisés pour automatiser et accélérer le traitement vidéo sur mon matériel reconditionné.
+<br>
+<iframe title="Boostez vos conversions vidéo sur Linux : CPU vs GPU (VA-API Intel)" width="560" height="315" src="https://peertube.blablalinux.be/videos/embed/hKp8v7Zm4waNeoEE6Aj5pR" allow="fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" style="border: 0px;"></iframe>
