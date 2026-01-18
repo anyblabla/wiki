@@ -2,13 +2,17 @@
 title: Guide complet - Installation et utilisation de wp-cli
 description: Apprenez à piloter WordPress depuis votre terminal Linux. Ce guide pas à pas détaille l'installation du script wp-cli pour créer, lister et supprimer vos articles via l'API REST de votre blog.
 published: true
-date: 2026-01-18T14:00:02.479Z
+date: 2026-01-18T14:13:08.522Z
 tags: bash, linux, wordpress, automatisation, cli, api rest
 editor: markdown
 dateCreated: 2026-01-18T14:00:02.479Z
 ---
 
 Ce guide détaille l'installation, la configuration et l'utilisation du script **wp-cli**, un outil interactif en Bash pour piloter votre instance WordPress via l'API REST native.
+
+> Le projet est hébergé sur deux plateformes. Choisissez votre source préférée :
+> * **Gitea (Principal) :** [gitea.blablalinux.be/blablalinux/wp-cli-bash](https://gitea.blablalinux.be/blablalinux/wp-cli-bash)
+> * **GitHub (Miroir) :** [github.com/blablalinux/wp-cli-bash](https://www.google.com/search?q=https://github.com/blablalinux/wp-cli-bash)
 
 ## 1. Présentation de l'outil
 
