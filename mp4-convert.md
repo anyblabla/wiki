@@ -2,7 +2,7 @@
 title: Conversion vidéo optimisée (FFMPEG)
 description: Guide complet pour automatiser la conversion vidéo massive sous Linux via FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour l'encodage CPU et GPU.
 published: true
-date: 2026-01-17T23:52:41.409Z
+date: 2026-01-18T00:13:43.701Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
@@ -10,11 +10,12 @@ dateCreated: 2025-10-29T23:46:41.944Z
 
 ## Objectif
 
-Ces alias permettent de convertir tous les fichiers `*.mp4` du répertoire courant en appliquant un débit binaire vidéo spécifique (`-b:v`) pour contrôler la taille et la qualité du fichier de sortie.
+Ces alias permettent de convertir tous les fichiers vidéo du répertoire courant en appliquant un débit binaire vidéo spécifique (`-b:v`) pour contrôler la taille et la qualité du fichier de sortie.
 
 * **Portabilité :** les alias utilisent la variable `$HOME` pour garantir qu'ils fonctionnent quel que soit l'utilisateur.
 * **Répertoire de sortie :** tous les fichiers convertis sont placés dans **`$HOME/Vidéos/MP4convert/`**.
 * **Sécurité :** le fichier de sortie est préfixé par le débit ou la méthode (ex : `3000k-` ou `gpu-`) pour **éviter d'écraser** l'original.
+* **Universalité :** Les alias acceptent désormais les formats **MKV, AVI, MOV et MP4** et génèrent un `.mp4` propre (sans double extension).
 
 L'utilisation d'alias permet de basculer entre deux stratégies :
 
@@ -124,20 +125,20 @@ Chaque alias utilise un codec H.264. La majorité utilise un débit audio standa
 ### 1. Méthode CPU (qualité maximale / libx264)
 
 ```bash
-alias mp4convert200='for file in *.mp4; do ffmpeg -i "$file" -b:v 200k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/200k-$file"; done'
-alias mp4convert500='for file in *.mp4; do ffmpeg -i "$file" -b:v 500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/500k-$file"; done'
-alias mp4convert1000='for file in *.mp4; do ffmpeg -i "$file" -b:v 1000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/1000k-$file"; done'
-alias mp4convert1500='for file in *.mp4; do ffmpeg -i "$file" -b:v 1500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/1500k-$file"; done'
-alias mp4convert2000='for file in *.mp4; do ffmpeg -i "$file" -b:v 2000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/2000k-$file"; done'
-alias mp4convert2500='for file in *.mp4; do ffmpeg -i "$file" -b:v 2500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/2500k-$file"; done'
-alias mp4convert3000='for file in *.mp4; do ffmpeg -i "$file" -b:v 3000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/3000k-$file"; done'
-alias mp4convert3500='for file in *.mp4; do ffmpeg -i "$file" -b:v 3500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/3500k-$file"; done'
-alias mp4convert4000='for file in *.mp4; do ffmpeg -i "$file" -b:v 4000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/4000k-$file"; done'
-alias mp4convert4500='for file in *.mp4; do ffmpeg -i "$file" -b:v 4500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/4500k-$file"; done'
-alias mp4convert5000='for file in *.mp4; do ffmpeg -i "$file" -b:v 5000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/5000k-$file"; done'
-alias mp4convert5500='for file in *.mp4; do ffmpeg -i "$file" -b:v 5500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/5500k-$file"; done'
-alias mp4convert6000='for file in *.mp4; do ffmpeg -i "$file" -b:v 6000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/6000k-$file"; done'
-alias mp4convertnextcloud='for file in *.mp4; do ffmpeg -i "$file" -b:v 6000k -c:v libx264 "$HOME/Vidéos/MP4convert/nextcloud-$file"; done'
+alias mp4convert200='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 200k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/200k-${file%.*}.mp4"; done'
+alias mp4convert500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/500k-${file%.*}.mp4"; done'
+alias mp4convert1000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 1000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/1000k-${file%.*}.mp4"; done'
+alias mp4convert1500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 1500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/1500k-${file%.*}.mp4"; done'
+alias mp4convert2000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 2000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/2000k-${file%.*}.mp4"; done'
+alias mp4convert2500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 2500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/2500k-${file%.*}.mp4"; done'
+alias mp4convert3000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 3000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/3000k-${file%.*}.mp4"; done'
+alias mp4convert3500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 3500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/3500k-${file%.*}.mp4"; done'
+alias mp4convert4000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 4000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/4000k-${file%.*}.mp4"; done'
+alias mp4convert4500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 4500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/4500k-${file%.*}.mp4"; done'
+alias mp4convert5000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 5000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/5000k-${file%.*}.mp4"; done'
+alias mp4convert5500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 5500k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/5500k-${file%.*}.mp4"; done'
+alias mp4convert6000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 6000k -b:a 96k -c:v libx264 "$HOME/Vidéos/MP4convert/6000k-${file%.*}.mp4"; done'
+alias mp4convertnextcloud='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -i "$file" -b:v 6000k -c:v libx264 "$HOME/Vidéos/MP4convert/nextcloud-${file%.*}.mp4"; done'
 
 ```
 
@@ -146,20 +147,20 @@ alias mp4convertnextcloud='for file in *.mp4; do ffmpeg -i "$file" -b:v 6000k -c
 *Note : Adapté pour renderD129 (systèmes hybrides). Changez en renderD128 si nécessaire.*
 
 ```bash
-alias gpu-mp4convert200='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 200k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-200k-$file"; done'
-alias gpu-mp4convert500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-500k-$file"; done'
-alias gpu-mp4convert1000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1000k-$file"; done'
-alias gpu-mp4convert1500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1500k-$file"; done'
-alias gpu-mp4convert2000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2000k-$file"; done'
-alias gpu-mp4convert2500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2500k-$file"; done'
-alias gpu-mp4convert3000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; done'
-alias gpu-mp4convert3500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3500k-$file"; done'
-alias gpu-mp4convert4000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4000k-$file"; done'
-alias gpu-mp4convert4500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4500k-$file"; done'
-alias gpu-mp4convert5000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5000k-$file"; done'
-alias gpu-mp4convert5500='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5500k-$file"; done'
-alias gpu-mp4convert6000='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-6000k-$file"; done'
-alias gpu-mp4convertnextcloud='for file in *.mp4; do ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k "$HOME/Vidéos/MP4convert/gpu-nextcloud-$file"; done'
+alias gpu-mp4convert200='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 200k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-200k-${file%.*}.mp4"; done'
+alias gpu-mp4convert500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-500k-${file%.*}.mp4"; done'
+alias gpu-mp4convert1000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1000k-${file%.*}.mp4"; done'
+alias gpu-mp4convert1500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 1500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-1500k-${file%.*}.mp4"; done'
+alias gpu-mp4convert2000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2000k-${file%.*}.mp4"; done'
+alias gpu-mp4convert2500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 2500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-2500k-${file%.*}.mp4"; done'
+alias gpu-mp4convert3000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3000k-${file%.*}.mp4"; done'
+alias gpu-mp4convert3500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 3500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-3500k-${file%.*}.mp4"; done'
+alias gpu-mp4convert4000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4000k-${file%.*}.mp4"; done'
+alias gpu-mp4convert4500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 4500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-4500k-${file%.*}.mp4"; done'
+alias gpu-mp4convert5000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5000k-${file%.*}.mp4"; done'
+alias gpu-mp4convert5500='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 5500k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-5500k-${file%.*}.mp4"; done'
+alias gpu-mp4convert6000='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k -b:a 96k "$HOME/Vidéos/MP4convert/gpu-6000k-${file%.*}.mp4"; done'
+alias gpu-mp4convertnextcloud='for file in *.{mp4,mkv,avi,mov}; do [ -e "$file" ] || continue; ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 -i "$file" -vf "format=nv12,hwupload" -c:v h264_vaapi -b:v 6000k "$HOME/Vidéos/MP4convert/gpu-nextcloud-${file%.*}.mp4"; done'
 
 ```
 
@@ -171,14 +172,15 @@ Voici l'alias `gpu-mp4convert3000` illustré pour comprendre sa structure :
 
 ```bash
 alias gpu-mp4convert3000='
-    for file in *.mp4; # 1. boucle pour chaque fichier .mp4 du dossier actuel
+    for file in *.{mp4,mkv,avi,mov}; # 1. boucle pour chaque fichier vidéo du dossier actuel
     do 
-        ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 \ # 2. Hardware Acceleration : cible l iGPU Intel spécifique
-            -i "$file" \ # 3. Input : fichier source
-            -vf "format=nv12,hwupload" \ # 4. Video Filter : prépare le format pour le GPU
-            -c:v h264_vaapi \ # 5. Codec Video : utilise l encodeur matériel
-            -b:v 3000k -b:a 96k \ # 6. Bitrate : règle les débits vidéo et audio
-            "$HOME/Vidéos/MP4convert/gpu-3000k-$file"; # 7. Output : dossier de destination sécurisé
+        [ -e "$file" ] || continue; # 2. sécurité si aucun fichier ne correspond
+        ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD129 \ # 3. Hardware Acceleration : cible l iGPU Intel spécifique
+            -i "$file" \ # 4. Input : fichier source (mkv, avi, mp4, mov)
+            -vf "format=nv12,hwupload" \ # 5. Video Filter : prépare le format pour le GPU
+            -c:v h264_vaapi \ # 6. Codec Video : utilise l encodeur matériel
+            -b:v 3000k -b:a 96k \ # 7. Bitrate : règle les débits vidéo et audio
+            "$HOME/Vidéos/MP4convert/gpu-3000k-${file%.*}.mp4"; # 8. Output : nettoie l extension originale et force le .mp4
     done
 '
 
