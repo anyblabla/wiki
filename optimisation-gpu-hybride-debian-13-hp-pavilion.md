@@ -2,7 +2,7 @@
 title: Optimisation du GPU hybride (Intel/AMD) sur HP Pavilion dv7
 description: Apprenez à optimiser le GPU hybride Intel/AMD sur Debian 13. Guide complet pour gérer le rendu 3D et le décodage vidéo matériel sur un laptop HP Pavilion dv7.
 published: true
-date: 2026-01-18T02:46:03.865Z
+date: 2026-01-18T13:13:27.993Z
 tags: trixie, debian 13, proxmox 9, va-api, amd radeon, intel hd graphics, accélération matérielle, hp pavilion
 editor: markdown
 dateCreated: 2026-01-17T19:38:21.964Z
@@ -89,3 +89,8 @@ Retrouvez ci-dessous la mise en pratique réelle des concepts expliqués plus ha
   style="border: 0; width: 100%; aspect-ratio: 16 / 9;" 
   allowfullscreen>
 </iframe>
+<p align="center">
+  <a href="https://peertube.blablalinux.be/w/54V2zuHDJi2tjc8J8hxUxD" target="_blank">
+    📺 <b>Voir la vidéo : Démonstration de l'accélération hybride (Intel/AMD) sur HP Pavilion dv7 - Debian 13</b>
+  </a>
+</p>
