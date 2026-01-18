@@ -2,7 +2,7 @@
 title: Conversion vidéo optimisée (FFMPEG)
 description: Guide complet pour automatiser la conversion vidéo massive sous Linux via FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour l'encodage CPU et GPU.
 published: true
-date: 2026-01-18T02:05:14.823Z
+date: 2026-01-18T13:14:48.597Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
@@ -212,3 +212,8 @@ Dans cette vidéo, je vous montre comment j'utilise mes alias personnalisés pou
   style="border: 0; width: 100%; aspect-ratio: 16 / 9;" 
   allowfullscreen>
 </iframe>
+<p align="center">
+  <a href="https://peertube.blablalinux.be/w/hKp8v7Zm4waNeoEE6Aj5pR" target="_blank">
+    📺 <b>Voir la vidéo : Boostez vos conversions vidéo sur Linux : CPU vs GPU (VA-API Intel)</b>
+  </a>
+</p>
