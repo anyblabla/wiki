@@ -2,7 +2,7 @@
 title: Conversion vidéo optimisée (FFMPEG)
 description: Guide complet pour automatiser la conversion vidéo massive sous Linux via FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour l'encodage CPU et GPU.
 published: true
-date: 2026-01-18T13:14:48.597Z
+date: 2026-01-22T22:04:35.134Z
 tags: bash, convert, mp4, ffmpeg, alias
 editor: markdown
 dateCreated: 2025-10-29T23:46:41.944Z
@@ -57,6 +57,13 @@ sudo usermod -aG video,render $USER
 ---
 
 ## Installation des pilotes VA-API (Intel)
+
+> **🚨 Important : Configuration des dépôts Debian (12 & 13)**
+> Pour que les paquets ci-dessous soient trouvables par votre système, vous devez impérativement activer les sections `contrib`, `non-free` et `non-free-firmware`.
+> 1. Modifiez votre fichier de sources : `sudo nano /etc/apt/sources.list`
+> 2. Ajoutez les composants à la fin de vos lignes de dépôts pour qu'elles ressemblent à ceci :
+> `deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware`
+> 3. Mettez à jour : `sudo apt update`
 
 ### 1. Installation des paquets de base
 
