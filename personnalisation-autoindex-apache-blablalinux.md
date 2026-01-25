@@ -2,7 +2,7 @@
 title: Personnalisation de l'explorateur de fichiers Apache (thème Blabla Linux)
 description: Apprenez à personnaliser l'explorateur de fichiers Apache (mod_autoindex) avec le thème sombre de Blabla Linux. Guide technique pour un rendu moderne, responsive et aux couleurs de votre charte.
 published: true
-date: 2026-01-25T23:08:53.283Z
+date: 2026-01-25T23:10:46.860Z
 tags: apache, css, webdesign, tutoriel, autoindex
 editor: markdown
 dateCreated: 2026-01-25T22:50:47.081Z
@@ -61,14 +61,20 @@ th:nth-child(n+3), td:nth-child(n+3) { display: none; }
 
 **Comparaison du rendu bureau vs mobile :**
 
-<div align="center">
-  <p><strong>Rendu sur ordinateur</strong></p>
-  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-desktop.png" alt="Rendu Desktop" style="width: 100%; max-width: 800px; border-radius: 8px; border: 1px solid #444;">
-  <br><br>
-  <p><strong>Rendu sur smartphone</strong></p>
-  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-mobile.jpg" alt="Rendu Mobile" style="width: 100%; max-width: 280px; border-radius: 8px; border: 1px solid #444;">
+<div align="center" style="margin: 20px 0;">
+  <p style="margin-bottom: 10px;"><strong>🖥️ Rendu sur ordinateur (Desktop)</strong></p>
+  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-desktop.png" 
+       alt="Rendu Desktop" 
+       style="width: 100%; max-width: 850px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #ddd;">
+  
+  <div style="margin-top: 40px;"></div>
+
+  <p style="margin-bottom: 10px;"><strong>📱 Rendu sur smartphone (Mobile)</strong></p>
+  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-mobile.jpg" 
+       alt="Rendu Mobile" 
+       style="width: 100%; max-width: 300px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #ddd;">
   <br>
-  <em>Les colonnes superflues sont masquées pour un confort de lecture optimal.</em>
+  <p style="font-style: italic; color: #666; margin-top: 10px;">Les colonnes superflues sont masquées pour un confort de lecture optimal.</p>
 </div>
 
 ## 3. Configuration serveur (`.htaccess`)
