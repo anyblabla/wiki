@@ -2,7 +2,7 @@
 title: Personnalisation de l'explorateur de fichiers Apache (thème Blabla Linux)
 description: Apprenez à personnaliser l'explorateur de fichiers Apache (mod_autoindex) avec le thème sombre de Blabla Linux. Guide technique pour un rendu moderne, responsive et aux couleurs de votre charte.
 published: true
-date: 2026-01-25T23:07:07.268Z
+date: 2026-01-25T23:08:53.283Z
 tags: apache, css, webdesign, tutoriel, autoindex
 editor: markdown
 dateCreated: 2026-01-25T22:50:47.081Z
@@ -59,9 +59,17 @@ th:nth-child(n+3), td:nth-child(n+3) { display: none; }
 
 **Comparaison du rendu Desktop vs Mobile :**
 
-| Rendu ordinateur (Desktop) | Rendu smartphone (Mobile) |
-| :---: | :---: |
-| <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-desktop.png" alt="Desktop" width="100%"> | <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-mobile.jpg" alt="Mobile" width="100%"> |
+**Comparaison du rendu bureau vs mobile :**
+
+<div align="center">
+  <p><strong>Rendu sur ordinateur</strong></p>
+  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-desktop.png" alt="Rendu Desktop" style="width: 100%; max-width: 800px; border-radius: 8px; border: 1px solid #444;">
+  <br><br>
+  <p><strong>Rendu sur smartphone</strong></p>
+  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-mobile.jpg" alt="Rendu Mobile" style="width: 100%; max-width: 280px; border-radius: 8px; border: 1px solid #444;">
+  <br>
+  <em>Les colonnes superflues sont masquées pour un confort de lecture optimal.</em>
+</div>
 
 ## 3. Configuration serveur (`.htaccess`)
 
