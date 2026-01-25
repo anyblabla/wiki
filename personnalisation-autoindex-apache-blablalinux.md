@@ -2,7 +2,7 @@
 title: Personnalisation de l'explorateur de fichiers Apache (thème Blabla Linux)
 description: Apprenez à personnaliser l'explorateur de fichiers Apache (mod_autoindex) avec le thème sombre de Blabla Linux. Guide technique pour un rendu moderne, responsive et aux couleurs de votre charte.
 published: true
-date: 2026-01-25T23:15:19.699Z
+date: 2026-01-25T23:18:10.508Z
 tags: apache, css, webdesign, tutoriel, autoindex
 editor: markdown
 dateCreated: 2026-01-25T22:50:47.081Z
@@ -62,21 +62,21 @@ th:nth-child(n+3), td:nth-child(n+3) { display: none; }
 **Comparaison du rendu bureau vs mobile :**
 
 <div align="center" style="margin: 30px 0;">
-  <p style="margin-bottom: 15px; color: #f77f11; font-weight: bold; font-size: 1.1rem;">
-    🖥️ Rendu Desktop (Interface complète)
+  <p style="margin-bottom: 15px; color: #f77f11; font-weight: bold; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+    🖥️ Rendu bureau (Interface complète)
   </p>
   <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-desktop.png" 
        alt="Rendu Desktop" 
-       style="width: 100%; max-width: 850px; border-radius: 8px; box-shadow: 0 0 20px rgba(247, 127, 17, 0.2); border: 2px solid #333;">
+       style="width: 100%; max-width: 850px; border-radius: 8px; box-shadow: 0 0 25px rgba(247, 127, 17, 0.4); border: 2px solid #444;">
   
   <div style="margin-top: 50px;"></div>
 
-  <p style="margin-bottom: 15px; color: #f77f11; font-weight: bold; font-size: 1.1rem;">
-    📱 Rendu Mobile (Vue optimisée)
+  <p style="margin-bottom: 15px; color: #f77f11; font-weight: bold; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+    📱 Rendu smartphone (Vue optimisée)
   </p>
   <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-mobile.jpg" 
        alt="Rendu Mobile" 
-       style="width: 100%; max-width: 320px; border-radius: 15px; box-shadow: 0 0 20px rgba(247, 127, 17, 0.2); border: 2px solid #333;">
+       style="width: 100%; max-width: 320px; border-radius: 12px; box-shadow: 0 0 25px rgba(247, 127, 17, 0.4); border: 2px solid #444;">
 </div>
 
 ## 3. Configuration serveur (`.htaccess`)
