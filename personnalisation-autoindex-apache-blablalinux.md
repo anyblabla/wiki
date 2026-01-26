@@ -2,7 +2,7 @@
 title: Personnalisation de l'explorateur de fichiers Apache (thème Blabla Linux)
 description: Apprenez à personnaliser l'explorateur de fichiers Apache (mod_autoindex) avec le thème sombre de Blabla Linux. Guide technique pour un rendu moderne, responsive et aux couleurs de votre charte.
 published: true
-date: 2026-01-26T00:14:27.117Z
+date: 2026-01-26T00:16:26.662Z
 tags: apache, css, webdesign, tutoriel, autoindex
 editor: markdown
 dateCreated: 2026-01-25T22:50:47.081Z
