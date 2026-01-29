@@ -2,7 +2,7 @@
 title: AdGuard Home - Installation et configuration complète
 description: Découvrez comment installer et configurer AdGuard Home sur Proxmox ou Docker. Un guide complet pour bloquer la publicité, protéger votre vie privée et optimiser votre réseau local avec BlablaLinux.
 published: false
-date: 2026-01-29T23:10:48.833Z
+date: 2026-01-29T23:12:49.735Z
 tags: lxc, proxmox, debian, sync, sécurité, auto-hébergement, adguard, dns
 editor: markdown
 dateCreated: 2026-01-29T22:52:06.042Z
@@ -407,9 +407,9 @@ Dans la section `features` du fichier YAML, certains éléments doivent être d�
 
 ---
 
-<blockquote class="mastodon-embed" data-embed-url="https://mastodon.blablalinux.be/@blablalinux/115441781574515778/embed" class="mastodon-dark-theme">
-  <a href="https://mastodon.blablalinux.be/@blablalinux/115441781574515778" target="_blank">
-    <div class="mastodon-placeholder">Voir sur Mastodon</div>
-  </a>
-</blockquote>
-<script data-allowed-prefixes="https://mastodon.blablalinux.be/" async src="https://mastodon.blablalinux.be/embed.js"></script>
+<div id="mastodon-container">
+  <blockquote class="mastodon-embed" data-embed-url="https://mastodon.blablalinux.be/@blablalinux/115441781574515778/embed">
+    <a href="https://mastodon.blablalinux.be/@blablalinux/115441781574515778">Voir le post sur Mastodon</a>
+  </blockquote>
+</div>
+<script async src="https://mastodon.blablalinux.be/embed.js"></script>
