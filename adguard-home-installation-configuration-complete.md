@@ -2,7 +2,7 @@
 title: AdGuard Home - Installation et configuration complète
 description: Découvrez comment installer et configurer AdGuard Home sur Proxmox ou Docker. Un guide complet pour bloquer la publicité, protéger votre vie privée et optimiser votre réseau local avec BlablaLinux.
 published: true
-date: 2026-01-29T23:57:54.381Z
+date: 2026-01-29T23:58:57.566Z
 tags: lxc, proxmox, debian, sync, sécurité, auto-hébergement, adguard, dns
 editor: markdown
 dateCreated: 2026-01-29T22:52:06.042Z
@@ -401,8 +401,7 @@ Le fichier de configuration (`./config/adguardhome-sync.yaml`) doit être ajust�
 
 Dans la section `features` du fichier YAML, certains éléments doivent être désactivés pour éviter de casser votre réseau :
 
-> [!CAUTION]
-> **Le serveur DHCP :** Doit être configuré sur **`false`**. Un réseau local ne peut supporter qu'**un seul serveur DHCP actif**. Si vous synchronisez et activez le DHCP sur vos deux instances simultanément, vous provoquerez des conflits d'adresses IP majeurs.
+> ⚠️ **Le serveur DHCP :** Doit être configuré sur **`false`**. Un réseau local ne peut supporter qu'**un seul serveur DHCP actif**. Si vous synchronisez et activez le DHCP sur vos deux instances simultanément, vous provoquerez des conflits d'adresses IP majeurs.
 
 * **`statsConfig` / `queryLogConfig` :** À laisser sur `false` pour que chaque instance conserve ses propres statistiques.
 
