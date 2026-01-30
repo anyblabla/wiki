@@ -2,7 +2,7 @@
 title: AdGuard Home - Installation et configuration complète
 description: Découvrez comment installer et configurer AdGuard Home sur Proxmox ou Docker. Un guide complet pour bloquer la publicité, protéger votre vie privée et optimiser votre réseau local avec BlablaLinux.
 published: true
-date: 2026-01-29T23:58:57.566Z
+date: 2026-01-30T01:21:43.473Z
 tags: lxc, proxmox, debian, sync, sécurité, auto-hébergement, adguard, dns
 editor: markdown
 dateCreated: 2026-01-29T22:52:06.042Z
@@ -194,6 +194,7 @@ Le cache permet de répondre instantanément aux requêtes déjà effectuées sa
 * **Caching optimiste (optimistic caching) :** Lorsqu'elle est activée, cette option permet à AdGuard de servir une réponse en cache même si elle vient d'expirer, tout en effectuant la mise à jour en arrière-plan. Cela rend la navigation extrêmement fluide.
 
 <img src="/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete.png" alt="Configuration DNS et Cache" style="width: 100%;">
+
 > *Capture d'écran : Configuration des serveurs amonts (DoH) et réglages du cache.*
 
 ## 5. Filtrage et protection
@@ -315,6 +316,7 @@ Comme on le voit sur la configuration de **blablalinux.be**, il est recommandé 
 * **Redirection automatique :** Activez la redirection vers HTTPS pour garantir que votre connexion à l'interface web soit toujours cryptée.
 
 <img src="/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete-02.png" alt="Configuration SSL et Chiffrement" style="width: 100%;">
+
 > *Capture d'écran : Paramétrage du certificat SSL anonymisé pour sécuriser l'interface.*
 
 ### B. Ports de chiffrement
@@ -411,6 +413,7 @@ Dans la section `features` du fichier YAML, certains éléments doivent être d�
 * **Fichiers complets (Compose et YAML) :** [ByteStash BlablaLinux - Configuration Sync](https://bytestash.blablalinux.be/s/122ea0cd5e2848ecbea449bd6740cee1)
 
 <img src="/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete-03.png" alt="Logs de synchronisation" style="width: 100%;">
+
 > *Capture d'écran : Validation de la synchronisation réussie entre les deux instances.*
 
 ---
