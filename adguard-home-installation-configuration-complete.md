@@ -2,7 +2,7 @@
 title: AdGuard Home - Installation et configuration complète
 description: Découvrez comment installer et configurer AdGuard Home sur Proxmox ou Docker. Un guide complet pour bloquer la publicité, protéger votre vie privée et optimiser votre réseau local avec BlablaLinux.
 published: true
-date: 2026-01-30T08:04:24.923Z
+date: 2026-01-30T09:03:06.333Z
 tags: lxc, proxmox, debian, sync, sécurité, auto-hébergement, adguard, dns
 editor: markdown
 dateCreated: 2026-01-29T22:52:06.042Z
@@ -234,7 +234,7 @@ AdGuard Home peut identifier les appareils de ton réseau de plusieurs façons :
 
 * **Par adresse IP :** (Le plus courant) Utile si tes appareils ont des baux statiques (IP fixes).
 * **Par adresse MAC :** Très fiable si AdGuard Home est aussi ton serveur DHCP.
-* **Par nom d'hôte (hostname) :** Pratique pour identifier rapidement qui est quoi (ex: `iPhone-Amaury`).
+* **Par nom d'hôte (hostname) :** Pratique pour identifier rapidement qui est quoi (ex: `iPhone-Amaury`😜).
 
 ### B. Paramètres spécifiques par client
 
