@@ -1,8 +1,8 @@
 ---
-title: Migration de domaine YOURLS : de yourls à y.blablalinux.be
+title: Migration de domaine YOURLS - de yourls à y.blablalinux.be
 description: Procédure complète pour migrer YOURLS vers un domaine court comme y.blablalinux.be avec Nginx Proxy Manager, redirection 301, défi DNS OVH et sécurisation optionnelle via un plugin reCAPTCHA.
 published: true
-date: 2026-01-30T01:09:14.513Z
+date: 2026-01-30T01:09:32.770Z
 tags: nginx, npm, yourls, redirection 301, recaptcha
 editor: markdown
 dateCreated: 2026-01-30T01:09:14.513Z
