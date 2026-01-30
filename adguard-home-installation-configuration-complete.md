@@ -2,7 +2,7 @@
 title: AdGuard Home - Installation et configuration complète
 description: Découvrez comment installer et configurer AdGuard Home sur Proxmox ou Docker. Un guide complet pour bloquer la publicité, protéger votre vie privée et optimiser votre réseau local avec BlablaLinux.
 published: true
-date: 2026-01-30T01:21:43.473Z
+date: 2026-01-30T08:04:24.923Z
 tags: lxc, proxmox, debian, sync, sécurité, auto-hébergement, adguard, dns
 editor: markdown
 dateCreated: 2026-01-29T22:52:06.042Z
@@ -36,7 +36,7 @@ AdGuard Home intercepte les requêtes DNS. Lorsqu’un appareil demande l’adre
 
 ## 2. Installation
 
-Il existe plusieurs méthodes pour déployer AdGuard Home. Bien que l'installation binaire ou Docker soit possible, l'utilisation d'un conteneur LXC via les scripts de la communauté Proxmox est la solution la plus optimisée pour ton infrastructure sous Debian.
+Il existe plusieurs méthodes pour déployer AdGuard Home. Bien que l'installation binaire ou Docker soit possible, l'utilisation d'un conteneur LXC via les scripts de la communauté Proxmox est la solution la plus optimisée pour une infrastructure Proxmox.
 
 ### A. Méthode recommandée : Proxmox VE Helper Scripts (LXC)
 
