@@ -2,7 +2,7 @@
 title: Optimisation des campagnes Listmonk - Le preheader invisible
 description: Guide technique pour ajouter un texte d'aperçu (preheader) dans Listmonk via HTML et configurer des données d'abonné fictives pour tester la personnalisation des messages.
 published: true
-date: 2025-12-19T15:25:29.468Z
+date: 2026-01-31T12:11:46.167Z
 tags: listmonk, mail, header, preheader, newsletter, email, mailing
 editor: markdown
 dateCreated: 2025-12-19T15:19:31.897Z
@@ -92,6 +92,19 @@ Exemple de JSON à utiliser pour tester le message :
 ```
 
 > **Note :** Le texte du preheader n'apparaîtra **pas** dans l'aperçu visuel de Listmonk (car il est masqué par le CSS). Pour le valider réellement, vous devez cliquer sur **"Envoyer un test"** vers votre propre adresse mail.
+
+## Analyse du rendu visuel
+
+Une fois le mail reçu, voici comment les différents éléments interagissent pour créer une présentation professionnelle :
+
+![listmonk-optimisation-preheader-02.jpg](/listmonk-optimisation-preheader/listmonk-optimisation-preheader-02.jpg)
+
+### Détails du rendu :
+
+1. **L'Objet (en gras) :** Le titre principal de votre campagne.
+2. **Le Preheader (en gris) :** Le texte de votre première balise `<div>`. Il complète l'objet pour inciter à l'ouverture.
+3. **L'Espaceur (le vide après le texte) :** C'est ici que la chaîne `&nbsp;&zwnj;` opère. Elle crée un "vide" invisible qui remplit la ligne d'aperçu.
+4. **Le Masquage du contenu :** Grâce à cet espaceur, le début du corps du mail (*"Salut Natacha..."*) est poussé hors de la zone visible.
 
 ## Bonnes pratiques
 
