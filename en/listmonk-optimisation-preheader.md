@@ -1,8 +1,8 @@
 ---
-title: Listmonk — Optimizing Email Preview Text (Preheader)
+title: Listmonk Campaign Optimization - The Invisible Preheader
 description: Technical guide for adding a preview text (preheader) in Listmonk via HTML and configuring dummy subscriber data to test message personalization.
 published: true
-date: 2026-01-31T12:31:45.228Z
+date: 2026-01-31T12:33:28.905Z
 tags: listmonk, mail, header, preheader, newsletter, email, mailing
 editor: markdown
 dateCreated: 2026-01-31T12:31:45.228Z
