@@ -2,7 +2,7 @@
 title: Welcome
 description: 🧠 All my technical guides and up-to-date installation methods. Benefit from my successes (and learn from my "struggles" 😉)!
 published: true
-date: 2026-01-31T12:44:24.700Z
+date: 2026-01-31T12:46:26.433Z
 tags: 
 editor: markdown
 dateCreated: 2026-01-08T23:24:03.690Z
