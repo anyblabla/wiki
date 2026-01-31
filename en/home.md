@@ -2,7 +2,7 @@
 title: Welcome
 description: 🧠 All my technical guides and up-to-date installation methods. Benefit from my successes (and learn from my "struggles" 😉)!
 published: true
-date: 2026-01-08T23:24:03.690Z
+date: 2026-01-31T12:44:24.700Z
 tags: 
 editor: markdown
 dateCreated: 2026-01-08T23:24:03.690Z
@@ -34,7 +34,7 @@ This wiki is designed to be my **public "cheat sheet"**, available in read-only 
 
 This wiki is a work in progress ! Want to know what I’m currently working on?
 
-Check the dedicated **[Articles under construction](https://www.google.com/search?q=/zone-construction-brouillons)** page to discover topics that will soon be available. It’s the perfect place to get a sneak peek at upcoming guides !
+Check the dedicated **[Articles under construction](/zone-construction-brouillons)** page to discover topics that will soon be available. It’s the perfect place to get a sneak peek at upcoming guides !
 
 ---
 
