@@ -2,7 +2,7 @@
 title: Implémenter Swagger UI pour une API sans interface (exemple LanguageTool)
 description: Apprenez à déployer Swagger UI de manière indépendante pour documenter et tester l'API de LanguageTool, tout en configurant correctement les politiques de sécurité CORS sous Nginx Proxy Manager.
 published: true
-date: 2026-01-31T23:26:44.436Z
+date: 2026-02-01T00:22:37.505Z
 tags: docker, npm, api, swagger, languagetool, cors
 editor: markdown
 dateCreated: 2026-01-31T23:26:44.436Z
@@ -71,7 +71,7 @@ services:
       # Chemin vers le fichier JSON monté dans le volume
       API_URL: "specs/languagetool-api.json"
       # Désactive le validateur externe pour plus de confidentialité
-      SWAGGER_VALIDATOR_URL: "none"
+      VALIDATOR_URL: ""
 
 ```
 
