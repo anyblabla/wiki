@@ -2,7 +2,7 @@
 title: Script de purge massive des journaux (purge-logs)
 description: Script d'administration pour Proxmox et Debian permettant de purger massivement les journaux système, de vider les fichiers .log sans les supprimer et de libérer l'espace disque instantanément.
 published: true
-date: 2026-02-06T14:09:23.627Z
+date: 2026-02-06T17:22:56.677Z
 tags: proxmox, debian, script, bash, nettoyage, administration système
 editor: markdown
 dateCreated: 2026-02-06T14:09:23.627Z
@@ -10,9 +10,18 @@ dateCreated: 2026-02-06T14:09:23.627Z
 
 Cet utilitaire permet de libérer rapidement de l'espace disque sur un hôte **Proxmox** ou n'importe quel système **Debian/Ubuntu** en nettoyant les journaux accumulés sans perturber les services en cours d'exécution.
 
-## Installation rapide
+## Installation pas à pas
 
-Exécutez cette commande unique en tant que `root` pour créer le script, configurer les permissions et générer le raccourci système :
+### 1. Emplacement du script
+
+Par défaut, ce guide enregistre le script dans le répertoire suivant :
+` /root/scripts/purge_logs.sh`
+
+> **Note de personnalisation :** Si vous souhaitez enregistrer le script ailleurs (par exemple dans `/usr/local/scripts/`), il vous suffit de modifier le chemin `/root/scripts/` dans la commande ci-dessous par l'emplacement de votre choix.
+
+### 2. Création et configuration automatique
+
+Exécutez cette commande unique en tant que **root** pour créer le fichier, appliquer les permissions et générer le raccourci système (alias) :
 
 ```bash
 cat << 'EOF' > /root/scripts/purge_logs.sh && chmod +x /root/scripts/purge_logs.sh && ln -sf /root/scripts/purge_logs.sh /usr/local/bin/purge-logs
@@ -26,6 +35,12 @@ EOF
 
 ```
 
+### 3. Explication des composants de la commande
+
+* **`cat << 'EOF' > /root/scripts/purge_logs.sh`** : Crée le fichier et y écrit le code source.
+* **`chmod +x`** : Rend le script exécutable par le système.
+* **`ln -sf ... /usr/local/bin/purge-logs`** : Crée un lien symbolique. C'est ce qui permet de taper simplement `purge-logs` dans votre terminal au lieu du chemin complet.
+
 ## Fonctionnement technique
 
 Le script combine trois actions de nettoyage profond :
@@ -36,7 +51,7 @@ Le script combine trois actions de nettoyage profond :
 
 ## Utilisation
 
-Une fois installé, le script peut être appelé depuis n'importe quel dossier via son alias :
+Une fois installé, le script peut être appelé depuis n'importe quel répertoire via son alias :
 
 ```bash
 purge-logs
