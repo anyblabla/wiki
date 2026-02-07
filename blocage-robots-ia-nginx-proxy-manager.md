@@ -2,7 +2,7 @@
 title: Bloquer les robots d’IA directement via NGINX Proxy Manager
 description: Apprenez à centraliser le blocage des principaux crawlers d’IA dans NGINX Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: 2026-02-07T19:13:04.753Z
+date: 2026-02-07T19:13:48.238Z
 tags: nginx, proxy, npm, blocage-crawlers, robots, ia, ai, crawlers
 editor: markdown
 dateCreated: 2025-12-15T23:32:58.582Z
@@ -19,7 +19,7 @@ Plutôt que de modifier les fichiers `robots.txt` de chaque site individuellemen
 Nous allons implémenter le blocage directement au niveau du **proxy inverse**, ici via **NGINX Proxy Manager (NPM)**. Cette méthode permet de rejeter la connexion pour les User-Agents ciblés *avant* qu'ils n'atteignent l'application cible, économisant ainsi des ressources et simplifiant l'administration.
 
 ## 1. Comprendre l’architecture des configurations personnalisées de NPM
-NGINX Proxy Manager offre des **points d'insertion (`include`)** bien définis dans la configuration NGINX générée. Ces points vous permettent d'ajouter des directives personnalisées sans modifier les fichiers de configuration de base.
+NGINX Proxy Manager offre des **points d'insertion** (`include`) bien définis dans la configuration NGINX générée. Ces points vous permettent d'ajouter des directives personnalisées sans modifier les fichiers de configuration de base.
 
 Voici la liste des points d'insertion disponibles dans le répertoire `/data/nginx/custom/` (selon la documentation NPM) :
 
