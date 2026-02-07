@@ -2,7 +2,7 @@
 title: Bloquer les robots d’IA directement via NGINX Proxy Manager
 description: Apprenez à centraliser le blocage des principaux crawlers d’IA dans NGINX Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: 2026-02-07T19:13:48.238Z
+date: 2026-02-07T19:17:53.091Z
 tags: nginx, proxy, npm, blocage-crawlers, robots, ia, ai, crawlers
 editor: markdown
 dateCreated: 2025-12-15T23:32:58.582Z
@@ -107,7 +107,7 @@ curl -A "GPTBot" -I https://votre-site.com/
 
 ```
 
-**Résultat attendu :** Vous devriez voir un code de réponse HTTP **`403 Forbidden`**.
+**Résultat attendu :** Vous devriez voir un code de réponse HTTP `403 Forbidden`.
 
 ### B. Tester l'exclusion `robots.txt` (attendu : code 200/301/302)
 Ciblez `/robots.txt` avec le même User-Agent bloqué :
