@@ -2,7 +2,7 @@
 title: Bloquer les robots d’IA directement via NGINX Proxy Manager
 description: Apprenez à centraliser le blocage des principaux crawlers d’IA dans NGINX Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: 2026-02-07T19:19:11.150Z
+date: 2026-02-07T19:21:45.506Z
 tags: nginx, proxy, npm, blocage-crawlers, robots, ia, ai, crawlers
 editor: markdown
 dateCreated: 2025-12-15T23:32:58.582Z
@@ -132,14 +132,6 @@ curl -I https://votre-site.com/
 **Résultat attendu :** Vous devriez recevoir une réponse de succès ou la redirection normale de votre application.
 
 Si ces trois tests renvoient les codes attendus, votre configuration est fonctionnelle !
-
-C'est noté, Amaury ! L'approche d'une **recharge gracieuse (`nginx -s reload`)** est en effet la norme professionnelle pour les changements de configuration NGINX, car elle assure une continuité de service maximale.
-
-J'ai réintégré la méthode de recharge gracieuse dans le script Bash pour votre section wiki.
-
-Voici la nouvelle section (et la version finale du script) que vous pouvez ajouter à votre page :
-
----
 
 ## 5. Automatisation de la mise à jour de la liste de blocage
 Pour garantir que votre liste de User-Agents bloqués reste à jour face à l'apparition de nouveaux robots d'IA, il est recommandé d'automatiser la mise à jour du fichier `server_proxy.conf` depuis la source GitHub communautaire.
