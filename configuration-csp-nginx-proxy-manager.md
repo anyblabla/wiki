@@ -2,7 +2,7 @@
 title: Guide de configuration CSP
 description: Apprenez à configurer le Content Security Policy (CSP) dans Nginx Proxy Manager pour sécuriser vos services comme Immich, Wiki.js ou Vert.sh sans bloquer les fonctionnalités vitales de vos outils.
 published: true
-date: 2026-02-10T23:48:25.977Z
+date: 2026-02-10T23:50:34.619Z
 tags: nginx, npm, sécurité, csp, auto-hébergement
 editor: markdown
 dateCreated: 2026-02-10T23:48:25.977Z
