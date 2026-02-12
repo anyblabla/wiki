@@ -2,7 +2,7 @@
 title: Installation de Cryptpad en LXC Docker (méthode BlablaLinux)
 description: Apprenez à installer CryptPad sur un conteneur LXC Docker sous Proxmox. Ce guide détaillé optimise les performances des WebSockets et la sécurité pour une instance collaborative robuste et privée.
 published: true
-date: 2026-02-12T22:52:05.131Z
+date: 2026-02-12T23:02:56.499Z
 tags: docker, lxc, proxmox, nginx, npm, compose, cryptpad, office, onlyoffice
 editor: markdown
 dateCreated: 2026-02-12T22:52:05.131Z
@@ -233,10 +233,13 @@ Pour modifier l'interface, créez le fichier `nano customize/application_config.
         // Langues disponibles
         AppConfig.availableLanguages = ['en', 'fr'];
 
-        // Liens personnalisés
-        AppConfig.privacy = 'https://blablalinux.be/politique-de-confidentialite/';
-        AppConfig.terms = 'https://blablalinux.be/conditions-d-utilisation/';
-        AppConfig.status = 'https://status.blablalinux.be';
+        // Liens personnalisés (Anonymisez-les avec vos propres URLs)
+        // Lien vers votre politique de confidentialité
+        AppConfig.privacy = 'https://exemple.be/politique-de-confidentialite/';
+        // Lien vers vos conditions d'utilisation
+        AppConfig.terms = 'https://exemple.be/conditions-d-utilisation/';
+        // Lien vers votre page de statut (Uptime)
+        AppConfig.status = 'https://status.exemple.be';
 
         // Code source (obligatoire AGPL)
         AppConfig.source = true;
