@@ -2,7 +2,7 @@
 title: Installation de Cryptpad en LXC Docker (méthode BlablaLinux)
 description: Apprenez à installer CryptPad sur un conteneur LXC Docker sous Proxmox. Ce guide détaillé optimise les performances des WebSockets et la sécurité pour une instance collaborative robuste et privée.
 published: true
-date: 2026-02-12T23:02:56.499Z
+date: 2026-02-12T23:05:45.696Z
 tags: docker, lxc, proxmox, nginx, npm, compose, cryptpad, office, onlyoffice
 editor: markdown
 dateCreated: 2026-02-12T22:52:05.131Z
@@ -65,7 +65,7 @@ root hard    nofile    65536
 mkdir ~/cryptpad && cd ~/cryptpad
 
 # Création des sous-répertoires pour les volumes
-mkdir -p data/blob data/block data/data data/files customize config onlyoffice-dist onlyoffice-conf
+mkdir -p data/blob data/block data/data data/files data/logs customize config onlyoffice-dist onlyoffice-conf
 
 ```
 
