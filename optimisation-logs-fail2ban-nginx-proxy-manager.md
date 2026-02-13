@@ -1,8 +1,8 @@
 ---
 title: Optimisation des logs et de Fail2Ban pour Nginx Proxy Manager
 description: Apprenez à optimiser la rotation des logs et l'analyse Fail2Ban pour Nginx Proxy Manager. Un guide pratique pour gérer efficacement plus de 90 proxy hosts sans saturer votre système.
-published: false
-date: 2026-02-13T12:15:21.018Z
+published: true
+date: 2026-02-13T12:15:50.264Z
 tags: docker, npm, fail2ban, sécurité, linux, sysadmin, nginx proxy manager, logrotate
 editor: markdown
 dateCreated: 2026-02-13T12:15:21.018Z
