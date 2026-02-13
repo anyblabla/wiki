@@ -2,7 +2,7 @@
 title: Optimisation des logs et de Fail2Ban pour Nginx Proxy Manager
 description: Apprenez à optimiser la rotation des logs et l'analyse Fail2Ban pour Nginx Proxy Manager. Un guide pratique pour gérer efficacement plus de 90 proxy hosts sans saturer votre système.
 published: true
-date: 2026-02-13T12:15:50.264Z
+date: 2026-02-13T12:29:30.806Z
 tags: docker, npm, fail2ban, sécurité, linux, sysadmin, nginx proxy manager, logrotate
 editor: markdown
 dateCreated: 2026-02-13T12:15:21.018Z
@@ -156,7 +156,3 @@ Pour affiner vos filtres, voici comment interpréter les retours de NPM :
 * **401 (Unauthorized) :** Échec d'authentification. Quelqu'un tente de forcer un accès. **Action : Bannissement prioritaire.**
 * **403 (Forbidden) :** Accès à une ressource interdite (scans de vulnérabilités). **Action : Bannissement recommandé.**
 * **502 (Bad Gateway) :** Le service de destination est injoignable. **Attention :** Cela arrive souvent lors de vos maintenances Docker. Utilisez un seuil élevé (ex: 15 tentatives) pour éviter les bannissements accidentels.
-
----
-
-*Auteur : Amaury aka BlablaLinux*
