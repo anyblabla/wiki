@@ -1,8 +1,8 @@
 ---
 title: Créer une page de services avec statuts dynamiques Uptime Kuma
 description: Apprenez à intégrer des badges de statut dynamiques d'Uptime Kuma dans un tableau de bord. Un guide pas à pas pour afficher la disponibilité de vos services auto-hébergés en temps réel.
-published: false
-date: 2026-02-14T13:03:19.071Z
+published: true
+date: 2026-02-14T13:10:37.954Z
 tags: wordpress, auto-hébergement, tutoriel, uptime kuma, dashboard, badges
 editor: markdown
 dateCreated: 2026-02-14T12:20:52.350Z
