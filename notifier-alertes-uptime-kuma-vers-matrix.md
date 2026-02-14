@@ -2,7 +2,7 @@
 title: Notifier vos alertes Uptime Kuma sur Matrix
 description: Apprenez à configurer les notifications d'Uptime Kuma vers Matrix. Ce guide pas à pas détaille la création du bot, la récupération du jeton d'accès et la personnalisation des alertes Liquid.
 published: false
-date: 2026-02-14T12:26:19.873Z
+date: 2026-02-14T13:08:47.315Z
 tags: auto-hébergement, uptime kuma, matrix, synapse, bot, notifications, liquidjs
 editor: markdown
 dateCreated: 2026-02-14T12:25:37.084Z
@@ -63,6 +63,9 @@ Pour un rendu professionnel, cochez **"Utiliser un modèle de message personnali
 ⏰ Heure : {{ "now" | date: "%d/%m/%Y %H:%M" }}
 
 ```
+
+> ![uk-matrix.png](/notifier-alertes-uptime-kuma-vers-matrix/uk-matrix.png)
+> *(Aperçu du message reçu dans Matrix : le template permet d'obtenir un affichage clair et horodaté.)*
 
 ## 5. Conseils et personnalisation
 
