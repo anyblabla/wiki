@@ -2,7 +2,7 @@
 title: Notifier vos alertes Uptime Kuma sur Matrix
 description: Apprenez à configurer les notifications d'Uptime Kuma vers Matrix. Ce guide pas à pas détaille la création du bot, la récupération du jeton d'accès et la personnalisation des alertes Liquid.
 published: false
-date: 2026-02-14T12:25:37.084Z
+date: 2026-02-14T12:26:19.873Z
 tags: auto-hébergement, uptime kuma, matrix, synapse, bot, notifications, liquidjs
 editor: markdown
 dateCreated: 2026-02-14T12:25:37.084Z
@@ -33,8 +33,7 @@ curl -XPOST --json '{
 
 ```
 
-> [!CAUTION]
-> **Attention à l'URL** : l'URL du serveur doit être celle de votre **homeserver** (souvent `matrix.votredomaine.tld`) et non celle de votre client web (comme Element).
+> ⚠️ **Attention à l'URL** : l'URL du serveur doit être celle de votre **homeserver** (souvent `matrix.votredomaine.tld`) et non celle de votre client web (comme Element).
 
 Récupérez la valeur `access_token` dans la réponse JSON.
 
