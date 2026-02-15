@@ -2,7 +2,7 @@
 title: Page d'erreur 404 centralisée avec redirection SSL (méthode statique)
 description: Apprenez à créer une page d'erreur 404 sécurisée par SSL (certificat Wildcard) sur Nginx Proxy Manager, utilisant un fichier HTML statique pour un rendu professionnel, dynamique et responsive.
 published: true
-date: 2026-02-15T20:55:11.459Z
+date: 2026-02-15T21:01:06.970Z
 tags: npm, 404, auto-hébergement, nginx proxy manager, matrix, ssl
 editor: markdown
 dateCreated: 2026-02-15T20:48:51.990Z
@@ -12,7 +12,7 @@ Ce guide détaille comment transformer une erreur de domaine inconnu sur **Nginx
 
 ## Pourquoi cette nouvelle méthode ?
 
-Si vous avez utilisé ma précédente documentation sur l'injection HTML directe, vous avez remarqué deux limites : l'absence de certificat SSL valide sur les domaines inconnus et la difficulté de maintenir un code complexe dans une petite zone de texte de l'interface.
+Si vous avez utilisé [ma précédente documentation](/fr/page-erreur-404-statique-ssl-npm) sur l'injection HTML directe, vous avez remarqué deux limites : l'absence de certificat SSL valide sur les domaines inconnus et la difficulté de maintenir un code complexe dans une petite zone de texte de l'interface.
 
 > ![erreur-404-no-ssl.png](/page-erreur-404-statique-ssl-npm/erreur-404-no-ssl.png)
 > *Légende : L'ancienne méthode avec le code HTML injecté directement dans les paramètres globaux.*
