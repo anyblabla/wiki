@@ -2,7 +2,7 @@
 title: Page d'erreur 404 centralisée avec redirection SSL (méthode statique)
 description: Apprenez à créer une page d'erreur 404 sécurisée par SSL (certificat Wildcard) sur Nginx Proxy Manager, utilisant un fichier HTML statique pour un rendu professionnel, dynamique et responsive.
 published: true
-date: 2026-02-15T20:48:51.990Z
+date: 2026-02-15T20:55:11.459Z
 tags: npm, 404, auto-hébergement, nginx proxy manager, matrix, ssl
 editor: markdown
 dateCreated: 2026-02-15T20:48:51.990Z
@@ -46,15 +46,15 @@ Nous créons un hôte proxy dédié qui servira de point d'ancrage pour l'erreur
 
 1. Dans NPM, cliquez sur **Ajouter un hôte proxy**.
 2. **Onglet Détails :** Configurez votre domaine de secours (ex: `fallback.blablalinux.be`) pointant vers `127.0.0.1` sur le port `80`.
-> **[Placer ici la capture : Capture d’écran du 2026-02-15 20-41-36.png]**
+> ![erreur-404-ssl-matrix-03.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-03.png)
 
 
 3. **Onglet SSL :** Sélectionnez votre certificat **Wildcard** et activez toutes les options de sécurité (Forcer SSL, HTTP/2, HSTS).
-> **[Placer ici la capture : Capture d’écran du 2026-02-15 20-43-00.png]**
+> ![erreur-404-ssl-matrix-04.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-04.png)
 
 
 4. **Configuration Nginx personnalisée :** Cliquez sur le petit engrenage en haut à droite (paramètres globaux de l'hôte) et insérez le bloc suivant :
-> **[Placer ici la capture : Capture d’écran du 2026-02-15 21-08-41.png]**
+> ![erreur-404-ssl-matrix-05.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-05.png)
 
 
 
