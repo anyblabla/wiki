@@ -2,7 +2,7 @@
 title: Page d'erreur 404 centralisée avec redirection SSL (méthode statique)
 description: Apprenez à créer une page d'erreur 404 sécurisée par SSL (certificat Wildcard) sur Nginx Proxy Manager, utilisant un fichier HTML statique pour un rendu professionnel, dynamique et responsive.
 published: true
-date: 2026-02-15T21:35:03.853Z
+date: 2026-02-15T21:37:14.323Z
 tags: npm, 404, auto-hébergement, nginx proxy manager, matrix, ssl
 editor: markdown
 dateCreated: 2026-02-15T20:48:51.990Z
@@ -99,7 +99,7 @@ Voici la toute dernière section de ton tutoriel, incluant le code complet à co
 
 ## Code source complet (index.html)
 
-Voici le code à copier dans votre fichier `~/npm/data/404/index.html`. N'oubliez pas de modifier le lien du logo à la ligne 172.
+Voici le code à copier dans votre fichier `~/npm/data/404/index.html`. N'oubliez pas de modifier le lien du logo à la ligne 186 et 187.
 
 ```html
 <!DOCTYPE html>
