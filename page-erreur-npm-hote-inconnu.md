@@ -2,7 +2,7 @@
 title: Page d'erreur personnalisée du proxy
 description: Réponse HTML/CSS personnalisée affichée par Nginx Proxy Manager (NPM) lorsqu'un hôte (nom de domaine) n'est pas configuré. Inclut le mode sombre et est entièrement responsive.
 published: true
-date: 2026-02-15T21:03:46.778Z
+date: 2026-02-15T21:04:59.111Z
 tags: nginx, proxy, npm, erreur, 404, logo
 editor: markdown
 dateCreated: 2025-11-28T00:37:05.212Z
@@ -540,5 +540,7 @@ Ce code inclut le logo flottant cliquable ancré en **bas à droite** de l'écra
 ### E. Comportement suite à l'implémentation
 
 Une fois la page sauvegardée, toute requête arrivant à mon serveur dont le **nom d'hôte n'a pas d'hôte proxy associé** affichera cette page personnalisée au lieu de l'erreur Nginx standard.
+
+## 4\. Nouvelle façon de faire
 
 > ⚠️ [Une autre méthode (plus sécurisée 😉) existe sur ce wiki 💡](https://wiki.blablalinux.be/fr/page-erreur-npm-hote-inconnu)
