@@ -2,7 +2,7 @@
 title: Personnalisation et automatisation de BentoPDF sur Docker
 description: Guide pas à pas pour déployer BentoPDF avec Docker. Apprenez à personnaliser le branding, configurer Nginx pour le support WebAssembly et automatiser la maintenance du serveur.
 published: true
-date: 2026-02-15T02:03:56.024Z
+date: 2026-02-15T02:07:00.629Z
 tags: docker, linux, automatisation, bentopdf, wasm, branding
 editor: markdown
 dateCreated: 2026-02-15T02:03:56.024Z
@@ -104,9 +104,22 @@ EOF
 
 ```
 
-## Étape 5 : Automatisation des mises à jour
+## Étape 5 : Lancement du conteneur
 
-Ce script gère la maintenance. Il utilise `git stash` pour protéger vos fichiers `Dockerfile` et `docker-compose.yml` pendant les mises à jour du code source officiel.
+Une fois les fichiers créés et votre logo présent dans le dossier, lancez la construction et le démarrage de l'instance :
+
+```bash
+# Construction de l'image et lancement en arrière-plan
+docker compose up -d --build
+
+# Vérification du statut du conteneur
+docker ps | grep bentopdf
+
+```
+
+## Étape 6 : Automatisation des mises à jour
+
+Ce script gère la maintenance. Il utilise `git stash` pour protéger vos fichiers locaux pendant les mises à jour du code source officiel.
 
 ```bash
 cat <<EOF > ~/update_bentopdf.sh
@@ -135,9 +148,22 @@ chmod +x ~/update_bentopdf.sh
 
 ```
 
-## Étape 6 : Configuration du proxy inverse Nginx
+## Étape 7 : Planification avec Crontab
 
-Pour que les outils de traitement PDF (WASM) fonctionnent, ajoutez ces paramètres dans votre configuration Nginx :
+Pour que votre instance se mette à jour toute seule (par exemple, tous les dimanches à 04h05), ajoutez une tâche planifiée :
+
+```bash
+# Ouvrez l'éditeur de crontab
+crontab -e
+
+# Ajoutez cette ligne à la fin du fichier :
+5 4 * * 0 /bin/bash /root/update_bentopdf.sh >> /var/log/update_bentopdf.log 2>&1
+
+```
+
+## Étape 8 : Configuration du proxy inverse Nginx
+
+Pour que les outils de traitement PDF (WASM) fonctionnent, ajoutez ces paramètres dans votre configuration Nginx (ou bloc "Advanced" de Nginx Proxy Manager) :
 
 ```nginx
 # En-têtes obligatoires pour WebAssembly
