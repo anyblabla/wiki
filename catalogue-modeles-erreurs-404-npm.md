@@ -2,7 +2,7 @@
 title: [Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager
 description: Découvrez 7 modèles de pages d'erreur 404 personnalisés pour Nginx Proxy Manager. Du style minimaliste au mode Matrix glitché, améliorez l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: false
-date: 2026-02-16T14:51:40.405Z
+date: 2026-02-16T14:54:44.916Z
 tags: npm, html, css, 404, auto-hébergement, personnalisation, nginx proxy manager
 editor: markdown
 dateCreated: 2026-02-16T14:03:15.558Z
@@ -258,7 +258,7 @@ Transforme l'erreur en moment de divertissement avec un clone de Pong.
 
 ```
 
-![intercative.gif](/catalogue-modeles-erreurs-404-npm/intercative.gif)
+![interractive.gif](/catalogue-modeles-erreurs-404-npm/interractive.gif)
 
 ---
 
@@ -323,7 +323,7 @@ La signature visuelle de BlablaLinux. Ce modèle utilise un canvas pour la pluie
 
 * **Idéal pour :** Un homelab Proxmox ou un serveur technique.
 * **Difficulté :** ⭐⭐⭐⭐⭐
-* **À personnaliser :** Ligne 141 (URL du logo) et 140 (Lien de retour).
+* **À personnaliser :** Ligne 42-43 (URL du logo).
 
 ```html
 <!DOCTYPE html>
