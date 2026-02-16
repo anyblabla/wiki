@@ -1,8 +1,8 @@
 ---
 title: [Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager
 description: Découvrez 7 modèles de pages d'erreur 404 personnalisés pour Nginx Proxy Manager. Du style minimaliste au mode Matrix glitché, améliorez l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
-published: false
-date: 2026-02-16T14:54:44.916Z
+published: true
+date: 2026-02-16T14:55:03.121Z
 tags: npm, html, css, 404, auto-hébergement, personnalisation, nginx proxy manager
 editor: markdown
 dateCreated: 2026-02-16T14:03:15.558Z
