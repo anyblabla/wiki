@@ -2,7 +2,7 @@
 title: Page d'erreur personnalisée du proxy
 description: Réponse HTML/CSS personnalisée affichée par Nginx Proxy Manager (NPM) lorsqu'un hôte (nom de domaine) n'est pas configuré. Inclut le mode sombre et est entièrement responsive.
 published: true
-date: 2026-02-15T21:07:25.234Z
+date: 2026-02-16T15:55:07.368Z
 tags: nginx, proxy, npm, erreur, 404, logo
 editor: markdown
 dateCreated: 2025-11-28T00:37:05.212Z
@@ -544,3 +544,7 @@ Une fois la page sauvegardée, toute requête arrivant à mon serveur dont le **
 ## 4\. Nouvelle façon de faire
 
 > ⚠️ [Une autre méthode (plus sécurisée 😉) existe sur ce wiki 💡](/fr/page-erreur-404-statique-ssl-npm)
+
+## 5\. BONUS
+
+> 🫸 [[Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager](/fr/catalogue-modeles-erreurs-404-npm) 🫷
