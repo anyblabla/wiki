@@ -2,7 +2,7 @@
 title: [Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager
 description: Découvrez 7 modèles de pages d'erreur 404 personnalisés pour Nginx Proxy Manager. Du style minimaliste au mode Matrix glitché, améliorez l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: true
-date: 2026-02-16T15:06:51.219Z
+date: 2026-02-16T15:10:48.797Z
 tags: npm, html, css, 404, auto-hébergement, personnalisation, nginx proxy manager
 editor: markdown
 dateCreated: 2026-02-16T14:03:15.558Z
@@ -115,6 +115,7 @@ Simule une console Linux avec un effet d'auto-typage du texte.
 ```
 
 <img src="/catalogue-modeles-erreurs-404-npm/technique.gif" alt="Aperçu Terminal" style="width: 100%; height: auto;">
+
 ---
 
 ## 3. L'humoristique (Pause café)
@@ -160,7 +161,7 @@ Un ton décalé pour déstresser l'utilisateur égaré.
 
 ```
 
-![humoristique.gif](/catalogue-modeles-erreurs-404-npm/humoristique.gif)
+<img src="/catalogue-modeles-erreurs-404-npm/humoristique.gif" alt="Aperçu Pause Café" style="width: 100%; height: auto;">
 
 ---
 
@@ -203,7 +204,7 @@ Utilise une image immersive avec effet de verre dépoli.
 
 ```
 
-![visuelle.gif](/catalogue-modeles-erreurs-404-npm/visuelle.gif)
+<img src="/catalogue-modeles-erreurs-404-npm/visuelle.gif" alt="Aperçu Modèle Visuel" style="width: 100%; height: auto;">
 
 ---
 
@@ -257,7 +258,7 @@ Transforme l'erreur en moment de divertissement avec un clone de Pong.
 
 ```
 
-![interractive.gif](/catalogue-modeles-erreurs-404-npm/interractive.gif)
+<img src="/catalogue-modeles-erreurs-404-npm/interractive.gif" alt="Aperçu Modèle Pong" style="width: 100%; height: auto;">
 
 ---
 
@@ -312,7 +313,7 @@ Un réseau de neurones interactif qui réagit à la souris.
 
 ```
 
-![dynamique.gif](/catalogue-modeles-erreurs-404-npm/dynamique.gif)
+<img src="/catalogue-modeles-erreurs-404-npm/dynamique.gif" alt="Aperçu Modèle Dynamique" style="width: 100%; height: auto;">
 
 ---
 
@@ -400,4 +401,4 @@ La signature visuelle de BlablaLinux. Ce modèle utilise un canvas pour la pluie
 
 ```
 
-![ultime.gif](/catalogue-modeles-erreurs-404-npm/ultime.gif)
+<img src="/catalogue-modeles-erreurs-404-npm/ultime.gif" alt="Aperçu Modèle Matrix BlablaLinux" style="width: 100%; height: auto;">
