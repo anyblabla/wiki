@@ -2,7 +2,7 @@
 title: [Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager
 description: Découvrez 7 modèles de pages d'erreur 404 personnalisés pour Nginx Proxy Manager. Du style minimaliste au mode Matrix glitché, améliorez l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: false
-date: 2026-02-16T14:30:32.349Z
+date: 2026-02-16T14:51:40.405Z
 tags: npm, html, css, 404, auto-hébergement, personnalisation, nginx proxy manager
 editor: markdown
 dateCreated: 2026-02-16T14:03:15.558Z
@@ -21,7 +21,7 @@ Un design inspiré du style Apple : pur, calme et professionnel.
 
 * **Idéal pour :** Un portfolio ou un site vitrine sobre.
 * **Difficulté :** ⭐
-* **À personnaliser :** Lignes 31 (lien bouton) et 34 (lien logo).
+* **À personnaliser :** Lignes 23 (lien bouton) et 25-26 (lien logo).
 
 ```html
 <!DOCTYPE html>
@@ -68,7 +68,7 @@ Simule une console Linux avec un effet d'auto-typage du texte.
 
 * **Idéal pour :** Les homelabs et serveurs d'administration.
 * **Difficulté :** ⭐⭐
-* **À personnaliser :** Ligne 34 (URL du lien `curl`).
+* **À personnaliser :** Ligne 33 (URL du lien `curl`).
 
 ```html
 <!DOCTYPE html>
@@ -124,7 +124,7 @@ Un ton décalé pour déstresser l'utilisateur égaré.
 
 * **Idéal pour :** Créer un lien sympathique avec vos visiteurs.
 * **Difficulté :** ⭐⭐
-* **À personnaliser :** Lignes 45 (bouton) et 47 (lien logo).
+* **À personnaliser :** Lignes 25 (bouton) et 26-27 (lien logo).
 
 ```html
 <!DOCTYPE html>
@@ -171,7 +171,7 @@ Utilise une image immersive avec effet de verre dépoli.
 
 * **Idéal pour :** Un rendu "Premium" et technologique.
 * **Difficulté :** ⭐⭐⭐
-* **À personnaliser :** Ligne 22 (bouton de retour).
+* **À personnaliser :** Ligne 23 (bouton de retour).
 
 ```html
 <!DOCTYPE html>
@@ -214,7 +214,7 @@ Transforme l'erreur en moment de divertissement avec un clone de Pong.
 
 * **Idéal pour :** Faire oublier la frustration de la page manquante.
 * **Difficulté :** ⭐⭐⭐⭐
-* **À personnaliser :** Ligne 15 (bouton pour quitter le jeu).
+* **À personnaliser :** Ligne 16 (bouton pour quitter le jeu).
 
 ```html
 <!DOCTYPE html>
@@ -268,7 +268,7 @@ Un réseau de neurones interactif qui réagit à la souris.
 
 * **Idéal pour :** Les sites axés sur l'IA et le développement.
 * **Difficulté :** ⭐⭐⭐⭐
-* **À personnaliser :** Ligne 14 (lien bouton).
+* **À personnaliser :** Ligne 19 (lien bouton).
 
 ```html
 <!DOCTYPE html>
@@ -359,8 +359,8 @@ La signature visuelle de BlablaLinux. Ce modèle utilise un canvas pour la pluie
     <div class="container">
         <h1 class="glitch-title">💊 Erreur de Matrice</h1>
         <h2>Destination introuvable... 🛰️</h2>
-        <p>Le Proxy a fouillé le code source de l'univers, il a même réveillé l'Oracle <strong>Proxmox</strong> 🤝, mais ce domaine n'est pas répertorié.</p>
-        <p>Soit la pilule était trop forte 🔵, soit cet hôte manque à l'appel dans <strong>NPM</strong> 📝.</p>
+        <p>Le Proxy a fouillé le code source de l'univers, il a même réveillé l'Oracle 🤝, mais ce domaine n'est pas répertorié.</p>
+        <p>Soit la pilule était trop forte 🔵, soit cet hôte manque à l'appel 📝.</p>
         <div class="code-box"><span class="code">ERROR_404: GLITCH_IN_SIMULATION 🌌</span></div>
         <hr>
         <p style="font-size: 0.85em; opacity: 0.9;">
