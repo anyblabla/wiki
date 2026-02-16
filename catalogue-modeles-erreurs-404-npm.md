@@ -2,7 +2,7 @@
 title: [Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager
 description: Découvrez 7 modèles de pages d'erreur 404 personnalisés pour Nginx Proxy Manager. Du style minimaliste au mode Matrix glitché, améliorez l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: false
-date: 2026-02-16T14:03:15.558Z
+date: 2026-02-16T14:30:32.349Z
 tags: npm, html, css, 404, auto-hébergement, personnalisation, nginx proxy manager
 editor: markdown
 dateCreated: 2026-02-16T14:03:15.558Z
@@ -58,6 +58,8 @@ Un design inspiré du style Apple : pur, calme et professionnel.
 
 ```
 
+![minimaliste.png](/catalogue-modeles-erreurs-404-npm/minimaliste.png)
+
 ---
 
 ## 2. La technique (Terminal bash)
@@ -112,6 +114,8 @@ Simule une console Linux avec un effet d'auto-typage du texte.
 
 ```
 
+![technique.gif](/catalogue-modeles-erreurs-404-npm/technique.gif)
+
 ---
 
 ## 3. L'humoristique (Pause café)
@@ -157,6 +161,8 @@ Un ton décalé pour déstresser l'utilisateur égaré.
 
 ```
 
+![humoristique.gif](/catalogue-modeles-erreurs-404-npm/humoristique.gif)
+
 ---
 
 ## 4. La visuelle (Plein écran)
@@ -197,6 +203,8 @@ Utilise une image immersive avec effet de verre dépoli.
 </html>
 
 ```
+
+![visuelle.gif](/catalogue-modeles-erreurs-404-npm/visuelle.gif)
 
 ---
 
@@ -250,6 +258,8 @@ Transforme l'erreur en moment de divertissement avec un clone de Pong.
 
 ```
 
+![intercative.gif](/catalogue-modeles-erreurs-404-npm/intercative.gif)
+
 ---
 
 ## 6. La dynamique (Particules)
@@ -302,6 +312,8 @@ Un réseau de neurones interactif qui réagit à la souris.
 </html>
 
 ```
+
+![dynamique.gif](/catalogue-modeles-erreurs-404-npm/dynamique.gif)
 
 ---
 
@@ -388,3 +400,5 @@ La signature visuelle de BlablaLinux. Ce modèle utilise un canvas pour la pluie
 </html>
 
 ```
+
+![ultime.gif](/catalogue-modeles-erreurs-404-npm/ultime.gif)
