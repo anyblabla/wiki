@@ -2,7 +2,7 @@
 title: Optimisation automatique des médias sur Nextcloud
 description: Apprenez à compresser automatiquement vos photos et vidéos sur Nextcloud. Un guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné sans sacrifier sa fluidité habituelle.
 published: true
-date: 2026-03-02T11:49:21.584Z
+date: 2026-03-02T12:25:39.440Z
 tags: cron, crontab, script, bash, ffmpeg, auto-hébergement, optimisation, nextcloud, reconditionnement, imagemagick
 editor: markdown
 dateCreated: 2026-03-02T11:46:46.923Z
@@ -161,6 +161,27 @@ Ligne à vérifier ou ajouter :
 */5 * * * * /usr/bin/php -f /var/www/nextcloud/cron.php
 
 ```
+
+---
+
+## 🎨 Personnalisation des réglages
+
+Si mes réglages ne vous conviennent pas (par exemple si vous avez un serveur très puissant ou si vous voulez une compression plus forte), vous pouvez modifier les lignes suivantes dans le script :
+
+### Modifier la compression vidéo
+
+Dans la section vidéo du script, cherchez la ligne commençant par `/usr/bin/nice ... ffmpeg`.
+
+* **Qualité/Poids** : modifiez `-b:v 6000k` (le débit binaire). Plus le chiffre est bas, plus le fichier sera léger, mais moins la qualité sera bonne.
+* **Vitesse** : le paramètre `-preset ultrafast` privilégie la vitesse sur la taille. Vous pouvez utiliser `medium` pour une meilleure compression si votre CPU le permet.
+* **Puissance CPU** : si vous n'êtes pas sur un petit processeur, vous pouvez augmenter `-threads 1` à `2` ou `4` pour compresser plus vite.
+
+### Modifier la compression photo
+
+Dans la section photo, cherchez la ligne commençant par `/usr/bin/nice ... convert`.
+
+* **Résolution** : changez `3468x3468>` pour augmenter ou réduire la taille maximale des images.
+* **Qualité** : modifiez `-quality 80%`. Un réglage à `70%` gagnera beaucoup d'espace, tandis que `90%` sera presque invisible à l'œil nu mais le fichier sera plus lourd.
 
 ---
 
