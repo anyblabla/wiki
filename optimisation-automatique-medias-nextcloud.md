@@ -1,8 +1,8 @@
 ---
 title: Optimisation automatique des médias sur Nextcloud
 description: Apprenez à compresser automatiquement vos photos et vidéos sur Nextcloud. Un guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné sans sacrifier sa fluidité habituelle.
-published: false
-date: 2026-03-02T11:46:46.923Z
+published: true
+date: 2026-03-02T11:49:21.584Z
 tags: cron, crontab, script, bash, ffmpeg, auto-hébergement, optimisation, nextcloud, reconditionnement, imagemagick
 editor: markdown
 dateCreated: 2026-03-02T11:46:46.923Z
