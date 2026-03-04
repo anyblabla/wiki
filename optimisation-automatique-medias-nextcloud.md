@@ -2,7 +2,7 @@
 title: Optimisation automatique des médias sur Nextcloud
 description: Apprenez à compresser automatiquement vos photos et vidéos sur Nextcloud. Un guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné sans sacrifier sa fluidité habituelle.
 published: true
-date: 2026-03-02T12:25:39.440Z
+date: 2026-03-04T11:06:12.030Z
 tags: cron, crontab, script, bash, ffmpeg, auto-hébergement, optimisation, nextcloud, reconditionnement, imagemagick
 editor: markdown
 dateCreated: 2026-03-02T11:46:46.923Z
@@ -161,6 +161,26 @@ Ligne à vérifier ou ajouter :
 */5 * * * * /usr/bin/php -f /var/www/nextcloud/cron.php
 
 ```
+
+---
+
+## 🧐 Pourquoi ces réglages de compression ?
+
+Les paramètres par défaut de ce script ont été minutieusement calibrés en fonction des capacités réelles de mon smartphone (capteur 4:3, 16:9 et 1:1) et de la puissance de mon serveur. L'objectif est d'offrir le meilleur compromis entre **gain d'espace** et **respect de la qualité visuelle**, tout en restant léger pour le processeur.
+
+### Pour les photos (`-resize "3468x3468>" -quality 80%`)
+
+Sur mon appareil, les photos natives montent jusqu'à **3072 x 4096** pixels.
+
+* **Le choix du 3468px** : ce chiffre est une valeur charnière idéale. Il permet de réduire légèrement la hauteur des photos les plus grandes (4:3 et 16:9) pour gagner du poids, tout en laissant intactes les photos carrées (3072x3072) ou plus petites. On conserve ainsi une définition largement supérieure au standard 4K, sans gâchis de stockage.
+* **La qualité** : à **80%**, le poids du fichier est souvent divisé par 2 ou 3 sans qu'aucune dégradation ne soit visible, même en zoomant sur un bel écran.
+
+### Pour les vidéos (`-b:v 6000k -preset ultrafast`)
+
+L'analyse des fichiers originaux montre des débits allant jusqu'à **25 Mb/s** pour du 1080p à 60 im/s, soit environ 200 Mo pour une seule minute de film.
+
+* **Le débit (bitrate)** : en limitant à **6000k** (6 Mb/s), on divise le poids par 4. La fluidité du 60 im/s est préservée et l'image reste très propre pour une consultation familiale ou sur smartphone.
+* **Le preset et les threads** : l'usage de `ultrafast` et d'un seul `thread` est ma "touche spéciale" pour le matériel reconditionné. Le serveur compresse tranquillement en tâche de fond. Cela prend un peu plus de temps, mais votre Nextcloud reste 100% réactif pour vos autres usages quotidiens.
 
 ---
 
