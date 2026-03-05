@@ -2,7 +2,7 @@
 title: Installation de Copyparty sur Debian (LXC Proxmox)
 description: Apprenez à installer CopyParty sur un conteneur Debian (Proxmox). Ce guide complet détaille la configuration du service, l'accès via reverse proxy et l'automatisation des mises à jour par cron.
 published: true
-date: 2026-03-05T11:53:37.077Z
+date: 2026-03-05T11:55:25.881Z
 tags: lxc, proxmox, debian, logiciel libre, copyparty, auto-update, serveur de fichiers
 editor: markdown
 dateCreated: 2026-03-05T11:53:37.077Z
