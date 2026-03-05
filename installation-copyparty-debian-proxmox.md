@@ -2,7 +2,7 @@
 title: Installation de Copyparty sur Debian (LXC Proxmox)
 description: Apprenez à installer CopyParty sur un conteneur Debian (Proxmox). Ce guide complet détaille la configuration du service, l'accès via reverse proxy et l'automatisation des mises à jour par cron.
 published: true
-date: 2026-03-05T11:55:25.881Z
+date: 2026-03-05T12:16:31.626Z
 tags: lxc, proxmox, debian, logiciel libre, copyparty, auto-update, serveur de fichiers
 editor: markdown
 dateCreated: 2026-03-05T11:53:37.077Z
@@ -13,6 +13,11 @@ dateCreated: 2026-03-05T11:53:37.077Z
 **[Copyparty](https://github.com/9001/copyparty)** est un serveur de fichiers (File Server) ultra-léger, rapide et polyvalent. Il permet de partager des fichiers, de diffuser du contenu multimédia et de gérer des téléversements (uploads) via une interface web moderne ou via des protocoles comme WebDAV, FTP et TFTP. Il est particulièrement apprécié pour sa faible consommation de ressources et sa facilité de déploiement.
 
 Ce guide est un pas à pas complet pour installer et automatiser **Copyparty** dans un conteneur Debian sur Proxmox VE.
+
+### 🖼️ Aperçu de l'interface
+Voici à quoi ressemble Copyparty avec le thème sombre (Thème 2) une fois installé :
+
+![installation-copyparty-debian-proxmox.png](/installation-copyparty-debian-proxmox/installation-copyparty-debian-proxmox.png)
 
 ---
 
