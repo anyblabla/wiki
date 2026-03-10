@@ -2,7 +2,7 @@
 title: Sauvegarde des données avec un script Rsync universel
 description: Apprenez à utiliser un script Rsync universel pour sauvegarder vos données (home, sites web, clouds). Un guide pour automatiser vos copies de fichiers en complément d'une sauvegarde système.
 published: true
-date: 2026-03-10T18:23:56.364Z
+date: 2026-03-10T19:46:38.622Z
 tags: sauvegarde, rsync, script, bash, linux, automatisation, données
 editor: markdown
 dateCreated: 2026-03-10T18:23:56.364Z
@@ -21,7 +21,7 @@ Ce guide explique comment mettre en place une solution de sauvegarde pour vos do
 
 ## 1. Pourquoi utiliser ce script ?
 
-Alors que Timeshift gère des "instantanés" de l'ensemble du système, ce script utilise la puissance de **Rsync** pour copier vos dossiers de données de manière lisible, granulaire et indépendante.
+Alors que Timeshift gère des "instantanés" de l'ensemble du système, ce script utilise la puissance de **Rsync** pour copier vos dossiers de données de manière lisible, granulaire et indépendante. Il gère intelligemment la destination pour éviter tout conflit entre les sauvegardes.
 
 > 📝 Pour approfondir le fonctionnement de la commande de base, consultez :
 > 👉 **[Rsync : synchronisation et sauvegarde](https://wiki.blablalinux.be/fr/rsync-synchronisation-sauvegarde)**
@@ -46,9 +46,10 @@ Créez le fichier : `nano ~/scripts/backup-rsync.sh` et collez-y le contenu suiv
 ```bash
 #!/bin/bash
 # Script de sauvegarde universel - BlablaLinux
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # ==============================================================================
-# CONFIGURATION À PERSONNALISER (PARTIES ANONYMISÉES)
+# CONFIGURATION À PERSONNALISER
 # ==============================================================================
 # 1. Chemin vers le point de montage de votre disque de sauvegarde
 DEST_BASE="/media/VOTRE_UTILISATEUR/NOM_DU_DISQUE/rsync"
@@ -71,16 +72,25 @@ if [ -z "$SOURCE" ]; then
 fi
 
 # Gestion du nom du dossier de destination (gère le cas de la racine /)
-FOLDER_NAME=$(basename "$SOURCE")
-[ "$SOURCE" == "/" ] && FOLDER_NAME="SYSTEM_ROOT"
+if [ "$SOURCE" == "/" ]; then
+    FOLDER_NAME="SYSTEM_ROOT"
+else
+    FOLDER_NAME=$(basename "$SOURCE")
+fi
+
+DEST_FINAL="$DEST_BASE/$FOLDER_NAME"
 LOG_FILE="$LOG_DIR/backup_${FOLDER_NAME}_${DATE}.log"
 
-echo "--- Démarrage de la sauvegarde de $SOURCE le $(date) ---" | tee -a "$LOG_FILE"
+# Création du dossier de destination final
+mkdir -p "$DEST_FINAL"
+
+echo "--- Démarrage de la sauvegarde de $SOURCE vers $DEST_FINAL le $(date) ---" | tee -a "$LOG_FILE"
 
 # Exécution de Rsync avec exclusions de sécurité
+# --exclude : évite les boucles infinies sur le disque externe et les dossiers virtuels
 sudo rsync -av --delete \
   --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} \
-  "$SOURCE" "$DEST_BASE/" 2>&1 | tee -a "$LOG_FILE"
+  "$SOURCE/" "$DEST_FINAL/" 2>&1 | tee -a "$LOG_FILE"
 
 # Nettoyage automatique des logs de plus de 2 jours
 find "$LOG_DIR" -name "*.log" -mtime +2 -delete
@@ -91,21 +101,21 @@ echo "--- Fin de la sauvegarde le $(date) ---" | tee -a "$LOG_FILE"
 
 Rendez le script exécutable : `chmod +x ~/scripts/backup-rsync.sh`.
 
-> 📝 Le terme `/chemin/a/sauvegarder` dans le script est un **exemple d'usage**. Lors de l'exécution, vous devez le remplacer par le dossier réel que vous souhaitez copier (ex: `/home` ou `/var/www`).
-
 ---
 
 ## 4. Utilisation simplifiée (alias)
 
-Pour lancer une sauvegarde manuelle rapidement, ajoutez des raccourcis dans votre fichier `~/.bash_aliases` :
+Pour lancer une sauvegarde ou une restauration rapidement, ajoutez ces raccourcis dans votre fichier `~/.bash_aliases` :
 
 ```bash
-# Sauvegardes manuelles (nécessite sudo pour les droits d'accès)
+# Sauvegardes manuelles
+alias rsyncsystem='sudo ~/scripts/backup-rsync.sh /'
 alias rsynchome='sudo ~/scripts/backup-rsync.sh /home'
 alias rsyncwww='sudo ~/scripts/backup-rsync.sh /var/www/html'
 
-# Restauration (Exemple pour le dossier /home)
-alias rsyncrestorehome='sudo rsync -av --stats /media/VOTRE_UTILISATEUR/NOM_DU_DISQUE/rsync/home /'
+# Restaurations (Exemples)
+alias rsyncrestoresystem='sudo rsync -av --stats /media/VOTRE_UTILISATEUR/NOM_DU_DISQUE/rsync/SYSTEM_ROOT/ /'
+alias rsyncrestorehome='sudo rsync -av --stats /media/VOTRE_UTILISATEUR/NOM_DU_DISQUE/rsync/home/ /home/'
 
 ```
 
@@ -113,19 +123,14 @@ alias rsyncrestorehome='sudo rsync -av --stats /media/VOTRE_UTILISATEUR/NOM_DU_D
 
 ## 5. Automatisation avec Crontab
 
-Pour que vos sauvegardes s'exécutent automatiquement, utilisez le planificateur de tâches de l'utilisateur root.
-
-> ⚠️ **Pourquoi utiliser `sudo crontab -e` ?**
-> Pour sauvegarder des fichiers appartenant au système ou à d'autres utilisateurs, le script doit avoir les privilèges de **root**.
-
-**Éditez la crontab de root :**
+Éditez la crontab de l'utilisateur **root** pour gérer les droits d'accès aux dossiers système :
 
 ```bash
 sudo crontab -e
 
 ```
 
-**Ajoutez votre planification (exemple pour chaque mardi à minuit) :**
+**Exemple de planification (chaque mardi à minuit) :**
 
 ```cron
 0 0 * * 2 /home/VOTRE_UTILISATEUR/scripts/backup-rsync.sh /home
@@ -134,7 +139,7 @@ sudo crontab -e
 
 ---
 
-## 💡 Notes de personnalisation
+## 💡 Notes de sécurité
 
-* **Organisation du disque** : Il est recommandé de créer un dossier `rsync/` à la racine de votre support externe pour bien séparer ces fichiers des instantanés produits par Timeshift.
-* **Exclusions** : La ligne `--exclude` du script est essentielle pour éviter de copier des dossiers systèmes temporaires ou de créer une boucle infinie si vous ciblez la racine (`/`).
+* **Slash de fin** : Le script utilise la syntaxe `"$SOURCE/"` pour s'assurer que c'est le **contenu** du dossier qui est synchronisé, garantissant une structure propre dans votre backup.
+* **Exclusions** : La ligne `--exclude` est vitale. Elle empêche `rsync` de tenter de copier des fichiers éphémères ou, pire, de copier récursivement votre disque de sauvegarde sur lui-même s'il est monté dans `/media` ou `/run`.
