@@ -1,8 +1,8 @@
 ---
 title: Stabiliser les disques USB - Désactiver l'autosuspend
 description: Guide pour stabiliser vos disques durs externes sur serveur Linux. Apprenez à désactiver l'autosuspend USB et à configurer une activité de maintien pour éviter les erreurs fatales Input/Output.
-published: false
-date: 2026-03-16T16:16:16.017Z
+published: true
+date: 2026-03-16T16:16:40.080Z
 tags: sauvegarde, debian, ubuntu, linux, maintenance, usb, erreur i/o
 editor: markdown
 dateCreated: 2026-03-16T16:16:16.017Z
