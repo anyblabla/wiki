@@ -1,8 +1,8 @@
 ---
 title: Héberger Vaultwarden avec Docker (step-by-step)
 description: Apprenez à déployer Vaultwarden avec Docker. Ce guide Blabla Linux vous accompagne pour sécuriser votre coffre-fort avec Argon2 et optimiser Nginx Proxy Manager avec des headers de sécurité avancés.
-published: false
-date: 2026-03-25T15:32:52.898Z
+published: true
+date: 2026-03-25T15:33:09.488Z
 tags: docker, sécurité, auto-hébergement, nginx proxy manager, vaultwarden
 editor: markdown
 dateCreated: 2026-03-25T15:32:52.898Z
