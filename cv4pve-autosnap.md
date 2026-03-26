@@ -2,7 +2,7 @@
 title: Automatiser les instantanés (Snapshots) Proxmox VE avec CV4PVE-AUTOSNAP
 description: Détails de l'installation et de la configuration de l'outil CV4PVE-AUTOSNAP (Corsinvest) dans un LXC pour automatiser les instantanés (Snapshots) de vos VM et CT sur Proxmox VE.
 published: true
-date: 2026-03-26T00:17:59.694Z
+date: 2026-03-26T00:18:34.138Z
 tags: 
 editor: markdown
 dateCreated: 2024-12-28T18:49:39.139Z
@@ -165,4 +165,28 @@ Collez la ligne suivante pour exécuter le script tous les jours à 9 h 00 et 21
 | **Jour du mois** | `*` | Tous les jours du mois |
 | **Mois** | `*` | Tous les mois |
 | **Jour de la semaine** | `*` | Tous les jours de la semaine |
+
+-----
+
+## IV. Exemples de maintenance et de gestion
+
+L'outil permet de réaliser d'autres tâches utiles en plus de la création d'instantanés.
+
+### 1\. Suppression des instantanés (Nettoyage)
+
+Pour supprimer l'ensemble des instantanés qui possèdent le label `-921-` sur l'ensemble des invités (en définissant le seuil de rétention à 0), utilisez cette commande :
+
+```bash
+cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=all clean --label='-921-' --keep=0
+```
+
+### 2\. Affichage du statut
+
+Pour obtenir des informations sur les instantanés existants effectués par l'outil, utilisez cette commande :
+
+```bash
+cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --vmid=all status
+```
+
+-----
 
