@@ -2,7 +2,7 @@
 title: Automatiser les instantanés (Snapshots) Proxmox VE avec CV4PVE-AUTOSNAP
 description: Détails de l'installation et de la configuration de l'outil CV4PVE-AUTOSNAP (Corsinvest) dans un LXC pour automatiser les instantanés (Snapshots) de vos VM et CT sur Proxmox VE.
 published: true
-date: 2026-03-26T00:18:34.138Z
+date: 2026-03-26T00:23:50.125Z
 tags: 
 editor: markdown
 dateCreated: 2024-12-28T18:49:39.139Z
@@ -190,3 +190,63 @@ cv4pve-autosnap --host=XXX.XXX.X.XXX --username=root@pam --password=XXXXXXXX --v
 
 -----
 
+## V. Aller plus loin : stratégies de rétention avancées
+
+Vous pouvez répliquer le modèle de rétention (horaire, quotidien, hebdomadaire, mensuel, annuel) que propose l'outil de sauvegarde natif de Proxmox VE.
+
+### 1. Création de scripts pour chaque intervalle
+
+Créez des fichiers .sh dédiés pour chaque intervalle de sauvegarde, en adaptant le label et la rétention via l'argument --keep.
+
+| Nom du Script | Fréquence | Label Ex. | Rétention |
+| :--- | :--- | :--- | :--- |
+| autosnap-hourly.sh | Chaque heure | -hourly- | --keep=3 |
+| autosnap-daily.sh | Chaque jour | -daily- | --keep=7 |
+| autosnap-weekly.sh | Chaque semaine | -weekly- | --keep=4 |
+| autosnap-monthly.sh | Chaque mois | -monthly- | --keep=2 |
+| autosnap-yearly.sh | Chaque année | -yearly- | --keep=1 |
+
+### 2. Planification des tâches Cron
+
+Vous créez une tâche Cron pour chaque fichier .sh dans votre crontab -e :
+
+```cron
+# Tâches planifiées
+0 * * * * /root/autosnap-hourly.sh
+10 0 * * * /root/autosnap-daily.sh
+20 0 * * 0 /root/autosnap-weekly.sh
+30 0 1 * * /root/autosnap-monthly.sh
+40 0 1 1 * /root/autosnap-yearly.sh
+```
+
+-----
+
+## VI. Exemple de fichier log
+
+Le fichier log est essentiel pour valider que les opérations se sont déroulées correctement.
+
+```plaintext
+###NEW JOB STARTS HERE###
+ACTION Snap
+PVE Version:     8.3.2
+VMs:             all
+Label:           -921-
+Keep:            2
+...
+Total execution 00:01:18.3608764
+###NEW JOB ENDS HERE###
+```
+
+-----
+
+## VII. Ressources et générateurs Cron
+
+Pour faciliter la création de vos planifications :
+
+* [https://crontab.guru](https://crontab.guru)
+* [https://crontab.cronhub.io](https://crontab.cronhub.io)
+* [https://crontab-generator.org](https://crontab-generator.org)
+
+---
+
+> **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
