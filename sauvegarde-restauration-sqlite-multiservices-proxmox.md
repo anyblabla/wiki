@@ -2,7 +2,7 @@
 title: Sauvegarde et restauration SQLite multiservices
 description: Protégez vos bases de données SQLite avec un LXC dédié nommé sqlite-backup. Une solution maison pour automatiser vos sauvegardes Vaultwarden sans coupure et garantir une restauration fiable à 100%.
 published: true
-date: 2026-03-26T12:40:37.708Z
+date: 2026-03-27T13:51:49.706Z
 tags: proxmox, bash, linux, automatisation, vaultwarden, sqlite, backup
 editor: markdown
 dateCreated: 2026-03-26T11:59:23.576Z
@@ -133,9 +133,9 @@ Ajoutez la tâche dans votre planificateur : `crontab -e`.
 
 ## 🔗 Liens utiles et articles complémentaires
 Pour aller plus loin dans la sécurisation et l'administration de vos services, n'hésitez pas à consulter ces guides :
-* [Héberger Vaultwarden avec Docker : guide complet](https://wiki.blablalinux.be/fr/heberger-vaultwarden-docker-guide-complet)
-* [Automatisation des snapshots Proxmox avec CV4PVE-Autosnap](https://wiki.blablalinux.be/fr/cv4pve-autosnap)
-* [Gestion des snapshots sur plusieurs nœuds Proxmox](https://wiki.blablalinux.be/fr/automatisation-snapshots-proxmox-multi-noeuds)
+* [Héberger Vaultwarden avec Docker : guide complet](/fr/heberger-vaultwarden-docker-guide-complet)
+* [Automatisation des snapshots Proxmox avec CV4PVE-Autosnap](/fr/cv4pve-autosnap)
+* [Gestion des snapshots sur plusieurs nœuds Proxmox](/fr/automatisation-snapshots-proxmox-multi-noeuds)
 
 > **Note** : si vous cherchez d'autres tutoriels, n'hésitez pas à utiliser la barre de recherche du wiki pour découvrir de nombreuses autres pages intéressantes !
 
