@@ -2,7 +2,7 @@
 title: Automatisation avancée des snapshots Proxmox (multi-nœuds)
 description: Découvrez comment optimiser vos snapshots Proxmox sur un cluster multi-nœuds avec cv4pve-autosnap. Un guide complet pour réduire le temps d'exécution et supprimer les erreurs de timeout API.
 published: true
-date: 2026-03-25T23:01:20.016Z
+date: 2026-03-27T13:55:10.897Z
 tags: proxmox, sauvegarde, snapshot, debian, cluster, virtualisation, automatisation
 editor: markdown
 dateCreated: 2026-03-25T23:01:20.016Z
@@ -12,7 +12,7 @@ Ce guide détaille comment mettre en place une stratégie de snapshots performan
 
 > 🗒️ Ce système repose sur l'outil open-source **cv4pve-autosnap**. 
 > * **Projet GitHub officiel** : [Corsinvest/cv4pve-autosnap](https://github.com/Corsinvest/cv4pve-autosnap)
-> * **Ancienne version du Wiki** : [cv4pve-autosnap (version simple)](https://wiki.blablalinux.be/fr/cv4pve-autosnap)
+> * **Ancienne version du Wiki** : [cv4pve-autosnap (version simple)](/fr/cv4pve-autosnap)
 
 ---
 
