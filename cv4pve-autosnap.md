@@ -2,7 +2,7 @@
 title: Automatiser les instantanés (Snapshots) Proxmox VE avec CV4PVE-AUTOSNAP
 description: Détails de l'installation et de la configuration de l'outil CV4PVE-AUTOSNAP (Corsinvest) dans un LXC pour automatiser les instantanés (Snapshots) de vos VM et CT sur Proxmox VE.
 published: true
-date: 2026-03-26T00:25:49.440Z
+date: 2026-03-27T13:54:15.067Z
 tags: 
 editor: markdown
 dateCreated: 2024-12-28T18:49:39.139Z
@@ -16,7 +16,7 @@ Pour la prise d'instantanés des invités sur [Proxmox VE](https://www.proxmox.c
 * La ligne de commande ([CLI](https://w.wiki/6gSf)) avec l'outil natif [PVESH](https://pve.proxmox.com/pve-docs/chapter-pvesh.html).
 * Des outils tiers, tels que [CV4PVE-ADMIN](https://corsinvest.it/cv4pve-admin-proxmox/) (GUI multiclusters) qui utilise, en coulisses, **CV4PVE-AUTOSNAP**.
 
-> **Note importante (mars 2026) :** Ce guide présente la configuration de base avec des scripts individuels. Pour une gestion optimisée sur cluster multi-nœuds, consultez la nouvelle version : [**Automatisation avancée des snapshots Proxmox (multi-nœuds)**](https://wiki.blablalinux.be/fr/automatisation-snapshots-proxmox-multi-noeuds).
+> **Note importante (mars 2026) :** Ce guide présente la configuration de base avec des scripts individuels. Pour une gestion optimisée sur cluster multi-nœuds, consultez la nouvelle version : [**Automatisation avancée des snapshots Proxmox (multi-nœuds)**](/fr/automatisation-snapshots-proxmox-multi-noeuds).
 
 > J'utilise CV4PVE-ADMIN, qui est un gestionnaire multiclusters. Mais je n'utilise que la fonction de prise automatique d'instantanés. C'est sortir la grosse artillerie pour pas grand-chose.
 >
