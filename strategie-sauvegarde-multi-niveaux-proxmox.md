@@ -2,7 +2,7 @@
 title: Stratégie de sauvegarde multi-niveaux sur Proxmox
 description: Découvrez ma stratégie complète de sauvegarde sous Proxmox : snapshots automatisés, double redondance sur PBS avec rétention GFS, et protection granulaire des bases de données applicatives.
 published: true
-date: 2026-03-27T13:49:28.192Z
+date: 2026-03-27T14:14:46.402Z
 tags: proxmox, sauvegarde, snapshot, pbs, sqlite, databasus, devops
 editor: markdown
 dateCreated: 2026-03-27T13:43:45.239Z
@@ -37,4 +37,4 @@ C'est un complément indispensable aux sauvegardes "bloc" pour garantir l'intég
 * **Script SQLite "maison"** : Utilisation de mon script personnel pour l'export et la centralisation des bases SQLite multi-services vers un stockage dédié. Consultez le guide complet sur [la sauvegarde et restauration SQLite](/fr/sauvegarde-restauration-sqlite-multiservices-proxmox).
 
 ---
-> **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez mon wiki sur [wiki.blablalinux.be](https://wiki.blablalinux.be/fr/home/) et l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
+> **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
