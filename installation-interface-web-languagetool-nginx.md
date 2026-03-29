@@ -2,13 +2,13 @@
 title: Interface web LanguageTool (frontend statique)
 description: Apprenez à installer une interface web statique pour LanguageTool sur Debian ou Ubuntu. Ce guide détaille la mise en place de Nginx et la configuration via Nginx Proxy Manager.
 published: false
-date: 2026-03-29T00:35:29.634Z
+date: 2026-03-29T00:37:22.855Z
 tags: nginx, npm, debian, ubuntu, auto-hébergement, debian13, debian 12, languagetool, open-source, ubuntu 22.04, ubuntu 24.04
 editor: markdown
 dateCreated: 2026-03-29T00:29:32.235Z
 ---
 
-### Prérequis
+## Prérequis
 - Une VM ou LXC sous Debian 12/13 ou Ubuntu 22.04/24.04
 - Nginx Proxy Manager déjà installé et fonctionnel
 - Votre instance LanguageTool (API) opérationnelle (ex. `languagetool.votredomaine.com`)
@@ -16,7 +16,7 @@ dateCreated: 2026-03-29T00:29:32.235Z
 
 ---
 
-### Étape 1 : Installation de NGINX sur la VM/LXC
+## Étape 1 : Installation de NGINX sur la VM/LXC
 
 Connectez-vous en **root** à votre machine et exécutez :
 
@@ -26,7 +26,7 @@ apt update && apt install nginx -y
 
 ---
 
-### Étape 2 : Préparation du dossier de l’interface
+## Étape 2 : Préparation du dossier de l’interface
 
 ```bash
 rm /var/www/html/index.html
@@ -35,7 +35,7 @@ chown -R www-data:www-data /var/www/html
 
 ---
 
-### Étape 3 : Placement des fichiers
+## Étape 3 : Placement des fichiers
 
 **1. Logo LanguageTool (`languagetool.svg`)**
 
@@ -542,7 +542,7 @@ Collez **exactement** le code suivant :
 
 ---
 
-### Section Personnalisation
+## Section Personnalisation
 
 **Marqueurs PERSO** (à modifier selon vos besoins) :
 
@@ -553,7 +553,7 @@ Collez **exactement** le code suivant :
 
 ---
 
-### Étape 4 : Redémarrage et vérification
+## Étape 4 : Redémarrage et vérification
 
 ```bash
 systemctl restart nginx
@@ -563,24 +563,24 @@ L’interface est accessible via l’adresse IP de la VM/LXC en HTTP.
 
 ---
 
-### Étape 5 : Configuration Nginx Proxy Manager
+## Étape 5 : Configuration Nginx Proxy Manager
 
 Créez un nouveau **Proxy Host** :
 
-#### Onglet **Détails**
+### Onglet **Détails**
 - **Noms de domaine** : `languagetool-web.votredomaine.com`
 - **Schéma** : `http`
 - **Nom d’hôte / IP** : `192.168.2.74` (IP de votre VM/LXC)
 - **Port** : `80`
 - **Liste d’accès** : Accessible au public
 
-#### Onglet **SSL**
+### Onglet **SSL**
 - Forcer SSL → **ON**
 - HTTP/2 → **ON**
 - HSTS actif → **ON**
 - Sous-domaines HSTS → **ON**
 
-#### Onglet **Emplacement personnalisé**
+### Onglet **Emplacement personnalisé**
 ```nginx
 proxy_hide_header X-Powered-By;
 add_header Referrer-Policy "no-referrer" always;
@@ -588,7 +588,7 @@ add_header X-Frame-Options SAMEORIGIN always;
 add_header X-XSS-Protection "1; mode=block" always;
 ```
 
-#### Configuration Nginx personnalisée
+### Configuration Nginx personnalisée
 ```nginx
 gzip on;
 gzip_min_length 1000;
