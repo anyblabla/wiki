@@ -2,7 +2,7 @@
 title: Interface web LanguageTool (frontend statique)
 description: Apprenez à installer une interface web statique pour LanguageTool sur Debian ou Ubuntu. Ce guide détaille la mise en place de Nginx et la configuration via Nginx Proxy Manager.
 published: false
-date: 2026-03-29T00:32:57.386Z
+date: 2026-03-29T00:35:29.634Z
 tags: nginx, npm, debian, ubuntu, auto-hébergement, debian13, debian 12, languagetool, open-source, ubuntu 22.04, ubuntu 24.04
 editor: markdown
 dateCreated: 2026-03-29T00:29:32.235Z
@@ -44,6 +44,7 @@ Téléchargez le fichier SVG officiel LanguageTool et placez-le dans le dossier 
 ![languagetool.svg](/installation-interface-web-languagetool-nginx/languagetool.svg)
 
 ```bash
+wget https://wiki.blablalinux.be/installation-interface-web-languagetool-nginx/languagetool.svg
 mv languagetool.svg /var/www/html/
 ```
 
