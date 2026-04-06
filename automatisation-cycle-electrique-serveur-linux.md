@@ -2,7 +2,7 @@
 title: Automatisation du cycle électrique (cold boot) pour serveurs Linux
 description: Apprenez à automatiser proprement l'arrêt et le redémarrage électrique de vos serveurs Linux via SSH et Wake-on-LAN. Un guide complet pour sécuriser vos cycles de maintenance avec notifications Gotify.
 published: true
-date: 2026-04-06T07:15:43.821Z
+date: 2026-04-06T07:38:52.067Z
 tags: proxmox, ssh, script, gotify, linux, maintenance, automatisation, wake-on-lan
 editor: markdown
 dateCreated: 2026-04-06T07:15:43.821Z
@@ -50,7 +50,13 @@ Sur le serveur à piloter, l'utilisateur doit pouvoir éteindre la machine sans 
 
 ## 3. Mise en place du script intelligent
 
-Ce script vérifie l'état du serveur et vous alerte en cas de problème. Il est conçu pour être exécuté par l'utilisateur **root** sur la machine pilote.
+### Comment fonctionne ce script ?
+Le script suit une logique de sécurité en 5 étapes :
+1.  **Extinction** : il se connecte au serveur distant pour lui dire de s'éteindre proprement.
+2.  **Vérification** : il teste le réseau (ping) jusqu'à ce que le serveur ne réponde plus.
+3.  **Repos électrique** : il attend 90 secondes pour laisser les disques USB s'arrêter et les composants se décharger.
+4.  **Relance** : il envoie un "paquet magique" (WOL) pour réveiller le serveur.
+5.  **Confirmation** : il attend que le serveur revienne en ligne pour vous envoyer une notification de succès (ou une alerte en cas de problème).
 
 ```bash
 #!/bin/bash
