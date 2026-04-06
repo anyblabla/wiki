@@ -2,7 +2,7 @@
 title: Stratégie de sauvegarde multi-niveaux sur Proxmox
 description: Découvrez ma stratégie complète de sauvegarde sous Proxmox : snapshots automatisés, double redondance sur PBS avec rétention GFS, et protection granulaire des bases de données applicatives.
 published: true
-date: 2026-03-27T14:14:46.402Z
+date: 2026-04-06T21:52:53.686Z
 tags: proxmox, sauvegarde, snapshot, pbs, sqlite, databasus, devops
 editor: markdown
 dateCreated: 2026-03-27T13:43:45.239Z
@@ -28,7 +28,7 @@ C'est le cœur de la rétention à long terme avec un facteur de déduplication 
     * **4** hebdomadaires
     * **3** mensuels
     * **1** annuel
-* **Externalisation hors-site** : Une fois par mois, une synchronisation complète est effectuée vers un second serveur PBS distant pour une sécurité hors site totale.
+* **Externalisation hors-site** : Une fois par nuit, une synchronisation complète est effectuée vers un second serveur PBS distant pour une sécurité hors site totale.
 
 ## 3. Protection granulaire des bases de données
 C'est un complément indispensable aux sauvegardes "bloc" pour garantir l'intégrité des données applicatives et faciliter les restaurations ciblées.
