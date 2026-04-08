@@ -2,7 +2,7 @@
 title: Stratégie d'automatisation globale
 description: Centralisation des mécanismes d'automatisation des clusters BlablaLinux. Ce guide détaille la maintenance des hôtes Proxmox, le cycle de vie Docker et les scripts de build pour BentoPDF et Mastodon.
 published: false
-date: 2026-04-08T18:02:59.242Z
+date: 2026-04-08T18:09:11.504Z
 tags: docker, proxmox, script, bash, pve, pbs, sysadmin, fediverse, maintenance, automatisation, devops, blablalinux
 editor: markdown
 dateCreated: 2026-04-08T18:02:59.241Z
@@ -97,7 +97,7 @@ else
 fi
 ```
 
-### B. Exemple SnoShare (persistance du Docker-Compose)
+### B. Exemple SnowShare (persistance du Docker-Compose)
 
 Ce script montre une méthode de sauvegarde/restauration du fichier `docker-compose.yml` local avant d'aligner le dossier sur le dépôt GitHub.
 
