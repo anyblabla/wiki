@@ -1,8 +1,8 @@
 ---
 title: Stratégie d'automatisation globale
 description: Centralisation des mécanismes d'automatisation des clusters BlablaLinux. Ce guide détaille la maintenance des hôtes Proxmox, le cycle de vie Docker et les scripts de build pour BentoPDF et Mastodon.
-published: false
-date: 2026-04-08T18:15:42.488Z
+published: true
+date: 2026-04-08T18:19:40.760Z
 tags: docker, proxmox, script, bash, pve, pbs, sysadmin, fediverse, maintenance, automatisation, devops, blablalinux
 editor: markdown
 dateCreated: 2026-04-08T18:02:59.241Z
