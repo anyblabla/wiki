@@ -2,7 +2,7 @@
 title: Configuration de Plymouth sur Debian
 description: Guide complet pour installer et configurer un splash screen (écran de démarrage) sur Debian avec Plymouth. Apprenez à changer de thème, prévisualiser et résoudre les erreurs d'alternatives.
 published: true
-date: 2025-12-31T01:25:56.130Z
+date: 2026-04-13T11:05:41.912Z
 tags: debian, personnalisation, administration système, plymouth, boot
 editor: markdown
 dateCreated: 2025-12-31T01:25:56.130Z
@@ -50,7 +50,7 @@ GRUB_GFXMODE=1920x1080
 Pour lister et appliquer un thème (par exemple : `emerald`) :
 
 ```bash
-plymouth-set-default-theme -l          # Lister les thèmes
+sudo plymouth-set-default-theme -l          # Lister les thèmes
 sudo plymouth-set-default-theme -R emerald  # Appliquer et régénérer l'initramfs
 
 ```
