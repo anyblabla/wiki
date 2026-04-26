@@ -1,8 +1,8 @@
 ---
 title: Gestion du démarrage et de la haute disponibilité sous Proxmox
 description: Apprenez à configurer l'ordre de démarrage et les délais dans Proxmox pour stabiliser votre infrastructure, tout en maîtrisant les impacts critiques de la haute disponibilité sur ces réglages.
-published: false
-date: 2026-04-26T21:40:09.063Z
+published: true
+date: 2026-04-26T21:41:57.042Z
 tags: proxmox, virtualisation, sysadmin, tutoriel, haute disponibilité
 editor: markdown
 dateCreated: 2026-04-26T21:40:09.063Z
