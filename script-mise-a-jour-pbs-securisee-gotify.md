@@ -2,7 +2,7 @@
 title: Script de mise à jour Proxmox Backup Server (PBS) sécurisée via Cron et Gotify
 description: Automatisation sécurisée des mises à jour de Proxmox Backup Server (PBS) via Cron et Gotify. Le script utilise apt-mark hold pour exclure le noyau et le service PBS des MAJ auto, garantissant la stabilité.
 published: true
-date: 2025-11-21T20:09:57.912Z
+date: 2026-04-27T10:27:21.861Z
 tags: proxmox, debian, apt, pbs, gotify, linux, curl, apt-mak, hold
 editor: markdown
 dateCreated: 2025-11-21T20:09:57.912Z
@@ -26,15 +26,15 @@ L'objectif est d'assurer que votre serveur de sauvegarde reste **sécurisé** et
 
 Ce script utilise la commande **`apt-mark hold`** pour **exclure automatiquement les paquets critiques** de Proxmox Backup Server (noyau, service PBS) du processus de mise à jour automatique. Cette approche réduit le risque de rupture du système.
 
-  * **Composants mis à jour automatiquement :** Paquets non-critiques, correctifs de sécurité non liés au noyau, utilitaires de base.
-  * **Composants exclus et requérant une action manuelle :** Les paquets `proxmox-backup-server` et `pbs-kernel-*`.
-  * **Action requise :** Le système de notification Gotify vous informe du succès des mises à jour non-critiques. Vous devez ensuite **vérifier manuellement** la nécessité d'installer les mises à jour critiques et de redémarrer le système.
+* **Composants mis à jour automatiquement :** Paquets non-critiques, correctifs de sécurité non liés au noyau, utilitaires de base.
+* **Composants exclus et requérant une action manuelle :** Les paquets `proxmox-backup-server` et `pbs-kernel-*`.
+* **Action requise :** Le système de notification Gotify vous informe du succès des mises à jour non-critiques. Vous devez ensuite **vérifier manuellement** la nécessité d'installer les mises à jour critiques et de redémarrer le système.
 
 -----
 
 ## II. Prérequis : installation et configuration des outils 🔔
 
-### 1\. Installation de `curl`
+### 1. Installation de `curl`
 
 Si ce paquet n'est pas installé sur votre hôte Proxmox Backup Server, installez-le. Il est nécessaire pour envoyer des notifications Gotify :
 
@@ -42,12 +42,12 @@ Si ce paquet n'est pas installé sur votre hôte Proxmox Backup Server, installe
 apt-get install curl -y
 ```
 
-### 2\. Informations Gotify
+### 2. Informations Gotify
 
 Préparez les informations de votre serveur Gotify :
 
-  * **URL Gotify** : L'URL complète de votre serveur (ex: `https://gotify.mondomaine.com`).
-  * **Token Gotify** : Le jeton (Token) de l'application Gotify.
+* **URL Gotify** : L'URL complète de votre serveur (ex: `https://gotify.mondomaine.com`).
+* **Token Gotify** : Le jeton (Token) de l'application Gotify.
 
 -----
 
@@ -63,9 +63,97 @@ nano /usr/local/bin/update_pbs.sh
 
 ### Étape 2 : coller le contenu du script
 
-Collez le contenu du script **Sécurisé** (celui qui inclut les étapes `apt-mark hold` et `unhold`). **⚠️ Remplacez `VOTRE_URL_GOTIFY` et `VOTRE_TOKEN_GOTIFY` par vos propres valeurs.**
+Collez le contenu suivant dans le fichier. **⚠️ Remplacez `VOTRE_URL_GOTIFY` et `VOTRE_TOKEN_GOTIFY` par vos propres valeurs.**
 
-*(Le contenu du script sécurisé se trouve juste avant cette section.)*
+```bash
+#!/bin/bash
+
+# --- PARAMÈTRES DE GOTIFY ---
+# IMPORTANT : Remplacez ces valeurs !
+GOTIFY_URL="VOTRE_URL_GOTIFY"
+GOTIFY_TOKEN="VOTRE_TOKEN_GOTIFY"
+
+# --- PARAMÈTRES DU SCRIPT ---
+LOGFILE="/var/log/proxmox_update.log"
+HOSTNAME=$(hostname)
+UPDATE_SUCCESS=0
+PACKAGES_TO_UPGRADE=0
+
+# --- LISTE DES PAQUETS CRITIQUES À EXCLURE DE L'AUTOMATISATION ---
+# Ces paquets (noyau, service PBS) seront exclus du dist-upgrade automatique.
+CRITICAL_PACKAGES="proxmox-backup-server pbs-kernel-*"
+
+# Redirection de toute la sortie vers le fichier journal
+exec 1>>$LOGFILE 2>&1
+
+# --- FONCTION DE NOTIFICATION GOTIFY (MÉTHODE FORM-DATA) ---
+send_gotify_notification() {
+    local title="$1"
+    local message="$2"
+    local priority="$3"
+
+    curl -k -s -X POST "$GOTIFY_URL/message?token=$GOTIFY_TOKEN" \
+        -F "title=$title" \
+        -F "message=$message" \
+        -F "priority=$priority" > /dev/null 2>&1
+}
+
+# --- DÉBUT DU PROCESSUS DE MISE À JOUR ---
+echo "======================================================"
+echo "Début du processus Proxmox Backup Server (PBS) sur $HOSTNAME : $(date)"
+echo "======================================================"
+
+# --- ÉTAPE 1a : MARQUER LES PAQUETS CRITIQUES EN ATTENTE (HOLD) ---
+echo "--- Étape 1a : apt-mark hold (Exclusion des paquets critiques) ---"
+echo "$CRITICAL_PACKAGES" | xargs -n 1 apt-mark hold
+
+# 1. Mise à jour de la liste des paquets
+echo "--- Étape 1b : apt-get update ---"
+apt-get update
+
+if [ $? -ne 0 ]; then
+    echo "Échec de la mise à jour des listes. Arrêt."
+    UPDATE_SUCCESS=1
+else
+    # 2. Simulation de mise à jour
+    echo "--- Étape 2 : Simulation ---"
+    PACKAGES_TO_UPGRADE=$(apt-get -s --assume-no dist-upgrade 2>/dev/null | grep -E '^(Inst|Upgr|Remv)' | wc -l)
+
+    if [ "$PACKAGES_TO_UPGRADE" -gt 0 ]; then
+        echo "Installation de $PACKAGES_TO_UPGRADE paquets non-critiques..."
+        # 3, 4, 5. Installation et nettoyage
+        apt-get dist-upgrade -y
+        apt-get autoremove -y
+        apt-get clean
+    else
+        echo "Aucune mise à jour non-critique disponible."
+    fi
+fi
+
+# --- ÉTAPE 5b : LIBÉRER LES PAQUETS (UNHOLD) ---
+echo "--- Étape 5b : apt-mark unhold ---"
+echo "$CRITICAL_PACKAGES" | xargs -n 1 apt-mark unhold
+
+echo "======================================================"
+echo "Fin du processus PBS : $(date)"
+echo "======================================================"
+
+# --- ENVOI DE LA NOTIFICATION ---
+if [ "$PACKAGES_TO_UPGRADE" -gt 0 ] || [ $UPDATE_SUCCESS -ne 0 ]; then
+    if [ $UPDATE_SUCCESS -eq 0 ]; then
+        TITLE="✅ PBS Update SUCCÈS sur $HOSTNAME"
+        MESSAGE="Mise à jour de $PACKAGES_TO_UPGRADE paquet(s) terminée. Vérifiez les MAJ critiques."
+        PRIORITY=4
+    else
+        TITLE="❌ PBS Update ÉCHEC sur $HOSTNAME"
+        MESSAGE="L'opération a échoué. Consultez $LOGFILE."
+        PRIORITY=8
+    fi
+    send_gotify_notification "$TITLE" "$MESSAGE" $PRIORITY
+fi
+
+exit $UPDATE_SUCCESS
+```
 
 ### Étape 3 : rendre le script exécutable
 
@@ -104,33 +192,37 @@ Ajoutez la ligne suivante à la fin du fichier. Cet exemple planifie l'exécutio
 
 ## V. Vérification et mises à jour manuelles 🧑‍💻
 
-### 1\. Consulter le fichier journal
+### 1. Consulter le fichier journal
 
-Après l'exécution planifiée, vous recevrez une notification Gotify. Vous pouvez consulter le journal pour vous assurer du succès des mises à jour non-critiques :
+Après l'exécution planifiée, vous pouvez consulter le journal pour vous assurer du succès des opérations :
 
 ```bash
 tail -f /var/log/proxmox_update.log
 ```
 
-### 2\. Vérifier et installer les mises à jour critiques
+### 2. Vérifier et installer les mises à jour critiques
 
-Pour déterminer si de nouveaux paquets critiques (noyau, PBS) sont disponibles et en attente d'installation manuelle :
+Pour déterminer si de nouveaux paquets critiques (noyau, PBS) sont disponibles pour une installation manuelle :
 
 ```bash
 apt list --upgradable | grep -E 'pbs-kernel|proxmox-backup-server'
 ```
 
-Si des paquets sont listés, exécutez la commande d'installation **manuellement** pendant une fenêtre de maintenance surveillée :
+Si des paquets sont listés, exécutez l'installation manuellement :
 
 ```bash
-# Exemple d'installation manuelle (adaptez le nom des paquets)
+# Exemple (adaptez le nom des paquets si nécessaire)
 apt-get install proxmox-backup-server pbs-kernel-X.Y.Z-pve -y
 ```
 
-### 3\. Redémarrer l'hôte si nécessaire
+### 3. Redémarrer l'hôte si nécessaire
 
-Si vous avez installé un nouveau noyau, **un redémarrage est obligatoire** pour appliquer la mise à jour et garantir la stabilité du système. Redémarrez l'hôte PBS via l'interface Web ou en SSH :
+Si vous avez installé un nouveau noyau, **un redémarrage est obligatoire** :
 
 ```bash
 reboot
 ```
+
+***
+
+> **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
