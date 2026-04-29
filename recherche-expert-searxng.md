@@ -2,7 +2,7 @@
 title: Maîtriser la recherche sur le Web
 description: Devenez un expert de la recherche avec mon guide SearXNG. Opérateurs universels, raccourcis "bangs" avec exemples, requêtes spéciales et astuces pour optimiser la vitesse de vos résultats.
 published: true
-date: 2026-04-29T17:26:59.453Z
+date: 2026-04-29T17:30:56.805Z
 tags: performance, logiciel libre, searxng, vie privé, astuces, guide
 editor: markdown
 dateCreated: 2026-04-29T17:26:59.453Z
@@ -15,6 +15,8 @@ Savoir bien chercher, c'est savoir parler au moteur de recherche. Ce guide vous 
 ## 🔍 Mon instance de recherche privée
 Pour appliquer ce guide et découvrir ma philosophie sur le respect de la vie privée, rendez-vous sur :
 👉 **[https://searxng.blablalinux.be](https://searxng.blablalinux.be)** | **[À propos de ce service](https://searxng.blablalinux.be/info/fr/about)**
+
+![searxng.blablalinux.be.png](/recherche-expert-searxng/searxng.blablalinux.be.png)
 
 ---
 
