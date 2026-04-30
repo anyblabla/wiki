@@ -2,7 +2,7 @@
 title: Déploiement ipv6 industriel (OVH → NPM → Proxmox → LXC Docker)
 description: Guide complet pour déployer l'IPv6 de bout en bout : de la zone DNS OVH aux conteneurs Docker sous Proxmox, en passant par Nginx Proxy Manager. Inclus : méthodes manuelles et scripts d'automatisation.
 published: true
-date: 2026-04-30T21:44:12.409Z
+date: 2026-04-30T22:00:53.162Z
 tags: docker, lxc, proxmox, npm, automatisation, ipv6, ovh, réseau
 editor: markdown
 dateCreated: 2026-04-30T21:23:50.254Z
@@ -255,6 +255,8 @@ docker run --rm busybox ping6 google.com
 ## Conclusion
 Vous disposez maintenant d’une **stack IPv6 complète**, depuis OVH jusqu’aux conteneurs Docker, en passant par Proxmox et Nginx Proxy Manager.  
 Votre infrastructure est modernisée, plus fiable, et vos services comme **SearXNG** bénéficient d’une meilleure réputation réseau.
+
+![2026-04-30_00.07.58_cryptcheck.fr_510e702f01e8-flou.png](/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/2026-04-30_00.07.58_cryptcheck.fr_510e702f01e8-flou.png)
 
 ---
 
