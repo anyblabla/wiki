@@ -2,7 +2,7 @@
 title: Sécurisation totale de Nginx Proxy Manager, Fail2Ban et GeoIP2
 description: Guide complet pour protéger Nginx Proxy Manager avec Fail2Ban et GeoIP2 sous Docker. Bloquez les scans et les pays à risque grâce au bannissement automatique par iptables sur l'hôte.
 published: true
-date: 2026-05-07T00:39:56.241Z
+date: 2026-05-07T01:30:32.634Z
 tags: docker, nginx, fail2ban, sécurité, linux, sysadmin, nginxproxymanager, geoip, autohébergement, maxmind, protection
 editor: markdown
 dateCreated: 2026-05-07T00:10:11.725Z
@@ -18,12 +18,12 @@ Retrouvez la démonstration complète et les explications détaillées dans cett
 
 ## 📁 1. Architecture des fichiers (arborescence)
 
-Pour que tout fonctionne, vos fichiers doivent être organisés ainsi sur votre hôte :
+Pour que tout fonctionne avec le fichier `docker-compose.yml` ci-dessous, vos fichiers doivent être organisés ainsi :
 
 ```text
 /home/votre-user/npm/
 ├── docker-compose.yml
-├── data/
+├── data/                      # Dossier de données de NPM
 │   ├── geoip2/                # Contient les bases .mmdb
 │   ├── logs_geo/              # Dossier de logs partagé
 │   ├── nginx/
@@ -31,11 +31,16 @@ Pour que tout fonctionne, vos fichiers doivent être organisés ainsi sur votre 
 │   │       ├── root_top.conf
 │   │       ├── http_top.conf
 │   │       └── server_proxy.conf
-├── fail2ban/
-│   ├── data/
-│   │   ├── action.d/docker-action.conf
-│   │   ├── filter.d/ (npm.conf, npm-403-abuse.conf, npm-geo-abuse.conf)
-│   │   └── jail.d/npm.local
+└── fail2ban/                  # Dossier de données de Fail2Ban
+    └── data/
+        ├── action.d/
+        │   └── docker-action.conf
+        ├── filter.d/
+        │   ├── npm.conf
+        │   ├── npm-403-abuse.conf
+        │   └── npm-geo-abuse.conf
+        └── jail.d/
+            └── npm.local
 ```
 
 ---
@@ -56,13 +61,15 @@ services:
       - 443:443
       - 81:81
     environment:
-      TZ: Europe/Brussels
+      TZ: Europe/Brussels # À personnaliser 
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
       - ./data/geoip2:/data/geoip2:ro
 
   # --- Mise à jour automatique des bases GeoIP ---
+  # Un compte doit être créé sur https://www.maxmind.com pour obtenir 
+  # un ID utilisateur et une clé de licence (License Key).
   geoip-upd:
     image: maxmindinc/geoipupdate:latest
     container_name: geoip-upd
@@ -89,7 +96,7 @@ services:
       - ./fail2ban/data/action.d:/etc/fail2ban/action.d:ro
       - ./data/logs_geo:/var/log:ro # Accès aux logs de NPM
     environment:
-      - TZ: Europe/Brussels
+      - TZ: Europe/Brussels # À personnaliser
       - F2B_LOG_TARGET: STDOUT
       - F2B_LOG_LEVEL: INFO
     restart: always
@@ -136,7 +143,7 @@ access_log /data/logs_geo/global_access_geo.log proxy_geo;
 ```
 
 ### Fichier `server_proxy.conf`
-*(Application du blocage par proxy host - à mettre dans l'onglet "Advanced" ou en config globale)*
+*(Application du blocage par proxy host)*
 ```nginx
 access_log /data/logs_geo/global_access_geo.log proxy_geo;
 
@@ -145,7 +152,9 @@ set $block 0;
 # Blocage pays (RU, CN, etc.)
 if ($allowed_country = no) { set $block 1; }
 
-# Inclusion liste de bots/IA (optionnel)
+# Inclusion liste de bots/IA 
+# Pour plus d'explications sur ce blocage : 
+# 👉 https://wiki.blablalinux.be/fr/blocage-robots-ia-nginx-proxy-manager
 include /data/nginx/custom/ai-blocklist.conf;
 
 # Exception pour le fichier robots.txt
@@ -179,18 +188,29 @@ actionunban = iptables -D f2b-npm-docker -s <ip> -j DROP
 ### Dossier `filter.d/` (les 3 fichiers)
 
 **Fichier `npm.conf` :**
-`failregex = ^\[.*\] \[Client <HOST>\] \[yes \w+\] \[.*\] ".*" (400|401|404|444|5\d\d)$`
-`ignoreregex = ^.*votre-domaine\.com.*$`
+```ini
+[Definition]
+failregex = ^\[.*\] \[Client <HOST>\] \[yes \w+\] \[.*\] ".*" (400|401|404|444|5\d\d)$
+ignoreregex = ^.*votre-sous-domaine\.votre-domaine\.tld.*$
+              ^.*\.(png|jpg|jpeg|gif|css|js|ico|svg|woff2?|ttf|eot|map|webp|json|txt|xml|webmanifest)$
+```
 
 **Fichier `npm-403-abuse.conf` :**
-`failregex = ^\[.*\] \[Client <HOST>\] \[yes \w+\] \[.*\] ".*" 403$`
-`ignoreregex = ^.*votre-domaine\.com.*$`
+```ini
+[Definition]
+failregex = ^\[.*\] \[Client <HOST>\] \[yes \w+\] \[.*\] ".*" 403$
+ignoreregex = ^.*votre-sous-domaine\.votre-domaine\.tld.*$
+              ^.*\.(png|jpg|jpeg|gif|css|js|ico|svg|woff2?|ttf|eot|map|webp|json|txt|xml|webmanifest)$
+```
 
 **Fichier `npm-geo-abuse.conf` :**
-`failregex = ^\[.*\] \[Client <HOST>\] \[no \w+\] \[.*\] ".*" (400|401|403|444|5\d\d)$`
+```ini
+[Definition]
+failregex = ^\[.*\] \[Client <HOST>\] \[no \w+\] \[.*\] ".*" (400|401|403|444|5\d\d)$
+```
 
 ### Fichier `jail.d/npm.local`
-*(La prison complète avec bannissement progressif)*
+*(La prison avec bannissement progressif)*
 ```ini
 [DEFAULT]
 bantime.increment = true
@@ -229,6 +249,39 @@ findtime = 120
 bantime = 7200
 action = docker-action
 ```
+
+---
+
+## 🔍 5. Comprendre les filtres (Explication des Regex)
+
+Chaque filtre analyse les lignes du fichier de log. Voici le détail technique de ce qu'ils détectent :
+
+### A. La structure de base
+Toutes nos regex commencent par isoler l'IP du visiteur :
+`^\[.*\] \[Client <HOST>\] ...`
+* `^` : Début de la ligne.
+* `\[.*\]` : Ignore le timestamp (date/heure).
+* `[Client <HOST>]` : Capture l'adresse IP via l'étiquette Fail2Ban `<HOST>`.
+
+### B. Filtre `npm.conf` (Comportements anormaux)
+`failregex = ... \[yes \w+\] \[.*\] ".*" (400|401|404|444|5\d\d)$`
+* `[yes \w+]` : Détecte un pays **autorisé** par GeoIP.
+* `(400|401|404|444|5\d\d)` : Cible les codes HTTP d'erreurs souvent liés à des scans (requêtes malformées, pages inexistantes, erreurs serveurs répétées).
+* **But** : Évincer les bots qui scannent vos services autorisés à la recherche de vulnérabilités.
+
+### C. Filtre `npm-403-abuse.conf` (Forçage d'accès)
+`failregex = ... \[yes \w+\] \[.*\] ".*" 403$`
+* `403` : Code HTTP "Forbidden" (Accès refusé).
+* **But** : Si un IP insiste sur une ressource interdite (ex: interface d'admin, fichiers sensibles), elle est bannie. C'est une barrière contre le brute-force ou l'exploration forcée.
+
+### D. Filtre `npm-geo-abuse.conf` (Répression géographique)
+`failregex = ... \[no \w+\] \[.*\] ".*" (400|401|403|444|5\d\d)$`
+* `[no \w+]` : **L'élément crucial.** Détecte uniquement les IP marquées comme **non autorisées** par la géolocalisation.
+* **But** : Tolérance zéro. Dès qu'une IP d'un pays banni génère une erreur, Fail2Ban déclenche le bannissement immédiat au niveau du pare-feu.
+
+### E. Les exclusions (`ignoreregex`)
+`^.*\.(png|jpg|...|json|txt|xml)$`
+* **But** : Éviter les "faux positifs". Si un utilisateur légitime essaie de charger une page où une image (`.jpg`) ou une feuille de style (`.css`) est manquante, il génère une erreur 404. On ignore ces extensions pour ne pas bannir vos vrais visiteurs par mégarde.
 
 ---
 
