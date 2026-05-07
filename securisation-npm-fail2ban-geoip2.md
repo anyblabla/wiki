@@ -2,7 +2,7 @@
 title: Sécurisation totale de Nginx Proxy Manager, Fail2Ban et GeoIP2
 description: Guide complet pour protéger Nginx Proxy Manager avec Fail2Ban et GeoIP2 sous Docker. Bloquez les scans et les pays à risque grâce au bannissement automatique par iptables sur l'hôte.
 published: true
-date: 2026-05-07T01:30:32.634Z
+date: 2026-05-07T09:16:34.022Z
 tags: docker, nginx, fail2ban, sécurité, linux, sysadmin, nginxproxymanager, geoip, autohébergement, maxmind, protection
 editor: markdown
 dateCreated: 2026-05-07T00:10:11.725Z
@@ -12,7 +12,7 @@ Ce guide fournit une configuration « clés en main » pour protéger une infras
 
 ## 📺 Vidéo de présentation
 Retrouvez la démonstration complète et les explications détaillées dans cette vidéo :
-👉 [https://video.blablalinux.be/w/56vT186n8Yp5VzS8S7WzPz](https://video.blablalinux.be/w/56vT186n8Yp5VzS8S7WzPz)
+👉 [https://peertube.blablalinux.be/w/3GvZh3PoGqYeRcDHq58ENz](https://peertube.blablalinux.be/w/3GvZh3PoGqYeRcDHq58ENz)
 
 ---
 
