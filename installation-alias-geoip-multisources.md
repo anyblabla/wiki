@@ -2,7 +2,7 @@
 title: L'alias GeoIP ultime (MaxMind + ip66.dev)
 description: Apprenez à installer un alias GeoIP puissant combinant MaxMind et ip66.dev. Un guide pas à pas pour diagnostiquer vos IP, détecter les VPN et serveurs cloud directement dans votre terminal.
 published: true
-date: 2026-05-08T20:17:34.425Z
+date: 2026-05-08T20:43:08.062Z
 tags: bash, sécurité, linux, terminal, geoip, maxmind, ip66.dev
 editor: markdown
 dateCreated: 2026-05-08T18:09:39.102Z
@@ -15,7 +15,8 @@ Ce guide vous explique comment transformer votre terminal en un véritable centr
 Pour que ce guide fonctionne, vous devez :
 
 1. Avoir un conteneur **GeoIP Update** fonctionnel (voir le guide [Sécurisation NPM avec Fail2Ban et GeoIP2](https://wiki.blablalinux.be/fr/securisation-npm-fail2ban-geoip2)) ou au moins le conteneur officiel de mise à jour MaxMind.
-* **Alternative sans compte :** Si vous ne souhaitez pas créer de compte MaxMind, je propose les trois bases GeoLite2 en téléchargement ici : [Lien Nextcloud](https://nextcloud.blablalinux.be/s/k6ELZWS5ZEnPTM2). Attention : ces versions sont statiques et resteront en date du **8 mai 2026**.
+* **Alternative sans compte :** Si vous ne souhaitez pas créer de compte MaxMind, je propose une archive regroupant les trois bases GeoLite2 ici : [Lien Nextcloud](https://nextcloud.blablalinux.be/s/k6ELZWS5ZEnPTM2).
+* *Note : L'archive est au format `.tar.xz` (poids réduit). Ces versions sont statiques et resteront en date du **8 mai 2026**.*
 
 
 2. Disposer d'un compte chez [MaxMind](https://www.maxmind.com) (gratuit pour les bases GeoLite2) pour les mises à jour automatiques.
