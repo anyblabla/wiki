@@ -2,7 +2,7 @@
 title: L'alias GeoIP ultime (MaxMind + ip66.dev)
 description: Apprenez à installer un alias GeoIP puissant combinant MaxMind et ip66.dev. Un guide pas à pas pour diagnostiquer vos IP, détecter les VPN et serveurs cloud directement dans votre terminal.
 published: true
-date: 2026-05-08T18:18:34.176Z
+date: 2026-05-08T20:17:34.425Z
 tags: bash, sécurité, linux, terminal, geoip, maxmind, ip66.dev
 editor: markdown
 dateCreated: 2026-05-08T18:09:39.102Z
@@ -14,8 +14,11 @@ Ce guide vous explique comment transformer votre terminal en un véritable centr
 
 Pour que ce guide fonctionne, vous devez :
 
-1. Avoir un conteneur **GeoIP Update** fonctionnel (voir le guide [Sécurisation NPM avec Fail2Ban et GeoIP2](https://wiki.blablalinux.be/fr/securisation-npm-fail2ban-geoip2)) ou au moins le conteneur officiel de mise à jour MaxMind qui tourne sur votre infrastructure.
-2. Disposer d'un compte chez [MaxMind](https://www.maxmind.com) (gratuit pour les bases GeoLite2).
+1. Avoir un conteneur **GeoIP Update** fonctionnel (voir le guide [Sécurisation NPM avec Fail2Ban et GeoIP2](https://wiki.blablalinux.be/fr/securisation-npm-fail2ban-geoip2)) ou au moins le conteneur officiel de mise à jour MaxMind.
+* **Alternative sans compte :** Si vous ne souhaitez pas créer de compte MaxMind, je propose les trois bases GeoLite2 en téléchargement ici : [Lien Nextcloud](https://nextcloud.blablalinux.be/s/k6ELZWS5ZEnPTM2). Attention : ces versions sont statiques et resteront en date du **8 mai 2026**.
+
+
+2. Disposer d'un compte chez [MaxMind](https://www.maxmind.com) (gratuit pour les bases GeoLite2) pour les mises à jour automatiques.
 3. Découvrir [ip66.dev](https://ip66.dev), un excellent service complémentaire pour identifier les types de connexions.
 
 ---
@@ -39,12 +42,12 @@ mkdir -p /votre/chemin/ip66
 
 L'outil standard `mmdblookup` est parfait pour MaxMind, mais pour lire les données plus complexes (JSON) de la base **ip66**, nous avons besoin de `mmdbinspect`. Voici comment l'installer étape par étape :
 
-1. **cd /tmp** : on se place dans le dossier temporaire du système pour ne pas encombrer vos dossiers personnels.
-2. **wget [URL]** : on télécharge l'archive officielle depuis le dépôt GitHub de MaxMind.
-3. **tar xvf [Fichier]** : on décompresse l'archive. Cela va créer un dossier contenant le programme binaire (le fichier exécutable).
-4. **mv ... /usr/local/bin/** : on déplace le fichier exécutable dans un dossier système reconnu. Cela permet de lancer la commande `mmdbinspect` depuis n'importe où dans le terminal.
-5. **chmod +x ...** : on rend le fichier exécutable par le système.
-6. **rm -rf ...** : on nettoie les fichiers d'installation devenus inutiles.
+1. **cd /tmp** : on se place dans le dossier temporaire du système.
+2. **wget [URL]** : téléchargement de l'archive officielle.
+3. **tar xvf [Fichier]** : décompression de l'archive.
+4. **mv ... /usr/local/bin/** : déplacement du binaire vers un dossier système.
+5. **chmod +x ...** : attribution des droits d'exécution.
+6. **rm -rf ...** : nettoyage.
 
 ```bash
 cd /tmp
@@ -60,7 +63,7 @@ rm -rf mmdbinspect_0.2.0_linux_amd64*
 
 ## 🔄 4. Script de mise à jour ip66.dev
 
-Contrairement à MaxMind qui possède son propre conteneur Docker de mise à jour, nous allons créer un petit script léger pour récupérer la base ip66 une fois par semaine.
+Nous allons créer un petit script léger pour récupérer la base ip66 une fois par semaine.
 
 Créez le fichier : `nano /votre/chemin/ip66/update_ip66.sh`
 
@@ -72,7 +75,7 @@ URL="https://downloads.ip66.dev/db/ip66.mmdb"
 
 cd "$DEST_DIR" || exit
 
-# Téléchargement vers un fichier temporaire pour ne pas corrompre l'original
+# Téléchargement vers un fichier temporaire
 wget -q --no-check-certificate --user-agent="Mozilla/5.0" "$URL" -O ip66.mmdb.tmp
 
 # Si le fichier reçu n'est pas vide, on remplace l'ancienne base
@@ -82,7 +85,7 @@ if [ -s "ip66.mmdb.tmp" ]; then
     echo "Mise à jour ip66.dev terminée avec succès."
 else
     rm -f ip66.mmdb.tmp
-    echo "Erreur lors du téléchargement (vérifiez votre connexion)."
+    echo "Erreur lors du téléchargement."
 fi
 
 ```
@@ -93,9 +96,7 @@ fi
 
 ## 📜 5. L'alias GeoIP ultime
 
-Voici le cœur du système. Cet alias est à copier dans votre fichier `~/.bash_aliases` (ou `~/.bashrc`). Il inclut des sécurités pour éviter les erreurs de saisie (comme entrer une IP au lieu d'un numéro de menu).
-
-**⚠️ Pensez à bien modifier les deux premières variables (PATH_MM et PATH_I66) avec vos chemins réels !**
+Voici le cœur du système. Cet alias est à copier dans votre fichier `~/.bash_aliases` (ou `~/.bashrc`).
 
 ```bash
 geoip() {
@@ -127,15 +128,13 @@ geoip() {
             read -p "Votre choix : " choice
             [[ "$choice" == "b" ]] && break
             
-            # Sécurité : si l'utilisateur entre une IP au lieu du chiffre du menu
             [[ "$choice" =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]] && { printf "${C_RED}Attention : Entrez un chiffre (1-4), pas l'IP ici !${C_RESET}\n"; continue; }
             [[ ! "$choice" =~ ^[1-4]$ ]] && { printf "${C_RED}Choix invalide.${C_RESET}\n"; continue; }
 
-            # Saisie de l'IP avec sécurité anti-chiffre seul
             while true; do
                 read -p "Entrez l'IP : " ip
                 [[ -z "$ip" ]] && { echo "IP manquante."; continue; }
-                [[ "$ip" =~ ^[0-9]{1,2}$ ]] && { printf "${C_RED}Erreur : Entrez une IP valide, pas un numéro de menu !${C_RESET}\n"; continue; }
+                [[ "$ip" =~ ^[0-9]{1,2}$ ]] && { printf "${C_RED}Erreur : Entrez une IP valide !${C_RESET}\n"; continue; }
                 break
             done
 
@@ -170,13 +169,13 @@ geoip() {
 
 ## 🛡️ 6. Petit conseil « BlablaLinux » (AdGuard Home)
 
-Si vous utilisez **AdGuard Home** ou un autre bloqueur DNS, il est possible que le domaine `download.maxmind.com` soit bloqué par défaut par certaines listes de filtrage. Si vos bases ne se mettent pas à jour, pensez à ajouter ce domaine à votre **liste d'autorisation** (Whitelist).
+Si vous utilisez **AdGuard Home**, il est possible que `download.maxmind.com` soit bloqué par défaut. Si vos bases ne se mettent pas à jour, pensez à ajouter ce domaine à votre **liste d'autorisation** (Whitelist).
 
 ---
 
 ## 📽️ 7. Démonstration de l'outil en action
 
-Rien de tel qu'une petite démonstration visuelle pour voir comment l'alias `geoip` se comporte « dans la vraie vie ». On y voit la bascule entre les sources, la sécurité anti-erreur et l'affichage des données.
+Rien de tel qu'une petite démonstration visuelle pour voir comment l'alias `geoip` se comporte « dans la vraie vie ».
 
 <img src="/installation-alias-geoip-multisources/installation-alias-geoip-multisources.gif" alt="Démonstration GeoIP" style="width: 100%; height: auto; border-radius: 8px;">
 
