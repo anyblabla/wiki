@@ -2,7 +2,7 @@
 title: L'alias GeoIP ultime (MaxMind + ip66.dev)
 description: Apprenez à installer un alias GeoIP puissant combinant MaxMind et ip66.dev. Un guide pas à pas pour diagnostiquer vos IP, détecter les VPN et serveurs cloud directement dans votre terminal.
 published: false
-date: 2026-05-08T18:14:56.163Z
+date: 2026-05-08T18:15:32.141Z
 tags: bash, sécurité, linux, terminal, geoip, maxmind, ip66.dev
 editor: markdown
 dateCreated: 2026-05-08T18:09:39.102Z
@@ -178,7 +178,7 @@ Si vous utilisez **AdGuard Home** ou un autre bloqueur DNS, il est possible que 
 
 Rien de tel qu'une petite démonstration visuelle pour voir comment l'alias `geoip` se comporte « dans la vraie vie ». On y voit la bascule entre les sources, la sécurité anti-erreur et l'affichage des données.
 
-![installation-alias-geoip-multisources.gif](/installation-alias-geoip-multisources/installation-alias-geoip-multisources.gif){width=100%}
+<img src="/installation-alias-geoip-multisources/installation-alias-geoip-multisources.gif" alt="Démonstration GeoIP" style="width: 100%; height: auto; border-radius: 8px;">
 
 ---
 
