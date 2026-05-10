@@ -2,7 +2,7 @@
 title: Déploiement ipv6 industriel (OVH → NPM → Proxmox → LXC Docker)
 description: Guide complet pour déployer l'IPv6 de bout en bout : de la zone DNS OVH aux conteneurs Docker sous Proxmox, en passant par Nginx Proxy Manager. Inclus : méthodes manuelles et scripts d'automatisation.
 published: true
-date: 2026-05-10T15:01:23.261Z
+date: 2026-05-10T15:08:17.870Z
 tags: docker, lxc, proxmox, npm, automatisation, ipv6, ovh, réseau
 editor: markdown
 dateCreated: 2026-04-30T21:23:50.254Z
@@ -127,7 +127,9 @@ Ajoutez :
 - une règle utilisant la macro **HTTPS**  
 - une règle utilisant la macro **HTTP**
 
-![ipv6-pare-feu-pve.png](/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve.png)
+<br>
+
+<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve.png" alt="Pare-feu IPv6 Proxmox VE" width="100%">
 
 ---
 
@@ -151,7 +153,9 @@ Ajoutez les règles suivantes :
 - autoriser les ports UDP 5405 à 5412  
 - autoriser les ports TCP 60000 à 60050
 
-![ipv6-pare-feu-pve-02.png](/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve-02.png)
+<br>
+
+<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve-02.png" alt="Pare-feu IPv6 Proxmox VE" width="100%">
 
 ---
 
@@ -204,7 +208,9 @@ Ajoutez :
 - le groupe **web** (HTTP + HTTPS)  
 - le groupe **ssh** (si vous souhaitez un accès SSH)
 
-![ipv6-pare-feu-lxc.png](/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-lxc.png)
+<br>
+
+<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-lxc.png" alt="Pare-feu IPv6 LXC" width="100%">
 
 Chemin des options :
 
@@ -388,4 +394,6 @@ docker run --rm busybox ping6 google.com
 
 Votre infrastructure dispose maintenant d’une **chaîne IPv6 complète**, depuis OVH jusqu’aux conteneurs Docker, en passant par Proxmox et Nginx Proxy Manager.
 
-![2026-04-30_00.07.58_cryptcheck.fr_510e702f01e8-flou.png](/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/2026-04-30_00.07.58_cryptcheck.fr_510e702f01e8-flou.png)
+<br>
+
+<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/2026-04-30_00.07.58_cryptcheck.fr_510e702f01e8-flou.png" alt="Cryptcheck" width="100%">
