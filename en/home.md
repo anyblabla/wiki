@@ -1,8 +1,8 @@
 ---
 title: Welcome
-description: 🧠 All my technical guides and up-to-date installation methods. Benefit from my successes (and learn from my "struggles" 😉)!
+description: anglais 🧠 All my up-to-date technical guides and installation methods. Benefit from tested procedures and functional results for your projects 😉
 published: true
-date: 2026-05-11T15:03:33.769Z
+date: 2026-05-11T15:05:40.632Z
 tags: 
 editor: markdown
 dateCreated: 2026-01-08T23:24:03.690Z
