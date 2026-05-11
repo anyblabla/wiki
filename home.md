@@ -2,7 +2,7 @@
 title: Bienvenue
 description: 🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de mes succès (et apprenez de mes "galères" 😉) !
 published: true
-date: 2026-05-11T15:01:14.898Z
+date: 2026-05-11T15:01:55.563Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
@@ -42,7 +42,7 @@ Consultez la page **[Articles en construction](https://www.google.com/search?q=/
 
 Une étape vous semble obscure ou une méthode mérite une mise à jour ? Ne restez pas dans le flou !
 
-[Contactez-moi](https://yourls.blablalinux.be/contact) directement, je serai ravi d'apporter les corrections nécessaires pour que le contenu reste impeccable. 😉
+[Contactez-moi](https://yourls.blablalinux.be/contact) directement, je serai ravi d'apporter les corrections nécessaires pour que le contenu reste impeccable 😉
 
 ---
 
