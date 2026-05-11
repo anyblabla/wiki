@@ -2,7 +2,7 @@
 title: Welcome
 description: 🧠 All my technical guides and up-to-date installation methods. Benefit from my successes (and learn from my "struggles" 😉)!
 published: true
-date: 2026-04-27T16:11:07.020Z
+date: 2026-05-11T15:03:33.769Z
 tags: 
 editor: markdown
 dateCreated: 2026-01-08T23:24:03.690Z
@@ -10,44 +10,44 @@ dateCreated: 2026-01-08T23:24:03.690Z
 
 ![blablalinux_banniere_1536x1024(modification).jpg](/welcome/blablalinux_banniere_1536x1024(modification).jpg)
 
+# 🥳 Welcome to the Blabla Linux Wiki !
 
-# 🥳 Welcome to the Blabla Linux wiki !
+## 👋 Hello everyone !
 
-## 👋 Hey there !
+You might already know me through the [blog](https://yourls.blablalinux.be/blog). It’s the perfect place to share **news and updates** about **Blabla Linux**, our community, and free software.
 
-You might already know me through the [blog](https://yourls.blablalinux.be/blog). It’s the perfect place for sharing **news and updates** about **Blabla Linux**, our community, systems, and open-source software.
+However, a blog isn't the ideal format for purely technical content. That’s why I created this wiki: a space dedicated to **precision** and **long-term reliability** for installation methods.
 
-But let’s be honest: a blog isn’t the best place for maintaining up-to-date **installation methods** or precise technical guides. That’s where this wiki comes in !
+## 🧠 Wiki Mission: Efficiency First
 
-## 🧠 The wiki's mission
+Every day, I install and test many services. My goal with this wiki is to provide you with the **functional final result**.
 
-On a daily basis, **Blabla Linux** installs and tests many services. Sometimes, it works right away... and sometimes, it’s quite an adventure !
+This wiki is my **public cheat sheet**, designed to be a reliable and ready-to-use source of documentation.
 
-This wiki is designed to be my **public "cheat sheet"**, available in read-only mode.
-
-* **Why?** So you can benefit from my successes (and learn from my struggles 😉) by always having access to technical guides that are up-to-date and functional.
-* **Collaboration?** For now, I prefer to manage the content myself to ensure consistency. But who knows, I might change my mind over time !
-
----
-
-### 🚧 Articles under construction
-
-This wiki is a work in progress ! Want to know what I’m currently working on?
-
-Check the dedicated **[Articles under construction](/zone-construction-brouillons)** page to discover topics that will soon be available. It’s the perfect place to get a sneak peek at upcoming guides !
+* **Why?** To offer you "turnkey" technical guides, regularly updated, ensuring a successful installation without wasting time.
+* **The Method:** Every guide here is the result of my personal testing, synthesized to offer only the most direct and efficient procedure.
+* **Read-Only:** To guarantee the consistency and reliability of the procedures, I remain the sole author of the content.
 
 ---
 
-### 🧐 Technical issue?
+### 🚧 Articles in Progress
 
-Something wrong with a page or a method in this wiki? Don't stay stuck !
+This wiki evolves along with my discoveries. Want to know which services will be documented next?
 
-[Contact me](https://yourls.blablalinux.be/contact) directly; I’ll be happy to correct or clarify the content. 😉
+Check the **[Articles in progress](https://www.google.com/search?q=/zone-construction-brouillons)** page to discover the topics that will be finalized soon.
+
+---
+
+### 🧐 Need more details?
+
+Is a step unclear, or does a method need an update? Don’t stay in the dark !
+
+[Contact me](https://yourls.blablalinux.be/contact) directly; I’ll be happy to make the necessary corrections to keep the content top-notch 😉
 
 ---
 
 ### 💌 Stay connected !
 
-Want to stay informed about wiki updates, [WordPress blog](https://yourls.blablalinux.be/blog) posts, or the latest videos on the [PeerTube channel](https://yourls.blablalinux.be/peertube)?
+Want to stay informed about new guides, [WordPress blog](https://yourls.blablalinux.be/blog) posts, or the latest videos on the [PeerTube channel](https://yourls.blablalinux.be/peertube)?
 
-Join [the newsletter](https://yourls.blablalinux.be/cyberlettre) (cyberlettre) ! 😎
+Join the [newsletter](https://yourls.blablalinux.be/cyberlettre) ! 😎
