@@ -1,8 +1,8 @@
 ---
 title: Bienvenue
-description: 🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de mes succès (et apprenez de mes "galères" 😉) !
+description: 🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de procédures testées et de résultats fonctionnels pour vos projets 😉
 published: true
-date: 2026-05-11T15:01:55.563Z
+date: 2026-05-11T15:05:06.634Z
 tags: 
 editor: markdown
 dateCreated: 2025-07-17T00:14:37.130Z
