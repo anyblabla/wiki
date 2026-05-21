@@ -1,8 +1,8 @@
 ---
 title: Proxmox VE 9.2 - Configurer le Dynamic Load Balancer (Équilibreur de charge)
 description: Découvrez le Dynamic Load Balancer de Proxmox VE 9.2 et apprenez à configurer ses options de rebalancement.
-published: false
-date: 2026-05-21T18:52:27.974Z
+published: true
+date: 2026-05-21T19:52:09.916Z
 tags: proxmox, cluster, ha, tutoriel, pve-9.2, load-balancer, crs
 editor: markdown
 dateCreated: 2026-05-21T18:48:27.725Z
