@@ -2,7 +2,7 @@
 title: Proxmox VE 9.2 - Configurer le Dynamic Load Balancer (Équilibreur de charge)
 description: Découvrez le Dynamic Load Balancer de Proxmox VE 9.2 et apprenez à configurer ses options de rebalancement.
 published: false
-date: 2026-05-21T18:49:55.897Z
+date: 2026-05-21T18:52:27.974Z
 tags: proxmox, cluster, ha, tutoriel, pve-9.2, load-balancer, crs
 editor: markdown
 dateCreated: 2026-05-21T18:48:27.725Z
@@ -82,5 +82,5 @@ L'avantage, c'est que si le comportement par défaut s'avère trop sensible pour
 Pour approfondir le sujet ou vérifier les options de syntaxe exactes, vous pouvez consulter la documentation officielle de Proxmox :
 
 * [Proxmox VE Administration Guide](https://pve.proxmox.com/pve-docs/pve-admin-guide.html) : Le manuel complet officiel pour la gestion globale de votre infrastructure et de vos datacenters.
-* [Proxmox VE Administration Guide - CRS Load Balancer](https://www.google.com/search?q=https://pve.proxmox.com/pve-docs/pve-admin-guide.html%23_crs_load_balancer) : La section du manuel décrivant en détail le fonctionnement général et l'intégration du répartiteur de charge au Cluster Resource Scheduler.
-* [Proxmox VE Datacenter Configuration Manual]() : La page de manuel technique de référence détaillant toutes les variables et directives applicables au fichier de configuration /etc/pve/datacenter.cfg.
+* [Proxmox VE Administration Guide - CRS Load Balancer](https://pve.proxmox.com/pve-docs/pve-admin-guide.html#_crs_load_balancer) : La section du manuel décrivant en détail le fonctionnement général et l'intégration du répartiteur de charge au Cluster Resource Scheduler.
+* [Proxmox VE Datacenter Configuration Manual](https://pve.proxmox.com/pve-docs/datacenter.cfg.5.html) : La page de manuel technique de référence détaillant toutes les variables et directives applicables au fichier de configuration /etc/pve/datacenter.cfg.
