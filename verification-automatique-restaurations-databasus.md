@@ -2,7 +2,7 @@
 title: Mettre en place la vérification automatique des restaurations avec Databasus
 description: Apprenez à configurer un agent de vérification Databasus dans un LXC Debian avec Docker pour tester automatiquement la restauration de vos bases de données après chaque sauvegarde réussie.
 published: false
-date: 2026-05-22T22:11:52.144Z
+date: 2026-05-22T22:15:49.186Z
 tags: docker, lxc, proxmox, sauvegarde, postgresql, databasus, mysql
 editor: markdown
 dateCreated: 2026-05-22T22:11:52.144Z
@@ -150,6 +150,8 @@ L'agent apparaît désormais avec un badge vert **Online** dans l'onglet *Settin
 5. Cliquez sur **Save**.
 
 Vous pouvez suivre le statut complet, la durée de restauration et le nombre de lignes importées par table directement depuis l'onglet **Verifications** de chaque base de données.
+
+![verification-automatique-restaurations-databasus.png](/verification-automatique-restaurations-databasus/verification-automatique-restaurations-databasus.png)
 
 ---
 
