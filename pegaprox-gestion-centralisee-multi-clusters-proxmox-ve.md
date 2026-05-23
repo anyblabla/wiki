@@ -2,10 +2,16 @@
 title: PegaProx - Gestion centralisée multi-clusters Proxmox VE
 description: Découvrez PegaProx, une solution open-source de gestion centralisée multi-clusters pour Proxmox VE. Idéal pour piloter tout votre parc de virtualisation depuis une interface unique.
 published: true
-date: 2026-05-23T20:24:18.332Z
+date: 2026-05-23T20:26:54.197Z
 tags: proxmox, cluster, virtualisation, hyperviseur, open-source, pegaprox
 editor: markdown
 dateCreated: 2026-05-23T20:24:18.332Z
+---
+
+[PegaProx](https://pegaprox.com) est une solution open-source et gratuite qui sert de console de gestion centralisée pour vos infrastructures de virtualisation. Elle est principalement conçue pour Proxmox VE (avec un support pour XCP-ng en cours de développement). 
+
+On peut le comparer à ce que vCenter est pour VMware : une interface graphique unique et moderne pour piloter tout son parc.
+
 ---
 
 ## 📌 Fonctionnalités principales
