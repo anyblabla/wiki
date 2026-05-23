@@ -2,13 +2,15 @@
 title: ProxCenter - Centralized multi-server management for Proxmox VE
 description: Discover ProxCenter, a modern open-source dashboard to centralize the management of your Proxmox VE and Proxmox Backup Server (PBS) infrastructures from a single unified web interface.
 published: true
-date: 2026-05-23T20:55:39.481Z
+date: 2026-05-23T21:11:07.279Z
 tags: proxmox, pbs, dashboard, open-source, virtualization, proxcenter
 editor: markdown
 dateCreated: 2026-05-23T20:55:39.481Z
 ---
 
 [ProxCenter](https://proxcenter.io) is a modern, open-source web dashboard designed to centralize and simplify the monitoring of your virtualization infrastructures. It gathers the tracking of your Proxmox VE hypervisors and your Proxmox Backup Server (PBS) instances into a single location.
+
+The tool is available in two versions: a completely free and self-hosted **Community** edition (including dashboard, monitoring, inventory, PBS management, and basic alerts) and an **Enterprise** edition that unlocks advanced features (DRS, micro-segmentation, SSO, etc.).
 
 Built with modern web technologies like Next.js and Tailwind CSS, it offers a smooth, lightweight interface to keep a global eye on your resources without multiplying active browser tabs.
 
@@ -29,7 +31,16 @@ Control your virtual machines and LXC containers directly from the interface:
 * Real-time performance charts and utilization metrics for each individual resource.
 
 ### 🔑 Secure connection via API tokens
-The application connects to your hypervisors using official Proxmox VE and PBS API tokens. Setup is fast, non-intrusive, and requires no modifications to your production server configurations.
+The application connects to your hypervisors using official Proxmox VE and PBS API tokens. Setup is fast, 100% self-hosted on your own infrastructure, non-intrusive, and requires no modifications to your production server configurations. All data remains strictly under your control.
+
+---
+
+## 💎 Editions: Community vs Enterprise
+
+ProxCenter scales with your infrastructure needs through two editions, upgradable at any time without data loss:
+
+* **Community Edition (Free):** Perfect for essential needs. Includes the monitoring dashboard, full inventory, PBS management, and basic alerting. With no time limits or hidden costs.
+* **Enterprise Edition (Licensed):** Designed for demanding production environments. It adds Distributed Resource Scheduler (DRS) for automatic load balancing, network micro-segmentation, Site Recovery, CVE vulnerability scanning, AI analytics, advanced RBAC with LDAP/AD/SSO support, and priority technical support.
 
 ---
 
