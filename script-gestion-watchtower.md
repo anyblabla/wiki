@@ -2,7 +2,7 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2026-05-23T15:04:49.698Z
+date: 2026-05-23T15:07:18.294Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
@@ -430,4 +430,4 @@ done
 
 ## 📘 Notes Additionnelles
 
-* Pour installer Docker facilement sur vos LXC, consultez notre page dédiée : <a href="[https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox](https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox)" target="_blank">Docker/Portainer sur Debian/Proxmox</a>.
+* Pour installer Docker facilement sur vos LXC, consultez notre page dédiée : [docker-portainer-lxc-debian-proxmox](/fr/docker-portainer-lxc-debian-proxmox).
