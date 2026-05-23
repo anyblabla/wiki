@@ -2,7 +2,7 @@
 title: Conception d'un outil en ligne de commande pour Wiki.js
 description: Apprenez à créer et installer un script Python personnalisé pour gérer votre instance Wiki.js (CRUD) directement depuis le terminal Debian, avec gestion automatique des langues et des slugs.
 published: true
-date: 2026-01-11T12:32:02.014Z
+date: 2026-05-23T21:00:30.785Z
 tags: wikijs, api, python, graphql, cli
 editor: markdown
 dateCreated: 2026-01-11T01:38:11.338Z
@@ -57,7 +57,12 @@ import sys
 import os
 import tempfile
 import subprocess
+import readline
 
+# Activation du support de l'édition de ligne (flèches, backspace, etc.)
+readline.parse_and_bind("tab: complete")
+
+# --- Configuration Blabla Linux ---
 # Script conçu par BlablaLinux
 # Remplacez les valeurs ci-dessous par vos propres accès API
 WIKI_URL = "https://wiki.votre-domaine.be/graphql"
@@ -76,7 +81,7 @@ def query_graphql(query, variables=None):
         return {}
 
 def get_text_from_editor(initial_content=""):
-    """Ouvre Nano pour éditer le contenu Markdown."""
+    """Ouvre l'éditeur par défaut pour éditer le contenu Markdown."""
     editor = os.environ.get('EDITOR', 'nano')
     with tempfile.NamedTemporaryFile(suffix=".md", delete=False, mode='w+', encoding='utf-8') as tf:
         tf.write(initial_content)
@@ -127,6 +132,7 @@ def create_page():
     
     if path.startswith("en/"):
         locale = "en"
+        path = path[3:]
     else:
         locale = "fr"
         if path.startswith("fr/"):
@@ -166,8 +172,13 @@ def update_page():
     desc = input(f"Description [{current['description']}] : ") or current['description']
     path = input(f"Slug [{current['path']}] : ") or current['path']
     
-    locale = "en" if path.startswith("en/") else "fr"
-    if locale == "fr" and path.startswith("fr/"): path = path[3:]
+    if path.startswith("en/"):
+        locale = "en"
+        path = path[3:]
+    else:
+        locale = "fr"
+        if path.startswith("fr/"): 
+            path = path[3:]
 
     pub_choice = input(f"Publier ? (actuel: {current['isPublished']}) (o/n/Entrée) : ").lower()
     is_published = current['isPublished'] if not pub_choice else (pub_choice == 'o')
@@ -225,7 +236,6 @@ def main():
         elif choix == '4': delete_page()
         elif choix == 'q': 
             clear_screen()
-            # Récupération dynamique du nom d'utilisateur système
             user_name = os.environ.get('USER', 'Ami')
             print(f"Au revoir {user_name} ! Merci d'utiliser Wiki CLI by BlablaLinux.")
             break
