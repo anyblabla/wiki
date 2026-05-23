@@ -2,7 +2,7 @@
 title: Gestion de Watchtower dans les conteneurs LXC
 description: Cette page décrit le script utilisé pour gérer Watchtower dans des conteneurs LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer, arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: 2026-05-23T15:02:35.281Z
+date: 2026-05-23T15:04:49.698Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2025-11-06T18:26:43.925Z
@@ -29,8 +29,8 @@ Ces scripts permettent de :
 
 Retrouvez les sources et contribuez au projet sur nos dépôts (liens externes) :
 
-* **GitHub :** <a href="[https://github.com/anyblabla/proxmox-watchtower-manager](https://github.com/anyblabla/proxmox-watchtower-manager)" target="_blank">anyblabla/proxmox-watchtower-manager</a>
-* **Gitea :** <a href="[https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager](https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager)" target="_blank">gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager</a>
+* **GitHub :** [https://github.com/anyblabla/proxmox-watchtower-manager](https://github.com/anyblabla/proxmox-watchtower-manager)
+* **Gitea :** [https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager](https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager)
 
 ---
 
