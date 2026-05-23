@@ -2,13 +2,13 @@
 title: PegaProx - Gestion centralisée multi-clusters Proxmox VE
 description: Découvrez PegaProx, une solution open-source de gestion centralisée multi-clusters pour Proxmox VE. Idéal pour piloter tout votre parc de virtualisation depuis une interface unique.
 published: true
-date: 2026-05-23T20:26:54.197Z
+date: 2026-05-23T21:04:50.584Z
 tags: proxmox, cluster, virtualisation, hyperviseur, open-source, pegaprox
 editor: markdown
 dateCreated: 2026-05-23T20:24:18.332Z
 ---
 
-[PegaProx](https://pegaprox.com) est une solution open-source et gratuite qui sert de console de gestion centralisée pour vos infrastructures de virtualisation. Elle est principalement conçue pour Proxmox VE (avec un support pour XCP-ng en cours de développement). 
+[PegaProx](https://pegaprox.com) est une solution entièrement open-source et gratuite qui sert de console de gestion centralisée pour vos infrastructures de virtualisation. Elle est principalement conçue pour Proxmox VE (avec un support pour XCP-ng en cours de développement). 
 
 On peut le comparer à ce que vCenter est pour VMware : une interface graphique unique et moderne pour piloter tout son parc.
 
@@ -42,7 +42,7 @@ Plus besoin de sauter d'une interface Proxmox à une autre. PegaProx regroupe to
 ## 🚀 Pourquoi l'adopter ?
 * **Interface moderne :** Une interface utilisateur fluide, rapide et très soignée.
 * **Centralisation :** Parfait dès que l'on gère plus d'un cluster ou plusieurs hyperviseurs indépendants.
-* **Alternative libre :** Permet de retrouver le confort de gestion des solutions propriétaires (comme VMware vCenter) mais avec des outils 100% open-source.
+* **Alternative libre et gratuite :** Permet de retrouver le confort de gestion des solutions propriétaires (comme VMware vCenter) mais avec des outils 100% open-source.
 
 ---
 > **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
