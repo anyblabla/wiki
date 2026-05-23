@@ -2,26 +2,30 @@
 title: Managing Watchtower in LXC containers
 description: This page describes the script used to manage Watchtower in LXC containers running on Proxmox VE. It allows you to check the status, start, stop, restart Watchtower, and update its configurations automatically.
 published: true
-date: 2026-03-13T23:45:40.354Z
+date: 2026-05-23T16:19:44.405Z
 tags: docker, lxc, proxmox, script, watchtower, pve, compose
 editor: markdown
 dateCreated: 2026-03-13T23:45:40.354Z
 ---
 
+Voici la traduction complète de votre page pour votre wiki multilingue. J'ai traduit le texte, les commentaires des scripts, ainsi que les menus textuels et les invites de commandes de façon claire et naturelle.
+
+---
+
 ## Introduction
 
-**Watchtower** is a tool that monitors your Docker containers and updates them automatically. This page documents two methods to manage your Watchtower instances deployed in LXC containers directly from the Proxmox host.
+**Watchtower** is a tool that monitors your Docker containers and automatically updates them. This page documents two methods to manage your Watchtower instances deployed in LXC containers directly from the Proxmox host.
 
-📺 **Demo:** You can find the demo video of this script on the <a href="[https://mastodon.blablalinux.be/about](https://mastodon.blablalinux.be/about)" target="_blank">Blabla Linux Mastodon</a> instance: <a href="[https://mastodon.blablalinux.be/@blablalinux/115826788636738220](https://mastodon.blablalinux.be/@blablalinux/115826788636738220)" target="_blank">[https://mastodon.blablalinux.be/@blablalinux/115826788636738220](https://mastodon.blablalinux.be/@blablalinux/115826788636738220)</a>
+📺 **Demonstration:** Watch the demonstration video of this script on Blabla Linux's Mastodon instance: [https://mastodon.blablalinux.be/@blablalinux/115826788636738220](https://mastodon.blablalinux.be/@blablalinux/115826788636738220)
 
 These scripts allow you to:
 
-* Identify **LXCs** containing **Docker**.
-* Locate Watchtower `docker-compose.yml` files.
-* **View and modify essential options** (Schedule, Cleanup, Image, etc.).
+* Identify **LXCs** running **Docker**.
+* Find Watchtower `docker-compose.yml` files.
+* **View and modify essential options** (Schedule, Cleanup, Notification URL, Image, etc.).
 * **Clean up** unused Docker images (`prune`).
 
-> **Technical Note:** These scripts run on the **Proxmox host**. They use the `pct exec [ID]` command to manage Docker inside the containers without having to log into each one individually.
+> **Technical Note:** These scripts run on the **Proxmox host**. They use the `pct exec [ID]` command to control Docker inside containers without having to connect to each one individually.
 
 ---
 
@@ -29,8 +33,8 @@ These scripts allow you to:
 
 Find the source code and contribute to the project on our repositories (external links):
 
-* **GitHub:** <a href="[https://github.com/anyblabla/proxmox-watchtower-manager](https://github.com/anyblabla/proxmox-watchtower-manager)" target="_blank">anyblabla/proxmox-watchtower-manager</a>
-* **Gitea:** <a href="[https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager](https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager)" target="_blank">gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager</a>
+* **GitHub:** [https://github.com/anyblabla/proxmox-watchtower-manager](https://github.com/anyblabla/proxmox-watchtower-manager)
+* **Gitea:** [https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager](https://gitea.blablalinux.be/blablalinux/proxmox-watchtower-manager)
 
 ---
 
@@ -47,7 +51,7 @@ sudo mkdir -p /root/scripts
 
 ### 2. Make the scripts executable
 
-After creating the files (see source codes below), don't forget to apply the permissions:
+After creating the files (see source code below), don't forget to apply the permissions:
 
 ```bash
 sudo chmod +x /root/scripts/manage_watchtower.sh
@@ -62,18 +66,15 @@ sudo chmod +x /root/scripts/manage_watchtower_all.sh
 | Feature | **Script 1: Standard** | **Script 2: Full Maintenance** |
 | --- | --- | --- |
 | **Target** | **Running** LXCs only. | **All** LXCs (Running & Stopped). |
-| **Filtering** | Auto-detection (if Docker is running). | Only if the **`watchtower`** tag is present. |
-| **State Management** | Does not change state. | Starts the LXC, acts, then **shuts it down again**. |
+| **Filtering** | Auto-detection (if Docker is running). | Only if the exact **`watchtower`** tag is present. |
+| **State Management** | Changes nothing. | Starts the LXC, performs actions, then **powers it down**. |
 | **Reliability** | Immediate execution. | Waits for Docker to be ready (Wait-loop). |
 
 ---
 
 ## 📜 Script 1: Standard (`manage_watchtower.sh`)
 
-This script is ideal for quick changes on production services currently online.
-
-<details>
-<summary>👉 Click to view the Standard Script source code</summary>
+This script is ideal for quick modifications on production services that are currently online.
 
 ```bash
 #!/bin/bash
@@ -84,12 +85,12 @@ This script is ideal for quick changes on production services currently online.
 # Website: https://blablalinux.be
 # Wiki: https://wiki.blablalinux.be/fr/script-gestion-watchtower
 # License: GPL-3.0
-# Version: 1.0.0
+# Version: 1.1.0
 # ==============================================================================
 
 MENU="
 ===============================================
-    Managing Watchtower in LXC containers
+     Watchtower Management in LXC Containers
 ===============================================
  [1] 🔍 View current Watchtower status
  [2] 🚀 Start Watchtower
@@ -99,11 +100,12 @@ MENU="
  [6] 🔄 Set restart policy (always/none)
  [7] ✏️  Modify WATCHTOWER_NO_STARTUP_MESSAGE
  [8] ✏️  Modify WATCHTOWER_CLEANUP
- [9] 📅 Modify random schedule (2 PM-8 PM)
+ [9] 📅 Modify random schedule (2 PM - 8 PM)
  [10] 📅 Fix the same schedule for all
  [11] ✏️  Modify WATCHTOWER_TIMEOUT
- [12] 🖼️  Modify Docker image
- [13] 🧹 Clean all images (prune -a)
+ [12] ✏️  Modify WATCHTOWER_NOTIFICATION_GOTIFY_URL
+ [13] 🖼️  Modify Docker image
+ [14] 🧹 Clean up all images (prune -a)
  [Q] ❌ Quit
 "
 
@@ -163,7 +165,7 @@ view_compose() {
     for lxc_id in $(get_running_docker_lxc); do
         compose_file=$(find_watchtower_compose "$lxc_id")
         echo "→ LXC $lxc_id"
-        [ -n "$compose_file" ] && pct exec "$lxc_id" -- sh -c "grep -E 'image:|restart:|WATCHTOWER_NO_STARTUP_MESSAGE|WATCHTOWER_CLEANUP|WATCHTOWER_SCHEDULE|WATCHTOWER_TIMEOUT' $compose_file"
+        [ -n "$compose_file" ] && pct exec "$lxc_id" -- sh -c "grep -E 'image:|restart:|WATCHTOWER_NO_STARTUP_MESSAGE|WATCHTOWER_CLEANUP|WATCHTOWER_SCHEDULE|WATCHTOWER_TIMEOUT|WATCHTOWER_NOTIFICATION_GOTIFY_URL' $compose_file"
     done
     read -rp "Press [Enter]..."
 }
@@ -224,7 +226,7 @@ set_watchtower_image() {
 
 prune_docker_images() {
     read -rp "Confirm prune -a on ALL active LXCs? (yes/no): " conf
-    if [[ "$conf" =~ ^[Yy][Ee][Ss]$ ]]; then
+    if [[ "$conf" =~ ^[Yy][Ee][Ss]$ || "$conf" =~ ^[Yy]$ ]]; then
         for lxc_id in $(get_running_docker_lxc); do
             pct exec "$lxc_id" -- docker image prune -a -f
         done
@@ -245,45 +247,41 @@ while true; do
         9) random_schedule ;;
         10) read -rp "Cron: " v; modify_key_restart "WATCHTOWER_SCHEDULE" "$v" ;;
         11) read -rp "Timeout: " v; modify_key_restart "WATCHTOWER_TIMEOUT" "$v" ;;
-        12) set_watchtower_image ;;
-        13) prune_docker_images ;;
+        12) read -rp "New Gotify URL: " v; modify_key_restart "WATCHTOWER_NOTIFICATION_GOTIFY_URL" "$v" ;;
+        13) set_watchtower_image ;;
+        14) prune_docker_images ;;
         [Qq]) exit ;;
     esac
 done
 
 ```
 
-</details>
-
 ---
 
 ## 🚀 Script 2: Full Maintenance (`manage_watchtower_all.sh`)
 
-This script is designed for mass maintenance. **It will start shut down containers** that have the `watchtower` tag, apply your changes, and then shut them down again.
+This script is designed for mass maintenance. **It will start stopped containers** carrying exclusively the `watchtower` tag, apply your changes, and then shut them down again.
 
 ### Using Tags
 
-For this script to process a container, you must add the **watchtower** tag in the Proxmox interface (or via `pct set ID --tags watchtower`).
-
-<details>
-<summary>👉 Click to view the Maintenance Script source code</summary>
+For this script to process a container, you must add the **watchtower** tag in the Proxmox web interface (or via `pct set ID --tags watchtower`). The script intentionally ignores derived tags like `watchtower-custom`.
 
 ```bash
 #!/bin/bash
 # ==============================================================================
 # Script: manage_watchtower_all.sh
-# Description: Watchtower management for all LXCs (All states) via Tags.
+# Description: Watchtower management for all LXCs (All states) using Tags.
 # Features: Auto-start/stop LXC, Tag filtering (watchtower), Docker wait-loop.
 # Author: Amaury aka BlablaLinux
 # Website: https://blablalinux.be
 # Wiki: https://wiki.blablalinux.be/fr/script-gestion-watchtower
 # License: GPL-3.0
-# Version: 1.1.0
+# Version: 1.2.0
 # ==============================================================================
 
 MENU="
 ===============================================
-    Watchtower Management - TOTAL MAINTENANCE (Tags)
+   Watchtower Management - FULL MAINTENANCE (Tags)
 ===============================================
  [1] 🔍 View current Watchtower status
  [2] 🚀 Start Watchtower
@@ -293,11 +291,12 @@ MENU="
  [6] 🔄 Set restart policy (always/none)
  [7] ✏️  Modify WATCHTOWER_NO_STARTUP_MESSAGE
  [8] ✏️  Modify WATCHTOWER_CLEANUP
- [9] 📅 Modify random schedule (2 PM-8 PM)
+ [9] 📅 Modify random schedule (2 PM - 8 PM)
  [10] 📅 Fix the same schedule for all
  [11] ✏️  Modify WATCHTOWER_TIMEOUT
- [12] 🖼️  Modify Docker image
- [13] 🧹 Clean all images (prune -a)
+ [12] ✏️  Modify WATCHTOWER_NOTIFICATION_GOTIFY_URL
+ [13] 🖼️  Modify Docker image
+ [14] 🧹 Clean up all images (prune -a)
  [Q] ❌ Quit
 "
 
@@ -305,7 +304,10 @@ run_action_on_all() {
     local action_func=$1
     for lxc_id in $(pct list | awk 'NR>1{print $1}'); do
         tags=$(pct config "$lxc_id" | grep "^tags:" | awk '{print $2}')
-        if [[ "$tags" =~ "watchtower" ]]; then
+        
+        # --- WHOLE WORD FILTERING FIX ---
+        # We ONLY process if the exact tag "watchtower" is present, preventing "watchtower-custom" from being included
+        if [[ " $tags " =~ " watchtower " ]]; then
             initial_status=$(pct status "$lxc_id" | awk '{print $2}')
             hostname=$(pct config "$lxc_id" | grep "^hostname:" | awk '{print $2}')
             echo "--- Processing LXC $lxc_id ($hostname) ---"
@@ -322,7 +324,7 @@ run_action_on_all() {
             success=false
             for i in {1..15}; do
                 if pct exec "$lxc_id" -- docker ps >/dev/null 2>&1; then
-                    echo " OK!"
+                    echo " OK !"
                     success=true
                     break
                 fi
@@ -352,11 +354,11 @@ run_action_on_all() {
 
 _status() {
     compose_file=$(find_watchtower_compose "$1")
-    [ -n "$compose_file" ] && pct exec "$1" -- docker ps --filter name=watchtower || echo "No compose file."
+    [ -n "$compose_file" ] && pct exec "$1" -- docker ps --filter name=watchtower || echo "No compose file found."
 }
 _start() {
     compose_file=$(find_watchtower_compose "$1")
-    [ -n "$compose_file" ] && { dir=$(dirname "$compose_file"); pct exec "$1" -- sh -c "cd $dir && docker compose up -d"; echo "🚀 Launched."; }
+    [ -n "$compose_file" ] && { dir=$(dirname "$compose_file"); pct exec "$1" -- sh -c "cd $dir && docker compose up -d"; echo "🚀 Started."; }
 }
 _stop() { pct exec "$1" -- docker stop watchtower >/dev/null 2>&1 && echo "🛑 Stopped."; }
 _restart() {
@@ -365,7 +367,7 @@ _restart() {
 }
 _view() {
     compose_file=$(find_watchtower_compose "$1")
-    [ -n "$compose_file" ] && pct exec "$1" -- sh -c "grep -E 'image:|restart:|WATCHTOWER_NO_STARTUP_MESSAGE|WATCHTOWER_CLEANUP|WATCHTOWER_SCHEDULE|WATCHTOWER_TIMEOUT' $compose_file"
+    [ -n "$compose_file" ] && pct exec "$1" -- sh -c "grep -E 'image:|restart:|WATCHTOWER_NO_STARTUP_MESSAGE|WATCHTOWER_CLEANUP|WATCHTOWER_SCHEDULE|WATCHTOWER_TIMEOUT|WATCHTOWER_NOTIFICATION_GOTIFY_URL' $compose_file"
 }
 _modify_key() {
     compose_file=$(find_watchtower_compose "$1")
@@ -419,18 +421,17 @@ while true; do
         9) run_action_on_all _random_sched ;;
         10) GLOBAL_KEY="WATCHTOWER_SCHEDULE" ; read -rp "Cron: " GLOBAL_VAL ; run_action_on_all _modify_key ;;
         11) GLOBAL_KEY="WATCHTOWER_TIMEOUT" ; read -rp "Value: " GLOBAL_VAL ; run_action_on_all _modify_key ;;
-        12) read -rp "Image: " GLOBAL_VAL ; run_action_on_all _set_image ;;
-        13) read -rp "Confirm prune (yes/no): " conf ; [[ "$conf" =~ ^[Yy][Ee][Ss]$ ]] && run_action_on_all _prune ;;
+        12) GLOBAL_KEY="WATCHTOWER_NOTIFICATION_GOTIFY_URL" ; read -rp "New Gotify URL: " GLOBAL_VAL ; run_action_on_all _modify_key ;;
+        13) read -rp "Image: " GLOBAL_VAL ; run_action_on_all _set_image ;;
+        14) read -rp "Confirm prune (yes/no): " conf ; [[ "$conf" =~ ^[Yy][Ee][Ss]$ || "$conf" =~ ^[Yy]$ ]] && run_action_on_all _prune ;;
         [Qq]) exit ;;
     esac
 done
 
 ```
 
-</details>
-
 ---
 
 ## 📘 Additional Notes
 
-* To easily install Docker on your LXCs, check out our dedicated page: <a href="[https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox](https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox)" target="_blank">Docker/Portainer on Debian/Proxmox</a>.
+* To easily install Docker on your LXC containers, check out our dedicated page: [docker-portainer-lxc-debian-proxmox](https://www.google.com/search?q=/en/docker-portainer-lxc-debian-proxmox).
