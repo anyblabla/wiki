@@ -1,8 +1,8 @@
 ---
 title: Nginx Proxy Manager + Fail2Ban avec support IPv4 & IPv6 (Docker)
 description: Guide technique pour configurer Nginx Proxy Manager et Fail2Ban sous Docker. Gérez les vraies IP (IPv4/IPv6), le géo-blocage et le bannissement incrémental. À adapter à votre propre configuration.
-published: false
-date: 2026-05-27T17:39:25.404Z
+published: true
+date: 2026-05-27T17:46:15.704Z
 tags: docker, proxmox, nginx, fail2ban, ipv6, securite, geoip2
 editor: markdown
 dateCreated: 2026-05-27T17:15:10.772Z
