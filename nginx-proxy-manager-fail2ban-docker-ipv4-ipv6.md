@@ -2,7 +2,7 @@
 title: Nginx Proxy Manager + Fail2Ban avec support IPv4 & IPv6 (Docker)
 description: Guide technique pour configurer Nginx Proxy Manager et Fail2Ban sous Docker. Gérez les vraies IP (IPv4/IPv6), le géo-blocage et le bannissement incrémental. À adapter à votre propre configuration.
 published: false
-date: 2026-05-27T17:15:10.772Z
+date: 2026-05-27T17:39:25.404Z
 tags: docker, proxmox, nginx, fail2ban, ipv6, securite, geoip2
 editor: markdown
 dateCreated: 2026-05-27T17:15:10.772Z
@@ -581,3 +581,29 @@ Planifiez-le avec cron (toutes les 5 minutes) :
 ---
 
 *Cette configuration a été testée et validée sur Proxmox VE avec des conteneurs Debian LXC, Docker 27+, NPM 2.x, et Fail2Ban 1.1.0.*
+
+---
+
+## Ressources associées
+
+### Nginx Proxy Manager
+- [Utiliser Nginx Proxy Manager](https://wiki.blablalinux.be/fr/utiliser-nginx-proxy-manager)
+- [Docker Compose Nginx Proxy Manager](https://wiki.blablalinux.be/fr/docker-compose-nginx-proxy-manager)
+- [Meilleurs headers NPM / Nginx (sécurité + gzip)](https://wiki.blablalinux.be/fr/meilleurs-headers-npm-nginx-securite-gzip)
+- [Injection d’un logo flottant dans Nginx / NPM](https://wiki.blablalinux.be/fr/injection-logo-flottant-nginx-npm)
+- [Gestion simple du robots.txt (Wiki.js)](https://wiki.blablalinux.be/fr/gestion-robots-txt-simple-npm-wikijs)
+- [Gestion centralisée du robots.txt dans NPM](https://wiki.blablalinux.be/fr/gestion-centralisee-robots-txt-nginx-proxy-manager)
+- [WordPress : récupérer l’IP réelle derrière NPM](https://wiki.blablalinux.be/fr/wordpress-ip-reelle-nginx-proxy-manager)
+
+### Fail2Ban
+- [Docker Compose Fail2Ban](https://wiki.blablalinux.be/fr/docker-compose-fail2ban)
+- [Sécurisation NPM + Fail2Ban + GeoIP2](https://wiki.blablalinux.be/fr/securisation-npm-fail2ban-geoip2)
+- [Optimisation des logs Fail2Ban + NPM](https://wiki.blablalinux.be/fr/optimisation-logs-fail2ban-nginx-proxy-manager)
+- [IP publique dynamique + Fail2Ban](https://wiki.blablalinux.be/fr/ip-dynamique-fail2ban)
+
+### IPv6 / Réseau
+- [Déploiement IPv6 OVH + Proxmox + Docker + NPM](https://wiki.blablalinux.be/fr/deploiement-ipv6-ovh-npm-proxmox-docker)
+- [Installation alias GeoIP multisources](https://wiki.blablalinux.be/fr/installation-alias-geoip-multisources)
+
+### Logs / Analyse
+- [Docker Compose GoAccess](https://wiki.blablalinux.be/fr/docker-compose-goaccess)
