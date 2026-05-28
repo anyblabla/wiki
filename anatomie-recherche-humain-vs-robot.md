@@ -1,8 +1,8 @@
 ---
 title: Anatomie d'une recherche - Humain vs Robot
 description: Découvrez comment différencier une recherche humaine d'une attaque de robot dans vos logs SearXNG. Une analyse concrète étape par étape pour sécuriser et comprendre le trafic de votre serveur.
-published: false
-date: 2026-05-28T16:24:59.916Z
+published: true
+date: 2026-05-28T16:26:43.634Z
 tags: nginx, fail2ban, sécurité, searxng, autohébergement, logs
 editor: markdown
 dateCreated: 2026-05-28T16:24:59.916Z
