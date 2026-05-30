@@ -1,8 +1,8 @@
 ---
 title: Nginx Proxy Manager — Sécurisation avancée avec Fail2Ban et blocage des chemins sensibles
 description: Mettre en place une stack de sécurité complète sous Docker avec Nginx Proxy Manager, Fail2Ban et GeoIP2 pour bloquer bots, crawlers et chemins sensibles.
-published: false
-date: 2026-05-30T14:55:02.347Z
+published: true
+date: 2026-05-30T14:57:50.031Z
 tags: docker, nginx, fail2ban, sécurité, geoip2, nginx-proxy-manager, self-hosting
 editor: markdown
 dateCreated: 2026-05-30T14:55:02.347Z
