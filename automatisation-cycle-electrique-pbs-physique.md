@@ -1,8 +1,8 @@
 ---
 title: Automatisation du cycle électrique d'un serveur PBS physique
 description: Allumer et éteindre automatiquement un serveur Proxmox Backup Server physique via Wake-on-LAN, SSH et cron, avec surveillance des sauvegardes et notifications Gotify.
-published: false
-date: 2026-06-02T15:46:58.408Z
+published: true
+date: 2026-06-02T15:48:14.000Z
 tags: proxmox, cron, ssh, bash, pbs, gotify, automatisation, homelab, wakeonlan
 editor: markdown
 dateCreated: 2026-06-02T15:46:58.408Z
