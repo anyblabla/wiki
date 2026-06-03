@@ -2,17 +2,31 @@
 title: Coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
 description: Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
 published: false
-date: 2026-06-03T12:48:38.963Z
+date: 2026-06-03T12:53:15.863Z
 tags: nginx, bash, sysadmin, terminal, logs, colorisation
 editor: markdown
 dateCreated: 2026-06-03T12:44:10.907Z
 ---
 
+Voici la version complète et corrigée de la page de wiki. J'ai simplement remplacé les titres `###` par des `##` pour restaurer la hiérarchie Markdown nécessaire à Wiki.js, afin que ton menu automatique s'affiche parfaitement.
+
+---
+
+### Métadonnées du wiki
+
+* **Extrait descriptif :** Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
+* **Slug :** coloriser-logs-nginx-terminal
+* **Étiquettes :** nginx,terminal,bash,logs,colorisation,sysadmin
+
+---
+
+# Guide : coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
+
 Ce guide complet vous accompagne pas à pas pour ajouter de la couleur à vos flux de logs Nginx en direct. Grâce à cette méthode simple, vous pourrez repérer les adresses IP, les codes HTTP (200, 403...), ou vos propres mots-clés en un coup d'œil directement dans votre terminal.
 
 🎁 **Le petit bonus :** en plus de l'affichage coloré à l'écran, cette méthode sauvegarde automatiquement tout l'historique de votre session en direct dans un fichier texte propre pour pouvoir le relire calmement plus tard !
 
-### Étape 1 : préparation du système et des dossiers
+## Étape 1 : préparation du système et des dossiers
 
 Avant de commencer, nous allons nous assurer que votre système possède les outils nécessaires et que les dossiers requis pour l'historique sont bien créés.
 
@@ -35,7 +49,7 @@ apt update && apt install -y coreutils grep sed
 
 ---
 
-### Étape 2 : ouvrir le fichier de configuration de votre terminal
+## Étape 2 : ouvrir le fichier de configuration de votre terminal
 
 Pour ajouter nos raccourcis, nous devons les enregistrer dans le fichier qui gère votre terminal.
 
@@ -59,7 +73,7 @@ Déplacez-vous tout en bas du fichier ouvert à l'aide des flèches de votre cla
 
 ---
 
-### Étape 3 : définir la variable du fichier de log
+## Étape 3 : définir la variable du fichier de log
 
 Pour que nos futurs raccourcis fonctionnent, il faut indiquer au système où se trouve votre fichier de log Nginx actuel.
 
@@ -75,7 +89,7 @@ LOG="/var/log/nginx/access.log"
 
 ---
 
-### Étape 4 : créer la fonction de coloration (à personnaliser)
+## Étape 4 : créer la fonction de coloration (à personnaliser)
 
 Toujours à la suite dans votre fichier, copiez et collez le bloc suivant. C'est cette fonction qui va intercepter le texte et lui appliquer de la couleur en direct :
 
@@ -101,7 +115,7 @@ Par exemple, si vous voulez afficher le mot-clé `POST` en rouge, vous pouvez aj
 
 ---
 
-### Étape 5 : créer vos raccourcis (alias)
+## Étape 5 : créer vos raccourcis (alias)
 
 Enfin, ajoutez ces deux lignes tout à la fin de votre fichier pour créer des commandes simples (alias) :
 
@@ -121,7 +135,7 @@ alias live-ext='tail -f "$LOG" | grep --line-buffered -v -E "(192\.168\.1\.|172\
 
 ---
 
-### Étape 6 : activer les modifications
+## Étape 6 : activer les modifications
 
 Pour que votre terminal prenne en compte vos nouvelles commandes immédiatement sans avoir à vous déconnecter, exécutez la commande suivante (adaptez le nom du fichier si vous avez utilisé `~/.bash_aliases`) :
 
@@ -132,7 +146,7 @@ source ~/.bashrc
 
 ---
 
-### 🚀 Utilisation
+## 🚀 Utilisation
 
 C'est prêt ! Il vous suffit maintenant de taper l'une de ces deux commandes dans votre terminal :
 
@@ -154,7 +168,7 @@ Vous pouvez ainsi ouvrir, copier ou analyser ces fichiers texte calmement plus t
 
 ---
 
-### 🎨 Bonus : guide des codes couleur pour aller plus loin
+## 🎨 Bonus : guide des codes couleur pour aller plus loin
 
 Dans la fonction `color_live` de l'étape 4, vous pouvez changer les couleurs par défaut très facilement. Dans un code comme `\x1b[32m`, c'est le nombre qui définit la couleur.
 
