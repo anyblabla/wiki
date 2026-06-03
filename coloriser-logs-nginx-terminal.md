@@ -2,7 +2,7 @@
 title: Coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
 description: Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
 published: true
-date: 2026-06-03T12:55:50.418Z
+date: 2026-06-03T13:09:27.366Z
 tags: nginx, bash, sysadmin, terminal, logs, colorisation
 editor: markdown
 dateCreated: 2026-06-03T12:44:10.907Z
@@ -138,6 +138,8 @@ C'est prêt ! Il vous suffit maintenant de taper l'une de ces deux commandes dan
 
 * **`live`** : Affiche la totalité de vos logs Nginx en direct et en couleur.
 * **`live-ext`** : Affiche vos logs en masquant automatiquement les adresses IP que vous avez décidé de filtrer (comme votre propre connexion).
+
+![coloriser-logs-nginx-terminal.jpg](/coloriser-logs-nginx-terminal/coloriser-logs-nginx-terminal.jpg)
 
 Pour arrêter l'affichage en direct à tout moment, appuyez simplement sur les touches **`Ctrl + C`**.
 
