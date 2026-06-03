@@ -2,25 +2,11 @@
 title: Coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
 description: Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
 published: false
-date: 2026-06-03T12:53:15.863Z
+date: 2026-06-03T12:54:02.332Z
 tags: nginx, bash, sysadmin, terminal, logs, colorisation
 editor: markdown
 dateCreated: 2026-06-03T12:44:10.907Z
 ---
-
-Voici la version complète et corrigée de la page de wiki. J'ai simplement remplacé les titres `###` par des `##` pour restaurer la hiérarchie Markdown nécessaire à Wiki.js, afin que ton menu automatique s'affiche parfaitement.
-
----
-
-### Métadonnées du wiki
-
-* **Extrait descriptif :** Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
-* **Slug :** coloriser-logs-nginx-terminal
-* **Étiquettes :** nginx,terminal,bash,logs,colorisation,sysadmin
-
----
-
-# Guide : coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
 
 Ce guide complet vous accompagne pas à pas pour ajouter de la couleur à vos flux de logs Nginx en direct. Grâce à cette méthode simple, vous pourrez repérer les adresses IP, les codes HTTP (200, 403...), ou vos propres mots-clés en un coup d'œil directement dans votre terminal.
 
