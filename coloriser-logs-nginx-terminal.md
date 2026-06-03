@@ -2,7 +2,7 @@
 title: Coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
 description: Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
 published: false
-date: 2026-06-03T12:44:10.907Z
+date: 2026-06-03T12:48:38.963Z
 tags: nginx, bash, sysadmin, terminal, logs, colorisation
 editor: markdown
 dateCreated: 2026-06-03T12:44:10.907Z
@@ -99,14 +99,6 @@ Par exemple, si vous voulez afficher le mot-clé `POST` en rouge, vous pouvez aj
 
 `-e 's/POST/\x1b[31m&\x1b[0m/g'`
 
-Guide des codes couleur de base :
-
-* `\x1b[32m` = Vert
-* `\x1b[31m` = Rouge
-* `\x1b[36m` = Cyan
-* `\x1b[33m` = Jaune
-* `\x1b[0m` = Réinitialise la couleur (indispensable en fin de motif pour éviter que toute la suite de la ligne ne devienne de la même couleur !).
-
 ---
 
 ### Étape 5 : créer vos raccourcis (alias)
@@ -159,6 +151,31 @@ Même après avoir coupé le direct, vous pouvez retrouver l'historique complet 
 * Pour le flux externe filtré : `/root/npm/sorties_live/sortie_live_ext.txt`
 
 Vous pouvez ainsi ouvrir, copier ou analyser ces fichiers texte calmement plus tard avec votre éditeur préféré.
+
+---
+
+### 🎨 Bonus : guide des codes couleur pour aller plus loin
+
+Dans la fonction `color_live` de l'étape 4, vous pouvez changer les couleurs par défaut très facilement. Dans un code comme `\x1b[32m`, c'est le nombre qui définit la couleur.
+
+Voici la liste des nombres à utiliser pour obtenir d'autres couleurs de base :
+
+* **30** : Noir
+* **31** : Rouge
+* **32** : Vert
+* **33** : Jaune
+* **34** : Bleu
+* **35** : Magenta (Violet)
+* **36** : Cyan
+* **37** : Blanc
+
+Pour obtenir ces mêmes couleurs en version **plus claire et flashy**, remplacez simplement le premier chiffre `3` par un `9` (ex: `91` pour rouge clair, `96` pour cyan clair).
+
+#### Pour les experts : le mode 256 couleurs
+
+Si vous cherchez une couleur très précise (comme du orange ou du rose), vous pouvez utiliser le mode 256 couleurs en modifiant la syntaxe ainsi : `\x1b[38;5;NUMÉROm` (remplacez `NUMÉRO` par un chiffre entre 0 et 255, par exemple `208` pour du orange).
+
+⚠️ **Règle d'or :** n'oubliez jamais de laisser le code `\x1b[0m` à la fin de votre motif. C'est lui qui indique au terminal d'arrêter la coloration, sinon tout le reste de la ligne prendra la même teinte !
 
 ---
 
