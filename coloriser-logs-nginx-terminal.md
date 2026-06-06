@@ -2,13 +2,13 @@
 title: Coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
 description: Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
 published: true
-date: 2026-06-03T13:09:27.366Z
+date: 2026-06-06T23:25:41.485Z
 tags: nginx, bash, sysadmin, terminal, logs, colorisation
 editor: markdown
 dateCreated: 2026-06-03T12:44:10.907Z
 ---
 
-Ce guide complet vous accompagne pas à pas pour ajouter de la couleur à vos flux de logs Nginx en direct. Grâce à cette méthode simple, vous pourrez repérer les adresses IP, les codes HTTP (200, 403...), ou vos propres mots-clés en un coup d'œil directement dans votre terminal.
+Ce guide complet vous accompagne pas à pas pour ajouter de la couleur à vos flux de logs Nginx en direct. Grâce à cette méthode simple, vous pourrez repérer les adresses IP, les codes HTTP (200, 403...), les pays GeoIP, vos domaines ou vos propres mots-clés en un coup d'œil directement dans votre terminal.
 
 🎁 **Le petit bonus :** en plus de l'affichage coloré à l'écran, cette méthode sauvegarde automatiquement tout l'historique de votre session en direct dans un fichier texte propre pour pouvoir le relire calmement plus tard !
 
@@ -21,14 +21,12 @@ Avant de commencer, nous allons nous assurer que votre système possède les out
 
 ```bash
 mkdir -p /root/npm/sorties_live/
-
 ```
 
 3. Par sécurité, assurez-vous que votre système est à jour et possède les outils de base en exécutant :
 
 ```bash
 apt update && apt install -y coreutils grep sed
-
 ```
 
 *(Ces outils sont généralement préinstallés sur la plupart des distributions comme Debian ou Ubuntu, mais cela évite toute mauvaise surprise !)*
@@ -43,14 +41,12 @@ Par simplicité, beaucoup d'utilisateurs ajoutent tout à la fin du fichier prin
 
 ```bash
 nano ~/.bashrc
-
 ```
 
 💡 **Note sur les bonnes pratiques :** Si votre système est configuré pour séparer les fichiers (ce qui est plus propre), il est fortement recommandé de mettre vos alias et fonctions directement dans le fichier dédié aux raccourcis. Dans ce cas, ouvrez plutôt ce fichier :
 
 ```bash
 nano ~/.bash_aliases
-
 ```
 
 *Si vous choisissez d'utiliser `~/.bash_aliases`, n'oubliez pas d'adapter la commande de l'étape 6 en exécutant `source ~/.bash_aliases` pour recharger vos modifications.*
@@ -68,7 +64,6 @@ Copiez et collez cette ligne tout en bas de votre fichier `~/.bashrc` (ou `~/.ba
 ```bash
 # Chemin vers le fichier de log Nginx à surveiller
 LOG="/var/log/nginx/access.log"
-
 ```
 
 **Note importante :** Si vous utilisez **Nginx Proxy Manager** sous Docker, ce chemin doit pointer vers le fichier de log global de votre conteneur sur votre machine hôte (par exemple : `/root/npm/data/logs_geo/global_access_geo.log`). Modifiez le texte entre les guillemets si nécessaire pour l'adapter à votre installation.
@@ -83,21 +78,33 @@ Toujours à la suite dans votre fichier, copiez et collez le bloc suivant. C'est
 # Fonction interne pour colorer l'affichage des logs
 color_live() {
     sed -u \
-        -e 's/\[Client [^]]*\]/\x1b[32m&\x1b[0m/g' \
-        -e 's/\[yes [^]]*\]/\x1b[36m&\x1b[0m/g' \
-        -e 's/\[no [^]]*\]/\x1b[31m&\x1b[0m/g' \
-        -e 's/" [0-9]\{3\} /"\x1b[33m&\x1b[0m/g'
+        -e 's/\[Client [^]]*\]/\x1b[38;5;45m&\x1b[0m/g' \
+        -e 's/\[yes [^]]*\]/\x1b[38;5;46m&\x1b[0m/g' \
+        -e 's/\[no [^]]*\]/\x1b[38;5;196m&\x1b[0m/g' \
+        -e 's/\[[a-zA-Z0-9._-]*\.votre-domaine\.com\]/\x1b[38;5;220m&\x1b[0m/g' \
+        -e 's/"\([[:space:]][0-9]\{3\}[[:space:]]\)/"\x1b[38;5;201m\1\x1b[0m/g'
 }
-
 ```
 
 #### Comment adapter ce bloc à vos propres logs ?
 
 Chaque ligne commençant par `-e` cherche un texte précis pour lui attribuer une couleur. Vous pouvez modifier ce qui se trouve entre les premiers slashs `/.../` pour y mettre vos propres mots-clés.
 
-Par exemple, si vous voulez afficher le mot-clé `POST` en rouge, vous pouvez ajouter cette ligne dans le bloc :
+⚠️ **Important :** pensez à remplacer `votre-domaine.com` par votre propre nom de domaine dans la règle de colorisation du domaine cible.
 
-`-e 's/POST/\x1b[31m&\x1b[0m/g'`
+Par exemple, si vous voulez afficher le mot-clé `POST` en orange, vous pouvez ajouter cette ligne dans le bloc :
+
+`-e 's/POST/\x1b[38;5;208m&\x1b[0m/g'`
+
+#### Légende des colorisations
+
+| Couleur | Élément | Exemple |
+|---|---|---|
+| 🔵 Cyan électrique | IP client | `[Client 91.98.153.11]` |
+| 🟢 Vert pur | Pays autorisé (GeoIP) | `[yes DE]` |
+| 🔴 Rouge vif | Pays bloqué (GeoIP) | `[no CN]` |
+| 🟡 Jaune doré | Domaine cible | `[mastodon.votre-domaine.com]` |
+| 🟣 Magenta | Code HTTP | `200` `403` `202` |
 
 ---
 
@@ -111,7 +118,6 @@ alias live='tail -f "$LOG" | tee /root/npm/sorties_live/sortie_live.txt | color_
 
 # Commande pour voir les logs en excluant vos propres réseaux ou IP (Exemple avec 192.168.1. et 172.)
 alias live-ext='tail -f "$LOG" | grep --line-buffered -v -E "(192\.168\.1\.|172\.)" | tee /root/npm/sorties_live/sortie_live_ext.txt | color_live'
-
 ```
 
 #### Sauvegarder et quitter :
@@ -127,7 +133,6 @@ Pour que votre terminal prenne en compte vos nouvelles commandes immédiatement 
 
 ```bash
 source ~/.bashrc
-
 ```
 
 ---
@@ -138,8 +143,6 @@ C'est prêt ! Il vous suffit maintenant de taper l'une de ces deux commandes dan
 
 * **`live`** : Affiche la totalité de vos logs Nginx en direct et en couleur.
 * **`live-ext`** : Affiche vos logs en masquant automatiquement les adresses IP que vous avez décidé de filtrer (comme votre propre connexion).
-
-![coloriser-logs-nginx-terminal.jpg](/coloriser-logs-nginx-terminal/coloriser-logs-nginx-terminal.jpg)
 
 Pour arrêter l'affichage en direct à tout moment, appuyez simplement sur les touches **`Ctrl + C`**.
 
@@ -158,26 +161,22 @@ Vous pouvez ainsi ouvrir, copier ou analyser ces fichiers texte calmement plus t
 
 ## 🎨 Bonus : guide des codes couleur pour aller plus loin
 
-Dans la fonction `color_live` de l'étape 4, vous pouvez changer les couleurs par défaut très facilement. Dans un code comme `\x1b[32m`, c'est le nombre qui définit la couleur.
+Dans la fonction `color_live` de l'étape 4, toutes les couleurs utilisent le **mode 256 couleurs** avec la syntaxe `\x1b[38;5;NUMÉROm`. Remplacez `NUMÉRO` par un chiffre entre 0 et 255 pour obtenir la teinte souhaitée. Voici quelques valeurs utiles :
 
-Voici la liste des nombres à utiliser pour obtenir d'autres couleurs de base :
+* **45** : Cyan électrique
+* **46** : Vert pur
+* **196** : Rouge vif
+* **201** : Magenta
+* **208** : Orange
+* **220** : Jaune doré
 
-* **30** : Noir
-* **31** : Rouge
-* **32** : Vert
-* **33** : Jaune
-* **34** : Bleu
-* **35** : Magenta (Violet)
-* **36** : Cyan
-* **37** : Blanc
+Pour trouver votre couleur idéale, vous pouvez consulter un tableau complet des 256 couleurs ANSI disponible facilement en ligne.
 
-Pour obtenir ces mêmes couleurs en version **plus claire et flashy**, remplacez simplement le premier chiffre `3` par un `9` (ex: `91` pour rouge clair, `96` pour cyan clair).
+#### Règle d'or pour bien choisir ses couleurs
 
-#### Pour les experts : le mode 256 couleurs
+Pour que la colorisation soit efficace, choisissez des teintes **spectralement distantes** les unes des autres : cyan, vert, rouge, jaune et magenta ne peuvent pas être confondus entre eux, même en vision périphérique. Évitez de placer deux couleurs chaudes ou deux couleurs froides côte à côte dans vos logs.
 
-Si vous cherchez une couleur très précise (comme du orange ou du rose), vous pouvez utiliser le mode 256 couleurs en modifiant la syntaxe ainsi : `\x1b[38;5;NUMÉROm` (remplacez `NUMÉRO` par un chiffre entre 0 et 255, par exemple `208` pour du orange).
-
-⚠️ **Règle d'or :** n'oubliez jamais de laisser le code `\x1b[0m` à la fin de votre motif. C'est lui qui indique au terminal d'arrêter la coloration, sinon tout le reste de la ligne prendra la même teinte !
+⚠️ **N'oubliez jamais** de laisser le code `\x1b[0m` à la fin de chaque motif. C'est lui qui indique au terminal d'arrêter la coloration, sinon tout le reste de la ligne prendra la même teinte !
 
 ---
 
