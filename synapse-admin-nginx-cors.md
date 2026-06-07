@@ -1,8 +1,8 @@
 ---
 title: Configuration Nginx pour Synapse Admin (CORS)
 description: Comment exposer l'API d'administration de Matrix Synapse via NGINX avec les bons en-têtes CORS pour permettre l'utilisation de Synapse Admin depuis un domaine externe.
-published: false
-date: 2026-06-07T13:06:19.477Z
+published: true
+date: 2026-06-07T13:06:35.254Z
 tags: nginx, npm, administration, cors, matrix, synapse, self-hosting, reverse-proxy
 editor: markdown
 dateCreated: 2026-06-07T12:53:47.398Z
