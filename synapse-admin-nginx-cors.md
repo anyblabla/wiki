@@ -2,7 +2,7 @@
 title: Configuration Nginx pour Synapse Admin (CORS)
 description: Comment exposer l'API d'administration de Matrix Synapse via NGINX avec les bons en-têtes CORS pour permettre l'utilisation de Synapse Admin depuis un domaine externe.
 published: false
-date: 2026-06-07T12:53:47.398Z
+date: 2026-06-07T12:59:04.040Z
 tags: nginx, npm, administration, cors, matrix, synapse, self-hosting, reverse-proxy
 editor: markdown
 dateCreated: 2026-06-07T12:53:47.398Z
@@ -20,6 +20,22 @@ Par défaut, Synapse expose son API d'administration sur le port `8008` en local
 2. Ajouter les en-têtes **CORS** appropriés pour autoriser les requêtes cross-origin
 
 > **Note :** Cette configuration est à appliquer sur le proxy host de **votre domaine Matrix** (ex. `matrix.votre-domaine.tld`), pas sur celui de Synapse Admin.
+
+---
+
+## Symptôme — L'erreur que vous voyez
+
+Si votre reverse proxy n'est pas correctement configuré, Synapse Admin affiche le message d'erreur suivant en bas de l'interface :
+
+```
+M_INVALID (undefined): Failed to fetch
+```
+
+Cette erreur signifie que le navigateur n'a pas pu joindre l'API `/_synapse/admin/` de votre serveur Synapse. Les causes les plus courantes sont :
+
+- Le bloc `location /_synapse/admin/` est absent de la configuration NGINX de votre domaine Matrix
+- Les en-têtes CORS ne sont pas définis, et le navigateur bloque la requête cross-origin
+- L'IP ou le port de `proxy_pass` ne pointe pas vers votre instance Synapse
 
 ---
 
@@ -100,7 +116,7 @@ Avant toute requête cross-origin, le navigateur envoie d'abord une requête `OP
 add_header 'Access-Control-Allow-Origin' '$http_origin' always;
 ```
 
-On autorise l'origine exacte de la requête plutôt qu'un wildcard `*`. C'est obligatoire car les requêtes contenant un en-tête `Authorization` (token Matrix) exigent une origine explicite — un wildcard est refusé par le navigateur dans ce contexte.
+On autorise l'origine exacte de la requête plutôt qu'un wildcard `*`. C'est obligatoire car les requêtes contenant un en-tête `Authorization` exigent une origine explicite — un wildcard est refusé par le navigateur dans ce contexte.
 
 ---
 
