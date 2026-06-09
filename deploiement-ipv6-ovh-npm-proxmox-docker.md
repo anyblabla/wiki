@@ -1,8 +1,8 @@
 ---
-title: Déploiement ipv6 (OVH → NPM → Proxmox → LXC Docker)
+title: Déploiement IPv6 (OVH → Proxmox → LXC Docker) — via NPM ou en direct
 description: Guide complet pour déployer l'IPv6 de bout en bout : de la zone DNS OVH aux conteneurs Docker sous Proxmox, en passant par Nginx Proxy Manager. Inclus : méthodes manuelles et scripts d'automatisation.
 published: true
-date: 2026-05-11T12:25:36.897Z
+date: 2026-06-09T10:18:43.042Z
 tags: docker, lxc, proxmox, npm, automatisation, ipv6, ovh, réseau
 editor: markdown
 dateCreated: 2026-04-30T21:23:50.254Z
@@ -12,36 +12,52 @@ dateCreated: 2026-04-30T21:23:50.254Z
 
 Avant de commencer, assurez‑vous de disposer de :
 
-- un routeur compatible IPv6  
-- un /64 ou /56 fourni par votre opérateur  
-- un nom de domaine chez OVH  
-- Proxmox VE installé  
-- des conteneurs LXC Debian  
-- Docker installé dans les LXC  
-- Nginx Proxy Manager (NPM)  
-- un réseau local où les Router Advertisements (RA) sont activés  
+- un routeur compatible IPv6
+- un /64 ou /56 fourni par votre opérateur
+- un nom de domaine chez OVH
+- Proxmox VE installé
+- des conteneurs LXC Debian
+- Docker installé dans les LXC
+- Nginx Proxy Manager (NPM)
+- un réseau local où les Router Advertisements (RA) sont activés
 
-> **Important :** SLAAC **ne fonctionne pas** si votre routeur ne diffuse pas de RA.  
+> **Important :** SLAAC **ne fonctionne pas** si votre routeur ne diffuse pas de RA.
 > Si vos LXC ne reçoivent aucune IPv6, vérifiez ce point en premier.
+
+---
+
+## Deux cas d'usage
+
+Ce guide couvre deux architectures distinctes. Choisissez celle qui correspond à votre besoin :
+
+| | Cas 1 — Via NPM | Cas 2 — Direct |
+|---|---|---|
+| **Services exposés via** | Nginx Proxy Manager (reverse proxy) | Directement sur Internet |
+| **SLAAC sur les LXC backends** | ❌ Non nécessaire | ✅ Obligatoire |
+| **Groupe de sécurité `ipv6`** | Uniquement sur le LXC NPM | Sur chaque LXC exposé |
+| **IPv6 dans Docker** | ✅ Recommandé | ✅ Recommandé |
+
+Les sections **1 à 2.3** sont communes aux deux cas.
+La bifurcation intervient à partir de la **section 2.4**.
 
 ---
 
 # Schéma global
 
+### Cas 1 — Via NPM (reverse proxy)
+
 ```text
-OVH DNS AAAA
-      ↓
-Routeur IPv6 (RA activés)
-      ↓
-Proxmox VE
-      ↓
-LXC Debian
-      ↓
-Docker (IPv6 activé)
-      ↓
-Nginx Proxy Manager
-      ↓
-Internet (IPv6 natif)
+OVH DNS AAAA → Routeur IPv6 (RA activés) → Proxmox VE
+  → LXC NPM (IPv6 SLAAC + Docker IPv6) → Nginx Proxy Manager
+  → LXC backends (IPv4 interne uniquement)
+```
+
+### Cas 2 — Direct (sans reverse proxy)
+
+```text
+OVH DNS AAAA → Routeur IPv6 (RA activés) → Proxmox VE
+  → LXC exposé (IPv6 SLAAC + Docker IPv6) → Service Docker
+  → Internet (IPv6 natif)
 ```
 
 ---
@@ -50,8 +66,9 @@ Internet (IPv6 natif)
 
 ## Trouver son IPv6 publique
 
-### Sur un routeur grand public  
-Consultez la section « Statut » ou « Réseau IPv6 » et notez l’adresse **WAN IPv6**.
+### Sur un routeur grand public
+
+Consultez la section « Statut » ou « Réseau IPv6 » et notez l'adresse **WAN IPv6**.
 
 ### Sur un système Linux (Proxmox ou passerelle)
 
@@ -67,35 +84,41 @@ Ignorez les adresses commençant par `fe80::` (locales uniquement).
 inet6 2001:db8:abcd:42::1234/64 scope global dynamic
 ```
 
-## Ajouter l’enregistrement DNS AAAA (OVH)
+## Ajouter l'enregistrement DNS AAAA (OVH)
 
 Dans **OVH → Zone DNS**, créez un enregistrement **AAAA** pointant vers votre IPv6 publique.
 
+- **Cas 1 :** l'enregistrement pointe vers l'IPv6 du LXC NPM.
+- **Cas 2 :** l'enregistrement pointe vers l'IPv6 du LXC exposant directement le service.
+
 ---
 
-# 2. Configuration de NPM et des pare‑feux
+# 2. Configuration des pare‑feux Proxmox
 
-L’IPv6 expose directement vos machines sur Internet.  
-Il est donc essentiel de **configurer les règles AVANT d’activer les pare‑feux**.
+L'IPv6 expose directement vos machines sur Internet.
+Il est donc essentiel de **configurer les règles AVANT d'activer les pare‑feux**.
 
-L’ordre recommandé :
+L'ordre recommandé :
 
-1. Pare‑feu du routeur  
-2. Groupes de sécurité Proxmox  
-3. Règles globales du Centre de données  
-4. Options du pare‑feu du Centre de données  
-5. Options du pare‑feu du nœud  
-6. Règles du conteneur NPM  
+1. Pare‑feu du routeur
+2. Groupes de sécurité Proxmox
+3. Règles globales du Centre de données
+4. Options du pare‑feu du Centre de données
+5. Options du pare‑feu du nœud
+6. Règles du conteneur concerné
 7. Activation finale
 
 ---
 
 ## 2.1. Pare‑feu du routeur
 
-Autorisez en IPv6 vers l’adresse du conteneur NPM :
+Autorisez en IPv6 vers l'adresse du LXC concerné :
 
-- port **80/tcp** (HTTP)  
+- port **80/tcp** (HTTP)
 - port **443/tcp** (HTTPS)
+
+- **Cas 1 :** l'adresse cible est celle du LXC NPM.
+- **Cas 2 :** l'adresse cible est celle du LXC exposant le service.
 
 ---
 
@@ -107,24 +130,27 @@ Chemin :
 
 Créez les groupes suivants.
 
-### Groupe « ipv6 »
+### Groupe « ipv6 »
+
+> ⚠️ Ce groupe est nécessaire **uniquement dans le cas 2** (exposition directe).
+> Dans le cas 1, seul le LXC NPM en a besoin — les LXC backends n'en ont pas besoin.
 
 Ajoutez :
 
-- une règle autorisant `ipv6-icmp` (ping IPv6, RA, ND, etc.)  
+- une règle autorisant `ipv6-icmp` (ping IPv6, RA, ND, etc.)
 - une règle autorisant le trafic `ipv6` général
 
-### Groupe « ssh »
+### Groupe « ssh »
 
 Ajoutez :
 
 - une règle utilisant la macro **SSH**
 
-### Groupe « web »
+### Groupe « web »
 
 Ajoutez :
 
-- une règle utilisant la macro **HTTPS**  
+- une règle utilisant la macro **HTTPS**
 - une règle utilisant la macro **HTTP**
 
 <br>
@@ -141,16 +167,15 @@ Chemin :
 
 Ajoutez les règles suivantes :
 
-- appliquer le groupe **ssh**  
-- appliquer le groupe **ipv6**  
-- autoriser ICMP (ping IPv4)  
-- autoriser le port TCP 25  
-- autoriser le port TCP 3128  
-- autoriser les ports TCP 5900 à 5999  
-- autoriser le port TCP 8008  
-- autoriser le port TCP 8006 (interface Web Proxmox)  
-- autoriser le port UDP 111  
-- autoriser les ports UDP 5405 à 5412  
+- appliquer le groupe **ssh**
+- autoriser ICMP (ping IPv4)
+- autoriser le port TCP 25
+- autoriser le port TCP 3128
+- autoriser les ports TCP 5900 à 5999
+- autoriser le port TCP 8008
+- autoriser le port TCP 8006 (interface Web Proxmox)
+- autoriser le port UDP 111
+- autoriser les ports UDP 5405 à 5412
 - autoriser les ports TCP 60000 à 60050
 
 <br>
@@ -167,11 +192,11 @@ Chemin :
 
 Vérifiez :
 
-- Pare‑feu : Oui  
-- Journaux : Oui  
-- Politique d’entrée : **DROP**  
-- Politique de sortie : ACCEPT  
-- Politique de transfert : ACCEPT  
+- Pare‑feu : Oui
+- Journaux : Oui
+- Politique d'entrée : **DROP**
+- Politique de sortie : ACCEPT
+- Politique de transfert : ACCEPT
 
 ---
 
@@ -183,19 +208,21 @@ Chemin :
 
 Vérifiez :
 
-- Pare‑feu : Oui  
-- Filtrer les paquets SMURF : Oui  
-- Filtrer les flags TCP : Non  
-- NDP : Oui  
-- Filtre MAC : Oui  
-- Filtre IP : Non  
-- log_level_in : info  
-- log_level_out : nolog  
-- nftables (préversion) : Non  
+- Pare‑feu : Oui
+- Filtrer les paquets SMURF : Oui
+- Filtrer les flags TCP : Non
+- NDP : Oui
+- Filtre MAC : Oui
+- Filtre IP : Non
+- log_level_in : info
+- log_level_out : nolog
+- nftables (préversion) : Non
 
 ---
 
-## 2.6. Pare‑feu du conteneur NPM (LXC)
+## 2.6. Pare‑feu du conteneur — Cas 1 : via NPM
+
+> Ce qui suit s'applique **uniquement au LXC NPM**. Les LXC backends n'ont pas besoin d'IPv6 ni du groupe `ipv6` — NPM reçoit les connexions IPv6 entrantes et les relaie en IPv4 interne.
 
 Chemin :
 
@@ -203,14 +230,14 @@ Chemin :
 
 Ajoutez :
 
-- le groupe **ipv6**  
-- les ports TCP utilisés par NPM (ex. 81, 7880 si vous les utilisez)  
-- le groupe **web** (HTTP + HTTPS)  
+- le groupe **ipv6**
+- les ports TCP utilisés par NPM (ex. 81, 7880 si vous les utilisez)
+- le groupe **web** (HTTP + HTTPS)
 - le groupe **ssh** (si vous souhaitez un accès SSH)
 
 <br>
 
-<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-lxc.png" alt="Pare-feu IPv6 LXC" width="100%">
+<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-lxc.png" alt="Pare-feu IPv6 LXC NPM" width="100%">
 
 Chemin des options :
 
@@ -218,24 +245,58 @@ Chemin des options :
 
 Vérifiez :
 
-- Pare‑feu : Oui  
-- DHCP : Oui  
-- NDP : Oui  
-- Annonce de routeur : Non  
-- Filtre MAC : Oui  
-- Politique d’entrée : **DROP**  
-- Politique de sortie : ACCEPT  
+- Pare‑feu : Oui
+- DHCP : Oui
+- NDP : Oui
+- Annonce de routeur : Non
+- Filtre MAC : Oui
+- Politique d'entrée : **DROP**
+- Politique de sortie : ACCEPT
+
+---
+
+## 2.7. Pare‑feu du conteneur — Cas 2 : exposition directe
+
+> Ce qui suit s'applique à **chaque LXC exposant directement un service** sur Internet en IPv6.
+
+Chemin :
+
+**Votre conteneur → Pare‑feu → Ajouter**
+
+Ajoutez :
+
+- le groupe **ipv6** ← obligatoire pour recevoir du trafic IPv6
+- le groupe **web** (HTTP + HTTPS) ou les ports spécifiques à votre service
+- le groupe **ssh** (si vous souhaitez un accès SSH)
+
+Chemin des options :
+
+**Votre conteneur → Pare‑feu → Options**
+
+Vérifiez :
+
+- Pare‑feu : Oui
+- DHCP : Oui
+- NDP : Oui
+- Annonce de routeur : Non
+- Filtre MAC : Oui
+- Politique d'entrée : **DROP**
+- Politique de sortie : ACCEPT
 
 ---
 
 # 3. Configuration IPv6 des conteneurs LXC
 
+> **Cas 1 (via NPM) :** SLAAC est nécessaire **uniquement sur le LXC NPM**. Les LXC backends n'ont pas besoin d'IPv6 publique.
+>
+> **Cas 2 (direct) :** SLAAC est nécessaire sur **chaque LXC exposant un service** directement sur Internet.
+
 ## Méthode manuelle
 
-1. Sélectionnez le conteneur  
-2. Ouvrez **Réseau**  
-3. Éditez l’interface (souvent `eth0`)  
-4. Choisissez **SLAAC** en IPv6  
+1. Sélectionnez le conteneur
+2. Ouvrez **Réseau**
+3. Éditez l'interface (souvent `eth0`)
+4. Choisissez **SLAAC** en IPv6
 5. Redémarrez le conteneur
 
 Exemple :
@@ -246,7 +307,7 @@ net0: name=eth0,bridge=vmbr0,ip6=slaac
 
 ## Méthode automatisée (script)
 
-Créer un script :
+Pour activer SLAAC sur tous vos LXC d'un coup (utile dans le cas 2 avec de nombreux services) :
 
 ```bash
 nano set_slaac.sh
@@ -270,11 +331,14 @@ chmod +x set_slaac.sh
 
 ---
 
-# 4. Activer l’IPv6 dans Docker
+# 4. Activer l'IPv6 dans Docker
 
-Dans chaque LXC :
+Cette étape est recommandée **dans les deux cas** :
 
-Créer ou modifier :
+- **Cas 1 :** permet aux conteneurs Docker de loguer les vraies IPs source IPv6 et d'établir des connexions sortantes en IPv6.
+- **Cas 2 :** indispensable pour que les conteneurs exposés reçoivent et traitent le trafic IPv6.
+
+Dans chaque LXC concerné, créez ou modifiez :
 
 ```bash
 nano /etc/docker/daemon.json
@@ -292,7 +356,7 @@ Contenu :
 }
 ```
 
-Redémarrer Docker :
+Redémarrez Docker :
 
 ```bash
 systemctl restart docker
@@ -302,7 +366,7 @@ systemctl restart docker
 
 # 5. Script massif pour Docker
 
-Créer :
+Pour appliquer la configuration Docker IPv6 sur tous vos LXC Docker en une seule passe :
 
 ```bash
 nano update_docker_ipv6.sh
@@ -349,10 +413,10 @@ chmod +x update_docker_ipv6.sh
 
 # Sécurité IPv6
 
-- activez les pare‑feux Proxmox et LXC  
-- n’exposez que les ports nécessaires  
-- surveillez les logs (`journalctl`, `pve-firewall status`)  
-- évitez Docker en `--network host` en IPv6  
+- activez les pare‑feux Proxmox et LXC
+- n'exposez que les ports nécessaires
+- surveillez les logs (`journalctl`, `pve-firewall status`)
+- évitez Docker en `--network host` en IPv6
 
 ---
 
@@ -392,7 +456,12 @@ docker run --rm busybox ping6 google.com
 
 # Conclusion
 
-Votre infrastructure dispose maintenant d’une **chaîne IPv6 complète**, depuis OVH jusqu’aux conteneurs Docker, en passant par Proxmox et Nginx Proxy Manager.
+Votre infrastructure dispose maintenant d'une **chaîne IPv6 complète**, adaptée selon votre architecture :
+
+- **Via NPM :** un seul point d'entrée IPv6 (le LXC NPM), les backends restent en IPv4 interne.
+- **Direct :** chaque LXC exposé dispose de sa propre adresse IPv6 publique via SLAAC.
+
+Dans les deux cas, Docker est configuré pour tirer parti d'IPv6, tant pour les connexions entrantes que sortantes.
 
 <br>
 
