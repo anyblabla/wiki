@@ -2,7 +2,7 @@
 title: Coloriser les logs Nginx en temps réel dans le terminal (avec sauvegarde automatique)
 description: Découvrez comment coloriser vos flux de logs Nginx en temps réel dans le terminal. Un guide simple et pas à pas pour mettre en évidence les adresses IP, les codes HTTP et vos mots-clés.
 published: true
-date: 2026-06-06T23:25:41.485Z
+date: 2026-06-10T18:59:30.333Z
 tags: nginx, bash, sysadmin, terminal, logs, colorisation
 editor: markdown
 dateCreated: 2026-06-03T12:44:10.907Z
@@ -70,6 +70,31 @@ LOG="/var/log/nginx/access.log"
 
 ---
 
+## Étape 3b : comprendre le format de log utilisé
+
+La fonction `color_live()` de l'étape suivante est conçue pour correspondre exactement à ce format de log Nginx personnalisé :
+
+```nginx
+log_format proxy_geo '[$time_local] [Client $remote_addr] [$allowed_country $geoip2_data_country_code] [$host] "$request" $status $request_time $upstream_response_time "$http_referer" $server_protocol $body_bytes_sent "$http_user_agent"';
+```
+
+Chaque règle de colorisation cible un champ précis de ce format :
+
+| Champ | Exemple | Couleur |
+|---|---|---|
+| `[Client $remote_addr]` | `[Client 91.98.153.11]` | 🔵 Cyan `51` |
+| `[$allowed_country ...]` | `[yes DE]` / `[no CN]` | 🟢 Vert `118` / 🔴 Rouge `196` |
+| `[$host]` | `[mastodon.votre-domaine.com]` | 🟡 Jaune `226` |
+| `$status` — code `403` et `5xx` | `403` `500` `502` | 🔴 Rouge vif gras `203` |
+| `$status` — codes `4xx` (autres) | `400` `404` `429` | 🔴 Rouge foncé `160` |
+| `$status` — codes `2xx` / `3xx` | `200` `301` `302` | 🟣 Magenta `201` |
+| `$request_time $upstream_response_time` | `0.043 0.041` | 🟠 Orange `208` |
+| `"$http_referer"` | `"https://..."` | 🟡 Jaune `226` |
+
+⚠️ **Si votre format de log est différent**, les regex de `color_live()` devront être adaptées en conséquence.
+
+---
+
 ## Étape 4 : créer la fonction de coloration (à personnaliser)
 
 Toujours à la suite dans votre fichier, copiez et collez le bloc suivant. C'est cette fonction qui va intercepter le texte et lui appliquer de la couleur en direct :
@@ -78,11 +103,16 @@ Toujours à la suite dans votre fichier, copiez et collez le bloc suivant. C'est
 # Fonction interne pour colorer l'affichage des logs
 color_live() {
     sed -u \
-        -e 's/\[Client [^]]*\]/\x1b[38;5;45m&\x1b[0m/g' \
-        -e 's/\[yes [^]]*\]/\x1b[38;5;46m&\x1b[0m/g' \
+        -e 's/\[Client [^]]*\]/\x1b[38;5;51m&\x1b[0m/g' \
+        -e 's/\[yes [^]]*\]/\x1b[38;5;118m&\x1b[0m/g' \
         -e 's/\[no [^]]*\]/\x1b[38;5;196m&\x1b[0m/g' \
-        -e 's/\[[a-zA-Z0-9._-]*\.votre-domaine\.com\]/\x1b[38;5;220m&\x1b[0m/g' \
-        -e 's/"\([[:space:]][0-9]\{3\}[[:space:]]\)/"\x1b[38;5;201m\1\x1b[0m/g'
+        -e 's/\[[a-zA-Z0-9._-]*\.votre-domaine\.com\]/\x1b[38;5;226m&\x1b[0m/g' \
+        -e 's/"\([[:space:]]403[[:space:]]\)/"\x1b[1;38;5;203m\1\x1b[0m/g' \
+        -e 's/"\([[:space:]]5[0-9][0-9][[:space:]]\)/"\x1b[1;38;5;203m\1\x1b[0m/g' \
+        -e 's/"\([[:space:]]4[0-9][0-9][[:space:]]\)/"\x1b[38;5;160m\1\x1b[0m/g' \
+        -e 's/"\([[:space:]][0-9]\{3\}[[:space:]]\)/"\x1b[38;5;201m\1\x1b[0m/g' \
+        -e 's/[0-9]\+\.[0-9]\+[[:space:]]\([0-9]\+\.[0-9]\+\|-\)/\x1b[38;5;208m&\x1b[0m/g' \
+        -e 's/"https\?:\/\/[^"]*"/\x1b[38;5;226m&\x1b[0m/g'
 }
 ```
 
@@ -103,8 +133,11 @@ Par exemple, si vous voulez afficher le mot-clé `POST` en orange, vous pouvez a
 | 🔵 Cyan électrique | IP client | `[Client 91.98.153.11]` |
 | 🟢 Vert pur | Pays autorisé (GeoIP) | `[yes DE]` |
 | 🔴 Rouge vif | Pays bloqué (GeoIP) | `[no CN]` |
-| 🟡 Jaune doré | Domaine cible | `[mastodon.votre-domaine.com]` |
-| 🟣 Magenta | Code HTTP | `200` `403` `202` |
+| 🟡 Jaune doré | Domaine cible + URL referer | `[mastodon.votre-domaine.com]` |
+| 🔴 Rouge vif gras | Code `403` et codes `5xx` | `403` `500` `502` |
+| 🔴 Rouge foncé | Codes `4xx` (autres) | `400` `404` `429` |
+| 🟣 Magenta | Codes `2xx` / `3xx` | `200` `301` `302` |
+| 🟠 Orange | Tailles / temps de réponse | `1234` `0.043` |
 
 ---
 
@@ -161,14 +194,16 @@ Vous pouvez ainsi ouvrir, copier ou analyser ces fichiers texte calmement plus t
 
 ## 🎨 Bonus : guide des codes couleur pour aller plus loin
 
-Dans la fonction `color_live` de l'étape 4, toutes les couleurs utilisent le **mode 256 couleurs** avec la syntaxe `\x1b[38;5;NUMÉROm`. Remplacez `NUMÉRO` par un chiffre entre 0 et 255 pour obtenir la teinte souhaitée. Voici quelques valeurs utiles :
+Dans la fonction `color_live` de l'étape 4, toutes les couleurs utilisent le **mode 256 couleurs** avec la syntaxe `\x1b[38;5;NUMÉROm`. Remplacez `NUMÉRO` par un chiffre entre 0 et 255 pour obtenir la teinte souhaitée. Pour le **gras**, ajoutez `1;` avant `38` : `\x1b[1;38;5;NUMÉROm`. Voici quelques valeurs utiles :
 
-* **45** : Cyan électrique
-* **46** : Vert pur
+* **51** : Cyan électrique
+* **118** : Vert pur
+* **160** : Rouge foncé
 * **196** : Rouge vif
 * **201** : Magenta
+* **203** : Rouge-saumon lumineux (gras recommandé)
 * **208** : Orange
-* **220** : Jaune doré
+* **226** : Jaune doré
 
 Pour trouver votre couleur idéale, vous pouvez consulter un tableau complet des 256 couleurs ANSI disponible facilement en ligne.
 
