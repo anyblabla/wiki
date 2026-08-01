@@ -34,5 +34,5 @@ Les anciennes pages au format `HTML` sont obsolètes et seront bientôt supprim�
 
 | Description | Français | English |
 | :--- | :--- | :--- |
-| **Accès au Wiki** | [Wiki Blabla Linux](https://wiki.blablalinux.be) | [Blabla Linux Wiki](https://wiki.blablalinux.be) |
-| **Où nous trouver ?** | [Où trouver Blabla Linux ?](https://link.blablalinux.be) | [Where to find Blabla Linux?](https://link.blablalinux.be) |
+| **Accès au Wiki** | [Wiki BlablaLinux](https://wiki.blablalinux.be) | [BlablaLinux Wiki](https://wiki.blablalinux.be) |
+| **Où nous trouver ?** | [Où trouver BlablaLinux ?](https://link.blablalinux.be) | [Where to find BlablaLinux?](https://link.blablalinux.be) |
