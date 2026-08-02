@@ -2,7 +2,7 @@
 title: README
 description: LISEZ-MOI
 published: true
-date: 2026-08-02T00:08:30.536Z
+date: 2026-08-02T00:09:30.105Z
 tags: readme
 editor: markdown
 dateCreated: 2025-04-19T23:30:36.538Z
@@ -12,9 +12,9 @@ dateCreated: 2025-04-19T23:30:36.538Z
 
 # 📚 BlablaLinux Wiki Content
 
-Ce dépôt contient l'intégralité du contenu du **Wiki Blabla Linux**.
+Ce dépôt contient l'intégralité du contenu du **Wiki BlablaLinux**.
 
-*(This repository holds the complete content of the **Blabla Linux Wiki**.)*
+*(This repository holds the complete content of the **BlablaLinux Wiki**.)*
 
 ---
 
