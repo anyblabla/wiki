@@ -2,13 +2,13 @@
 title: README
 description: LISEZ-MOI
 published: true
-date: 2025-10-28T13:54:10.077Z
+date: 2026-08-02T00:07:10.587Z
 tags: readme
 editor: markdown
 dateCreated: 2025-04-19T23:30:36.538Z
 ---
 
-<p style="text-align: center"><img src="/readme/wikijs-bbl.png"></p>
+<p style="text-align: center"><img src="/readme/wikijs-bbl-02.png"></p>
 
 # 📚 Blabla Linux Wiki Content
 
