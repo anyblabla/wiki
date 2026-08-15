@@ -2,13 +2,15 @@
 title: Optimisation automatique des médias sur Nextcloud
 description: Apprenez à compresser automatiquement vos photos et vidéos sur Nextcloud. Un guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné sans sacrifier sa fluidité habituelle.
 published: true
-date: 2026-06-08T10:17:23.516Z
+date: 2026-08-15T11:45:16.816Z
 tags: cron, crontab, script, bash, ffmpeg, auto-hébergement, optimisation, nextcloud, reconditionnement, imagemagick
 editor: markdown
 dateCreated: 2026-03-02T11:46:46.923Z
 ---
 
 Ce guide vous permet de mettre en place un système de compression automatique pour vos photos et vidéos. L'objectif est de réduire l'espace disque consommé par vos sauvegardes mobiles tout en préservant la réactivité de votre serveur, même sur du matériel reconditionné.
+
+---
 
 ## 📋 Fonctionnement du système
 
@@ -291,7 +293,7 @@ Exemple de sortie :
 ```
 2026-06-08 02:14:20 [VIDEO] Compression : .../VID20260608015329.mp4 (1080p, 60fps, 25904000bps → 8000k)
 2026-06-08 02:14:34 [VIDEO] OK : .../VID20260608015329.mp4
-2026-06-08 02:14:34 [SCAN] occ files:scan --path=Amaury/files/InstantUpload/Camera/VID20260608015329.mp4
+2026-06-08 02:14:34 [SCAN] occ files:scan --path=utilisateur/files/dossier/VID20260608015329.mp4
 ```
 
 ---
@@ -320,3 +322,9 @@ Le paramètre `-preset veryfast` offre un bon compromis entre vitesse d'encodage
 ## 💡 Conseil d'expert (Amaury aka BlablaLinux)
 
 L'utilisation de `nice -n 19` et `ionice -c 3` dans le script est cruciale, surtout sur du matériel reconditionné. Cela garantit que la compression tourne en tâche de fond avec la priorité CPU et disque la plus basse possible, sans jamais ralentir votre navigation sur Nextcloud ou vos autres services auto-hébergés.
+
+---
+
+## 🔗 Voir aussi
+
+* [Nettoyage automatique des fichiers temporaires de compression Nextcloud](/fr/nettoyage-automatique-tmp-nextcloud)
