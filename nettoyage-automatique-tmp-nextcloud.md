@@ -2,13 +2,13 @@
 title: Nettoyage automatique des fichiers temporaires de compression Nextcloud
 description: Mise en place d'un cron pour supprimer automatiquement les fichiers .tmp.mp4 orphelins laissés par le script de compression, couvrant tous les utilisateurs actuels et futurs.
 published: false
-date: 2026-08-15T11:38:20.774Z
+date: 2026-08-15T11:41:20.789Z
 tags: cron, bash, ffmpeg, administration, nextcloud
 editor: markdown
 dateCreated: 2026-08-15T11:38:20.774Z
 ---
 
-Ce guide complète la mise en place du script de compression automatique des médias Nextcloud. Il explique comment configurer une tâche cron pour supprimer automatiquement les fichiers temporaires orphelins (`.tmp.mp4`) qui peuvent rester sur le serveur en cas d'interruption du script de compression.
+Ce guide complète la mise en place du [script de compression automatique des médias Nextcloud](/fr/optimisation-automatique-medias-nextcloud). Il explique comment configurer une tâche cron pour supprimer automatiquement les fichiers temporaires orphelins (`.tmp.mp4`) qui peuvent rester sur le serveur en cas d'interruption du script de compression.
 
 ---
 
