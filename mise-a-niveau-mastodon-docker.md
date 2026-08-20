@@ -2,13 +2,11 @@
 title: Mettre à niveau Mastodon avec Docker Compose
 description: Procédure générale pour mettre à niveau une instance Mastodon auto-hébergée via Docker Compose : sauvegarde, migrations pre/post-deployment, bascule des conteneurs et vérifications.
 published: true
-date: 2026-08-20T17:39:40.843Z
+date: 2026-08-20T17:40:18.416Z
 tags: mastodon, docker, upgrade, fediverse, docker-compose, mise-a-niveau, selfhosting, activitypub
 editor: markdown
 dateCreated: 2026-08-20T17:37:22.325Z
 ---
-
-# Mettre à niveau Mastodon (Docker Compose)
 
 Cette page décrit la procédure générale pour mettre à niveau une instance Mastodon auto-hébergée qui tourne via `docker compose`. Elle a été rédigée et validée à partir d'une mise à niveau réelle **v4.6.6 → v4.7.0**, mais s'applique globalement à toute montée de version mineure ou majeure.
 
