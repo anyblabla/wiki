@@ -2,7 +2,7 @@
 title: Mettre à niveau Mastodon avec Docker Compose
 description: Procédure générale pour mettre à niveau une instance Mastodon auto-hébergée via Docker Compose : sauvegarde, migrations pre/post-deployment, bascule des conteneurs et vérifications.
 published: true
-date: 2026-08-20T17:37:22.325Z
+date: 2026-08-20T17:39:40.843Z
 tags: mastodon, docker, upgrade, fediverse, docker-compose, mise-a-niveau, selfhosting, activitypub
 editor: markdown
 dateCreated: 2026-08-20T17:37:22.325Z
@@ -18,7 +18,7 @@ Cette page décrit la procédure générale pour mettre à niveau une instance M
 
 1. **Toujours lire les notes de version officielles** avant de mettre à niveau : https://github.com/mastodon/mastodon/releases
    Certaines versions imposent des étapes particulières (migrations longues, recompilation d'assets, changement de dépendances, cookies invalidés, etc.). Si tu sautes plusieurs versions d'un coup, lis aussi les notes des versions intermédiaires.
-2. **Faire une sauvegarde de la base de données.** Peu importe l'outil (pg_dump manuel, [Databasus](https://github.com/), un snapshot Proxmox de la VM/LXC, etc.) — assure-toi simplement d'avoir un backup récent et restaurable avant de toucher à quoi que ce soit.
+2. **Faire une sauvegarde de la base de données.** Peu importe l'outil (pg_dump manuel, [Databasus](https://databasus.com/), un snapshot Proxmox de la VM/LXC, etc.) — assure-toi simplement d'avoir un backup récent et restaurable avant de toucher à quoi que ce soit.
    Exemple avec `pg_dump` si tu n'as pas d'outil dédié :
    ```bash
    docker exec <nom_conteneur_postgres> pg_dump -Fc -U postgres <nom_de_la_base> > mastodon_backup_$(date +%Y%m%d).dump
