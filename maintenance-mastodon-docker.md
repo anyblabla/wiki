@@ -2,13 +2,11 @@
 title: Maintenance et nettoyage de Mastodon sous Docker
 description: Maintenance de Mastodon sous Docker : nettoyage automatique du cache média, des comptes inactifs et des vieux messages avec notifications Gotify optionnelles.
 published: true
-date: 2026-08-21T18:17:35.952Z
+date: 2026-08-21T18:36:23.715Z
 tags: mastodon, docker, lxc, proxmox, cron, crontab, script, bash, pve, gotify, maintenance, automatisation
 editor: markdown
 dateCreated: 2025-12-25T13:00:52.896Z
 ---
-
-# Maintenance Mastodon sous Docker
 
 > ⚠️ Ce guide est spécifiquement conçu pour une installation de **Mastodon sous Docker**, notamment lorsqu'elle fonctionne dans un conteneur LXC sur Proxmox.
 >
@@ -18,22 +16,26 @@ dateCreated: 2025-12-25T13:00:52.896Z
 
 ## 1. Pourquoi automatiser la maintenance de Mastodon ?
 
-Mastodon génère et conserve une quantité importante de données au fil du temps : médias provenant d'instances distantes, miniatures de liens, anciens statuts, comptes distants devenus inactifs, etc.
+Mastodon accumule au fil du temps différentes données : médias provenant d'instances distantes, miniatures de prévisualisation, anciens statuts, comptes distants, fichiers médias devenus orphelins, etc.
 
-Une partie de ces données est normalement gérée par les tâches de maintenance internes de Mastodon. Cependant, pour une instance auto-hébergée, il peut être intéressant de mettre en place une maintenance périodique afin de conserver un espace disque maîtrisé et d'effectuer certaines opérations explicitement.
+Une partie de ces opérations est gérée nativement par Mastodon. Cependant, une maintenance périodique permet de regrouper plusieurs opérations d'entretien et de contrôler plus facilement leur résultat.
 
-Le script présenté ici automatise plusieurs opérations :
+Le script présenté dans ce guide permet notamment de :
 
-* nettoyage des médias anciens ;
-* suppression des miniatures de prévisualisation de liens ;
-* suppression des anciens statuts ;
-* nettoyage des comptes distants devenus inactifs ;
-* utilisation de plusieurs threads pour accélérer le nettoyage des médias ;
-* tentative de libération du cache mémoire lorsque l'environnement l'autorise ;
-* journalisation complète des opérations ;
-* notification via Gotify en cas d'erreur ou à la fin de la maintenance.
+* supprimer les anciens médias ;
+* supprimer les anciennes prévisualisations de liens ;
+* supprimer les anciens statuts ;
+* nettoyer les comptes distants devenus inutiles ;
+* rechercher et supprimer périodiquement les fichiers médias orphelins ;
+* utiliser plusieurs threads lors du nettoyage des médias ;
+* empêcher deux exécutions simultanées du script ;
+* journaliser l'intégralité des opérations ;
+* mesurer l'utilisation des médias après le nettoyage ;
+* envoyer des notifications Gotify en cas d'erreur ou à la fin de la maintenance.
 
-> ℹ️ Le script est volontairement exécuté **depuis l'hôte Docker**, et les commandes Mastodon sont exécutées directement dans le conteneur avec `docker exec`.
+Le nettoyage des fichiers orphelins est volontairement effectué **une seule fois par mois**, car cette opération peut être beaucoup plus lourde en entrées/sorties disque.
+
+> ℹ️ Le script est exécuté **depuis l'hôte Docker**. Les commandes Mastodon sont exécutées dans le conteneur avec `docker exec` et l'utilisateur `mastodon`.
 
 ---
 
@@ -42,69 +44,76 @@ Le script présenté ici automatise plusieurs opérations :
 Le script suppose que :
 
 * Docker est installé et fonctionnel ;
-* l'utilisateur exécutant le script possède les droits nécessaires pour utiliser Docker ;
 * le conteneur Mastodon est en fonctionnement ;
-* la commande `docker exec` est disponible ;
-* `curl` est installé si vous souhaitez utiliser les notifications Gotify.
+* l'utilisateur exécutant le script dispose des droits nécessaires pour utiliser Docker ;
+* `curl` est installé si les notifications Gotify sont utilisées ;
+* `flock` est disponible, ce qui est normalement le cas sur une installation Debian/Ubuntu standard.
 
-Dans l'exemple ci-dessous, le conteneur Mastodon porte le nom :
+Dans le script, le conteneur est défini par :
 
-```text
-mastodon-web-1
+```bash
+CONTAINER_NAME="mastodon-web"
 ```
 
-Vous pouvez vérifier le nom réel de votre conteneur avec :
+Adaptez cette valeur au nom réel de votre conteneur.
+
+Vous pouvez obtenir la liste des conteneurs avec :
 
 ```bash
 docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'
 ```
 
-Si votre conteneur porte un autre nom, adaptez la variable `CONTAINER_NAME` dans le script.
+> ⚠️ Avec Docker Compose, le nom peut être différent selon votre projet. Vérifiez toujours le nom réellement utilisé avant de modifier `CONTAINER_NAME`.
 
 ---
 
 # 3. Script de maintenance
 
-Le script doit être placé, par exemple, dans :
+Le script peut être placé dans :
 
 ```text
 /root/scripts/mastodon-cleanup.sh
 ```
 
-Il est conçu pour être exécuté avec les privilèges `root`.
+Il est prévu pour être exécuté avec les privilèges `root`.
 
 ## Script `mastodon-cleanup.sh`
 
+Le script ci-dessous correspond à la **version 2.1** utilisée pour cette documentation.
+
+> ⚠️ Le token Gotify n'est volontairement pas inclus dans cette page. Renseignez votre propre token dans le script si vous utilisez Gotify.
+
 ```bash
 #!/bin/bash
-# Script de maintenance Mastodon pour Docker
-# Auteur : Amaury aka BlablaLinux
+# Script de maintenance Mastodon pour Docker (Version sécurisée avec alertes)
+# Auteur : Amaury Libert (Blabla Linux)
+# v2.1 - Suppression de prune-profile-media obsolète/inexistant
 
-# --- PARAMÈTRES DE GOTIFY (Optionnel) ---
+# --- VERROU ANTI-CHEVAUCHEMENT ---
+LOCKFILE="/tmp/mastodon-cleanup.lock"
+exec 200>"$LOCKFILE"
+flock -n 200 || { echo "Une instance du script tourne déjà, abandon."; exit 1; }
+
+# --- PARAMÈTRES DE GOTIFY ---
 GOTIFY_URL=""
 GOTIFY_TOKEN=""
 
 # --- PARAMÈTRES DE NETTOYAGE ---
-CONTAINER_NAME="mastodon-web-1"
+CONTAINER_NAME="mastodon-web"
 LOGFILE="/var/log/mastodon-cleanup.log"
 HOSTNAME=$(hostname)
 DAYS_MEDIA=7
 THREADS=4
+# Semaine du mois (1-4/5), pour ne lancer remove-orphans qu'une fois par mois
+WEEK_OF_MONTH=$(( ($(date +%-d) - 1) / 7 + 1 ))
 
-# Redirection de toute la sortie vers le fichier journal
-exec 1>>$LOGFILE 2>&1
+exec 1>>"$LOGFILE" 2>&1
 
 # --- FONCTION DE NOTIFICATION GOTIFY ---
 send_gotify_notification() {
     if [ -n "$GOTIFY_URL" ] && [ -n "$GOTIFY_TOKEN" ]; then
-        local title="$1"
-        local message="$2"
-        local priority="$3"
-
         curl -k -s -X POST "${GOTIFY_URL}/message?token=${GOTIFY_TOKEN}" \
-            -F "title=${title}" \
-            -F "message=${message}" \
-            -F "priority=${priority}" > /dev/null 2>&1
+            -F "title=$1" -F "message=$2" -F "priority=$3" > /dev/null 2>&1
     fi
 }
 
@@ -120,55 +129,85 @@ if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
     exit 1
 fi
 
-# 2. Nettoyage des médias et miniatures de liens
+ERRORS=0
+
+# 2. Nettoyage des médias et vignettes
 echo "--- Étape 1 : Nettoyage des médias et vignettes ---"
 docker exec -u mastodon $CONTAINER_NAME bin/tootctl media remove --days=$DAYS_MEDIA --concurrency=$THREADS
-docker exec -u mastodon $CONTAINER_NAME bin/tootctl preview_cards remove --days=$DAYS_MEDIA
+[ $? -ne 0 ] && { ERRORS=1; send_gotify_notification "⚠️ Mastodon Cleanup ALERTE" "Échec media remove sur $HOSTNAME." 5; }
 
-# 3. Nettoyage des anciens statuts et comptes inactifs
+docker exec -u mastodon $CONTAINER_NAME bin/tootctl preview_cards remove --days=$DAYS_MEDIA
+[ $? -ne 0 ] && { ERRORS=1; send_gotify_notification "⚠️ Mastodon Cleanup ALERTE" "Échec preview_cards remove sur $HOSTNAME." 5; }
+
+# 3. Nettoyage des anciens statuts et comptes inactifs (inclut la purge des avatars/headers distants)
 echo "--- Étape 2 : Nettoyage statuts et comptes ---"
 docker exec -u mastodon $CONTAINER_NAME bin/tootctl statuses remove --days=30
-if [ $? -ne 0 ]; then
-    send_gotify_notification "⚠️ Mastodon Cleanup ALERTE" "Le nettoyage des statuts a rencontré une erreur sur $HOSTNAME." 5
-fi
-docker exec -u mastodon $CONTAINER_NAME bin/tootctl accounts prune
+[ $? -ne 0 ] && { ERRORS=1; send_gotify_notification "❌ Mastodon Cleanup ERREUR" "Échec critique statuses remove sur $HOSTNAME." 8; }
 
-# 4. Optimisation RAM (Vérification des droits LXC)
-echo "--- Étape 3 : Libération du cache RAM ---"
-sync
-if [ -w /proc/sys/vm/drop_caches ]; then
-    echo 3 > /proc/sys/vm/drop_caches
-    echo "Cache RAM libéré avec succès."
-else
-    echo "Note : Droits insuffisants pour drop_caches (LXC), ignoré."
+docker exec -u mastodon $CONTAINER_NAME bin/tootctl accounts prune
+[ $? -ne 0 ] && { ERRORS=1; send_gotify_notification "⚠️ Mastodon Cleanup ALERTE" "Échec accounts prune sur $HOSTNAME." 5; }
+
+# 4. Purge des orphelins (une fois par mois seulement, plus lourd en I/O)
+if [ "$WEEK_OF_MONTH" -eq 1 ]; then
+    echo "--- Étape 3 : Purge des fichiers orphelins (mensuel) ---"
+    docker exec -u mastodon $CONTAINER_NAME bin/tootctl media remove-orphans
+    [ $? -ne 0 ] && { ERRORS=1; send_gotify_notification "⚠️ Mastodon Cleanup ALERTE" "Échec remove-orphans sur $HOSTNAME." 5; }
 fi
+
+# 5. Rapport d'usage final
+echo "--- Rapport d'utilisation médias ---"
+USAGE=$(docker exec -u mastodon $CONTAINER_NAME bin/tootctl media usage)
+echo "$USAGE"
 
 echo "======================================================"
 echo "Maintenance terminée : $(date)"
 echo "======================================================"
 
-# 5. Envoi de la notification de succès final
-send_gotify_notification "✅ Mastodon Cleanup TERMINÉ" "La maintenance sur $HOSTNAME est terminée avec succès." 4
+if [ $ERRORS -eq 0 ]; then
+    send_gotify_notification "✅ Mastodon Cleanup TERMINÉ" "Maintenance sur $HOSTNAME réussie sans erreur.
+
+$USAGE" 4
+else
+    send_gotify_notification "⚠️ Mastodon Cleanup TERMINÉ AVEC ALERTES" "Maintenance sur $HOSTNAME finie, mais des erreurs ont été rencontrées. Vérifiez $LOGFILE." 5
+fi
 
 exit 0
 ```
 
 ---
 
-# 4. Configuration de Gotify
+# 4. Le verrou anti-chevauchement
 
-Les notifications Gotify sont **totalement optionnelles**.
+Le script commence par créer un verrou :
 
-Elles permettent notamment de recevoir une notification sur son téléphone ou ses autres clients Gotify lorsque le script rencontre un problème ou lorsque la maintenance est terminée.
+```bash
+LOCKFILE="/tmp/mastodon-cleanup.lock"
+exec 200>"$LOCKFILE"
+flock -n 200 || { echo "Une instance du script tourne déjà, abandon."; exit 1; }
+```
 
-Dans le script :
+Ce mécanisme empêche plusieurs instances du script de fonctionner simultanément.
+
+C'est particulièrement important avec une exécution planifiée par Cron.
+
+Par exemple, si un nettoyage prend exceptionnellement beaucoup de temps et qu'une nouvelle exécution est déclenchée avant la fin de la précédente, la deuxième instance s'arrête immédiatement.
+
+Cela évite d'avoir deux opérations `tootctl` lourdes travaillant simultanément sur la même instance Mastodon.
+
+---
+
+# 5. Configuration de Gotify
+
+Gotify est **optionnel**.
+
+Les paramètres se trouvent au début du script :
 
 ```bash
 GOTIFY_URL=""
 GOTIFY_TOKEN=""
 ```
 
-### Sans Gotify
+## Sans Gotify
 
 Laissez simplement les deux variables vides :
 
@@ -177,182 +216,314 @@ GOTIFY_URL=""
 GOTIFY_TOKEN=""
 ```
 
-Le script détecte automatiquement l'absence de configuration et n'effectue aucun appel vers Gotify.
+Le script détecte automatiquement l'absence de configuration et n'envoie aucune notification.
 
-### Avec Gotify
+## Avec Gotify
 
-Renseignez l'URL de votre serveur et le token de l'application :
+Renseignez l'adresse de votre serveur et le token de votre application :
 
 ```bash
 GOTIFY_URL="https://gotify.example.com"
 GOTIFY_TOKEN="xxxxxxxxxxxxxxxx"
 ```
 
-Le token est une information sensible. Le script doit donc rester accessible uniquement à `root`.
+Le script peut alors envoyer plusieurs types de notifications.
 
-> ⚠️ Le script utilise actuellement `curl -k`, ce qui désactive la vérification du certificat TLS. Si votre serveur Gotify dispose d'un certificat correctement reconnu par le système, il est préférable de supprimer l'option `-k`.
+### Échec du conteneur
 
----
+Si le conteneur Mastodon n'est pas trouvé :
 
-# 5. Fonctionnement du nettoyage
-
-Le script réalise plusieurs opérations successives.
-
-## 5.1 Vérification du conteneur Docker
-
-Avant toute opération, le script vérifie que le conteneur Mastodon est bien en fonctionnement :
-
-```bash
-docker ps -q -f name=$CONTAINER_NAME
+```text
+❌ Mastodon Cleanup ÉCHEC
 ```
 
-Si le conteneur n'est pas trouvé, le script :
+### Erreur pendant une opération
 
-1. écrit une erreur dans le journal ;
-2. envoie une notification Gotify si elle est configurée ;
-3. arrête immédiatement son exécution.
+Par exemple :
 
-Cela évite notamment de lancer inutilement les commandes `tootctl` lorsque Mastodon est arrêté.
+```text
+⚠️ Mastodon Cleanup ALERTE
+Échec media remove...
+```
+
+ou :
+
+```text
+❌ Mastodon Cleanup ERREUR
+Échec critique statuses remove...
+```
+
+### Fin sans erreur
+
+```text
+✅ Mastodon Cleanup TERMINÉ
+```
+
+La notification contient également le résultat de :
+
+```bash
+tootctl media usage
+```
+
+### Fin avec erreurs
+
+Si au moins une opération a échoué :
+
+```text
+⚠️ Mastodon Cleanup TERMINÉ AVEC ALERTES
+```
+
+Le script indique alors de consulter le journal.
+
+> ⚠️ Le token Gotify est une donnée sensible. Ne le publiez jamais dans une page Wiki publique, un dépôt Git ou une capture d'écran.
+
+> ⚠️ La fonction utilise actuellement `curl -k`, qui désactive la vérification du certificat TLS. Si votre serveur Gotify utilise un certificat valide reconnu par le système, vous pouvez supprimer `-k`.
 
 ---
 
-## 5.2 Nettoyage des médias
+# 6. Vérification du conteneur
+
+Avant d'exécuter `tootctl`, le script vérifie que le conteneur est actif :
+
+```bash
+if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+```
+
+Si le conteneur n'est pas trouvé, aucune commande de maintenance n'est lancée.
+
+Le script :
+
+1. écrit l'erreur dans le journal ;
+2. envoie une notification Gotify si configurée ;
+3. quitte avec le code `1`.
+
+Cette vérification évite notamment de lancer une série de commandes `docker exec` sur un conteneur arrêté ou inexistant.
+
+---
+
+# 7. Nettoyage des médias
 
 La première opération utilise :
 
 ```bash
-bin/tootctl media remove
+docker exec -u mastodon $CONTAINER_NAME bin/tootctl media remove --days=$DAYS_MEDIA --concurrency=$THREADS
 ```
 
-avec :
+Avec les valeurs configurées :
 
 ```bash
---days=7
+DAYS_MEDIA=7
+THREADS=4
 ```
 
-Les médias concernés par le nettoyage sont donc ceux qui répondent aux critères de rétention définis par Mastodon avec une ancienneté de 7 jours.
-
-Le script utilise également :
+La commande devient donc :
 
 ```bash
---concurrency=4
+bin/tootctl media remove --days=7 --concurrency=4
 ```
 
-Ce paramètre permet à `tootctl` de traiter plusieurs opérations en parallèle.
+Le nettoyage utilise quatre threads.
 
-La valeur peut être adaptée :
+Cette valeur peut être adaptée en fonction des performances du serveur :
 
 ```bash
 THREADS=4
 ```
 
-> ⚠️ Une valeur élevée n'est pas nécessairement meilleure. Sur une petite machine ou un stockage lent, augmenter fortement le nombre de threads peut au contraire augmenter la charge CPU et I/O.
+> ⚠️ Augmenter le nombre de threads peut accélérer l'opération, mais augmente également la charge CPU, disque et potentiellement PostgreSQL. Il vaut mieux adapter cette valeur à la machine plutôt que de mettre un nombre arbitrairement élevé.
 
 ---
 
-## 5.3 Suppression des prévisualisations de liens
+# 8. Nettoyage des prévisualisations de liens
 
-Le script lance ensuite :
+Le script exécute ensuite :
 
 ```bash
-bin/tootctl preview_cards remove --days=7
+docker exec -u mastodon $CONTAINER_NAME bin/tootctl preview_cards remove --days=$DAYS_MEDIA
 ```
 
-Cette commande nettoie les anciennes cartes de prévisualisation générées pour les liens publiés sur l'instance.
+Avec la configuration actuelle :
 
-Cette opération est distincte du nettoyage des médias.
+```bash
+DAYS_MEDIA=7
+```
+
+les prévisualisations sont donc nettoyées avec une rétention de 7 jours.
+
+Cette opération est indépendante du nettoyage des médias.
 
 ---
 
-## 5.4 Suppression des anciens statuts
+# 9. Nettoyage des statuts
 
-Les anciens statuts sont supprimés avec :
+Le script lance :
 
 ```bash
-bin/tootctl statuses remove --days=30
+docker exec -u mastodon $CONTAINER_NAME bin/tootctl statuses remove --days=30
 ```
 
-La durée utilisée ici est donc de **30 jours**.
+Les statuts sont donc nettoyés avec une période de 30 jours.
 
-Cette valeur est indépendante de la rétention des médias :
+Cette opération est considérée comme particulièrement importante à surveiller, car elle peut être beaucoup plus lourde que le simple nettoyage des médias.
+
+Si elle échoue, le script :
+
+```bash
+ERRORS=1
+```
+
+et envoie une notification Gotify de niveau élevé :
 
 ```text
-Médias                  → 7 jours
-Prévisualisations       → 7 jours
-Statuts                 → 30 jours
+❌ Mastodon Cleanup ERREUR
 ```
 
-> ⚠️ Cette opération doit être configurée en connaissance de cause. Une fois les données supprimées, elles ne sont pas destinées à être récupérées par un simple retour arrière.
-
-Si la commande rencontre une erreur, le script envoie une notification Gotify d'alerte lorsque Gotify est configuré.
+La maintenance continue néanmoins avec l'étape suivante.
 
 ---
 
-## 5.5 Nettoyage des comptes distants
+# 10. Nettoyage des comptes distants
 
-Le script exécute également :
+Le script exécute :
 
 ```bash
-bin/tootctl accounts prune
+docker exec -u mastodon $CONTAINER_NAME bin/tootctl accounts prune
 ```
 
-Cette commande permet à Mastodon de nettoyer certains comptes distants qui ne sont plus utilisés ou qui répondent aux critères de purge définis par Mastodon.
+Cette opération permet de nettoyer les comptes distants devenus inutiles selon les critères de Mastodon.
 
-Cette opération est particulièrement intéressante pour les instances qui ont accumulé beaucoup de comptes provenant d'autres serveurs au fil du temps.
+Si cette opération échoue, le script positionne également :
+
+```bash
+ERRORS=1
+```
+
+et envoie une alerte Gotify.
+
+Le script ne s'arrête cependant pas immédiatement : les opérations restantes continuent.
 
 ---
 
-# 6. Libération du cache RAM
+# 11. Suppression des fichiers médias orphelins
 
-Après les opérations Mastodon, le script exécute :
-
-```bash
-sync
-```
-
-puis vérifie si le fichier suivant est accessible en écriture :
-
-```text
-/proc/sys/vm/drop_caches
-```
-
-Si c'est le cas :
+Une particularité importante de cette version du script est que :
 
 ```bash
-echo 3 > /proc/sys/vm/drop_caches
+tootctl media remove-orphans
 ```
 
-est exécuté.
+**n'est pas exécuté chaque semaine.**
 
-La valeur `3` demande au noyau de libérer les caches de pages ainsi que les caches dentries/inodes.
+Le script calcule d'abord la semaine du mois :
 
-## Et avec un conteneur LXC ?
+```bash
+WEEK_OF_MONTH=$(( ($(date +%-d) - 1) / 7 + 1 ))
+```
 
-C'est ici que l'environnement Proxmox entre en jeu.
+Puis :
 
-Un conteneur LXC, particulièrement lorsqu'il est non privilégié, peut ne pas avoir le droit de modifier :
+```bash
+if [ "$WEEK_OF_MONTH" -eq 1 ]; then
+```
+
+lance :
+
+```bash
+docker exec -u mastodon $CONTAINER_NAME bin/tootctl media remove-orphans
+```
+
+L'opération est donc exécutée pendant la **première semaine de chaque mois**.
+
+### Pourquoi ?
+
+La recherche et la suppression des fichiers orphelins peuvent être beaucoup plus lourdes en I/O que le nettoyage courant des médias.
+
+Il est donc inutile de faire cette opération à chaque exécution hebdomadaire du script.
+
+La stratégie retenue est :
 
 ```text
-/proc/sys/vm/drop_caches
+Chaque semaine :
+    media remove
+    preview_cards remove
+    statuses remove
+    accounts prune
+
+Première semaine du mois :
+    + media remove-orphans
 ```
 
-Le script vérifie donc explicitement les permissions avant de tenter l'opération.
+Si `remove-orphans` échoue, le script signale également l'erreur via Gotify et conserve l'état :
 
-Si l'accès n'est pas possible, il écrit simplement :
-
-```text
-Note : Droits insuffisants pour drop_caches (LXC), ignoré.
+```bash
+ERRORS=1
 ```
-
-et continue normalement.
-
-> ℹ️ L'échec de cette étape n'est donc **pas considéré comme une erreur bloquante**.
-
-> ⚠️ `drop_caches` ne doit pas être considéré comme un mécanisme permettant de "récupérer de la RAM" de manière permanente. Le cache disque est une utilisation normale et utile de la mémoire Linux. Cette commande est surtout pertinente dans certains scénarios de maintenance ou de diagnostic.
 
 ---
 
-# 7. Journalisation
+# 12. Rapport d'utilisation des médias
+
+À la fin du nettoyage, le script exécute :
+
+```bash
+USAGE=$(docker exec -u mastodon $CONTAINER_NAME bin/tootctl media usage)
+```
+
+Puis affiche le résultat dans le journal :
+
+```bash
+echo "$USAGE"
+```
+
+Cela permet d'avoir une indication de l'utilisation actuelle des médias après les opérations de nettoyage.
+
+Ce même rapport est inclus dans la notification Gotify lorsque la maintenance se termine sans erreur.
+
+---
+
+# 13. Gestion globale des erreurs
+
+Le script utilise :
+
+```bash
+ERRORS=0
+```
+
+Chaque opération importante est ensuite contrôlée.
+
+Par exemple :
+
+```bash
+[ $? -ne 0 ] && { ERRORS=1; send_gotify_notification ...; }
+```
+
+Cela permet au script de **continuer la maintenance même lorsqu'une opération individuelle échoue**, tout en conservant l'information sur l'erreur.
+
+À la fin :
+
+```bash
+if [ $ERRORS -eq 0 ]; then
+```
+
+le script distingue deux situations.
+
+### Aucune erreur
+
+```text
+✅ Mastodon Cleanup TERMINÉ
+```
+
+### Une ou plusieurs erreurs
+
+```text
+⚠️ Mastodon Cleanup TERMINÉ AVEC ALERTES
+```
+
+Cette distinction est importante : recevoir une notification de fin ne signifie donc pas automatiquement que toutes les opérations ont réussi.
+
+---
+
+# 14. Journalisation
 
 Toutes les sorties du script sont enregistrées dans :
 
@@ -360,21 +531,21 @@ Toutes les sorties du script sont enregistrées dans :
 /var/log/mastodon-cleanup.log
 ```
 
-Cette redirection est effectuée directement par le script :
+La redirection est réalisée ici :
 
 ```bash
-exec 1>>$LOGFILE 2>&1
+exec 1>>"$LOGFILE" 2>&1
 ```
 
-Cela signifie que les messages normaux, les erreurs et les résultats des commandes `docker exec` sont enregistrés dans ce fichier.
+Les sorties standard **et** les erreurs sont donc enregistrées dans le même fichier.
 
-Pour consulter le journal :
+Pour consulter les dernières lignes :
 
 ```bash
-cat /var/log/mastodon-cleanup.log
+tail -n 100 /var/log/mastodon-cleanup.log
 ```
 
-ou, pour suivre son évolution en temps réel :
+Pour suivre l'exécution en temps réel :
 
 ```bash
 tail -f /var/log/mastodon-cleanup.log
@@ -382,11 +553,9 @@ tail -f /var/log/mastodon-cleanup.log
 
 ---
 
-# 8. Rotation des journaux avec logrotate
+# 15. Rotation du journal avec logrotate
 
-Un fichier de journal qui grossit indéfiniment finira forcément par devenir un problème.
-
-Il est donc recommandé de confier sa rotation à `logrotate`.
+Le fichier `/var/log/mastodon-cleanup.log` doit être soumis à une rotation afin d'éviter qu'il ne grossisse indéfiniment.
 
 Créer :
 
@@ -394,7 +563,7 @@ Créer :
 /etc/logrotate.d/mastodon-cleanup
 ```
 
-avec le contenu suivant :
+avec :
 
 ```text
 /var/log/mastodon-cleanup.log {
@@ -406,55 +575,48 @@ avec le contenu suivant :
 }
 ```
 
-## Explication de la configuration
+## Signification
 
 ### `weekly`
 
-Le fichier journal est vérifié et, lorsqu'une rotation est nécessaire, celle-ci est effectuée chaque semaine.
+Rotation hebdomadaire.
 
 ### `rotate 8`
 
-Conserve jusqu'à **8 anciennes rotations**.
+Conservation de huit anciennes rotations.
 
-On obtient donc environ :
+On pourra donc retrouver :
 
 ```text
 mastodon-cleanup.log
 mastodon-cleanup.log.1.gz
 mastodon-cleanup.log.2.gz
+mastodon-cleanup.log.3.gz
 ...
 mastodon-cleanup.log.8.gz
 ```
 
-Cela permet de conserver plusieurs semaines d'historique sans laisser le fichier grossir indéfiniment.
-
 ### `compress`
 
-Les anciens journaux sont compressés, généralement avec gzip.
-
-Un journal historique occupe ainsi beaucoup moins d'espace disque.
+Les anciens journaux sont compressés.
 
 ### `missingok`
 
-Si le fichier n'existe pas, `logrotate` ne considère pas cela comme une erreur.
-
-C'est pratique notamment si le script n'a encore jamais été exécuté.
+L'absence du fichier journal n'est pas considérée comme une erreur.
 
 ### `notifempty`
 
-Un fichier vide n'est pas inutilement soumis à une rotation.
+Un fichier journal vide n'est pas inutilement soumis à une rotation.
 
 ---
 
-## Tester la configuration logrotate
+# 16. Tester logrotate
 
-Avant d'attendre la prochaine rotation automatique, il est possible de tester la configuration avec :
+Pour vérifier la configuration sans effectuer de rotation :
 
 ```bash
 logrotate -d /etc/logrotate.d/mastodon-cleanup
 ```
-
-L'option `-d` effectue une simulation et ne modifie normalement aucun fichier.
 
 Pour forcer une rotation :
 
@@ -462,11 +624,11 @@ Pour forcer une rotation :
 logrotate -f /etc/logrotate.d/mastodon-cleanup
 ```
 
-> ⚠️ La commande `-f` force réellement la rotation. À utiliser uniquement pour un test ou lorsque cela est nécessaire.
+> ⚠️ `-f` force réellement la rotation. Cette commande est donc principalement destinée aux tests.
 
 ---
 
-# 9. Installation du script
+# 17. Installation du script
 
 Créer le répertoire :
 
@@ -474,17 +636,15 @@ Créer le répertoire :
 mkdir -p /root/scripts
 ```
 
-Créer ensuite le script :
+Créer le fichier :
 
 ```bash
 nano /root/scripts/mastodon-cleanup.sh
 ```
 
-Coller le contenu du script puis enregistrer.
+Coller le script puis enregistrer.
 
-Le script doit être accessible uniquement à `root`, notamment parce qu'il peut contenir un token Gotify.
-
-Appliquer les permissions :
+Rendre le script accessible uniquement à `root` :
 
 ```bash
 chmod 700 /root/scripts/mastodon-cleanup.sh
@@ -496,17 +656,19 @@ Vérifier :
 ls -l /root/scripts/mastodon-cleanup.sh
 ```
 
-Le résultat attendu est similaire à :
+Le résultat doit être similaire à :
 
 ```text
 -rwx------ 1 root root ... /root/scripts/mastodon-cleanup.sh
 ```
 
+Cette restriction est particulièrement importante si un token Gotify est configuré directement dans le script.
+
 ---
 
-# 10. Tester manuellement le script
+# 18. Tester manuellement
 
-Avant de créer une tâche Cron, il est fortement recommandé d'exécuter le script manuellement :
+Avant de programmer l'exécution automatique, il est recommandé de lancer le script manuellement :
 
 ```bash
 /root/scripts/mastodon-cleanup.sh
@@ -518,22 +680,20 @@ Puis consulter le journal :
 tail -n 100 /var/log/mastodon-cleanup.log
 ```
 
-Cela permet de vérifier :
+Cette première exécution permet de vérifier :
 
-* que le conteneur Docker est correctement détecté ;
-* que `tootctl` fonctionne ;
-* que l'utilisateur `mastodon` existe bien dans le conteneur ;
-* que les commandes de nettoyage fonctionnent ;
-* que Gotify reçoit correctement les notifications ;
-* que l'accès à `drop_caches` est accepté ou correctement ignoré.
+* que le conteneur est correctement détecté ;
+* que `docker exec` fonctionne ;
+* que l'utilisateur `mastodon` existe dans le conteneur ;
+* que les commandes `tootctl` fonctionnent ;
+* que les notifications Gotify fonctionnent si elles sont activées ;
+* que le rapport `media usage` est correctement généré.
 
 ---
 
-# 11. Automatisation avec Cron
+# 19. Planification avec Cron
 
-Une fois le test manuel terminé, la maintenance peut être automatisée avec Cron.
-
-Éditer la crontab de `root` :
+Une fois le test manuel effectué, éditer la crontab de `root` :
 
 ```bash
 crontab -e
@@ -545,13 +705,7 @@ Pour exécuter la maintenance chaque dimanche à 03h00 :
 00 03 * * 0 /bin/bash /root/scripts/mastodon-cleanup.sh
 ```
 
-Le script se charge lui-même de rediriger sa sortie vers :
-
-```text
-/var/log/mastodon-cleanup.log
-```
-
-Il n'est donc **pas nécessaire** d'ajouter :
+Il n'est **pas nécessaire** de rajouter :
 
 ```text
 >> /var/log/mastodon-cleanup.log 2>&1
@@ -559,55 +713,79 @@ Il n'est donc **pas nécessaire** d'ajouter :
 
 à la ligne Cron.
 
-Cela éviter une double redirection inutile et garde la gestion du journal au même endroit, dans le script.
+Le script effectue déjà lui-même la redirection vers :
+
+```text
+/var/log/mastodon-cleanup.log
+```
+
+Cela évite d'avoir deux mécanismes différents pour gérer le journal.
 
 ---
 
-# 12. Vérifier la tâche Cron
+# 20. Vérifier la tâche Cron
 
-Afficher la crontab de `root` :
+Afficher la crontab :
 
 ```bash
 crontab -l
 ```
 
-La ligne doit apparaître :
+Vous devez retrouver :
 
 ```cron
 00 03 * * 0 /bin/bash /root/scripts/mastodon-cleanup.sh
 ```
 
-Pour vérifier après exécution que le script a bien été lancé :
+Après une exécution, vérifier le journal :
 
 ```bash
 tail -n 100 /var/log/mastodon-cleanup.log
 ```
 
-Selon la configuration de votre système, les événements Cron peuvent également être visibles dans les journaux système.
+---
+
+# 21. Résumé
+
+| Opération                 |                   Configuration |
+| ------------------------- | ------------------------------: |
+| Médias                    |                         7 jours |
+| Threads médias            |                               4 |
+| Prévisualisations         |                         7 jours |
+| Statuts                   |                        30 jours |
+| Comptes distants          |                `accounts prune` |
+| Fichiers orphelins        |                 1 fois par mois |
+| Rapport médias            |                   `media usage` |
+| Verrou anti-chevauchement |                         `flock` |
+| Journal                   | `/var/log/mastodon-cleanup.log` |
+| Rotation                  |                    Hebdomadaire |
+| Historique                |                     8 rotations |
+| Compression               |                             Oui |
+| Gotify                    |                       Optionnel |
+| Exécution                 |                Dimanche à 03h00 |
 
 ---
 
-# 13. Résumé de la maintenance
+# 22. Points importants à retenir
 
-La configuration proposée utilise les valeurs suivantes :
+Le script n'est pas simplement une succession de commandes `tootctl`.
 
-| Opération                  |           Rétention / paramètre |
-| -------------------------- | ------------------------------: |
-| Médias                     |                         7 jours |
-| Prévisualisations de liens |                         7 jours |
-| Statuts                    |                        30 jours |
-| Comptes distants           |                `accounts prune` |
-| Threads médias             |                               4 |
-| Fréquence                  |                Dimanche à 03h00 |
-| Journal                    | `/var/log/mastodon-cleanup.log` |
-| Rotation                   |                    Hebdomadaire |
-| Historique conservé        |                     8 rotations |
-| Compression                |                             Oui |
-| Notification               |                Gotify optionnel |
+Il apporte également plusieurs mécanismes de sécurité et de surveillance :
+
+* **`flock`** empêche deux nettoyages simultanés ;
+* chaque opération importante est contrôlée ;
+* les erreurs sont mémorisées dans `ERRORS` ;
+* une notification Gotify spécifique est envoyée lorsqu'une opération échoue ;
+* la notification finale distingue un nettoyage réussi d'un nettoyage terminé avec alertes ;
+* `remove-orphans` est limité à une exécution mensuelle ;
+* `media usage` fournit un état de l'utilisation des médias ;
+* le journal est conservé et automatiquement compressé avec `logrotate`.
+
+> ⚠️ Le script est une automatisation de maintenance. Il ne remplace évidemment pas une stratégie de sauvegarde PostgreSQL et des fichiers médias.
 
 ---
 
-# 14. Captures
+# 23. Captures
 
 ![maintenance-mastodon-docker.jpg](/maintenance-mastodon-docker/maintenance-mastodon-docker.jpg)
 
@@ -619,4 +797,4 @@ La configuration proposée utilise les valeurs suivantes :
 
 Vous pouvez retrouver mon instance Mastodon ici :
 
-https://mastodon.blablalinux.be/@blablalinux
+[https://mastodon.blablalinux.be/@blablalinux](https://mastodon.blablalinux.be/@blablalinux)
