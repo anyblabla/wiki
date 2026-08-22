@@ -2,7 +2,7 @@
 title: Maintenance Mastodon - Nettoyage et optimisation des caches avec tootctl
 description: Maintenance de Mastodon en installation classique (bare-metal) : automatisation du nettoyage du cache, des médias et des comptes inactifs avec notifications Gotify.
 published: true
-date: 2026-08-21T18:43:53.133Z
+date: 2026-08-22T10:41:27.150Z
 tags: mastodon, cache, delete, gotify
 editor: markdown
 dateCreated: 2024-05-06T22:29:10.684Z
@@ -12,7 +12,7 @@ dateCreated: 2024-05-06T22:29:10.684Z
 >
 > Si votre instance Mastodon fonctionne sous **Docker**, consultez la page dédiée : [Maintenance Mastodon sous Docker](https://wiki.blablalinux.be/fr/maintenance-mastodon-docker).
 
-Mastodon accumule au fil du temps différentes données : médias provenant d'instances distantes, prévisualisations de liens, anciens statuts, comptes distants et fichiers médias devenus orphelins.
+Mastodon accumule au fil du temps différentes données : médias provenant d'instances distantes, avatars et bannières de comptes distants, prévisualisations de liens, anciens statuts, comptes distants et fichiers médias devenus orphelins.
 
 Une maintenance périodique permet de contrôler l'utilisation du stockage et de supprimer les données qui ne sont plus nécessaires.
 
@@ -22,6 +22,7 @@ Le script permet notamment de :
 
 * supprimer les anciens médias ;
 * supprimer les anciennes prévisualisations de liens ;
+* supprimer les avatars et bannières distants mis en cache localement ;
 * supprimer les anciens statuts ;
 * nettoyer les comptes distants devenus inutiles ;
 * rechercher et supprimer périodiquement les fichiers médias orphelins ;
@@ -32,6 +33,8 @@ Le script permet notamment de :
 * envoyer des notifications Gotify en cas d'erreur ou à la fin de la maintenance.
 
 > ℹ️ Contrairement à la version Docker, les commandes `tootctl` sont exécutées directement sur le système avec l'utilisateur `mastodon`.
+
+> ℹ️ Sur une instance active, la part la plus importante du stockage `public/system` n'est généralement pas constituée de vos propres médias, mais du **cache des médias fédérés** — avatars, bannières et pièces jointes des comptes distants que vos utilisateurs suivent ou croisent. La commande `tootctl media usage` permet de distinguer ce qui est local du reste. C'est ce cache que les étapes 7 et 8 ci-dessous ciblent en priorité.
 
 ---
 
@@ -84,7 +87,7 @@ Il est prévu pour être exécuté avec les privilèges `root`.
 
 ## Script `mastodon-cleanup.sh`
 
-La version ci-dessous reprend la logique du script de maintenance Docker, adaptée à une installation classique.
+La version ci-dessous reprend la logique du script de maintenance Docker (v2.2), adaptée à une installation classique.
 
 > ⚠️ Le token Gotify n'est volontairement pas publié dans cette documentation. Utilisez votre propre token.
 
@@ -92,7 +95,8 @@ La version ci-dessous reprend la logique du script de maintenance Docker, adapt�
 #!/bin/bash
 # Script de maintenance Mastodon pour installation classique
 # Auteur : Amaury Libert (Blabla Linux)
-# v2.1 - Adaptation de la version Docker pour installation classique
+# v2.2 - Adaptation de la version Docker pour installation classique
+#        + ajout de --prune-profiles sur media remove
 
 # --- VERROU ANTI-CHEVAUCHEMENT ---
 LOCKFILE="/tmp/mastodon-cleanup.lock"
@@ -109,6 +113,7 @@ RBENV_PATH="/opt/rbenv/versions/mastodon/bin"
 LOGFILE="/var/log/mastodon-cleanup.log"
 HOSTNAME=$(hostname)
 DAYS_MEDIA=7
+DAYS_PROFILES=14
 THREADS=4
 
 # Semaine du mois (1-4/5), pour ne lancer remove-orphans
@@ -168,6 +173,20 @@ sudo -u mastodon RAILS_ENV=production PATH="$RBENV_PATH:$PATH" \
     send_gotify_notification \
         "⚠️ Mastodon Cleanup ALERTE" \
         "Échec preview_cards remove sur $HOSTNAME." \
+        5
+}
+
+# 2bis. Nettoyage des avatars/bannières distants en cache (comptes non suivis)
+echo "--- Étape 1bis : Purge avatars/bannières distants (--prune-profiles) ---"
+
+sudo -u mastodon RAILS_ENV=production PATH="$RBENV_PATH:$PATH" \
+    bin/tootctl media remove --days="$DAYS_PROFILES" --prune-profiles
+
+[ $? -ne 0 ] && {
+    ERRORS=1
+    send_gotify_notification \
+        "⚠️ Mastodon Cleanup ALERTE" \
+        "Échec media remove --prune-profiles sur $HOSTNAME." \
         5
 }
 
@@ -260,7 +279,7 @@ sudo -u mastodon RAILS_ENV=production PATH="$RBENV_PATH:$PATH" \
     bin/tootctl ...
 ```
 
-Le reste du fonctionnement est identique.
+Le reste du fonctionnement est identique, y compris l'étape de purge des avatars/bannières distants (`--prune-profiles`).
 
 Cette approche permet d'avoir une maintenance cohérente entre les deux types d'installation.
 
@@ -392,6 +411,8 @@ Le nombre de threads peut être adapté en fonction des performances du serveur.
 
 > ⚠️ Plus de threads signifie potentiellement plus de performances, mais également davantage de charge CPU et I/O. Quatre threads constituent une valeur raisonnable pour commencer.
 
+> ℹ️ Sans option supplémentaire, `media remove` ne supprime que les **pièces jointes** (attachments). Les avatars et bannières distants ne sont pas concernés par cette commande seule — voir l'étape suivante.
+
 En cas d'erreur, le script positionne :
 
 ```bash
@@ -402,7 +423,48 @@ et envoie une notification Gotify.
 
 ---
 
-# 8. Nettoyage des prévisualisations
+# 8. Nettoyage des avatars et bannières distants (`--prune-profiles`)
+
+Sur une instance active, les avatars et bannières des comptes distants représentent souvent la part la plus importante du cache fédéré, bien plus que les pièces jointes elles-mêmes.
+
+Le script exécute une seconde commande dédiée :
+
+```bash
+bin/tootctl media remove --days=14 --prune-profiles
+```
+
+Avec la configuration actuelle :
+
+```bash
+DAYS_PROFILES=14
+```
+
+Le flag `--prune-profiles` (disponible depuis Mastodon 4.1.0) indique à `media remove` de traiter les avatars et bannières en cache plutôt que les pièces jointes.
+
+### Comportement par défaut
+
+Par défaut, seuls les comptes **non suivis localement** sont concernés : les avatars/bannières des comptes que vos utilisateurs suivent activement restent en cache, pour éviter de les re-télécharger en boucle.
+
+### Rétention plus longue que les médias
+
+`DAYS_PROFILES` est volontairement plus élevé que `DAYS_MEDIA`, car un avatar ou une bannière change beaucoup moins souvent qu'une pièce jointe postée dans un statut.
+
+### Options plus agressives (non utilisées dans ce script)
+
+Deux options existent pour aller plus loin, mais ne sont pas incluses ici car plus radicales :
+
+* `--remove-headers` : cible uniquement les bannières (headers), pas les avatars. Ne peut pas être combiné avec `--prune-profiles`.
+* `--include-follows` : à utiliser avec `--prune-profiles` ou `--remove-headers`, supprime également le cache des comptes **suivis**, ce qui forcera leur re-téléchargement à la prochaine interaction.
+
+Ces options peuvent être envisagées ponctuellement si le cache reste élevé malgré le nettoyage hebdomadaire standard.
+
+> ⚠️ Comme pour `media remove` classique, cette opération peut prendre du temps sur une instance avec beaucoup de comptes distants connus — elle itère sur chaque compte.
+
+En cas d'erreur, le script positionne également `ERRORS=1` et envoie une notification Gotify.
+
+---
+
+# 9. Nettoyage des prévisualisations
 
 Les anciennes cartes de prévisualisation sont supprimées avec :
 
@@ -410,7 +472,7 @@ Les anciennes cartes de prévisualisation sont supprimées avec :
 bin/tootctl preview_cards remove --days=7
 ```
 
-Cette opération est distincte du nettoyage des médias.
+Cette opération est distincte du nettoyage des médias et de la purge des profils.
 
 Une erreur entraîne également :
 
@@ -422,7 +484,7 @@ et une notification Gotify.
 
 ---
 
-# 9. Nettoyage des anciens statuts
+# 10. Nettoyage des anciens statuts
 
 Le script utilise :
 
@@ -444,7 +506,7 @@ La maintenance continue néanmoins afin de permettre aux opérations suivantes d
 
 ---
 
-# 10. Nettoyage des comptes distants
+# 11. Nettoyage des comptes distants
 
 Le script lance :
 
@@ -458,7 +520,7 @@ Comme pour les autres opérations, un échec est enregistré dans `ERRORS` et d�
 
 ---
 
-# 11. Suppression des fichiers médias orphelins
+# 12. Suppression des fichiers médias orphelins
 
 La commande :
 
@@ -486,6 +548,7 @@ La logique est donc :
 Chaque semaine :
     media remove
     preview_cards remove
+    media remove --prune-profiles
     statuses remove
     accounts prune
 
@@ -497,7 +560,7 @@ Cette organisation évite de lancer chaque semaine une opération potentiellemen
 
 ---
 
-# 12. Rapport d'utilisation des médias
+# 13. Rapport d'utilisation des médias
 
 Après les opérations de nettoyage, le script exécute :
 
@@ -511,13 +574,13 @@ Le résultat est stocké dans :
 USAGE=$(...)
 ```
 
-puis écrit dans le journal.
+puis écrit dans le journal, avec la distinction entre volume total et volume local (par exemple `Headers 14.5 GB / 79 KB local`) — utile pour vérifier que le cache fédéré reste maîtrisé sans confondre avec vos propres médias.
 
 Si la maintenance s'est terminée sans erreur, ce rapport est également inclus dans la notification Gotify finale.
 
 ---
 
-# 13. Gestion des erreurs
+# 14. Gestion des erreurs
 
 Le script utilise une variable globale :
 
@@ -555,7 +618,7 @@ la notification finale indique que la maintenance s'est terminée avec des alert
 
 ---
 
-# 14. Journalisation
+# 15. Journalisation
 
 Le script écrit toutes ses sorties dans :
 
@@ -591,7 +654,7 @@ tail -f /var/log/mastodon-cleanup.log
 
 ---
 
-# 15. Rotation du journal avec logrotate
+# 16. Rotation du journal avec logrotate
 
 Le fichier journal ne doit pas grossir indéfiniment.
 
@@ -646,7 +709,7 @@ On pourra donc retrouver des fichiers tels que :
 
 ---
 
-# 16. Tester logrotate
+# 17. Tester logrotate
 
 Pour simuler une rotation sans modifier les fichiers :
 
@@ -664,7 +727,7 @@ logrotate -f /etc/logrotate.d/mastodon-cleanup
 
 ---
 
-# 17. Installation du script
+# 18. Installation du script
 
 Créer le répertoire :
 
@@ -702,7 +765,7 @@ Cette restriction est particulièrement importante lorsqu'un token Gotify est pr
 
 ---
 
-# 18. Tester manuellement
+# 19. Tester manuellement
 
 Avant de programmer Cron, exécutez le script manuellement :
 
@@ -723,6 +786,7 @@ Vérifiez notamment :
 * l'utilisateur `mastodon` ;
 * l'environnement Ruby/rbenv ;
 * le nettoyage des médias ;
+* la purge des avatars/bannières distants (`--prune-profiles`) ;
 * le nettoyage des prévisualisations ;
 * le nettoyage des statuts ;
 * `accounts prune` ;
@@ -731,7 +795,7 @@ Vérifiez notamment :
 
 ---
 
-# 19. Planification avec Cron
+# 20. Planification avec Cron
 
 Éditer la crontab de `root` :
 
@@ -761,7 +825,7 @@ Il n'est donc pas nécessaire d'ajouter :
 
 ---
 
-# 20. Vérifier la tâche Cron
+# 21. Vérifier la tâche Cron
 
 Afficher la crontab :
 
@@ -783,30 +847,31 @@ tail -n 100 /var/log/mastodon-cleanup.log
 
 ---
 
-# 21. Résumé de la maintenance
+# 22. Résumé de la maintenance
 
-| Opération                 |                   Configuration |
-| ------------------------- | ------------------------------: |
-| Médias                    |                         7 jours |
-| Threads médias            |                               4 |
-| Prévisualisations         |                         7 jours |
-| Statuts                   |                        30 jours |
-| Comptes distants          |                `accounts prune` |
-| Médias orphelins          |                 1 fois par mois |
-| Rapport médias            |                   `media usage` |
-| Verrou anti-chevauchement |                         `flock` |
-| Journal                   | `/var/log/mastodon-cleanup.log` |
-| Rotation                  |                    Hebdomadaire |
-| Historique                |                     8 rotations |
-| Compression               |                             Oui |
-| Gotify                    |                       Optionnel |
-| Exécution                 |                Dimanche à 03h00 |
+| Opération                                       |                   Configuration |
+| ------------------------------------------------ | ------------------------------: |
+| Médias (pièces jointes)                          |                         7 jours |
+| Threads médias                                   |                               4 |
+| Avatars/bannières distants (`--prune-profiles`)  |                        14 jours |
+| Prévisualisations                                |                         7 jours |
+| Statuts                                          |                        30 jours |
+| Comptes distants                                 |                `accounts prune` |
+| Médias orphelins                                 |                 1 fois par mois |
+| Rapport médias                                   |                   `media usage` |
+| Verrou anti-chevauchement                        |                         `flock` |
+| Journal                                          | `/var/log/mastodon-cleanup.log` |
+| Rotation                                         |                    Hebdomadaire |
+| Historique                                       |                     8 rotations |
+| Compression                                      |                             Oui |
+| Gotify                                           |                       Optionnel |
+| Exécution                                        |                Dimanche à 03h00 |
 
 ---
 
-# 22. Différences avec l'installation Docker
+# 23. Différences avec l'installation Docker
 
-Les opérations de maintenance sont volontairement identiques entre les deux pages.
+Les opérations de maintenance sont volontairement identiques entre les deux pages, y compris la purge des avatars/bannières distants (`--prune-profiles`).
 
 La différence est uniquement liée à l'environnement d'exécution.
 
@@ -829,7 +894,7 @@ Cela permet de conserver une documentation cohérente pour les deux types d'inst
 
 ---
 
-# 23. Points importants
+# 24. Points importants
 
 Cette automatisation ne remplace pas les sauvegardes de Mastodon.
 
