@@ -2,13 +2,11 @@
 title: Configurer un datastore S3 (MinIO) sur Proxmox Backup Server
 description: Guide complet pour créer un datastore S3 MinIO sur PBS, avec gestion du cache dédié selon le type d'installation : disque virtuel (VM) ou dataset ZFS avec quota (serveur physique).
 published: true
-date: 2026-08-28T23:28:31.706Z
+date: 2026-08-29T07:44:37.575Z
 tags: proxmox, pbs, zfs, backup, minio, s3, homelab, selfhosting
 editor: markdown
 dateCreated: 2026-08-28T23:28:31.706Z
 ---
-
-# Configurer un datastore S3 (MinIO) sur Proxmox Backup Server
 
 Depuis la version 4.x, Proxmox Backup Server (PBS) peut utiliser un stockage compatible S3 (MinIO, Ceph RGW, Backblaze B2, Wasabi, AWS S3...) comme backend de datastore, en complément ou en remplacement d'un stockage local classique.
 
