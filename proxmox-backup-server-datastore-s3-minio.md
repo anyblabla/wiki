@@ -2,7 +2,7 @@
 title: Configurer un datastore S3 (MinIO) sur Proxmox Backup Server
 description: Guide complet pour créer un datastore S3 MinIO sur PBS, avec gestion du cache dédié selon le type d'installation : disque virtuel (VM) ou dataset ZFS avec quota (serveur physique).
 published: true
-date: 2026-08-29T07:44:37.575Z
+date: 2026-08-29T18:37:08.913Z
 tags: proxmox, pbs, zfs, backup, minio, s3, homelab, selfhosting
 editor: markdown
 dateCreated: 2026-08-28T23:28:31.706Z
@@ -86,6 +86,8 @@ Deux approches selon le type d'installation :
 2. **Décocher l'option "Sauvegarde"** pour ce disque dans la configuration Proxmox VE : c'est un cache reconstructible, l'inclure dans les sauvegardes de la VM n'apporte rien et gaspille du temps/espace.
 3. Dans PBS, formater et monter ce disque via **Stockage et disques → Répertoire → Créer : Directory**, en sélectionnant le disque, un système de fichiers ext4, et en **décochant "Ajouter en tant qu'entrepôt de données"** (on veut seulement le montage).
 
+![vm-proxmox-backup-server-datastore-s3-minio.png](/proxmox-backup-server-datastore-s3-minio/vm-proxmox-backup-server-datastore-s3-minio.png)
+
 ### Cas B — PBS physique sans disque libre (tout en pool ZFS)
 
 Quand tous les disques physiques sont déjà utilisés dans un pool ZFS, pas besoin d'ajouter de matériel : un **dataset ZFS dédié avec quota** remplit exactement le même rôle qu'un disque séparé.
@@ -107,6 +109,8 @@ df -h /mnt/datastore/minio-cache
 Le quota isole le cache du reste du pool (OS, autres datastores) exactement comme le ferait une partition séparée. C'est d'ailleurs l'option officiellement recommandée par la documentation Proxmox au même titre qu'un disque ou une partition dédiée.
 
 ⚠️ Sur un pool ZFS en RAID0 (striping simple, sans redondance), garder à l'esprit qu'une panne d'un seul disque fait perdre l'intégralité du pool — cache compris, mais surtout tout le reste de ce qui y est stocké.
+
+![proxmox-backup-server-datastore-s3-minio.png](/proxmox-backup-server-datastore-s3-minio/proxmox-backup-server-datastore-s3-minio.png)
 
 ## Étape 4 — Créer le datastore S3
 
