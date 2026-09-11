@@ -2,7 +2,7 @@
 title: Optimisation automatique des médias sur Nextcloud
 description: Apprenez à compresser automatiquement vos photos et vidéos sur Nextcloud. Un guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné sans sacrifier sa fluidité habituelle.
 published: true
-date: 2026-08-15T11:45:16.816Z
+date: 2026-09-11T21:43:59.030Z
 tags: cron, crontab, script, bash, ffmpeg, auto-hébergement, optimisation, nextcloud, reconditionnement, imagemagick
 editor: markdown
 dateCreated: 2026-03-02T11:46:46.923Z
@@ -87,9 +87,9 @@ if [[ "$EXTENSION_LOWER" =~ ^(mp4|mkv|avi|mov)$ ]]; then
         -show_entries format=bit_rate \
         -of csv=p=0 "$FILE_PATH" 2>/dev/null | tr -d ',')
 
-    # Récupération des FPS
+    # Récupération des FPS (utilisation de avg_frame_rate pour gérer proprement le VFR)
     FPS=$(/usr/bin/ffprobe -v error -select_streams v:0 \
-        -show_entries stream=r_frame_rate \
+        -show_entries stream=avg_frame_rate \
         -of csv=p=0 "$FILE_PATH" 2>/dev/null | tr -d ',' \
         | awk -F'/' '{if($2>0) printf "%.0f\n", $1/$2; else print $1}')
     [ -z "$FPS" ] && FPS=30
@@ -150,7 +150,7 @@ if [[ "$EXTENSION_LOWER" =~ ^(mp4|mkv|avi|mov)$ ]]; then
         log "[VIDEO] Compression : $FILE_PATH (${LABEL}, ${FPS}fps, ${BITRATE}bps → $TARGET_BITRATE)"
 
         /usr/bin/nice -n 19 /usr/bin/ionice -c 3 /usr/bin/ffmpeg -i "$FILE_PATH" \
-            -c:v libx264 -b:v "$TARGET_BITRATE" -maxrate "$TARGET_BITRATE" \
+            -c:v libx264 -r "$FPS" -b:v "$TARGET_BITRATE" -maxrate "$TARGET_BITRATE" \
             -bufsize "$BUFSIZE" -preset veryfast -threads 2 -b:a 256k \
             -map_metadata 0 -movflags use_metadata_tags \
             "$TEMP_VIDEO" -y 2>>"$LOGFILE"
@@ -266,6 +266,8 @@ Si oui, il compresse vers un débit cible adapté. Si non, il ne touche à rien 
 * Une capture d'écran PC 1080p à 30fps à 4 Mbps → seuil 8 Mbps non atteint → **aucune compression**, fichier laissé intact ✅
 
 Le script gère également correctement les vidéos filmées en **portrait** (ex. 1080x1920 depuis un smartphone) : il détecte la plus petite dimension pour identifier la vraie résolution, évitant ainsi une mauvaise classification.
+
+De plus, il utilise `avg_frame_rate` avec `ffprobe` et force la cadence de sortie via `-r "$FPS"` avec `ffmpeg`. Cela permet de maintenir un nombre de d'images par seconde stable et d'éviter les désynchronisations audio/vidéo sur les fichiers enregistrés à débit d'images variable (VFR), très fréquents sur smartphone.
 
 ### Pour les photos (`-resize "3468x3468>" -quality 80%`)
 
