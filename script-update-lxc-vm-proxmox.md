@@ -2,11 +2,20 @@
 title: Automatisation de la mise à jour des VMs et LXC Proxmox
 description: Ce guide fournit deux scripts Bash à exécuter via Cron sur votre hôte Proxmox VE pour automatiser la mise à jour des machines virtuelles (VMs) et des conteneurs (LXC) basés sur Debian/Ubuntu.
 published: true
-date: 2026-09-19T12:33:13.100Z
+date: 2026-09-19T12:35:49.142Z
 tags: lxc, proxmox, cron, crontab, script, vm
 editor: markdown
 dateCreated: 2025-10-26T16:38:37.191Z
 ---
+
+## 📦 Dépôts du projet
+
+Les scripts sont disponibles sur les deux dépôts suivants :
+
+* **GitHub :** https://github.com/anyblabla/proxmox-update-scripts
+* **Gitea BlablaLinux :** https://gitea.blablalinux.be/blablalinux/proxmox-update-scripts
+
+Le dépôt **Gitea est synchronisé avec le dépôt GitHub**.
 
 ## ⚠️ Avertissements cruciaux avant l'automatisation
 
