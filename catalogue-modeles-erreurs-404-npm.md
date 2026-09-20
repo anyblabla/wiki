@@ -1,9 +1,9 @@
 ---
-title: [Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager
-description: Découvrez 7 modèles de pages d'erreur 404 personnalisés pour Nginx Proxy Manager. Du style minimaliste au mode Matrix glitché, améliorez l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
+title: [Catalogue] 8 modèles de pages d'erreur pour Nginx Proxy Manager
+description: Découvrez 8 modèles de pages d'erreur personnalisées pour Nginx Proxy Manager. Du style minimaliste au mode Matrix glitché (404 et 403), améliorez l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: true
-date: 2026-02-16T15:10:48.797Z
-tags: npm, html, css, 404, auto-hébergement, personnalisation, nginx proxy manager
+date: 2026-09-20T11:21:11.519Z
+tags: npm, html, css, 404, auto-hébergement, personnalisation, nginx proxy manager, 403
 editor: markdown
 dateCreated: 2026-02-16T14:03:15.558Z
 ---
@@ -12,6 +12,8 @@ Ce catalogue regroupe différentes esthétiques pour vos pages d'erreur. Avant d
 
 1. **[Guide : Personnalisation par HTML injecté](/fr/page-erreur-npm-hote-inconnu)** : Pour une mise en place rapide par hôte.
 2. **[Guide : Personnalisation statique avec SSL](/fr/page-erreur-404-statique-ssl-npm)** : Ma méthode recommandée pour un rendu professionnel et sécurisé.
+
+> ℹ️ **Note sur les codes HTTP** : la majorité des modèles ci-dessous utilisent le code **404** (ressource introuvable). Le dernier modèle (n°8) utilise volontairement le code **403 Forbidden**, sémantiquement différent : il ne s'agit pas d'un lien cassé, mais d'un accès délibérément bloqué à une ressource existante. Adaptez le code HTTP et le bloc `error_page` de votre configuration Nginx en conséquence.
 
 ---
 
@@ -55,7 +57,6 @@ Un design inspiré du style Apple : pur, calme et professionnel.
     </div>
 </body>
 </html>
-
 ```
 
 ![minimaliste.png](/catalogue-modeles-erreurs-404-npm/minimaliste.png){width=100%}
@@ -111,7 +112,6 @@ Simule une console Linux avec un effet d'auto-typage du texte.
 </div>
 </body>
 </html>
-
 ```
 
 <img src="/catalogue-modeles-erreurs-404-npm/technique.gif" alt="Aperçu Terminal" style="width: 100%; height: auto;">
@@ -158,7 +158,6 @@ Un ton décalé pour déstresser l'utilisateur égaré.
     </div>
 </body>
 </html>
-
 ```
 
 <img src="/catalogue-modeles-erreurs-404-npm/humoristique.gif" alt="Aperçu Pause Café" style="width: 100%; height: auto;">
@@ -201,7 +200,6 @@ Utilise une image immersive avec effet de verre dépoli.
     </div>
 </body>
 </html>
-
 ```
 
 <img src="/catalogue-modeles-erreurs-404-npm/visuelle.gif" alt="Aperçu Modèle Visuel" style="width: 100%; height: auto;">
@@ -255,7 +253,6 @@ Transforme l'erreur en moment de divertissement avec un clone de Pong.
     </script>
 </body>
 </html>
-
 ```
 
 <img src="/catalogue-modeles-erreurs-404-npm/interractive.gif" alt="Aperçu Modèle Pong" style="width: 100%; height: auto;">
@@ -310,7 +307,6 @@ Un réseau de neurones interactif qui réagit à la souris.
     </script>
 </body>
 </html>
-
 ```
 
 <img src="/catalogue-modeles-erreurs-404-npm/dynamique.gif" alt="Aperçu Modèle Dynamique" style="width: 100%; height: auto;">
@@ -398,7 +394,108 @@ La signature visuelle de BlablaLinux. Ce modèle utilise un canvas pour la pluie
     </script>
 </body>
 </html>
-
 ```
 
 <img src="/catalogue-modeles-erreurs-404-npm/ultime.gif" alt="Aperçu Modèle Matrix BlablaLinux" style="width: 100%; height: auto;">
+
+---
+
+## 8. L'interdite (Matrix glitch — Accès refusé)
+
+Variante rouge de l'esthétique Matrix, pensée pour les ressources qui existent mais dont l'accès doit rester bloqué (sous-chemin sensible, panneau d'administration, etc.). Contrairement au 404 générique, elle utilise le code **403 Forbidden** et signale clairement au visiteur qu'il ne s'agit pas d'une erreur de sa part, mais d'un blocage volontaire.
+
+* **Idéal pour :** Bloquer un chemin précis (`/admin`, `/welcome` sur un service comme OnlyOffice) sans laisser planer le doute sur un simple lien cassé.
+* **Difficulté :** ⭐⭐⭐⭐⭐
+* **À personnaliser :** Ligne du lien logo (URL du portail) à la ligne 44 et 45 et le texte du `code-box`, de la ligne 34 à 41, selon le contexte du blocage.
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=3.0">
+    <title>Accès Interdit</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛸</text></svg>">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background-color: transparent; }
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background-color: #000; }
+        :root { --text-color: #ecf0f1; --neon-green: #e74c3c; --neon-glow: #ff2e2e; --container-bg: rgba(20, 10, 10, 0.9); --shadow-color: rgba(231, 76, 60, 0.5); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        .container { max-width: 650px; width: 95%; background: var(--container-bg); padding: 30px 20px; border-radius: 20px; box-shadow: 0 0 15px var(--shadow-color), 0 0 30px var(--shadow-color); border: 2px solid var(--neon-green); animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), glitch-border 6s infinite; backdrop-filter: blur(10px); position: relative; }
+        @keyframes glitch-border { 0%, 95%, 100% { border-color: var(--neon-green); box-shadow: 0 0 15px var(--shadow-color); } 96% { border-color: #fff; box-shadow: 0 0 30px var(--neon-glow); } 98% { border-color: var(--neon-glow); box-shadow: 0 0 40px var(--neon-glow); } }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
+        .glitch-title { font-size: 2.2em; margin: 0 0 10px; color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); transition: all 0.3s ease; cursor: default; }
+        .glitch-title:hover { color: #fff; text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green), 0 0 40px var(--neon-glow), 0 0 80px var(--neon-glow); transform: scale(1.05); }
+        h2 { font-size: 1.2em; color: #ffb84d; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255, 184, 77, 0.5); }
+        p { font-size: 1em; line-height: 1.4; margin-bottom: 12px; }
+        .code-box { display: inline-block; background: rgba(0, 0, 0, 0.8); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--neon-green); margin: 10px 0; }
+        .code { font-family: monospace; font-weight: bold; color: var(--neon-green); text-shadow: 0 0 5px var(--neon-green); }
+        hr { border: none; height: 1px; background: var(--neon-green); opacity: 0.3; margin: 20px 0; }
+        #custom-logo { display: none; position: fixed; bottom: 20px; right: 20px; z-index: 10000; transition: all 0.4s ease; transform: scaleX(-1); }
+        #custom-logo:hover { transform: scaleX(-1) scale(1.2) rotate(10deg); filter: drop-shadow(0 0 15px var(--neon-glow)); }
+        #custom-logo img { width: 60px; height: 60px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.8); display: block; border: 1px solid var(--neon-green); }
+        @media (min-width: 768px) { .container { padding: 40px; } .glitch-title { font-size: 3em; } h2 { font-size: 1.5em; } p { font-size: 1.1em; } }
+        @media (min-width: 1024px) { #custom-logo { display: block; } }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="container">
+        <h1 class="glitch-title">🚫 Accès Interdit</h1>
+        <h2>Zone non autorisée... 🛰️</h2>
+        <p>Cette ressource existe bel et bien dans la simulation, mais l'accès à cet emplacement précis t'est <strong>formellement refusé</strong>.</p>
+        <p>Il ne s'agit ni d'une erreur, ni d'une maintenance : ce chemin est volontairement verrouillé et n'est pas destiné à être consulté publiquement.</p>
+        <div class="code-box"><span class="code">ERROR_403: ACCESS_FORBIDDEN 🌌</span></div>
+        <hr>
+        <p style="font-size: 0.85em; opacity: 0.9;">
+            💡 <strong>Conseil de Néo :</strong> Si tu penses qu'il s'agit d'une erreur, contacte l'administrateur. Sinon, retourne à la liste de mes <a href="https://blablalinux.be/mes-services-publics/" style="color: var(--neon-green); text-decoration: none;">services publics</a>.
+        </p>
+    </div>
+    <a href="https://link.blablalinux.be" id="custom-logo">
+        <img src="https://blablalinux.be/wp-content/uploads/2025/11/logo-npm-02.png" alt="BlablaLinux Portail">
+    </a>
+    <script>
+        const canvas = document.getElementById('matrix-canvas'); const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZｦｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ';
+        const fontSize = 16; const columns = Math.floor(canvas.width / fontSize);
+        const drops = new Array(columns).fill(1);
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.shadowBlur = 8; ctx.shadowColor = '#f00'; ctx.fillStyle = '#e74c3c'; ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+            ctx.shadowBlur = 0;
+        }
+        function triggerRandomGlitch() {
+            if (Math.random() > 0.985) { 
+                document.body.style.filter = "contrast(1.5) brightness(1.2)";
+                setTimeout(() => { document.body.style.filter = "none"; }, 40);
+            }
+        }
+        setInterval(() => { drawMatrix(); triggerRandomGlitch(); }, 35);
+    </script>
+</body>
+</html>
+```
+
+<img src="/catalogue-modeles-erreurs-404-npm/interdite.gif" alt="Aperçu Modèle Accès Interdit" style="width: 100%; height: auto;">
+
+**Configuration Nginx associée (dans le Proxy Host, onglet Advanced) :**
+
+```nginx
+root /data/403_forbidden;
+error_page 403 /index.html;
+location = /index.html {
+    internal;
+}
+location /welcome {
+    return 403;
+}
+```
