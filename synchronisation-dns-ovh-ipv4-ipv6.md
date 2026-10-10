@@ -1,8 +1,8 @@
 ---
 title: Synchronisation automatique des enregistrements DNS OVH en IPv4 et IPv6
 description: Guide de configuration d'un script Bash pour synchroniser automatiquement les enregistrements DNS OVH en IPv4 et IPv6, même en cas de changement d'adresse IP ou de préfixe IPv6.
-published: false
-date: 2026-10-10T22:51:45.882Z
+published: true
+date: 2026-10-10T22:53:27.093Z
 tags: administration, dns, ipv6, ovh, ipv4, scripts, reseau
 editor: markdown
 dateCreated: 2026-10-10T22:51:45.882Z
