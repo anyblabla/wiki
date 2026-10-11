@@ -1,106 +1,90 @@
 ---
-title: Synchronisation automatique des enregistrements DNS OVH en IPv4 et IPv6
-description: Guide de configuration d'un script Bash pour synchroniser automatiquement les enregistrements DNS OVH en IPv4 et IPv6, même en cas de changement d'adresse IP ou de préfixe IPv6.
+title: Mettre à jour automatiquement ses enregistrements DNS OVHcloud (IPv4 et IPv6 dynamiques)
+description: Guide pour mettre à jour automatiquement vos DNS OVHcloud (IPv4 et IPv6 dynamiques) sur votre serveur auto-hébergé avec un script Bash.
 published: true
-date: 2026-10-10T22:53:27.093Z
+date: 2026-10-11T10:58:57.260Z
 tags: administration, dns, ipv6, ovh, ipv4, scripts, reseau
 editor: markdown
 dateCreated: 2026-10-10T22:51:45.882Z
 ---
 
-Ce guide explique comment automatiser la mise à jour des enregistrements DNS d'un domaine hébergé chez **OVHcloud**, à l'aide d'un script Bash exécuté sur un serveur Linux.
+Ce guide explique comment garder à jour, avec un script Bash et l'API OVHcloud, les enregistrements DNS d'une infrastructure auto-hébergée dont l'adresse IPv4 publique change parfois et dont le préfixe IPv6 est attribué dynamiquement par le fournisseur d'accès.
 
-Cette solution est particulièrement utile pour les infrastructures auto-hébergées dont l'adresse IPv4 publique ou le préfixe IPv6 peut changer, notamment lorsque le fournisseur d'accès à Internet attribue un préfixe IPv6 dynamique.
+Le problème est simple : un outil comme `ddclient` ou DynHost s'occupe très bien de l'IPv4, mais l'IPv6 est souvent oubliée. Quand le fournisseur change le préfixe, l'enregistrement `AAAA` pointe vers une adresse qui n'existe plus. Les clients IPv6 n'arrivent plus, et comme les navigateurs retombent automatiquement sur l'IPv4, on ne s'en aperçoit presque pas, jusqu'au jour où l'on constate qu'il n'y a plus aucun trafic IPv6 dans les journaux.
 
-Le script permet de :
+Le script :
 
-- Mettre à jour l'enregistrement AAAA du domaine principal.
-- Mettre à jour les enregistrements A et AAAA de sous-domaines spécifiques.
-- Gérer éventuellement l'enregistrement A du domaine principal, en remplacement d'un outil comme `ddclient`.
-- Détecter les modifications nécessaires avant de modifier les enregistrements DNS.
-- Éviter les modifications inutiles lorsque les enregistrements sont déjà corrects.
-- Journaliser les opérations et signaler les erreurs.
-- Automatiser les vérifications avec Cron.
+- met à jour l'enregistrement `AAAA` du domaine principal ;
+- met à jour les enregistrements `A` et `AAAA` d'un service hébergé sur une autre machine (l'exemple utilise le sous-domaine `mumble`) ;
+- peut aussi gérer l'enregistrement `A` du domaine principal, mais laisse ce rôle à `ddclient` par défaut ;
+- ne fait rien, et n'écrit rien dans le journal, tant que l'IPv4 et l'IPv6 ne changent pas ;
+- ne crée et ne supprime jamais d'enregistrement.
 
-> **Important :** ce script met à jour les enregistrements d'une zone DNS existante. Il ne modifie ni la délégation du domaine, ni les serveurs DNS faisant autorité, ni le routage IPv6 du réseau.
+> **Important :** ce script modifie les enregistrements d'une zone DNS existante. Il ne change ni la délégation du domaine, ni les serveurs DNS, ni le routage IPv6, ni le pare-feu de ton réseau.
 
 ## 1. Principe de fonctionnement
 
-### 1.1. Gestion des adresses IP
+### 1.1. Les enregistrements gérés
 
-Le script récupère l'IPv4 publique à l'aide d'un service externe de détection d'adresse IP. Il détecte également une adresse IPv6 globale sur une interface réseau définie dans sa configuration.
+| Enregistrement | Valeur publiée |
+| --- | --- |
+| `AAAA` du domaine principal (`@`) | L'IPv6 publique du serveur qui exécute le script (typiquement le reverse proxy). |
+| `AAAA` du service (`mumble`) | Le préfixe `/64` de ce serveur, suivi de l'identifiant d'interface du service. |
+| `A` du service (`mumble`) | L'IPv4 publique. |
+| `A` du domaine principal (`@`) | Optionnel. Laissé à `ddclient` ou DynHost par défaut. |
 
-L'adresse IPv6 sélectionnée doit correspondre à une adresse stable, non temporaire et non dépréciée, dont le préfixe est effectivement celui que l'on souhaite publier dans le DNS.
+Les autres sous-domaines n'ont rien à faire : si ta zone contient un enregistrement joker `* CNAME votredomaine.tld.`, ils suivent automatiquement le domaine principal.
 
-### 1.2. Gestion des enregistrements DNS
+### 1.2. Comment l'IPv6 du service est construite
 
-Le fonctionnement dépend des besoins de chaque infrastructure.
+Le script ne peut pas lire l'adresse d'une autre machine. Mais deux machines d'un même réseau local partagent le même préfixe `/64` et ne diffèrent que par leur **identifiant d'interface** (les 64 derniers bits), qui reste stable lorsque le préfixe change.
 
-| Enregistrement           | Fonction                                                                               |
-| ------------------------ | -------------------------------------------------------------------------------------- |
-| `A` de l'apex (`@`)      | Adresse IPv4 du domaine principal, gérée facultativement par le script.                |
-| `AAAA` de l'apex (`@`)   | Adresse IPv6 du serveur principal.                                                     |
-| `A` d'un sous-domaine    | Adresse IPv4 publique du serveur.                                                      |
-| `AAAA` d'un sous-domaine | Adresse IPv6 construite à partir du préfixe et de l'identifiant d'interface configuré. |
+Le script prend donc le préfixe de l'adresse de son propre serveur et y ajoute l'identifiant du service, que tu lui indiques une fois pour toutes dans `SERVICE_IID`.
 
-Dans cet exemple, le sous-domaine `mumble` représente un service hébergé dans un conteneur ou sur une machine distincte. Il peut être remplacé par un autre nom.
+Cette méthode n'est valable que si le service utilise réellement cette adresse. L'identifiant est souvent dérivé de l'adresse MAC (c'est le cas des conteneurs LXC sous Proxmox), mais pas toujours : relève-le toujours sur la machine elle-même (voir le paragraphe 7.2).
 
-**Attention :** un enregistrement DNS ne configure pas le réseau. Pour qu'un service soit joignable en IPv6, le routage, le pare-feu et la configuration du conteneur doivent également être adaptés.
+### 1.3. Un fonctionnement silencieux
 
-### 1.3. Fonctionnement idempotent
+Le script mémorise la dernière IPv4 et la dernière IPv6 qu'il a publiées. À chaque exécution, il ne fait qu'un appel à un service de détection d'IPv4 et une lecture locale. Il ne contacte l'API OVHcloud que si quelque chose a changé.
 
-À chaque exécution, le script compare les valeurs attendues aux enregistrements présents dans la zone OVH.
+En cas d'échec (API indisponible, droits insuffisants, etc.), l'état n'est pas mémorisé : l'exécution suivante réessaie toute seule.
 
-Si les valeurs sont identiques, aucune modification n'est envoyée. Si une valeur diffère, le script met à jour l'enregistrement correspondant.
+### 1.4. Des garde-fous volontaires
 
-Cette méthode permet de détecter également une modification manuelle de la zone ou un enregistrement qui ne correspondrait plus à l'adresse IP attendue.
-
-Le script ne crée ni ne supprime automatiquement des enregistrements DNS. Les entrées nécessaires doivent être préparées à l'avance.
+- Il **ne crée pas** d'enregistrement manquant : il signale l'erreur.
+- Il **refuse de modifier** un nom qui possède plusieurs enregistrements du même type, car il ne peut pas savoir lequel est le bon.
+- Il ignore les adresses IPv6 locales (`fd00::/8`), temporaires ou dépréciées.
+- Il s'arrête sur une configuration invalide plutôt que de publier une adresse fausse.
 
 ## 2. Prérequis
 
-Avant de commencer, il faut disposer :
+- Un domaine dont la zone DNS est gérée par OVHcloud (compte OVHcloud Europe : le script utilise `eu.api.ovh.com`).
+- Un serveur Linux Debian ou Ubuntu avec Bash, `curl`, `jq` et un accès Internet.
+- Sur ce serveur, une interface réseau qui porte une adresse IPv6 publique.
+- Si tu gères un service sur une autre machine : cette machine doit être dans le même réseau `/64`.
+- Un routage et un pare-feu IPv6 déjà configurés. **Un enregistrement DNS ne rend pas un service joignable : il ne fait qu'indiquer où le chercher.**
 
-- D'un domaine dont la zone DNS est gérée par OVHcloud.
-- D'un serveur Linux disposant de Bash et d'un accès réseau à l'API OVHcloud.
-- Des droits administrateur sur ce serveur.
-- D'une interface réseau portant une adresse IPv6 globale adaptée à l'usage prévu, si la gestion IPv6 est activée.
-- Des enregistrements DNS préalablement créés dans la zone OVH.
-- Des identifiants API OVHcloud disposant uniquement des autorisations nécessaires.
+## 3. Préparer la zone DNS
 
-Le script est prévu pour une distribution Debian ou Ubuntu. Les commandes d'installation peuvent être adaptées à d'autres distributions.
+Dans l'espace client OVHcloud, ouvre la zone DNS du domaine et crée à l'avance les enregistrements que le script va gérer. Leur valeur initiale n'a pas d'importance, le script la corrigera.
 
-## 3. Préparer les enregistrements DNS
+| Type | Sous-domaine | Valeur initiale |
+| --- | --- | --- |
+| `AAAA` | domaine principal (`@`) | l'IPv6 actuelle du serveur |
+| `A` | `mumble` | l'IPv4 publique actuelle |
+| `AAAA` | `mumble` | l'IPv6 actuelle du service |
 
-Dans l'espace client OVHcloud, ouvre la zone DNS du domaine concerné.
+Quelques règles à respecter :
 
-Crée les enregistrements qui seront gérés par le script. Pour l'exemple utilisé dans ce guide :
-
-| Type   | Sous-domaine            | Cible initiale                   |
-| ------ | ----------------------- | -------------------------------- |
-| `AAAA` | Domaine principal (`@`) | IPv6 globale actuelle du serveur |
-| `A`    | `mumble`                | IPv4 publique actuelle           |
-| `AAAA` | `mumble`                | IPv6 actuelle du service         |
-
-Si le script doit également gérer l'IPv4 du domaine principal, il faudra aussi disposer de l'enregistrement `A` de l'apex.
-
-Les cibles initiales servent uniquement à créer les entrées DNS. Elles seront actualisées lors de l'exécution du script si nécessaire.
-
-**Ne crée pas plusieurs enregistrements du même type pour un nom que ce script doit gérer.** Le script s'arrête lorsqu'il détecte plusieurs entrées correspondantes, afin d'éviter de modifier involontairement une configuration DNS particulière.
-
-Si l'IPv4 de l'apex est déjà gérée par `ddclient` ou un autre mécanisme, conserve cette gestion indépendante et laisse l'option correspondante désactivée dans le script.
+- **Un seul enregistrement par type et par nom** pour ce que le script gère.
+- Si `ddclient` ou DynHost gère déjà l'`A` du domaine principal, ne touche pas à cette gestion : le script la laisse tranquille par défaut.
+- Les TTL de ces enregistrements sont ramenés à 300 secondes au premier passage. Un TTL court limite la durée de l'indisponibilité IPv6 lors d'un changement de préfixe.
 
 ## 4. Créer les identifiants API OVHcloud
 
-### 4.1. Générer les clés
+Ouvre la page officielle de création d'identifiants : <https://eu.api.ovh.com/createToken/>
 
-Rends-toi sur la page officielle de création des identifiants API :
-
-[https://eu.api.ovh.com/createToken/](https://eu.api.ovh.com/createToken/)
-
-Crée des identifiants associés à ton compte OVHcloud et limite leurs droits à la zone DNS concernée.
-
-Pour ce script, les autorisations nécessaires sont les suivantes, en remplaçant `votredomaine.tld` par le nom de la zone :
+Renseigne un nom et une description, choisis la durée de validité qui te convient, et accorde **uniquement** ces droits, en remplaçant `votredomaine.tld` par le nom de ta zone :
 
 ```
 GET  /domain/zone/votredomaine.tld/record
@@ -109,663 +93,422 @@ PUT  /domain/zone/votredomaine.tld/record/*
 POST /domain/zone/votredomaine.tld/refresh
 ```
 
-Ces droits permettent de lire les enregistrements, de modifier ceux qui existent et de demander le rafraîchissement de la zone.
+Ces droits suffisent pour lire les enregistrements, modifier ceux qui existent et rafraîchir la zone. Le script n'a besoin ni de `POST` sur les enregistrements ni de `DELETE`, puisqu'il ne crée ni ne supprime rien.
 
-Le script ne crée ni ne supprime d'enregistrements. Il n'a donc pas besoin des autorisations `POST /record` ou `DELETE /record/*`.
-
-### 4.2. Conserver les identifiants
-
-La création des identifiants fournit trois valeurs :
-
-- `Application Key` (AK)
-- `Application Secret` (AS)
-- `Consumer Key` (CK)
-
-Ces valeurs sont sensibles. Ne les publie jamais dans un dépôt Git, un forum ou un fichier de configuration accessible aux utilisateurs non autorisés.
+Tu obtiens trois valeurs : l'**Application Key** (AK), l'**Application Secret** (AS) et la **Consumer Key** (CK). Elles sont sensibles : ne les publie jamais (dépôt Git, forum, capture d'écran, message de dépannage).
 
 ## 5. Installer les dépendances
 
-Sur Debian ou Ubuntu, exécute :
-
-```
+```bash
 apt update
-apt install -y bash curl jq python3 iproute2 coreutils util-linux ca-certificates
+apt install -y curl jq iproute2 util-linux ca-certificates
 ```
 
-Les paquets installés fournissent les outils nécessaires à la détection des adresses, au traitement des réponses JSON, à la manipulation des adresses IPv6 et à la gestion du verrou d'exécution.
+## 6. Créer le fichier d'identifiants
 
-## 6. Créer le fichier de configuration API
-
-Crée le fichier qui contiendra les identifiants :
-
-```
-nano /etc/ovh_dns.env
+```bash
+nano /root/.ovh_dns.env
 ```
 
-Ajoute les trois clés obtenues auprès d'OVHcloud :
-
-```
+```bash
 OVH_AK="ton_application_key"
 OVH_AS="ton_application_secret"
 OVH_CK="ton_consumer_key"
 ```
 
-Enregistre le fichier, puis restreins son accès :
+Puis restreins l'accès au seul utilisateur `root` :
 
-```
-chown root:root /etc/ovh_dns.env
-chmod 600 /etc/ovh_dns.env
-```
-
-Seul l'utilisateur `root` pourra ainsi lire ou modifier ce fichier.
-
-## 7. Créer le script de synchronisation
-
-Crée le fichier suivant :
-
-```
-nano /usr/local/sbin/update_ovh_dns.sh
+```bash
+chown root:root /root/.ovh_dns.env
+chmod 600 /root/.ovh_dns.env
 ```
 
-Colle le script ci-dessous, puis adapte les paramètres de configuration avant de l'exécuter.
+## 7. Créer le script
 
+```bash
+nano /usr/local/bin/update_ovh_dns.sh
 ```
+
+```bash
 #!/bin/bash
 # update_ovh_dns.sh
-# Synchronisation des enregistrements DNS OVH en IPv4 et IPv6.
-
-set -Eeuo pipefail
+# Synchronise chez OVHcloud : l'AAAA du domaine principal et, en option, les
+# enregistrements A et AAAA d'un service hébergé sur une autre machine.
+# Sans effet (et sans bruit) tant que l'IPv4 publique et l'IPv6 ne changent pas.
+#
+# Usage :  update_ovh_dns.sh              (cron)
+#          DRY_RUN=1 update_ovh_dns.sh    (simulation : aucune modification)
+set -euo pipefail
 umask 077
 
 # -------------------------------------------------------------------
-# CONFIGURATION
+# CONFIGURATION — À ADAPTER
 # -------------------------------------------------------------------
-
-ZONE="votredomaine.tld"
+ZONE="votredomaine.tld"                 # nom de la zone DNS OVH
 OVH_ENDPOINT="https://eu.api.ovh.com/1.0"
-OVH_ENV_FILE="/etc/ovh_dns.env"
+OVH_ENV_FILE="/root/.ovh_dns.env"       # contient OVH_AK, OVH_AS, OVH_CK (chmod 600)
+IPV6_IFACE="eth0"                       # interface portant l'IPv6 publique de ce serveur
+TTL=300                                 # TTL appliqué aux enregistrements gérés
 
-# Interface réseau portant l'IPv6 globale de référence.
-IPV6_IFACE="eth0"
+# 1 = gérer aussi l'enregistrement A du domaine principal (0 si ddclient/DynHost s'en occupe)
+MANAGE_APEX_A="${MANAGE_APEX_A:-0}"
 
-# Identifiant de 64 bits du service isolé.
-# Exemple : les quatre derniers groupes de l'adresse IPv6 du service.
-SERVICE_IID="be24:11ff:fe8b:9a6f"
+# Service hébergé sur une autre machine (ex. un serveur vocal) ayant ses propres A et AAAA.
+# 0 = ne gérer que l'AAAA du domaine principal.
+MANAGE_SERVICE=1
+SERVICE_SUB="mumble"                    # sous-domaine du service
+SERVICE_IID=""                          # 4 derniers groupes de SON adresse IPv6, ex. 0000:0000:0000:0042
 
-# TTL appliqué aux enregistrements gérés.
-TTL=300
-
-# 0 : ne pas gérer l'enregistrement A de l'apex.
-# 1 : gérer également l'enregistrement A de l'apex.
-MANAGE_APEX_A=0
-
-# 0 : exécution normale.
-# 1 : simulation sans modification de la zone.
 DRY_RUN="${DRY_RUN:-0}"
-
+STATE_FILE="/var/run/ovh_dns_pushed.txt"
 LOG_FILE="/var/log/ovh_dns_update.log"
 LOCKFILE="/run/lock/ovh-dns-update.lock"
 
 CHANGED=0
+GROUPS4_RE='^[0-9a-f]{1,4}(:[0-9a-f]{1,4}){3}$'
 
 # -------------------------------------------------------------------
-# JOURNALISATION
+# JOURNAL ET ERREURS
 # -------------------------------------------------------------------
-
 log() {
     local msg
     msg="$(date '+%Y-%m-%d %H:%M:%S') - $*"
-    printf '%s\n' "$msg" >> "$LOG_FILE"
-    printf '%s\n' "$msg"
+    echo "$msg" >> "$LOG_FILE"
+    if [ -t 1 ]; then echo "$msg"; fi
+    return 0
 }
 
-die() {
+# Les erreurs vont aussi sur stderr hors terminal : cron peut alors prévenir par e-mail.
+err() {
     log "ERREUR : $*"
-    exit 1
+    if [ ! -t 1 ]; then echo "ERREUR : $*" >&2; fi
+    return 0
 }
 
-# -------------------------------------------------------------------
-# API OVHCLOUD
-# -------------------------------------------------------------------
+die() { err "$*"; exit 1; }
 
+# -------------------------------------------------------------------
+# API OVHCLOUD — ovh_api METHODE /chemin [corps-json]
+# -------------------------------------------------------------------
 ovh_api() {
-    local method="$1"
-    local path="$2"
-    local body="${3:-}"
-    local url timestamp signature
-
+    local method="$1" path="$2" body="${3:-}" url ts sig
     url="${OVH_ENDPOINT}${path}"
-
-    timestamp="$(
-        curl -fsS --max-time 10 \
-            "${OVH_ENDPOINT}/auth/time"
-    )" || return 1
-
-    signature='$1$'$(printf '%s+%s+%s+%s+%s+%s' \
-        "$OVH_AS" "$OVH_CK" "$method" "$url" "$body" "$timestamp" |
-        sha1sum | cut -d' ' -f1)
-
-    local -a args
-    args=(
-        -fsS
-        --max-time 15
-        -X "$method"
-        "$url"
-        -H "Content-Type: application/json"
-        -H "X-Ovh-Application: ${OVH_AK}"
-        -H "X-Ovh-Consumer: ${OVH_CK}"
-        -H "X-Ovh-Timestamp: ${timestamp}"
-        -H "X-Ovh-Signature: ${signature}"
-    )
-
-    if [[ -n "$body" ]]; then
-        args+=(--data "$body")
-    fi
-
-    curl "${args[@]}"
+    ts=$(curl -s --max-time 10 "${OVH_ENDPOINT}/auth/time") || return 1
+    sig='$1$'$(printf '%s+%s+%s+%s+%s+%s' "$OVH_AS" "$OVH_CK" "$method" "$url" "$body" "$ts" | sha1sum | cut -d' ' -f1)
+    curl -s --max-time 15 --fail-with-body -X "$method" "$url" \
+        -H "Content-Type: application/json" \
+        -H "X-Ovh-Application: ${OVH_AK}" \
+        -H "X-Ovh-Consumer: ${OVH_CK}" \
+        -H "X-Ovh-Timestamp: ${ts}" \
+        -H "X-Ovh-Signature: ${sig}" \
+        ${body:+--data "$body"}
 }
 
 # -------------------------------------------------------------------
-# DÉTECTION DES ADRESSES IP
+# DÉTECTION DES ADRESSES
 # -------------------------------------------------------------------
-
 detect_ipv4() {
     local ip
-
-    ip="$(curl -4 -fsS --max-time 10 https://api.ipify.org)" ||
-        return 1
-
-    python3 -c '
-import ipaddress, sys
-try:
-    ip = ipaddress.ip_address(sys.argv[1])
-    if ip.version != 4 or not ip.is_global:
-        raise ValueError()
-    print(ip)
-except ValueError:
-    sys.exit(1)
-' "$ip"
+    ip=$(curl -4 -s --max-time 5 https://api.ipify.org || true)
+    [[ "$ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || return 1
+    echo "$ip"
 }
 
+# Première IPv6 publique (2000::/3) : ni ULA (fd00::/8), ni temporaire, ni dépréciée.
 detect_ipv6() {
     local addr
-
-    addr="$(
-        ip -6 addr show dev "$IPV6_IFACE" scope global |
-        awk '
-            /inet6/ &&
-            !/temporary/ &&
-            !/deprecated/ &&
-            !/tentative/ &&
-            !/dadfailed/ {
-                print $2
-                exit
-            }
-        '
-    )" || return 1
-
-    addr="${addr%%/*}"
-    [[ -n "$addr" ]] || return 1
-
-    python3 -c '
-import ipaddress, sys
-try:
-    ip = ipaddress.IPv6Address(sys.argv[1])
-    if not ip.is_global:
-        raise ValueError()
-    print(ip)
-except ValueError:
-    sys.exit(1)
-' "$addr"
-}
-
-# Construit une IPv6 de service en combinant le préfixe /64
-# de l'adresse de référence avec un identifiant d'interface.
-build_service_ipv6() {
-    python3 -c '
-import ipaddress, sys
-
-try:
-    host = ipaddress.IPv6Address(sys.argv[1])
-    iid = sys.argv[2].split(":")
-
-    if len(iid) != 4:
-        raise ValueError("SERVICE_IID doit contenir quatre groupes")
-
-    if any(not x or len(x) > 4 for x in iid):
-        raise ValueError("Groupe IPv6 invalide")
-
-    if any(any(c not in "0123456789abcdefABCDEF" for c in x)
-           for x in iid):
-        raise ValueError("Caractère IPv6 invalide")
-
-    suffix = int("".join(iid), 16)
-    prefix = int(host) & (((1 << 64) - 1) << 64)
-
-    print(ipaddress.IPv6Address(prefix | suffix))
-except ValueError as e:
-    print(str(e), file=sys.stderr)
-    sys.exit(1)
-' "$1" "$SERVICE_IID"
+    addr=$(ip -6 addr show dev "$IPV6_IFACE" scope global 2>/dev/null \
+        | awk '/inet6/ && $2 ~ /^[23]/ && !/temporary/ && !/deprecated/ && !/tentative/ && !/dadfailed/ {print $2; exit}')
+    addr="${addr%/*}"
+    [ -n "$addr" ] || return 1
+    echo "$addr" | tr 'A-F' 'a-f'
 }
 
 # -------------------------------------------------------------------
-# NORMALISATION DES CIBLES
+# ensure_record TYPE SOUS-DOMAINE (vide = domaine principal) CIBLE
 # -------------------------------------------------------------------
-
-normalize_target() {
-    local type="$1"
-    local target="$2"
-
-    case "$type" in
-        A)
-            python3 -c '
-import ipaddress, sys
-try:
-    ip = ipaddress.ip_address(sys.argv[1])
-    if ip.version != 4 or not ip.is_global:
-        raise ValueError()
-    print(ip)
-except ValueError:
-    sys.exit(1)
-' "$target"
-            ;;
-        AAAA)
-            python3 -c '
-import ipaddress, sys
-try:
-    ip = ipaddress.ip_address(sys.argv[1])
-    if ip.version != 6 or not ip.is_global:
-        raise ValueError()
-    print(ip)
-except ValueError:
-    sys.exit(1)
-' "$target"
-            ;;
-        *)
-            return 1
-            ;;
-    esac
-}
-
-# -------------------------------------------------------------------
-# VÉRIFICATION ET MISE À JOUR DES ENREGISTREMENTS
-# -------------------------------------------------------------------
-
 ensure_record() {
-    local type="$1"
-    local sub="$2"
-    local target="$3"
-    local ids id rec cur curttl found=0
-    local label normalized_cur normalized_target
-    local body
-
+    local type="$1" sub="$2" target="$3" label ids id rec cur curttl out
+    local -a match_ids=() match_cur=() match_ttl=()
     label="${type} ${sub:-@}"
 
-    normalized_target="$(normalize_target "$type" "$target")" ||
-        { log "Cible ${label} invalide : ${target}"; return 1; }
+    ids=$(ovh_api GET "/domain/zone/${ZONE}/record?fieldType=${type}") \
+        || { err "API (liste ${type}) : ${ids:-pas de réponse}"; return 1; }
+    echo "$ids" | jq -e 'type == "array"' >/dev/null 2>&1 \
+        || { err "API (liste ${type}) : ${ids}"; return 1; }
 
-    ids="$(ovh_api GET \
-        "/domain/zone/${ZONE}/record?fieldType=${type}")" ||
-        { log "Lecture de la liste ${type} impossible"; return 1; }
+    # Première passe : repérer les enregistrements correspondants, sans rien modifier.
+    for id in $(echo "$ids" | jq -r '.[]'); do
+        rec=$(ovh_api GET "/domain/zone/${ZONE}/record/${id}") \
+            || { err "API (lecture ${id}) : ${rec:-pas de réponse}"; return 1; }
+        [ "$(echo "$rec" | jq -r '.subDomain')" = "$sub" ] || continue
+        match_ids+=("$id")
+        match_cur+=("$(echo "$rec" | jq -r '.target' | tr 'A-F' 'a-f')")
+        match_ttl+=("$(echo "$rec" | jq -r '.ttl')")
+    done
 
-    jq -e 'type == "array"' <<< "$ids" >/dev/null ||
-        { log "Réponse API inattendue pour ${label}"; return 1; }
+    case "${#match_ids[@]}" in
+        0) err "enregistrement ${label} introuvable dans ${ZONE} (création automatique désactivée)"; return 1 ;;
+        1) ;;
+        *) err "plusieurs enregistrements ${label} : intervention manuelle requise, aucune modification effectuée"; return 1 ;;
+    esac
 
-    while IFS= read -r id; do
-        [[ -n "$id" ]] || continue
+    id="${match_ids[0]}"; cur="${match_cur[0]}"; curttl="${match_ttl[0]}"
 
-        rec="$(ovh_api GET \
-            "/domain/zone/${ZONE}/record/${id}")" ||
-            { log "Lecture de l'enregistrement ${id} impossible"; return 1; }
-
-        [[ "$(jq -r '.subDomain // ""' <<< "$rec")" == "$sub" ]] ||
-            continue
-
-        found=$((found + 1))
-
-        if (( found > 1 )); then
-            log "Plusieurs enregistrements ${label} : intervention requise"
-            return 1
-        fi
-
-        cur="$(jq -r '.target // ""' <<< "$rec")"
-        curttl="$(jq -r '.ttl // 0' <<< "$rec")"
-
-        normalized_cur="$(normalize_target "$type" "$cur" 2>/dev/null || true)"
-
-        if [[ "$normalized_cur" == "$normalized_target" &&
-              "$curttl" == "$TTL" ]]; then
-            log "OK : ${label} déjà à jour (${normalized_target})"
-            continue
-        fi
-
-        if [[ "$DRY_RUN" == "1" ]]; then
-            log "SIMULATION : ${label} ${cur} (TTL ${curttl}) -> ${normalized_target} (TTL ${TTL})"
-            CHANGED=1
-            continue
-        fi
-
-        body="$(jq -cn \
-            --arg target "$normalized_target" \
-            --argjson ttl "$TTL" \
-            '{target:$target,ttl:$ttl}')"
-
-        ovh_api PUT \
-            "/domain/zone/${ZONE}/record/${id}" "$body" >/dev/null ||
-            { log "Mise à jour de ${label} impossible"; return 1; }
-
-        log "MAJ : ${label} ${cur} -> ${normalized_target}"
+    if [ "$cur" = "$target" ] && [ "$curttl" = "$TTL" ]; then
+        log "OK : ${label} déjà à jour (${target})"
+    elif [ "$DRY_RUN" = "1" ]; then
+        log "SIMULATION : ${label} ${cur} (TTL ${curttl}) -> ${target} (TTL ${TTL})"
         CHANGED=1
-
-    done < <(jq -r '.[]' <<< "$ids")
-
-    if (( found == 0 )); then
-        log "Enregistrement ${label} introuvable : création automatique désactivée"
-        return 1
+    else
+        out=$(ovh_api PUT "/domain/zone/${ZONE}/record/${id}" "{\"target\":\"${target}\",\"ttl\":${TTL}}") \
+            || { err "API (mise à jour ${label}) : ${out:-pas de réponse}"; return 1; }
+        log "MAJ : ${label} ${cur} -> ${target} (TTL ${TTL})"
+        CHANGED=1
     fi
-
     return 0
 }
 
 # -------------------------------------------------------------------
-# EXÉCUTION PRINCIPALE
+# PROGRAMME PRINCIPAL
 # -------------------------------------------------------------------
-
 main() {
-    local NEW_IPV4 NEW_IPV6 SERVICE_V6 rc=0
+    local NEW_IPV4 NEW_IPV6 PREFIX SERVICE_V6="" STATE out rc=0
 
-    [[ "$ZONE" != "votredomaine.tld" ]] ||
-        die "Remplace ZONE par le nom réel de ta zone DNS"
-
-    [[ "$TTL" =~ ^[0-9]+$ ]] ||
-        die "TTL invalide"
-
-    [[ "$MANAGE_APEX_A" == "0" || "$MANAGE_APEX_A" == "1" ]] ||
-        die "MANAGE_APEX_A doit valoir 0 ou 1"
-
-    [[ "$DRY_RUN" == "0" || "$DRY_RUN" == "1" ]] ||
-        die "DRY_RUN doit valoir 0 ou 1"
-
-    command -v jq >/dev/null || die "jq est requis"
-    command -v curl >/dev/null || die "curl est requis"
-    command -v python3 >/dev/null || die "python3 est requis"
-    command -v flock >/dev/null || die "flock est requis"
-
-    [[ -r "$OVH_ENV_FILE" ]] ||
-        die "Fichier API inaccessible : ${OVH_ENV_FILE}"
-
+    [ "$ZONE" != "votredomaine.tld" ] || die "remplace ZONE par le nom réel de ta zone DNS"
+    [[ "$TTL" =~ ^[0-9]+$ ]] || die "TTL invalide"
+    command -v jq >/dev/null || die "jq est requis (apt install jq)"
+    [ -r "$OVH_ENV_FILE" ] || die "fichier d'identifiants introuvable : ${OVH_ENV_FILE}"
     # shellcheck disable=SC1090
     . "$OVH_ENV_FILE"
-
-    [[ -n "${OVH_AK:-}" && -n "${OVH_AS:-}" &&
-       -n "${OVH_CK:-}" ]] ||
-        die "Identifiants API incomplets"
+    [ -n "${OVH_AK:-}" ] && [ -n "${OVH_AS:-}" ] && [ -n "${OVH_CK:-}" ] \
+        || die "identifiants API incomplets dans ${OVH_ENV_FILE}"
 
     exec 200>"$LOCKFILE"
     flock -n 200 || exit 0
 
-    NEW_IPV4="$(detect_ipv4)" ||
-        die "Détection de l'IPv4 publique impossible"
+    NEW_IPV4=$(detect_ipv4) || die "IPv4 publique introuvable"
+    NEW_IPV6=$(detect_ipv6) || die "aucune IPv6 publique stable sur ${IPV6_IFACE}"
+    PREFIX=$(echo "$NEW_IPV6" | awk -F: '{print $1":"$2":"$3":"$4}')
+    [[ "$PREFIX" =~ $GROUPS4_RE ]] \
+        || die "préfixe /64 non lisible dans ${NEW_IPV6} (adresse compressée dans les 4 premiers groupes)"
 
-    NEW_IPV6="$(detect_ipv6)" ||
-        die "Aucune IPv6 globale adaptée détectée sur ${IPV6_IFACE}"
+    if [ "$MANAGE_SERVICE" = "1" ]; then
+        SERVICE_IID="${SERVICE_IID,,}"
+        [[ "$SERVICE_IID" =~ $GROUPS4_RE ]] \
+            || die "SERVICE_IID doit contenir 4 groupes hexadécimaux séparés par ':' (ou passe MANAGE_SERVICE à 0)"
+        SERVICE_V6="${PREFIX}:${SERVICE_IID}"
+    fi
 
-    SERVICE_V6="$(build_service_ipv6 "$NEW_IPV6")" ||
-        die "Impossible de construire l'IPv6 du service"
-
-    log "Début de synchronisation pour ${ZONE}"
-    log "IPv4 publique : ${NEW_IPV4}"
-    log "IPv6 hôte : ${NEW_IPV6}"
-    log "IPv6 service : ${SERVICE_V6}"
+    STATE="${NEW_IPV4}|${NEW_IPV6}|${SERVICE_V6}"
+    if [ "$DRY_RUN" != "1" ] && [ -f "$STATE_FILE" ] && [ "$(cat "$STATE_FILE")" = "$STATE" ]; then
+        exit 0
+    fi
+    log "Synchronisation DNS OVH — IPv4 : ${NEW_IPV4} | IPv6 de ce serveur : ${NEW_IPV6} | IPv6 du service : ${SERVICE_V6:-non géré}"
 
     ensure_record AAAA "" "$NEW_IPV6" || rc=1
-
-    # Exemple : sous-domaine d'un service isolé.
-    # Adapter le nom ou commenter ces lignes si inutile.
-    ensure_record AAAA "mumble" "$SERVICE_V6" || rc=1
-    ensure_record A "mumble" "$NEW_IPV4" || rc=1
-
-    if [[ "$MANAGE_APEX_A" == "1" ]]; then
+    if [ "$MANAGE_SERVICE" = "1" ]; then
+        ensure_record AAAA "$SERVICE_SUB" "$SERVICE_V6" || rc=1
+        ensure_record A "$SERVICE_SUB" "$NEW_IPV4" || rc=1
+    fi
+    if [ "$MANAGE_APEX_A" = "1" ]; then
         ensure_record A "" "$NEW_IPV4" || rc=1
     fi
 
-    if (( CHANGED == 1 )) && [[ "$DRY_RUN" == "0" ]]; then
-        if ovh_api POST "/domain/zone/${ZONE}/refresh" >/dev/null; then
-            log "Rafraîchissement de la zone demandé à OVHcloud"
+    if [ "$CHANGED" -eq 1 ] && [ "$DRY_RUN" != "1" ]; then
+        if out=$(ovh_api POST "/domain/zone/${ZONE}/refresh"); then
+            log "Zone ${ZONE} rafraîchie chez OVH"
         else
-            log "ERREUR : rafraîchissement de la zone impossible"
+            err "API (rafraîchissement de la zone) : ${out:-pas de réponse}"
             rc=1
         fi
     fi
 
-    if (( rc == 0 )); then
-        log "Synchronisation terminée sans erreur"
-    else
-        log "Synchronisation terminée avec une ou plusieurs erreurs"
+    # L'état n'est mémorisé qu'en cas de succès complet : sinon, le cron réessaie.
+    if [ "$rc" -eq 0 ] && [ "$DRY_RUN" != "1" ]; then
+        echo "$STATE" > "$STATE_FILE"
     fi
-
-    return "$rc"
+    exit "$rc"
 }
 
-main "$@"
+# Lance main() seulement si le script est exécuté directement (permet de le "sourcer" pour des tests).
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    main "$@"
+fi
 ```
 
-### 7.1. Adapter la configuration
+Puis rends-le exécutable par `root` uniquement :
 
-Les paramètres suivants doivent être vérifiés avant le premier lancement :
-
-- `ZONE` : nom de la zone DNS OVH, par exemple `exemple.tld`.
-- `IPV6_IFACE` : interface portant l'adresse IPv6 de référence, par exemple `eth0`, `ens18` ou `br0`.
-- `SERVICE_IID` : les 64 bits de l'identifiant d'interface du service, exprimés sous la forme de quatre groupes hexadécimaux.
-- `MANAGE_APEX_A` : `0` si un autre outil gère l'IPv4 de l'apex, `1` si le script doit également la gérer.
-
-Pour déterminer le nom de l'interface réseau, tu peux utiliser :
-
-```
-ip -br addr
+```bash
+chown root:root /usr/local/bin/update_ovh_dns.sh
+chmod 700 /usr/local/bin/update_ovh_dns.sh
 ```
 
-Pour examiner ses adresses IPv6 :
+### 7.1. Les paramètres à adapter
 
-```
-ip -6 addr show dev eth0 scope global
-```
+| Paramètre | Rôle |
+| --- | --- |
+| `ZONE` | Nom de la zone DNS OVH. Le script refuse de démarrer tant que la valeur par défaut est présente. |
+| `IPV6_IFACE` | Interface portant l'IPv6 publique du serveur (`ip -br addr` pour la trouver). |
+| `TTL` | Durée de vie, en secondes, appliquée aux enregistrements gérés. |
+| `MANAGE_APEX_A` | `0` : ne pas toucher à l'`A` du domaine principal. `1` : le gérer aussi. |
+| `MANAGE_SERVICE` | `1` : gérer les `A` et `AAAA` d'un service distinct. `0` : ne gérer que l'`AAAA` du domaine principal. |
+| `SERVICE_SUB` | Sous-domaine du service (`mumble` dans l'exemple). |
+| `SERVICE_IID` | Les quatre derniers groupes de l'adresse IPv6 du service. Obligatoire si `MANAGE_SERVICE=1`. |
 
-Remplace `eth0` par le nom réel de l'interface.
+### 7.2. Trouver `SERVICE_IID`
 
-### 7.2. Comprendre `SERVICE_IID`
+Sur la machine qui héberge le service, affiche ses adresses IPv6 :
 
-Le script ne récupère pas l'adresse IPv6 du conteneur lui-même. Il construit une adresse à partir du préfixe IPv6 `/64` de l'hôte et d'un identifiant de 64 bits fourni dans la configuration.
-
-Par exemple, avec un préfixe fictif `2001:db8:1234:5678::/64` et l'identifiant `0000:0000:0000:0042`, l'adresse construite sera :
-
-```
-2001:db8:1234:5678::42
-```
-
-Cet exemple utilise un préfixe réservé à la documentation. Il illustre uniquement le calcul.
-
-**Attention :** cette méthode n'est appropriée que si le service utilise effectivement cette adresse dans le même `/64` routé. L'identifiant doit correspondre à l'adresse réellement configurée sur le service ; il ne faut pas le déduire aveuglément d'une adresse MAC. Une adresse construite mais absente du réseau ne rendra pas le service joignable.
-
-### 7.3. Permissions du script
-
-Après avoir enregistré le fichier, applique les permissions suivantes :
-
-```
-chown root:root /usr/local/sbin/update_ovh_dns.sh
-chmod 700 /usr/local/sbin/update_ovh_dns.sh
+```bash
+ip -6 addr show scope global
 ```
 
-Le script est ainsi exécutable uniquement par `root`.
-
-## 8. Tester le script
-
-### 8.1. Première exécution en simulation
-
-Avant toute modification réelle, lance :
+Repère l'adresse **stable** : celle qui n'est pas marquée `temporary` et qui a le même préfixe que ton serveur. Exemple avec un préfixe de documentation :
 
 ```
-DRY_RUN=1 /usr/local/sbin/update_ovh_dns.sh
+inet6 2001:db8:1234:5678:be24:11ff:fe8b:9a6f/64 scope global dynamic mngtmpaddr
 ```
 
-Le mode simulation effectue les détections et les lectures nécessaires, puis indique les modifications envisagées sans envoyer de requête de modification DNS.
+L'identifiant est constitué des quatre derniers groupes : `be24:11ff:fe8b:9a6f`.
 
-Il ne remplace pas un test réel : il ne garantit pas que les droits de modification sont valides ni que le rafraîchissement de la zone fonctionnera.
+Vérifie ensuite que ton choix est cohérent avec ce qui est déjà publié : l'enregistrement `AAAA` actuel du service doit être égal au préfixe suivi de cet identifiant.
 
-### 8.2. Consulter le journal
-
-Pour afficher les dernières opérations :
-
-```
-tail -n 50 /var/log/ovh_dns_update.log
+```bash
+dig +short AAAA mumble.votredomaine.tld
 ```
 
-Pour suivre le journal en direct :
+Si tu recrées la machine ou son interface réseau (nouvelle adresse MAC, par exemple), l'identifiant change : mets alors `SERVICE_IID` à jour.
 
-```
-tail -f /var/log/ovh_dns_update.log
-```
+## 8. Tester
 
-### 8.3. Appliquer les changements
+### 8.1. Simulation
 
-Lorsque la simulation ne présente aucune anomalie, lance le script normalement :
+Avant toute modification réelle, lance le script en mode simulation :
 
-```
-/usr/local/sbin/update_ovh_dns.sh
+```bash
+DRY_RUN=1 /usr/local/bin/update_ovh_dns.sh
 ```
 
-Vérifie les messages retournés et le journal. Si le script signale un enregistrement introuvable, ne crée pas de nouvel enregistrement au hasard : vérifie d'abord le nom, le type et la zone DNS concernés.
+Il lit les enregistrements et affiche ce qu'il ferait, sans rien envoyer à OVH. Si tout est déjà à jour, tu vois uniquement des lignes `OK`. Sinon, tu vois des lignes `SIMULATION` avec l'ancienne et la nouvelle valeur.
 
-### 8.4. Vérifier les réponses DNS
+La simulation ne vérifie pas que les droits de modification sont valides : seule une exécution réelle le prouve.
 
-Après la mise à jour, interroge le DNS :
+### 8.2. Exécution réelle
 
-```
-dig +short A exemple.tld
-dig +short AAAA exemple.tld
-dig +short A mumble.exemple.tld
-dig +short AAAA mumble.exemple.tld
+```bash
+/usr/local/bin/update_ovh_dns.sh
+tail -n 20 /var/log/ovh_dns_update.log
 ```
 
-Remplace `exemple.tld` par le domaine utilisé.
+### 8.3. Vérifier ce qui est réellement publié
 
-Les changements ne sont pas nécessairement visibles immédiatement depuis tous les résolveurs, en raison des caches DNS et du TTL.
+Interroge d'abord un résolveur public, puis directement les serveurs d'OVH pour contourner les caches :
 
-## 9. Automatiser avec Cron
+```bash
+dig +short AAAA votredomaine.tld @1.1.1.1
+dig +short AAAA mumble.votredomaine.tld @1.1.1.1
+dig +short A mumble.votredomaine.tld @1.1.1.1
 
-Une fois le fonctionnement validé, crée un fichier de tâche système :
-
-```
-nano /etc/cron.d/update-ovh-dns
-```
-
-Ajoute la ligne suivante :
-
-```
-*/5 * * * * root /usr/local/sbin/update_ovh_dns.sh
+dig +short AAAA votredomaine.tld @$(dig +short NS votredomaine.tld | head -1)
 ```
 
-Enregistre le fichier et applique des permissions adaptées :
+Si OVH renvoie la nouvelle valeur mais pas le résolveur public, il suffit d'attendre l'expiration du TTL.
+
+### 8.4. Vérifier que l'IPv6 entre vraiment
+
+Un DNS correct ne prouve pas que le service est joignable. Depuis une machine extérieure ayant de l'IPv6 (un téléphone en 4G ou 5G, wifi coupé, convient) :
+
+```bash
+curl -6 -sI https://votredomaine.tld
+```
+
+Si cette commande échoue alors que le DNS est correct, regarde le pare-feu IPv6 de ton routeur.
+
+## 9. Automatiser avec cron
+
+Crée la tâche :
+
+```bash
+echo '*/5 * * * * root /usr/local/bin/update_ovh_dns.sh' > /etc/cron.d/update_ovh_dns
+chmod 644 /etc/cron.d/update_ovh_dns
+```
+
+Le script est silencieux quand rien ne change. En cas d'erreur, il écrit aussi le message sur la sortie d'erreur : si un serveur de messagerie est installé sur la machine, cron peut donc t'avertir par e-mail.
+
+Le journal reste petit (seules les synchronisations y sont inscrites), mais une rotation évite qu'il grossisse indéfiniment. Crée `/etc/logrotate.d/ovh_dns_update` :
 
 ```
-chown root:root /etc/cron.d/update-ovh-dns
-chmod 644 /etc/cron.d/update-ovh-dns
+/var/log/ovh_dns_update.log {
+    monthly
+    rotate 6
+    compress
+    missingok
+    notifempty
+}
 ```
-
-Cette configuration lance le script toutes les cinq minutes.
-
-Comme le script vérifie les enregistrements existants, il ne modifie la zone que lorsqu'une correction est nécessaire. Il effectue néanmoins des lectures API à chaque exécution : il convient donc de tenir compte des limites de requêtes de l'API OVHcloud.
 
 ## 10. Adapter le script à son infrastructure
 
-### 10.1. Ne pas gérer l'IPv4 de l'apex
+### 10.1. `ddclient` gère déjà l'IPv4 du domaine principal
 
-Si `ddclient` ou un autre outil gère déjà l'enregistrement A du domaine principal, conserve :
+Garde `MANAGE_APEX_A=0`. Vérifie en plus que `ddclient` ne met pas aussi à jour un `AAAA`, sinon les deux outils se disputeraient l'enregistrement :
 
+```bash
+grep -vE '^\s*#|^\s*$' /etc/ddclient.conf
 ```
-MANAGE_APEX_A=0
-```
 
-Le script continue de gérer l'AAAA de l'apex et les enregistrements spécifiques configurés.
+Tu ne dois y trouver ni `usev6=` ni un second nom d'hôte pointant vers l'`AAAA`.
 
 ### 10.2. Remplacer `ddclient`
 
-Si tu souhaites que le script gère aussi l'IPv4 de l'apex, configure :
+Passe `MANAGE_APEX_A=1` et désactive `ddclient`. Assure-toi qu'un seul outil modifie l'enregistrement : deux mécanismes concurrents peuvent s'écraser mutuellement. Si l'enregistrement est de type DynHost chez OVH, vérifie qu'il peut aussi être modifié par l'API de zone.
 
-```
-MANAGE_APEX_A=1
-```
+### 10.3. Pas de service distinct
 
-Assure-toi au préalable qu'aucun autre outil ne modifie simultanément le même enregistrement. Deux mécanismes concurrents peuvent se remplacer mutuellement et rendre le résultat imprévisible.
+Passe `MANAGE_SERVICE=0`. Le script ne gère alors que l'`AAAA` du domaine principal, et `SERVICE_IID` peut rester vide.
 
-### 10.3. Ne pas gérer de sous-domaine spécifique
+### 10.4. Plusieurs services
 
-Si tu n'as pas de service isolé à gérer, supprime ou commente les deux lignes suivantes dans la fonction `main()` :
+Duplique dans `main()` les lignes `ensure_record` du service, avec un autre sous-domaine et son propre identifiant :
 
-```
-ensure_record AAAA "mumble" "$SERVICE_V6" || rc=1
-ensure_record A "mumble" "$NEW_IPV4" || rc=1
+```bash
+ensure_record AAAA "autre" "${PREFIX}:xxxx:xxxx:xxxx:xxxx" || rc=1
+ensure_record A "autre" "$NEW_IPV4" || rc=1
 ```
 
-Tu peux également remplacer `mumble` par le nom d'un autre service, à condition de préparer ses enregistrements DNS et de vérifier la configuration IPv6 correspondante.
+Après toute modification des paramètres du script, supprime le fichier d'état pour forcer une synchronisation :
 
-Si plusieurs services doivent être gérés, chaque service peut disposer de son propre identifiant d'interface. Dans ce cas, il est préférable d'adapter explicitement le script plutôt que de réutiliser un identifiant unique pour tous les services.
+```bash
+rm -f /var/run/ovh_dns_pushed.txt
+```
 
 ## 11. Dépannage
 
-### Erreur d'authentification API
+| Message dans le journal | Cause probable |
+| --- | --- |
+| `remplace ZONE par le nom réel de ta zone DNS` | `ZONE` contient encore la valeur par défaut. |
+| `identifiants API incomplets` | Une des trois valeurs manque dans `/root/.ovh_dns.env`. |
+| `API (liste AAAA) : ...` suivi d'un message OVH | Droits insuffisants sur le jeton, mauvais nom de zone, ou identifiants invalides. Le message d'OVH est recopié dans le journal. |
+| `enregistrement ... introuvable` | L'enregistrement n'existe pas dans la zone. Crée-le à la main : le script n'en crée jamais. |
+| `plusieurs enregistrements ...` | Le même nom a plusieurs enregistrements du même type. Supprime les doublons inutiles. |
+| `aucune IPv6 publique stable sur ...` | Mauvaise interface, pas d'IPv6 publique, ou adresse uniquement temporaire. Vérifie avec `ip -6 addr show scope global`. |
+| `préfixe /64 non lisible ...` | L'adresse du serveur est écrite avec `::` dans ses quatre premiers groupes (cas rare, par exemple une délégation en `/48`). Le script refuse plutôt que de deviner. |
+| `SERVICE_IID doit contenir 4 groupes ...` | `SERVICE_IID` est vide ou mal formé. Corrige-le ou passe `MANAGE_SERVICE=0`. |
 
-Vérifie :
+Si le script fonctionne à la main mais pas depuis cron, vérifie les chemins absolus, les droits du fichier d'identifiants et le contenu de `/var/log/ovh_dns_update.log`.
 
-- Les trois identifiants dans `/etc/ovh_dns.env`.
-- Les autorisations associées au token.
-- Le nom exact de la zone DNS.
-- L'endpoint API utilisé.
+## 12. Limites
 
-Ne copie jamais les secrets dans un message de dépannage public.
-
-### Aucune IPv6 adaptée n'est détectée
-
-Vérifie l'interface configurée et les adresses disponibles :
-
-```
-ip -6 addr show dev eth0 scope global
-```
-
-Une adresse absente, temporaire, dépréciée ou non globale ne convient pas à ce mécanisme de détection. Si plusieurs adresses sont présentes, il faut vérifier que celle sélectionnée est bien celle dont le préfixe doit être publié.
-
-### Enregistrement introuvable
-
-Vérifie le type et le nom de l'enregistrement dans la zone OVH. Le script ne crée pas automatiquement les entrées manquantes.
-
-### Plusieurs enregistrements correspondent au même nom
-
-Le script s'arrête pour cet enregistrement. Examine la zone avant de modifier quoi que ce soit : plusieurs adresses peuvent être intentionnelles dans certaines configurations DNS.
-
-### Le DNS ne semble pas actualisé
-
-Vérifie le journal, puis interroge directement le DNS. Distingue une erreur de mise à jour de l'API d'un délai de propagation ou de cache DNS.
-
-### Le script fonctionne manuellement, mais pas avec Cron
-
-Contrôle les permissions, le chemin absolu du script, le fichier de configuration, l'interface réseau et le journal. Cron n'utilise pas nécessairement le même environnement que ton terminal interactif.
-
-## 12. Sécurité et limites
-
-- Les clés API doivent être protégées et limitées aux droits strictement nécessaires.
-- Le script doit être exécuté avec les privilèges permettant de lire les adresses réseau et d'écrire le journal.
-- Les enregistrements gérés doivent être préexistants et clairement identifiés.
-- Le calcul de l'adresse d'un service suppose un `/64` adapté et un identifiant d'interface correct.
-- La détection de l'IPv4 dépend d'un service externe : si celui-ci est indisponible, le script s'arrête sans appliquer les modifications.
-- Le script ne configure ni les règles de pare-feu, ni le routage, ni les adresses des conteneurs.
-- Le mode simulation permet d'anticiper les modifications, mais ne garantit pas la réussite de toutes les opérations en production.
+- **Le pare-feu du routeur.** Si tes règles IPv6 visent des adresses explicites, elles changent elles aussi à chaque rotation de préfixe. Le script ne peut pas les mettre à jour : utilise, si ton équipement le permet, des règles qui ne dépendent pas du préfixe.
+- **Une courte coupure IPv6 à chaque rotation**, d'une durée maximale égale au TTL (300 secondes), le temps que les caches expirent.
+- **L'identifiant du service est une valeur à maintenir.** Il change si la machine ou son interface est recréée.
+- **La détection de l'IPv4 dépend d'un service externe** (`api.ipify.org`). Si celui-ci est indisponible, le script s'arrête sans rien modifier.
+- **La construction du préfixe suppose un `/64` lisible** dans les quatre premiers groupes de l'adresse du serveur.
 
 ## Conclusion
 
-Cette méthode fournit une solution légère pour synchroniser des enregistrements DNS OVH à partir des adresses d'un serveur Linux, sans dépendre d'une plateforme d'automatisation supplémentaire.
-
-Elle convient notamment aux infrastructures auto-hébergées disposant d'une IPv4 publique et d'un préfixe IPv6 susceptible de changer. Elle demande toutefois une configuration initiale rigoureuse, en particulier pour les services isolés qui possèdent leur propre adresse IPv6.
+Ce script légèrement outillé suffit pour garder à jour un domaine OVHcloud malgré un préfixe IPv6 qui change, sans plateforme d'automatisation supplémentaire. Il demande une préparation rigoureuse (enregistrements créés à l'avance, jeton limité à la zone, identifiant du service relevé sur la machine), mais une fois en place, il se fait oublier.
 
 ---
 
