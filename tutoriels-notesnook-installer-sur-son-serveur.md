@@ -1,8 +1,8 @@
 ---
 title: Notesnook - Installer son propre serveur (Docker, LXC, NPM)
 description: Installez votre propre serveur Notesnook : Docker Compose dans un LXC Debian, MongoDB sécurisé, stockage S3, e-mails SMTP et reverse proxy Nginx Proxy Manager, avec des commandes à copier-coller.
-published: false
-date: 2026-10-16T22:27:56.806Z
+published: true
+date: 2026-10-16T22:35:38.641Z
 tags: docker, lxc, proxmox, debian, auto-hébergement, tutoriel, s3, nginx-proxy-manager, docker-compose, notesnook, e2ee, mongodb
 editor: markdown
 dateCreated: 2026-10-16T22:17:53.709Z
@@ -10,8 +10,7 @@ dateCreated: 2026-10-16T22:17:53.709Z
 
 [Notesnook](https://notesnook.com) est une application de notes chiffrées de bout en bout dont le serveur de synchronisation peut être auto-hébergé. Cette page décrit une installation complète, pas à pas : **Docker Compose** dans un **LXC Debian**, **MongoDB** protégé par authentification, **stockage S3** externe pour les pièces jointes, envoi d'e-mails par **SMTP** et publication via **Nginx Proxy Manager** (NPM).
 
-> Le dépôt officiel [notesnook-sync-server](https://github.com/streetwriters/notesnook-sync-server) indique que l'auto-hébergement est en phase alpha, sans support officiel. Ce guide adapte son `docker-compose.yml` (authentification MongoDB, healthchecks, S3 externe). **Comparez-le avec la version officielle avant de l'appliquer** : les images et les variables peuvent évoluer.
-{.is-warning}
+> **Attention :** Le dépôt officiel [notesnook-sync-server](https://github.com/streetwriters/notesnook-sync-server) indique que l'auto-hébergement est en phase alpha, sans support officiel. Ce guide adapte son `docker-compose.yml` (authentification MongoDB, healthchecks, S3 externe). **Comparez-le avec la version officielle avant de l'appliquer** : les images et les variables peuvent évoluer.
 
 ## Vue d'ensemble
 
@@ -26,8 +25,7 @@ dateCreated: 2026-10-16T22:17:53.709Z
 
 Les quatre serveurs applicatifs ont chacun leur adresse publique, que l'on renseigne dans les applications Notesnook.
 
-> Monograph n'est pas indispensable au fonctionnement des notes, mais à ma connaissance le client teste les quatre serveurs avant d'enregistrer la configuration. Le plus simple est donc de le conserver.
-{.is-info}
+> **Remarque :** Monograph n'est pas indispensable au fonctionnement des notes, mais à ma connaissance le client teste les quatre serveurs avant d'enregistrer la configuration. Le plus simple est donc de le conserver.
 
 ## Ce qu'il faut adapter
 
@@ -108,8 +106,7 @@ Si vous changez le nom du bucket, adaptez les deux lignes `Resource`.
 3. **Identity → Users → Create User** : une clé d'accès (par exemple `notesnook-user`) et un secret long, avec `notesnook-policy` comme politique. Vous pouvez aussi créer une clé d'accès restreinte depuis votre utilisateur existant.
 4. Notez la clé d'accès et le secret : ils serviront à l'étape 4.
 
-> Selon la version de MinIO ou du fork utilisé, le menu *Identity* peut être absent de la console web. Utilisez alors l'onglet « Ligne de commande ».
-{.is-info}
+> **Remarque :** Selon la version de MinIO ou du fork utilisé, le menu *Identity* peut être absent de la console web. Utilisez alors l'onglet « Ligne de commande ».
 
 ##### Ligne de commande
 
@@ -167,8 +164,7 @@ notes-share.example.com
 
 ## 4. Préparer les fichiers de l'installation
 
-> **Gardez le même terminal ouvert de l'étape 4.2 jusqu'à la fin de l'étape 6.** Les mots de passe générés sont stockés dans des variables de session : si vous fermez le terminal, ils sont perdus.
-{.is-warning}
+> **Attention :** **Gardez le même terminal ouvert de l'étape 4.2 jusqu'à la fin de l'étape 6.** Les mots de passe générés sont stockés dans des variables de session : si vous fermez le terminal, ils sont perdus.
 
 ### 4.1 Dossier et fichier clé MongoDB
 
@@ -267,8 +263,7 @@ Vérifiez le contenu **sans afficher les secrets** :
 sed -E 's/(PASSWORD|SECRET|ACCESS_KEY)=.*/\1=********/' .env
 ```
 
-> `NOTESNOOK_APP_PUBLIC_URL` désigne le client web. Cette installation n'en héberge pas : on laisse l'adresse du client officiel. Les applications utilisent vos serveurs dès que vous leur indiquez vos adresses.
-{.is-info}
+> **Remarque :** `NOTESNOOK_APP_PUBLIC_URL` désigne le client web. Cette installation n'en héberge pas : on laisse l'adresse du client officiel. Les applications utilisent vos serveurs dès que vous leur indiquez vos adresses.
 
 ### 4.4 Fichier `docker-compose.yml`
 
@@ -683,4 +678,4 @@ Lisez les notes de version du dépôt avant de mettre à jour : le serveur est e
 
 - [Dépôt notesnook-sync-server](https://github.com/streetwriters/notesnook-sync-server)
 - [Site officiel de Notesnook](https://notesnook.com)
-- [Utiliser l'instance BlablaLinux (configuration des clients)](/tutoriels/notesnook/utiliser-instance-blablalinux)
+- [Utiliser l'instance BlablaLinux (configuration des clients)](/fr/tutoriels-notesnook-utiliser-instance-blablalinux)
