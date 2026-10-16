@@ -1,8 +1,8 @@
 ---
 title: Notesnook - Utiliser l’instance BlablaLinux
 description: Utilisez l'instance Notesnook de BlablaLinux : configurez les serveurs, créez votre compte et synchronisez vos notes chiffrées de bout en bout sur navigateur, ordinateur et Android.
-published: false
-date: 2026-10-16T18:05:25.762Z
+published: true
+date: 2026-10-16T18:47:08.152Z
 tags: linux, auto-hébergement, tutoriel, blablalinux, notesnook, notes, chiffrement, e2ee, synchronisation, android
 editor: markdown
 dateCreated: 2026-10-16T17:27:34.741Z
