@@ -2,7 +2,7 @@
 title: Notesnook - Utiliser l’instance BlablaLinux
 description: Utilisez l'instance Notesnook de BlablaLinux : configurez les serveurs, créez votre compte et synchronisez vos notes chiffrées de bout en bout sur navigateur, ordinateur et Android.
 published: true
-date: 2026-10-16T18:47:08.152Z
+date: 2026-10-16T23:11:54.575Z
 tags: linux, auto-hébergement, tutoriel, blablalinux, notesnook, notes, chiffrement, e2ee, synchronisation, android
 editor: markdown
 dateCreated: 2026-10-16T17:27:34.741Z
@@ -11,6 +11,7 @@ dateCreated: 2026-10-16T17:27:34.741Z
 Notesnook est une application de prise de notes **chiffrées de bout en bout** : vos notes sont chiffrées sur votre appareil avant d'être envoyées au serveur, qui ne peut pas les lire. Cette page explique comment utiliser **mon instance auto-hébergée** plutôt que le service officiel.
 
 > **À retenir :** il faut configurer les adresses de mes serveurs **avant** de créer votre compte. Sinon, le compte est créé chez Notesnook (le service officiel) et non ici.
+{.is-warning}
 
 ## Les 4 adresses à connaître
 
@@ -36,6 +37,7 @@ https://notes-share.blablalinux.be
 - **Ordinateur** (Windows, macOS, Linux) et **Android** : téléchargez l'application depuis le [site officiel de Notesnook](https://notesnook.com), qui indique les sources d'installation disponibles.
 
 > La procédure ci-dessous a été testée sur le client de bureau Linux (identique à la version web) et sur Android. Sur iOS, elle devrait être très proche, mais elle n'a pas été vérifiée.
+{.is-info}
 
 ## 2. Configurer les serveurs, puis créer son compte
 
@@ -94,6 +96,7 @@ Une fois connecté, l'application doit indiquer que vos notes sont **synchronis�
 Sur chaque nouvel appareil : **configurez d'abord les 4 serveurs** (étape 2), puis connectez-vous avec le même compte.
 
 > Pour modifier les adresses des serveurs, vous devez d'abord **vous déconnecter**. L'application refuse le changement tant que vous êtes connecté.
+{.is-info}
 
 ## Bon à savoir
 
@@ -116,6 +119,10 @@ Déconnectez-vous, puis utilisez **Réinitialiser** (sur Android : *Réinitialis
 
 **Comment supprimer mon compte ?**
 Sur Android : **Paramètres → Compte → Supprimer les données** (action irréversible : sauvegardez vos notes avant). Vous pouvez aussi me demander la suppression par e-mail.
+
+## Héberger votre propre instance
+
+Vous préférez installer votre propre serveur Notesnook plutôt que d'utiliser le mien ? Mon guide pas à pas, avec des commandes à copier-coller (Docker Compose dans un LXC Debian, MongoDB sécurisé, stockage S3, SMTP et Nginx Proxy Manager), est disponible ici : [Notesnook - Installer son propre serveur (Docker, LXC, NPM)](/fr/tutoriels-notesnook-installer-sur-son-serveur).
 
 ## Contact
 
