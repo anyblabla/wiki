@@ -2,7 +2,7 @@
 title: Notesnook - Installer son propre serveur (Docker, LXC, NPM)
 description: Installez votre propre serveur Notesnook : Docker Compose dans un LXC Debian, MongoDB sécurisé, stockage S3, e-mails SMTP et reverse proxy Nginx Proxy Manager, avec des commandes à copier-coller.
 published: true
-date: 2026-10-16T22:55:08.314Z
+date: 2026-10-16T23:14:06.713Z
 tags: docker, lxc, proxmox, debian, auto-hébergement, tutoriel, s3, nginx-proxy-manager, docker-compose, notesnook, e2ee, mongodb
 editor: markdown
 dateCreated: 2026-10-16T22:17:53.709Z
@@ -587,7 +587,7 @@ Les trois premiers doivent répondre `200`. Pour `notes-share`, un code autre qu
 
 ## 8. Créer le premier compte
 
-Utilisez un client Notesnook (web, ordinateur ou Android) en configurant d'abord vos quatre adresses. La procédure complète, avec captures d'écran, est décrite dans la page [Utiliser l'instance BlablaLinux](/tutoriels/notesnook/utiliser-instance-blablalinux) : elle est rédigée pour mon instance, il suffit d'y remplacer mes adresses par les vôtres.
+Utilisez un client Notesnook (web, ordinateur ou Android) en configurant d'abord vos quatre adresses. La procédure complète, avec captures d'écran, est décrite dans la page [Utiliser l'instance BlablaLinux](/fr/tutoriels-notesnook-utiliser-instance-blablalinux) : elle est rédigée pour mon instance, il suffit d'y remplacer mes adresses par les vôtres.
 
 Vérifications à faire avec votre premier compte :
 
