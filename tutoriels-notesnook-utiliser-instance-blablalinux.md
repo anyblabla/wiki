@@ -2,7 +2,7 @@
 title: Notesnook - Utiliser l’instance BlablaLinux
 description: Utilisez l'instance Notesnook de BlablaLinux : configurez les serveurs, créez votre compte et synchronisez vos notes chiffrées de bout en bout sur navigateur, ordinateur et Android.
 published: false
-date: 2026-10-16T17:53:52.750Z
+date: 2026-10-16T18:05:25.762Z
 tags: linux, auto-hébergement, tutoriel, blablalinux, notesnook, notes, chiffrement, e2ee, synchronisation, android
 editor: markdown
 dateCreated: 2026-10-16T17:27:34.741Z
@@ -17,10 +17,10 @@ Notesnook est une application de prise de notes **chiffrées de bout en bout** :
 Copiez-les telles quelles, avec le `https://` :
 
 ```text
-[https://notes-sync.blablalinux.be](https://notes-sync.blablalinux.be)
-[https://notes-auth.blablalinux.be](https://notes-auth.blablalinux.be)
-[https://notes-events.blablalinux.be](https://notes-events.blablalinux.be)
-[https://notes-share.blablalinux.be](https://notes-share.blablalinux.be)
+https://notes-sync.blablalinux.be
+https://notes-auth.blablalinux.be
+https://notes-events.blablalinux.be
+https://notes-share.blablalinux.be
 ```
 
 | Champ dans l'application | Adresse |
@@ -63,21 +63,21 @@ Copiez-les telles quelles, avec le `https://` :
 
 1. Sur l'écran d'accueil, touchez **Connectez-vous pour chiffrer et synchroniser vos notes**. Un panneau s'ouvre en bas de l'écran : touchez **Paramètres**.
 
-   ![Écran d'accueil non connecté](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-1.png)
+   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-1.png" alt="Écran d'accueil non connecté" width="300" />
 
-   ![Panneau avec le menu Paramètres](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-3.png)
+   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-3.png" alt="Panneau avec le menu Paramètres" width="300" />
 
 2. Dans **Paramètres**, touchez **Serveurs** (*Configurer les URL de serveur pour Notesnook*).
 
-   ![Menu Paramètres](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-4.png)
+   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-4.png" alt="Menu Paramètres" width="300" />
 
 3. Remplissez les 4 champs, **dans cet ordre** : synchronisation, authentification, événements, monographies. Touchez **Tester la connexion** : le message *Connexion établie avec succès à tous les serveurs* doit s'afficher. Touchez ensuite **Enregistrer**.
 
-   ![Écran Serveurs rempli et testé](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-5.png)
+   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-5.png" alt="Écran Serveurs rempli et testé" width="300" />
 
 4. Un message vous informe que l'URL du serveur est modifiée et vous invite à redémarrer l'application. Touchez **Terminé** et redémarrez Notesnook.
 
-   ![URL du serveur modifiée](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-6.png)
+   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-6.png" alt="URL du serveur modifiée" width="300" />
 
 5. Revenez à l'écran d'accueil, touchez **Connectez-vous pour chiffrer et synchroniser vos notes**, puis choisissez la création d'un compte : saisissez votre adresse e-mail et votre mot de passe.
 
@@ -87,7 +87,7 @@ Copiez-les telles quelles, avec le `https://` :
 
 Une fois connecté, l'application doit indiquer que vos notes sont **synchronisées** (sur Android : mention *Synchronisé* avec un point vert dans le panneau du compte). Créez une note de test sur un appareil et vérifiez qu'elle apparaît sur l'autre.
 
-![Compte connecté et synchronisé sur Android](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-7.png)
+<img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-7.png" alt="Compte connecté et synchronisé sur Android" width="300" />
 
 ## Se connecter depuis un autre appareil
 
@@ -120,7 +120,9 @@ Sur Android : **Paramètres → Compte → Supprimer les données** (action irr�
 ## Contact
 
 Une question, un souci d'inscription, une demande de suppression de compte :
-**[À COMPLÉTER : adresse e-mail ou salon Matrix de contact]**
+- **Formulaire de contact** : [blablalinux.be/contact](https://blablalinux.be/contact)
+- **Me contacter via Matrix** : [@blablalinux:blablalinux.be](https://matrixto.blablalinux.be/#/@blablalinux:blablalinux.be)
 
 ---
+
 > **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
