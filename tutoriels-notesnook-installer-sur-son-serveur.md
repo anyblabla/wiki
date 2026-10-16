@@ -2,7 +2,7 @@
 title: Notesnook - Installer son propre serveur (Docker, LXC, NPM)
 description: Installez votre propre serveur Notesnook : Docker Compose dans un LXC Debian, MongoDB sécurisé, stockage S3, e-mails SMTP et reverse proxy Nginx Proxy Manager, avec des commandes à copier-coller.
 published: false
-date: 2026-10-16T22:22:52.352Z
+date: 2026-10-16T22:27:56.806Z
 tags: docker, lxc, proxmox, debian, auto-hébergement, tutoriel, s3, nginx-proxy-manager, docker-compose, notesnook, e2ee, mongodb
 editor: markdown
 dateCreated: 2026-10-16T22:17:53.709Z
