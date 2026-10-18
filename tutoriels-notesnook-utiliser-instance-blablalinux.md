@@ -2,7 +2,7 @@
 title: Notesnook - Utiliser l’instance BlablaLinux
 description: Utilisez l'instance Notesnook de BlablaLinux : configurez les serveurs, créez votre compte et synchronisez vos notes chiffrées de bout en bout sur navigateur, ordinateur et Android.
 published: true
-date: 2026-10-16T23:11:54.575Z
+date: 2026-10-18T15:13:22.354Z
 tags: linux, auto-hébergement, tutoriel, blablalinux, notesnook, notes, chiffrement, e2ee, synchronisation, android
 editor: markdown
 dateCreated: 2026-10-16T17:27:34.741Z
@@ -11,33 +11,35 @@ dateCreated: 2026-10-16T17:27:34.741Z
 Notesnook est une application de prise de notes **chiffrées de bout en bout** : vos notes sont chiffrées sur votre appareil avant d'être envoyées au serveur, qui ne peut pas les lire. Cette page explique comment utiliser **mon instance auto-hébergée** plutôt que le service officiel.
 
 > **À retenir :** il faut configurer les adresses de mes serveurs **avant** de créer votre compte. Sinon, le compte est créé chez Notesnook (le service officiel) et non ici.
-{.is-warning}
+> {.is-warning}
 
 ## Les 4 adresses à connaître
 
 Copiez-les telles quelles, avec le `https://` :
 
-```text
+```
 https://notes-sync.blablalinux.be
 https://notes-auth.blablalinux.be
 https://notes-events.blablalinux.be
 https://notes-share.blablalinux.be
+
 ```
 
-| Champ dans l'application | Adresse |
-|---|---|
-| Serveur de synchronisation (*Sync server*) | https://notes-sync.blablalinux.be |
-| Serveur d'authentification (*Auth server*) | https://notes-auth.blablalinux.be |
-| Serveur d'événements (*Events server*) | https://notes-events.blablalinux.be |
-| Serveur de monographies (*Monograph server*) | https://notes-share.blablalinux.be |
+| Champ dans l'application | Adresse | 
+| ----- | ----- | 
+| Serveur de synchronisation (*Sync server*) | https://notes-sync.blablalinux.be | 
+| Serveur d'authentification (*Auth server*) | https://notes-auth.blablalinux.be | 
+| Serveur d'événements (*Events server*) | https://notes-events.blablalinux.be | 
+| Serveur de monographies (*Monograph server*) | https://notes-share.blablalinux.be | 
 
 ## 1. Installer ou ouvrir l'application
 
-- **Navigateur** : [app.notesnook.com](https://app.notesnook.com)
-- **Ordinateur** (Windows, macOS, Linux) et **Android** : téléchargez l'application depuis le [site officiel de Notesnook](https://notesnook.com), qui indique les sources d'installation disponibles.
+* **Navigateur** : [app.notesnook.com](https://app.notesnook.com)
+
+* **Ordinateur** (Windows, macOS, Linux) et **Android** : téléchargez l'application depuis le [site officiel de Notesnook](https://notesnook.com), qui indique les sources d'installation disponibles.
 
 > La procédure ci-dessous a été testée sur le client de bureau Linux (identique à la version web) et sur Android. Sur iOS, elle devrait être très proche, mais elle n'a pas été vérifiée.
-{.is-info}
+> {.is-info}
 
 ## 2. Configurer les serveurs, puis créer son compte
 
@@ -61,6 +63,11 @@ https://notes-share.blablalinux.be
 
 5. De retour sur l'écran de création de compte, saisissez votre **adresse e-mail**, votre **mot de passe** et sa confirmation, puis cliquez sur **Créer un compte**.
 
+> **Note concernant la connexion et la sécurité (2FA) :**
+> Lorsque l'on crée un compte, la double authentification (2FA) par e-mail est directement activée. Par conséquent, la connexion s'effectue dans l'ordre suivant : saisie de l'**adresse e-mail**, validation par le **code reçu par e-mail**, puis saisie du **mot de passe**.
+> Dans les paramètres du compte, vous pouvez ensuite choisir d'utiliser une application 2FA comme méthode primaire, tout en conservant l'adresse e-mail en tant que méthode de secours. L'ensemble de ce processus (création, 2FA par e-mail et application 2FA) a été rigoureusement testé depuis l'extérieur et validé comme étant pleinement fonctionnel.
+> {.is-info}
+
 ### Android
 
 1. Sur l'écran d'accueil, touchez **Connectez-vous pour chiffrer et synchroniser vos notes**. Un panneau s'ouvre en bas de l'écran : touchez **Paramètres**.
@@ -81,9 +88,7 @@ https://notes-share.blablalinux.be
 
    <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-6.png" alt="URL du serveur modifiée" width="300" />
 
-5. Revenez à l'écran d'accueil, touchez **Connectez-vous pour chiffrer et synchroniser vos notes**, puis choisissez la création d'un compte : saisissez votre adresse e-mail et votre mot de passe.
-
----
+5. Revenez à l'écran d'accueil, touchez **Connectez-vous pour chiffrer et synchroniser vos notes**, puis choisissez la création d'un compte : saisissez votre adresse e-mail, votre mot de passe et procédez à l'authentification par code e-mail.
 
 ## 3. Vérifier que tout fonctionne
 
@@ -96,15 +101,19 @@ Une fois connecté, l'application doit indiquer que vos notes sont **synchronis�
 Sur chaque nouvel appareil : **configurez d'abord les 4 serveurs** (étape 2), puis connectez-vous avec le même compte.
 
 > Pour modifier les adresses des serveurs, vous devez d'abord **vous déconnecter**. L'application refuse le changement tant que vous êtes connecté.
-{.is-info}
+> {.is-info}
 
 ## Bon à savoir
 
-- **Mot de passe** : vos notes sont chiffrées avec lui. Ne pouvant pas les déchiffrer, je ne peux pas les récupérer si vous le perdez. Choisissez-en un solide et conservez-le dans un gestionnaire de mots de passe.
-- **Sauvegardes** : faites des sauvegardes régulières depuis **Paramètres → Sauvegarde et exportation** (*Backup & export*).
-- **Données stockées** : votre adresse e-mail est enregistrée sur mon serveur. Le contenu de vos notes est chiffré et illisible pour moi.
-- **Monographies** : cette fonction publie une note sur une page publique accessible à toute personne disposant du lien. Ne publiez que ce que vous acceptez de rendre public.
-- **Service auto-hébergé** : il est fourni sans garantie de disponibilité. D'où l'intérêt de sauvegarder vos notes.
+* **Mot de passe** : vos notes sont chiffrées avec lui. Ne pouvant pas les déchiffrer, je ne peux pas les récupérer si vous le perdez. Choisissez-en un solide et conservez-le dans un gestionnaire de mots de passe.
+
+* **Sauvegardes** : faites des sauvegardes régulières depuis **Paramètres → Sauvegarde et exportation** (*Backup & export*).
+
+* **Données stockées** : votre adresse e-mail est enregistrée sur mon serveur. Le contenu de vos notes est chiffré et illisible pour moi.
+
+* **Monographies** : cette fonction publie une note sur une page publique accessible à toute personne disposant du lien. Ne publiez que ce que vous acceptez de rendre public.
+
+* **Service auto-hébergé** : il est fourni sans garantie de disponibilité. D'où l'intérêt de sauvegarder vos notes.
 
 ## Questions fréquentes
 
@@ -127,8 +136,10 @@ Vous préférez installer votre propre serveur Notesnook plutôt que d'utiliser 
 ## Contact
 
 Une question, un souci d'inscription, une demande de suppression de compte :
-- **Formulaire de contact** : [blablalinux.be/contact](https://blablalinux.be/contact)
-- **Me contacter via Matrix** : [@blablalinux:blablalinux.be](https://matrixto.blablalinux.be/#/@blablalinux:blablalinux.be)
+
+* **Formulaire de contact** : [blablalinux.be/contact](https://blablalinux.be/contact)
+
+* **Me contacter via Matrix** : [@blablalinux:blablalinux.be](https://matrixto.blablalinux.be/#/@blablalinux:blablalinux.be)
 
 ---
 
