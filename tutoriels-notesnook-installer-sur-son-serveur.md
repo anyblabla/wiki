@@ -2,7 +2,7 @@
 title: Notesnook - Installer son propre serveur (Docker, LXC, NPM)
 description: Installez votre propre serveur Notesnook : Docker Compose dans un LXC Debian, MongoDB sécurisé, stockage S3, e-mails SMTP et reverse proxy Nginx Proxy Manager, avec des commandes à copier-coller.
 published: true
-date: 2026-10-16T23:14:06.713Z
+date: 2026-10-18T15:48:07.168Z
 tags: docker, lxc, proxmox, debian, auto-hébergement, tutoriel, s3, nginx-proxy-manager, docker-compose, notesnook, e2ee, mongodb
 editor: markdown
 dateCreated: 2026-10-16T22:17:53.709Z
@@ -620,6 +620,61 @@ done
 ```
 
 Remplacez ensuite chaque `image: nom:latest` du compose par la valeur affichée (`nom@sha256:...`).
+
+## 9.1 Sécurité Fail2Ban et Limitation de débit (Générique)
+
+Pour protéger le serveur d'authentification (`notes-auth`) contre les abus et les tentatives de force brute, vous pouvez configurer une limitation de débit (*rate limiting*) dans Nginx Proxy Manager (NPM) et associer un filtre Fail2Ban.
+
+> **Note sur les chemins :** Les exemples ci-dessous utilisent des emplacements adaptés à une architecture conteneurisée (NPM et Fail2Ban exécutés dans des conteneurs Docker). Si vous utilisez une installation classique directement sur le système hôte, adaptez les chemins des fichiers de configuration (par exemple `/etc/fail2ban/` au lieu de `/data/` ou des volumes Docker).
+> {.is-info}
+
+### 1. Configuration de la limitation de débit (Rate Limiting dans NPM)
+
+Dans le dossier de configuration personnalisée de votre instance NPM (ou via l'interface si l'option est disponible), définissez une zone de limitation globale (par exemple 30 requêtes par minute et par IP avec une tolérance de rafale de 20) :
+
+```nginx
+# Rate limiting pour le serveur d'authentification Notesnook
+limit_req_zone $binary_remote_addr zone=notes_auth_limit:10m rate=30r/m;
+
+```
+
+Dans les paramètres de configuration personnalisée de votre Proxy Host `notes-auth`, appliquez la règle :
+
+```nginx
+limit_req zone=notes_auth_limit burst=20 nodelay;
+limit_req_status 429;
+
+```
+
+### 2. Filtre et Jail Fail2Ban
+
+Créez un filtre dédié (par exemple `filter.d/npm-notesnook-auth.conf`) pour détecter les erreurs d'authentification (codes HTTP 400, 401) ainsi que les dépassements de débit (429) :
+
+```ini
+[Definition]
+
+# Détection des mauvais identifiants, codes ou dépassements de débit sur identity-server
+failregex = ^\[.*\] \[Client <HOST>\] \[yes \w+\] \[notes-auth\..*\] "[A-Z]+ [^"]*" (?:400|401|429)\s
+
+ignoreregex =
+
+```
+
+Ajoutez ensuite la *jail* correspondante dans votre configuration Fail2Ban (par exemple `jail.d/npm.local`) :
+
+```ini
+[npm-auth-notesnook]
+enabled = true
+logpath = /var/log/global_access_geo.log
+filter = npm-notesnook-auth
+maxretry = 8
+findtime = 600
+bantime = 7200
+bantime.increment = true
+
+```
+
+Pensez à recharger Fail2Ban après l'application de ces règles pour les rendre effectives.
 
 ## 10. Sauvegardes
 
