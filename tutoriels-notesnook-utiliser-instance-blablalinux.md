@@ -2,7 +2,7 @@
 title: Notesnook - Utiliser l’instance BlablaLinux
 description: Utilisez l'instance Notesnook de BlablaLinux : configurez les serveurs, créez votre compte et synchronisez vos notes chiffrées de bout en bout sur navigateur, ordinateur et Android.
 published: true
-date: 2026-10-18T15:13:22.354Z
+date: 2026-10-25T19:24:59.348Z
 tags: linux, auto-hébergement, tutoriel, blablalinux, notesnook, notes, chiffrement, e2ee, synchronisation, android
 editor: markdown
 dateCreated: 2026-10-16T17:27:34.741Z
@@ -95,6 +95,68 @@ https://notes-share.blablalinux.be
 Une fois connecté, l'application doit indiquer que vos notes sont **synchronisées** (sur Android : mention *Synchronisé* avec un point vert dans le panneau du compte). Créez une note de test sur un appareil et vérifiez qu'elle apparaît sur l'autre.
 
 <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-7.png" alt="Compte connecté et synchronisé sur Android" width="300" />
+
+## 4. Extension de navigateur : Web Clipper
+
+Notesnook propose une extension officielle, le **Web Clipper**, pour enregistrer des pages web, des articles ou une sélection de contenu directement dans vos notes. Les clips sont chiffrés sur votre appareil, puis synchronisés comme n'importe quelle note. L'extension est **open source** et disponible pour **Firefox** et pour les navigateurs basés sur **Chromium** (Chrome, Edge…). Elle ne vous demande aucun identifiant.
+
+> **Comment ça marche avec mon instance :** l'extension ne se connecte pas directement à un serveur. D'après l'aide officielle de Notesnook, elle s'appuie sur l'**application web** ([app.notesnook.com](https://app.notesnook.com)) pour synchroniser et enregistrer vos clips. Il suffit donc que l'application web de votre navigateur soit **configurée avec mes serveurs** (étape 2) et **connectée à votre compte**.
+> {.is-info}
+
+### Installer l'extension
+
+**Chrome et navigateurs Chromium** : installez [Notesnook Web Clipper depuis le Chrome Web Store](https://chrome.google.com/webstore/detail/notesnook-web-clipper/kljhpemdlcnjohmfmkogahelkcidieaj).
+
+**Firefox** :
+
+1. Téléchargez le fichier `.xpi` depuis la [page officielle du Web Clipper](https://notesnook.com/notesnook-web-clipper).
+2. Ouvrez `about:addons` dans Firefox.
+3. Glissez-déposez le fichier `.xpi` dans la page pour terminer l'installation.
+
+Les navigateurs regroupent les extensions dans un menu : pensez à **épingler** Notesnook à la barre d'outils pour y accéder facilement. Les détails sont dans l'[aide officielle d'installation](https://notesnook.com/help/web-clipper/installation).
+
+### Connecter l'extension (une seule fois)
+
+1. Vérifiez que l'application web ([app.notesnook.com](https://app.notesnook.com)) est configurée avec mes serveurs et connectée à votre compte, **dans le même navigateur** que l'extension.
+2. Cliquez sur l'icône Notesnook de la barre d'outils, puis sur **Connect with Notesnook** (intitulé donné par l'aide officielle, il peut varier selon la langue).
+3. L'application web s'ouvre dans un nouvel onglet, en arrière-plan. Patientez quelques secondes : l'extension se connecte automatiquement.
+
+### Clipper une page
+
+1. **Choisissez la zone à clipper :**
+
+   | Zone | Ce qui est enregistré |
+   |---|---|
+   | *Full page* | La page entière, de haut en bas, avec tous les détails (plus lourd et plus long) |
+   | *Article* | Le contenu principal de la page, comme le mode lecture de Firefox : idéal pour les blogs et les articles |
+   | *Visible area* | Uniquement ce qui est affiché à l'écran |
+   | *Selected nodes* | Les éléments sur lesquels vous cliquez, un par un |
+
+2. **Choisissez le mode de clip :**
+
+   | Mode | Résultat |
+   |---|---|
+   | *Bookmark* | Seulement l'adresse et le titre de la page : idéal pour lire plus tard |
+   | *Simplified* | Le contenu sans les styles, directement dans la note : idéal pour les articles |
+   | *Screenshot* | Une image de la page, non interactive |
+   | *Complete with styles* | Toute la page avec ses styles, intégrée à la note comme un élément interactif |
+
+3. **Classez votre clip (facultatif)** : ajoutez-le à une note existante, à un carnet, ou attribuez-lui des étiquettes.
+4. Cliquez sur **Save** : le clip est enregistré et synchronisé.
+
+> Les modes *Screenshot* et *Complete with styles* ne sont proposés que lorsque vous êtes connecté à l'application web. Leur contenu est enregistré comme **pièce jointe**, donc sur le stockage de mon serveur : privilégiez *Bookmark* ou *Simplified* quand cela vous suffit.
+> {.is-info}
+
+### Si l'extension ne se connecte pas
+
+1. Vérifiez que vous êtes **connecté** sur l'application web et que ses serveurs sont bien les miens (**Paramètres → Serveurs**).
+2. Gardez l'application web **ouverte en arrière-plan**.
+3. L'extension ne gère pas encore plusieurs fenêtres de navigateur : fermez les fenêtres supplémentaires.
+4. Redémarrez le navigateur.
+
+Pour aller plus loin : [aide officielle du Web Clipper](https://notesnook.com/help/web-clipper/clipping-your-first-web-page-with-web-clipper) et [dépannage](https://notesnook.com/help/web-clipper/troubleshooting).
+
+![notesnook-webclipper.png](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-webclipper.png)
 
 ## Se connecter depuis un autre appareil
 
