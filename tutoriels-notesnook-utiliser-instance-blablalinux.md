@@ -2,7 +2,7 @@
 title: Notesnook - Utiliser l’instance BlablaLinux
 description: Utilisez l'instance Notesnook de BlablaLinux : configurez les serveurs, créez votre compte et synchronisez vos notes chiffrées de bout en bout sur navigateur, ordinateur et Android.
 published: true
-date: 2026-10-25T19:24:59.348Z
+date: 2026-10-25T19:26:38.807Z
 tags: linux, auto-hébergement, tutoriel, blablalinux, notesnook, notes, chiffrement, e2ee, synchronisation, android
 editor: markdown
 dateCreated: 2026-10-16T17:27:34.741Z
@@ -100,7 +100,7 @@ Une fois connecté, l'application doit indiquer que vos notes sont **synchronis�
 
 Notesnook propose une extension officielle, le **Web Clipper**, pour enregistrer des pages web, des articles ou une sélection de contenu directement dans vos notes. Les clips sont chiffrés sur votre appareil, puis synchronisés comme n'importe quelle note. L'extension est **open source** et disponible pour **Firefox** et pour les navigateurs basés sur **Chromium** (Chrome, Edge…). Elle ne vous demande aucun identifiant.
 
-> **Comment ça marche avec mon instance :** l'extension ne se connecte pas directement à un serveur. D'après l'aide officielle de Notesnook, elle s'appuie sur l'**application web** ([app.notesnook.com](https://app.notesnook.com)) pour synchroniser et enregistrer vos clips. Il suffit donc que l'application web de votre navigateur soit **configurée avec mes serveurs** (étape 2) et **connectée à votre compte**.
+> **Comment ça marche avec mon instance :** l'extension ne se connecte pas directement à un serveur. D'après l'aide officielle de Notesnook, elle s'appuie sur l'**application web** ([app.notesnook.com](https://app.notesnook.com)) pour synchroniser et enregistrer vos clips. Il suffit donc que l'application web de votre navigateur soit **configurée avec mes serveurs** (étape 2) et **connectée à votre compte**. Ce fonctionnement a été testé avec mon instance.
 > {.is-info}
 
 ### Installer l'extension
@@ -120,6 +120,10 @@ Les navigateurs regroupent les extensions dans un menu : pensez à **épingler**
 1. Vérifiez que l'application web ([app.notesnook.com](https://app.notesnook.com)) est configurée avec mes serveurs et connectée à votre compte, **dans le même navigateur** que l'extension.
 2. Cliquez sur l'icône Notesnook de la barre d'outils, puis sur **Connect with Notesnook** (intitulé donné par l'aide officielle, il peut varier selon la langue).
 3. L'application web s'ouvre dans un nouvel onglet, en arrière-plan. Patientez quelques secondes : l'extension se connecte automatiquement.
+
+Une fois la connexion établie, la mention **Web clipper connected** apparaît dans la barre d'état, en bas à gauche de l'application web, et l'extension affiche ses options de clip.
+
+![Le Web Clipper connecté à l'application web, avec les zones et les modes de clip](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-webclipper.png)
 
 ### Clipper une page
 
@@ -141,8 +145,10 @@ Les navigateurs regroupent les extensions dans un menu : pensez à **épingler**
    | *Screenshot* | Une image de la page, non interactive |
    | *Complete with styles* | Toute la page avec ses styles, intégrée à la note comme un élément interactif |
 
+   Par défaut, l'extension propose la zone *Article* et le mode *Simplified*, ce qui convient à la plupart des pages.
+
 3. **Classez votre clip (facultatif)** : ajoutez-le à une note existante, à un carnet, ou attribuez-lui des étiquettes.
-4. Cliquez sur **Save** : le clip est enregistré et synchronisé.
+4. Cliquez sur **Start clip** pour lancer le clip, puis sur **Save** pour l'enregistrer et le synchroniser avec votre compte.
 
 > Les modes *Screenshot* et *Complete with styles* ne sont proposés que lorsque vous êtes connecté à l'application web. Leur contenu est enregistré comme **pièce jointe**, donc sur le stockage de mon serveur : privilégiez *Bookmark* ou *Simplified* quand cela vous suffit.
 > {.is-info}
@@ -155,8 +161,6 @@ Les navigateurs regroupent les extensions dans un menu : pensez à **épingler**
 4. Redémarrez le navigateur.
 
 Pour aller plus loin : [aide officielle du Web Clipper](https://notesnook.com/help/web-clipper/clipping-your-first-web-page-with-web-clipper) et [dépannage](https://notesnook.com/help/web-clipper/troubleshooting).
-
-![notesnook-webclipper.png](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-webclipper.png)
 
 ## Se connecter depuis un autre appareil
 
