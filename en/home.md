@@ -1,14 +1,16 @@
 ---
 title: Welcome
-description: anglais 🧠 All my up-to-date technical guides and installation methods. Benefit from tested procedures and functional results for your projects 😉
+description: >-
+  anglais 🧠 All my up-to-date technical guides and installation methods.
+  Benefit from tested procedures and functional results for your projects 😉
 published: true
-date: 2026-05-11T15:05:40.632Z
-tags: 
+date: '2026-11-01T14:52:29.810Z'
+tags: []
 editor: markdown
-dateCreated: 2026-01-08T23:24:03.690Z
+dateCreated: '2026-01-08T23:24:03.690Z'
 ---
 
-![blablalinux_banniere_1536x1024(modification).jpg](/welcome/blablalinux_banniere_1536x1024(modification).jpg)
+![blablalinux-banniere-1536x1024modification.jpg](/welcome/blablalinux-banniere-1536x1024modification.jpg)
 
 # 🥳 Welcome to the Blabla Linux Wiki !
 
