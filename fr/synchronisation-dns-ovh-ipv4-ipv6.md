@@ -6,7 +6,7 @@ description: >-
   Guide pour mettre à jour automatiquement vos DNS OVHcloud (IPv4 et IPv6
   dynamiques) sur votre serveur auto-hébergé avec un script Bash.
 published: true
-date: '2026-11-02T23:52:36.712Z'
+date: '2026-11-02T23:53:36.463Z'
 tags:
   - administration
   - dns
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-10-10T22:51:45.882Z'
 ---
 
-aCe guide explique comment garder à jour, avec un script Bash et l'API OVHcloud, les enregistrements DNS d'une infrastructure auto-hébergée dont l'adresse IPv4 publique change parfois et dont le préfixe IPv6 est attribué dynamiquement par le fournisseur d'accès.
+Ce guide explique comment garder à jour, avec un script Bash et l'API OVHcloud, les enregistrements DNS d'une infrastructure auto-hébergée dont l'adresse IPv4 publique change parfois et dont le préfixe IPv6 est attribué dynamiquement par le fournisseur d'accès.
 
 Le problème est simple : un outil comme `ddclient` ou DynHost s'occupe très bien de l'IPv4, mais l'IPv6 est souvent oubliée. Quand le fournisseur change le préfixe, l'enregistrement `AAAA` pointe vers une adresse qui n'existe plus. Les clients IPv6 n'arrivent plus, et comme les navigateurs retombent automatiquement sur l'IPv4, on ne s'en aperçoit presque pas, jusqu'au jour où l'on constate qu'il n'y a plus aucun trafic IPv6 dans les journaux.
 
