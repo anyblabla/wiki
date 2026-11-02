@@ -5,7 +5,7 @@ description: >-
   d'hébergement d'images, en utilisant une pile Docker (stack) dans Portainer à
   partir d'un fichier compose YAML.
 published: true
-date: '2026-11-02T23:34:37.689Z'
+date: '2026-11-02T23:34:41.717Z'
 tags:
   - docker
   - picsur
@@ -13,7 +13,7 @@ editor: markdown
 dateCreated: '2024-05-18T22:22:24.229Z'
 ---
 
-a## 1\. Fichier `docker-compose.yml`
+## 1\. Fichier `docker-compose.yml`
 
 Picsur utilise une base de données **PostgreSQL** pour stocker ses métadonnées. Le fichier Compose définit deux services (`picsur` et `picsur_postgres`) et un volume persistant pour les données de la base de données.
 
