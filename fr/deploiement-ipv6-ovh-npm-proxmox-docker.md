@@ -5,7 +5,7 @@ description: >-
   conteneurs Docker sous Proxmox, en passant par Nginx Proxy Manager. Inclus :
   méthodes manuelles et scripts d'automatisation.
 published: true
-date: '2026-11-02T23:35:55.273Z'
+date: '2026-11-02T23:35:59.146Z'
 tags:
   - docker
   - lxc
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-04-30T21:23:50.254Z'
 ---
 
-a## Pré‑requis
+## Pré‑requis
 
 Avant de commencer, assurez‑vous de disposer de :
 
