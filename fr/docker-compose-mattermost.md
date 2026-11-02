@@ -6,7 +6,7 @@ description: >-
   d'un fichier compose YAML et d'un fichier d'environnement (.env) pour gérer
   les variables.
 published: true
-date: '2026-11-02T23:32:39.082Z'
+date: '2026-11-02T23:32:43.756Z'
 tags:
   - docker
   - mattermost
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2024-05-26T14:43:35.445Z'
 ---
 
-aJe pars du principe que vous maîtrisez un minimum Docker avec Portainer. Je suis gentil, en fin de page, vous trouverez une capture avec la stack Mattermost remplie 😉
+Je pars du principe que vous maîtrisez un minimum Docker avec Portainer. Je suis gentil, en fin de page, vous trouverez une capture avec la stack Mattermost remplie 😉
 
 -----
 
