@@ -5,7 +5,7 @@ description: >-
   Gérez les vraies IP (IPv4/IPv6), le géo-blocage et le bannissement
   incrémental. À adapter à votre propre configuration.
 published: true
-date: '2026-11-02T23:57:00.481Z'
+date: '2026-11-02T23:58:02.953Z'
 tags:
   - docker
   - proxmox
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-05-27T17:15:10.772Z'
 ---
 
-a> **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
+> **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
 > **Environnement :** Proxmox VE — Debian LXC — Docker
 > **Dernière mise à jour :** 27 mai 2026
 
