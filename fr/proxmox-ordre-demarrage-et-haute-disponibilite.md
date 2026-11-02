@@ -5,7 +5,7 @@ description: >-
   stabiliser votre infrastructure, tout en maîtrisant les impacts critiques de
   la haute disponibilité sur ces réglages.
 published: true
-date: '2026-11-02T23:40:12.373Z'
+date: '2026-11-02T23:40:15.873Z'
 tags:
   - proxmox
   - virtualisation
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-04-26T21:40:09.063Z'
 ---
 
-aDans un environnement de serveur, laisser toutes les machines virtuelles (VM) et conteneurs (LXC) démarrer simultanément est une erreur courante. Cela peut saturer le processeur, bloquer les accès disques ou empêcher des services de fonctionner car leurs dépendances ne sont pas encore prêtes.
+Dans un environnement de serveur, laisser toutes les machines virtuelles (VM) et conteneurs (LXC) démarrer simultanément est une erreur courante. Cela peut saturer le processeur, bloquer les accès disques ou empêcher des services de fonctionner car leurs dépendances ne sont pas encore prêtes.
 
 ## Principes de l'ordre de démarrage et des délais
 
