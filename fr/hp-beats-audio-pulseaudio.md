@@ -5,7 +5,7 @@ description: >-
   un mauvais réglage des haut-parleurs et du caisson de basses (LFE). Utilisez
   l'outil hdajackretask pour corriger et reconfigurer la sortie audio.
 published: true
-date: '2026-11-02T23:15:25.362Z'
+date: '2026-11-02T23:15:31.875Z'
 tags:
   - hp
   - beatsaudio
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-09-26T18:10:25.732Z'
 ---
 
-aSi le son de votre PC portable HP Beats Audio (par exemple, HP Pavilion DV7) est incomplet sous Ubuntu/Debian, cela est souvent dû à une mauvaise configuration des haut-parleurs internes et du caisson de basses (**LFE**). Ce guide utilise l'outil **`hdajackretask`** pour reconfigurer la sortie audio.
+Si le son de votre PC portable HP Beats Audio (par exemple, HP Pavilion DV7) est incomplet sous Ubuntu/Debian, cela est souvent dû à une mauvaise configuration des haut-parleurs internes et du caisson de basses (**LFE**). Ce guide utilise l'outil **`hdajackretask`** pour reconfigurer la sortie audio.
 
 -----
 
