@@ -5,7 +5,7 @@ description: >-
   commandes de base, les fonctions avancées, et apprenez à configurer la
   coloration syntaxique et les numéros de ligne via le fichier .nanorc.
 published: true
-date: '2026-11-02T23:56:50.027Z'
+date: '2026-11-02T23:57:48.945Z'
 tags:
   - nano
   - éditeur
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2025-11-18T00:08:30.133Z'
 ---
 
-a## Introduction
+## Introduction
 
 **GNU nano** est un éditeur de texte en mode console (terminal) pour les systèmes de type **Unix** et **Linux**. C'est un clone libre de l'éditeur **Pico** de l'Université du Kansas. Il a été conçu pour être une alternative **simple à utiliser** et plus accessible que des éditeurs plus complexes comme **Vi/Vim** ou **Emacs**.
 
