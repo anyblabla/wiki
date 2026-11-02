@@ -5,7 +5,7 @@ description: >-
   HTML et configurer des données d'abonné fictives pour tester la
   personnalisation des messages.
 published: true
-date: '2026-11-02T23:57:22.585Z'
+date: '2026-11-02T23:58:35.743Z'
 tags:
   - listmonk
   - mail
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-12-19T15:19:31.897Z'
 ---
 
-aL'outil de diffusion **Listmonk** ne propose pas nativement de champ pour définir le texte d'aperçu (preheader) d'un email. Ce texte est pourtant crucial pour augmenter le taux d'ouverture. Ce guide explique comment l'intégrer proprement via le code HTML et comment tester le rendu avec des données fictives.
+L'outil de diffusion **Listmonk** ne propose pas nativement de champ pour définir le texte d'aperçu (preheader) d'un email. Ce texte est pourtant crucial pour augmenter le taux d'ouverture. Ce guide explique comment l'intégrer proprement via le code HTML et comment tester le rendu avec des données fictives.
 
 ---
 
