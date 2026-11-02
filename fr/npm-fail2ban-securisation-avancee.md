@@ -6,7 +6,7 @@ description: >-
   Mettre en place une stack de sécurité complète sous Docker avec Nginx Proxy
   Manager, Fail2Ban et GeoIP2 pour bloquer bots, crawlers et chemins sensibles.
 published: true
-date: '2026-11-02T23:56:57.210Z'
+date: '2026-11-02T23:57:58.609Z'
 tags:
   - docker
   - nginx
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-05-30T14:55:02.347Z'
 ---
 
-a> **Environnement :** Proxmox VE — Debian LXC — Docker
+> **Environnement :** Proxmox VE — Debian LXC — Docker
 
 ⚠️ **Note importante :** Ce guide est assez technique et demande d'avoir déjà quelques bases avec Docker et la gestion réseau. Les exemples fournis (chemins de dossiers, fichiers de conf, blocs d'IP) sont des exemples génériques. Pensez à bien adapter ces éléments pour que tout fonctionne correctement chez vous !
 
