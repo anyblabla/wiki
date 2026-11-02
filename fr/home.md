@@ -4,7 +4,7 @@ description: >-
   🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de
   procédures testées et de résultats fonctionnels pour vos projets 😉
 published: true
-date: '2026-11-02T14:18:08.988Z'
+date: '2026-11-02T14:21:55.828Z'
 tags: []
 editor: markdown
 dateCreated: '2025-07-17T00:14:37.130Z'
@@ -44,7 +44,7 @@ Consultez la page **[Articles en construction](/fr/zone-construction-brouillons)
 
 Une étape vous semble obscure ou une méthode mérite une mise à jour ? Ne restez pas dans le flou !
 
-[Contactez-moi](https://yourls.blablalinux.be/contact) directement, ou retrouvez-moi sur Matrix : [@blablalinux:blablalinux.be](https://matrixto.blablalinux.be/#/@blablalinux:blablalinux.be). Je serai ravi d'apporter les corrections nécessaires pour que le contenu reste impeccable 😉
+[Contactez-moi](https://yourls.blablalinux.be/contact) directement, ou retrouvez-moi sur Matrix : [@blablalinux:blablalinux.be](https://yo.blablalinux.be/matrix-profil). Je serai ravi d'apporter les corrections nécessaires pour que le contenu reste impeccable 😉
 
 ---
 
