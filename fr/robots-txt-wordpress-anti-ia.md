@@ -5,7 +5,7 @@ description: >-
   bloquer les robots d'IA spécifiques (GPTBot, ClaudeBot, etc.) tout en assurant
   une parfaite indexation SEO par les moteurs de recherche standards.
 published: true
-date: '2026-11-02T23:25:22.360Z'
+date: '2026-11-02T23:25:26.599Z'
 tags:
   - wordpress
   - seo
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-11-29T14:11:55.484Z'
 ---
 
-aCe guide détaille la création et l'optimisation d'un fichier `robots.txt` sur WordPress. L'objectif principal est de **bloquer les robots d'Intelligence Artificielle (IA)** tout en assurant une **indexation optimale par les moteurs de recherche standards** (Google, Bing, etc.) et en sécurisant les zones sensibles de WordPress.
+Ce guide détaille la création et l'optimisation d'un fichier `robots.txt` sur WordPress. L'objectif principal est de **bloquer les robots d'Intelligence Artificielle (IA)** tout en assurant une **indexation optimale par les moteurs de recherche standards** (Google, Bing, etc.) et en sécurisant les zones sensibles de WordPress.
 
 ## 1\. Structure et objectif du fichier
 
