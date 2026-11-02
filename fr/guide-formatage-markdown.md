@@ -5,7 +5,7 @@ description: >-
   pratique détaille la syntaxe pour les titres, listes, blocs de code et
   tableaux afin d'uniformiser vos pages sur le wiki.
 published: true
-date: '2026-11-02T23:43:45.286Z'
+date: '2026-11-02T23:43:48.838Z'
 tags:
   - wiki
   - tutoriel
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-01-11T23:21:04.223Z'
 ---
 
-aLe **Markdown** est un langage de balisage léger permettant de formater du texte avec une syntaxe simple et lisible. Cette page présente les éléments les plus courants pour rédiger vos fiches techniques.
+Le **Markdown** est un langage de balisage léger permettant de formater du texte avec une syntaxe simple et lisible. Cette page présente les éléments les plus courants pour rédiger vos fiches techniques.
 
 ---
 
