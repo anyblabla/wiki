@@ -5,7 +5,7 @@ description: >-
   automatisation du nettoyage du stockage, des fichiers distants et optimisation
   RAM avec notifications Gotify.
 published: true
-date: '2026-11-02T23:50:31.064Z'
+date: '2026-11-02T23:50:35.244Z'
 tags:
   - serveur
   - debian
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2025-12-28T18:39:33.530Z'
 ---
 
-aBien que PeerTube gère une partie de sa rétention via l'interface d'administration, certaines opérations manuelles sont nécessaires pour supprimer les résidus de transcodage ou les fichiers temporaires qui finissent par saturer l'espace disque.
+Bien que PeerTube gère une partie de sa rétention via l'interface d'administration, certaines opérations manuelles sont nécessaires pour supprimer les résidus de transcodage ou les fichiers temporaires qui finissent par saturer l'espace disque.
 
 > 💡 **Pourquoi ce script ?**
 > Sur une installation classique, il est crucial de lancer les commandes avec l'utilisateur `peertube` et de charger les bonnes variables d'environnement. Ce script automatise ces tâches répétitives pour maintenir votre instance propre sans risque d'erreur de permissions ou d'oubli de paramètres.
