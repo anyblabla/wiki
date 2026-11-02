@@ -5,7 +5,7 @@ description: >-
   Wiki.js grâce à Nginx Proxy Manager (NPM). Autorise le référencement public et
   sécurise le tableau de bord d'administration.
 published: true
-date: '2026-11-02T23:37:22.929Z'
+date: '2026-11-02T23:37:26.783Z'
 tags:
   - nginx
   - proxy
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-11-29T18:04:26.219Z'
 ---
 
-aCe guide utilise la méthode du **fichier statique** (`alias`) pour implémenter un `robots.txt` simple et stable pour votre site derrière **Nginx Proxy Manager (NPM)**. Nous prenons comme **exemple l'application Wiki.js** et le domaine **`wiki.blablalinux.be`** pour illustrer la protection des chemins d'administration sensibles.
+Ce guide utilise la méthode du **fichier statique** (`alias`) pour implémenter un `robots.txt` simple et stable pour votre site derrière **Nginx Proxy Manager (NPM)**. Nous prenons comme **exemple l'application Wiki.js** et le domaine **`wiki.blablalinux.be`** pour illustrer la protection des chemins d'administration sensibles.
 
 -----
 
