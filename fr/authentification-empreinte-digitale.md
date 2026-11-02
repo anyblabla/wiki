@@ -6,7 +6,7 @@ description: >-
   de passe pour la connexion initiale afin de déverrouiller le trousseau de
   clés.
 published: true
-date: '2026-11-02T23:19:29.858Z'
+date: '2026-11-02T23:19:34.149Z'
 tags:
   - debian
   - authentification
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-09-26T18:28:24.997Z'
 ---
 
-aL'authentification biométrique par empreinte digitale est prise en charge par Debian grâce au projet **`fprint`**. Ce projet fournit les outils nécessaires à la gestion des capteurs et à l'intégration au système de connexion (PAM).
+L'authentification biométrique par empreinte digitale est prise en charge par Debian grâce au projet **`fprint`**. Ce projet fournit les outils nécessaires à la gestion des capteurs et à l'intégration au système de connexion (PAM).
 
 *(Veuillez consulter la [liste des périphériques supportés](https://fprint.freedesktop.org/)).*
 
