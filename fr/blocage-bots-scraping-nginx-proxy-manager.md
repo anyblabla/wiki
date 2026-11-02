@@ -5,7 +5,7 @@ description: >-
   comment filtrer les requêtes par mots-clés et User-Agent dans Nginx Proxy
   Manager, tout en épargnant le réseau local.
 published: true
-date: '2026-11-02T23:23:09.236Z'
+date: '2026-11-02T23:23:13.309Z'
 tags:
   - nginx
   - npm
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-05-29T20:52:21.847Z'
 ---
 
-aFace au bruit de fond du web, aux outils d'IA et aux scrapers industriels, utiliser un simple pare-feu ne suffit plus. Beaucoup de bots passent par des VPN ou des proxys résidentiels pour contourner les blocages géographiques.
+Face au bruit de fond du web, aux outils d'IA et aux scrapers industriels, utiliser un simple pare-feu ne suffit plus. Beaucoup de bots passent par des VPN ou des proxys résidentiels pour contourner les blocages géographiques.
 
 La solution ? Filtrer le trafic à la volée directement dans Nginx en analysant **ce que les bots demandent** (les mots-clés) et **qui ils prétendent être** (leur User-Agent), tout en protégeant les accès légitimes de notre réseau local.
 
