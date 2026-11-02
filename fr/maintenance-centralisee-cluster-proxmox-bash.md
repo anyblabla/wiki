@@ -5,7 +5,7 @@ description: >-
   serveurs Proxmox VE et PBS. Centralisez les mises à jour et le nettoyage de
   votre cluster depuis une seule machine Linux.
 published: true
-date: '2026-11-02T23:50:01.586Z'
+date: '2026-11-02T23:50:05.278Z'
 tags:
   - proxmox
   - ssh
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-31T23:30:22.756Z'
 ---
 
-aCe guide explique comment concevoir un script Bash pour mettre à jour automatiquement plusieurs serveurs Proxmox VE et Proxmox Backup Server à partir d'une seule machine d'administration (ordinateur portable ou station de travail sous Linux).
+Ce guide explique comment concevoir un script Bash pour mettre à jour automatiquement plusieurs serveurs Proxmox VE et Proxmox Backup Server à partir d'une seule machine d'administration (ordinateur portable ou station de travail sous Linux).
 
 ## 1. Prérequis indispensables
 
