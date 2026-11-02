@@ -6,7 +6,7 @@ description: >-
   performances avec Gzip et la gestion des connexions longues pour les
   applications modernes.
 published: true
-date: '2026-11-02T23:49:54.675Z'
+date: '2026-11-02T23:49:58.264Z'
 tags:
   - docker
   - lxc
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2025-12-07T01:26:52.363Z'
 ---
 
-aEn tant que technicien et administrateur système spécialisé dans le reconditionnement de matériel sous Linux, documenter mes configurations est essentiel. Cette page présente les blocs de code **NGINX** personnalisés que j'utilise avec **Nginx Proxy Manager (NPM)** pour garantir une **sécurité maximale** et une **performance optimale** sur mes environnements.
+En tant que technicien et administrateur système spécialisé dans le reconditionnement de matériel sous Linux, documenter mes configurations est essentiel. Cette page présente les blocs de code **NGINX** personnalisés que j'utilise avec **Nginx Proxy Manager (NPM)** pour garantir une **sécurité maximale** et une **performance optimale** sur mes environnements.
 
 > ℹ️ Toutes les directives NGINX utilisées ici peuvent être vérifiées dans la [documentation officielle NGINX](https://nginx.org/en/docs/).
 
