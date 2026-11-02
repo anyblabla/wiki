@@ -5,7 +5,7 @@ description: >-
   utilisant une pile Docker (stack) dans Portainer, à partir d'un fichier
   compose YAML.
 published: true
-date: '2026-11-02T23:36:16.858Z'
+date: '2026-11-02T23:36:20.543Z'
 tags:
   - vnc
   - apache
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2024-07-10T12:42:55.354Z'
 ---
 
-aJe pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
+Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 -----
 
