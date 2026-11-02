@@ -5,7 +5,7 @@ description: >-
   --api-keys, et commandes ltmanage keys (ajouter, supprimer, afficher). Guide
   essentiel pour configurer des limites de requêtes personnalisées.
 published: true
-date: '2026-11-02T23:39:30.014Z'
+date: '2026-11-02T23:39:34.477Z'
 tags:
   - translate
   - api
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2025-11-07T18:57:09.915Z'
 ---
 
-a## Introduction
+## Introduction
 
 Le système de gestion des clés API de **LibreTranslate** permet d'établir des **quotas de limites d'utilisation par utilisateur**. Cette fonctionnalité est conçue pour permettre à des utilisateurs spécifiques de bénéficier de limites de requêtes par minute (taux de rafraîchissement) plus élevées que la limite par défaut du serveur.
 
