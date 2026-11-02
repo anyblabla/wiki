@@ -5,7 +5,7 @@ description: >-
   de partage de fichiers self-hosted sécurisé) en utilisant une pile Docker
   (stack) dans Portainer à partir d'un fichier compose YAML.
 published: true
-date: '2026-11-02T23:35:34.295Z'
+date: '2026-11-02T23:35:38.661Z'
 tags:
   - docker
   - portainer
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2024-06-30T14:00:46.077Z'
 ---
 
-a## 1\. Liens utiles
+## 1\. Liens utiles
 
   - [Site officiel](https://psi.cx/2017/psitransfer/)
   - [Documentation (site officiel) installation](https://psi.cx/2017/psitransfer-installation/)
