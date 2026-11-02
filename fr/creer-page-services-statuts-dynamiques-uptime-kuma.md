@@ -5,7 +5,7 @@ description: >-
   tableau de bord. Un guide pas à pas pour afficher la disponibilité de vos
   services auto-hébergés en temps réel.
 published: true
-date: '2026-11-02T23:29:53.624Z'
+date: '2026-11-02T23:29:57.595Z'
 tags:
   - wordpress
   - auto-hébergement
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-02-14T12:20:52.350Z'
 ---
 
-aCe guide explique comment intégrer des badges de statut dynamiques provenant d'une instance **Uptime Kuma** dans un tableau **WordPress** ou une page **HTML**, afin de créer un tableau de bord de services public.
+Ce guide explique comment intégrer des badges de statut dynamiques provenant d'une instance **Uptime Kuma** dans un tableau **WordPress** ou une page **HTML**, afin de créer un tableau de bord de services public.
 
 ## Prérequis
 
