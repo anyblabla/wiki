@@ -5,7 +5,7 @@ description: >-
   avec cv4pve-autosnap. Un guide complet pour réduire le temps d'exécution et
   supprimer les erreurs de timeout API.
 published: true
-date: '2026-11-02T23:19:49.091Z'
+date: '2026-11-02T23:19:54.694Z'
 tags:
   - proxmox
   - sauvegarde
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-25T23:01:20.016Z'
 ---
 
-aCe guide détaille comment mettre en place une stratégie de snapshots performante pour un cluster Proxmox. L'utilisation du **ciblage direct** par IP permet de réduire le temps d'exécution de plusieurs minutes à quelques secondes.
+Ce guide détaille comment mettre en place une stratégie de snapshots performante pour un cluster Proxmox. L'utilisation du **ciblage direct** par IP permet de réduire le temps d'exécution de plusieurs minutes à quelques secondes.
 
 > 🗒️ Ce système repose sur l'outil open-source **cv4pve-autosnap**. 
 > * **Projet GitHub officiel** : [Corsinvest/cv4pve-autosnap](https://github.com/Corsinvest/cv4pve-autosnap)
