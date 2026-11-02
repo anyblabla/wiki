@@ -5,7 +5,7 @@ description: >-
   couvre l'installation, la configuration du cache et l'utilisation d'alias
   GNOME pour un contrôle total de vos flux web.
 published: true
-date: '2026-11-02T23:31:53.690Z'
+date: '2026-11-02T23:31:59.141Z'
 tags:
   - cache
   - proxy
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-12-23T00:16:17.440Z'
 ---
 
-a## Qu'est-ce qu'un serveur proxy ?
+## Qu'est-ce qu'un serveur proxy ?
 
 Un serveur proxy est un intermédiaire entre votre ordinateur (le client) et internet (le serveur distant). Au lieu de se connecter directement à un site web, votre navigateur envoie la requête au proxy, qui va chercher la ressource pour vous et vous la retransmet.
 
