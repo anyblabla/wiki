@@ -6,7 +6,7 @@ description: >-
   sur les systèmes basés sur Debian/Ubuntu/Linux Mint (testé et fonctionnel sur
   Linux Mint 22.x).
 published: true
-date: '2026-11-02T23:46:45.287Z'
+date: '2026-11-02T23:46:49.554Z'
 tags:
   - wine
   - émulateur
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2024-05-05T20:15:53.231Z'
 ---
 
-a## 1\. Préparation de l'Architecture
+## 1\. Préparation de l'Architecture
 
 Wine a besoin du support 32 bits (`i386`) pour exécuter la plupart des programmes Windows.
 
