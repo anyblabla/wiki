@@ -7,7 +7,7 @@ description: >-
   conteneurs Docker dans les LXC imbriqués après la mise à jour de
   containerd.io. Solutions et retour arrière.
 published: true
-date: '2026-11-02T23:19:09.787Z'
+date: '2026-11-02T23:19:14.592Z'
 tags:
   - docker
   - lxc
@@ -26,7 +26,7 @@ editor: markdown
 dateCreated: '2025-11-20T00:13:16.158Z'
 ---
 
-a> **✅ MISE À JOUR IMPORTANTE (RÉSOLU) :** Ce problème de conflit AppArmor/runc a été corrigé dans **Proxmox Virtual Environment 9.1.1**, ou déjà peut-être dans **9.0.1**. Si votre hôte Proxmox est à jour, les solutions de contournement ci-dessous ne devraient plus être nécessaires. Cet article reste pertinent pour ceux qui utilisent encore Proxmox 9.0 ou qui rencontrent le problème malgré la mise à jour.
+> **✅ MISE À JOUR IMPORTANTE (RÉSOLU) :** Ce problème de conflit AppArmor/runc a été corrigé dans **Proxmox Virtual Environment 9.1.1**, ou déjà peut-être dans **9.0.1**. Si votre hôte Proxmox est à jour, les solutions de contournement ci-dessous ne devraient plus être nécessaires. Cet article reste pertinent pour ceux qui utilisent encore Proxmox 9.0 ou qui rencontrent le problème malgré la mise à jour.
 
 -----
 
