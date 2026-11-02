@@ -5,7 +5,7 @@ description: >-
   accompagne pour sécuriser votre coffre-fort avec Argon2 et optimiser Nginx
   Proxy Manager avec des headers de sécurité avancés.
 published: true
-date: '2026-11-02T23:44:08.073Z'
+date: '2026-11-02T23:44:12.398Z'
 tags:
   - docker
   - sécurité
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-03-25T15:32:52.898Z'
 ---
 
-a## 📖 Introduction
+## 📖 Introduction
 **[Vaultwarden](https://github.com/dani-garcia/vaultwarden)** est une version légère du serveur Bitwarden écrite en Rust. Idéal pour l'auto-hébergement, il consomme peu de ressources et offre toutes les fonctions premium gratuitement (2FA, rapports, organisations). Pour approfondir vos connaissances, vous pouvez consulter le **[GitHub du projet](https://github.com/dani-garcia/vaultwarden)** ainsi que leur **[Wiki officiel](https://github.com/dani-garcia/vaultwarden/wiki)**.
 
 > **Ce que vous allez accomplir :**
