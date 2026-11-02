@@ -5,7 +5,7 @@ description: >-
   des comptes inactifs et des vieux messages avec notifications Gotify
   optionnelles.
 published: true
-date: '2026-11-02T23:50:09.358Z'
+date: '2026-11-02T23:50:13.429Z'
 tags:
   - mastodon
   - docker
@@ -23,7 +23,7 @@ editor: markdown
 dateCreated: '2025-12-25T13:00:52.896Z'
 ---
 
-a> ⚠️ Ce guide est spécifiquement conçu pour une installation de **Mastodon sous Docker**, notamment lorsqu'elle fonctionne dans un conteneur LXC sur Proxmox.
+> ⚠️ Ce guide est spécifiquement conçu pour une installation de **Mastodon sous Docker**, notamment lorsqu'elle fonctionne dans un conteneur LXC sur Proxmox.
 >
 > Si vous utilisez une installation Mastodon classique, sans Docker, consultez la page dédiée : [Maintenance Mastodon (installation classique)](https://wiki.blablalinux.be/fr/mastodon-cache).
 
