@@ -5,7 +5,7 @@ description: >-
   Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une
   alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: '2026-11-02T23:23:28.286Z'
+date: '2026-11-02T23:23:31.889Z'
 tags:
   - nginx
   - proxy
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2025-12-15T23:32:58.582Z'
 ---
 
-a## Introduction
+## Introduction
 Plutôt que de modifier les fichiers `robots.txt` de chaque site individuellement (ce qui demande de maintenir des configurations séparées) :
 
 * Exemple Gitea : [https://wiki.blablalinux.be/fr/robots-txt-gitea-blocage-ia](https://wiki.blablalinux.be/fr/robots-txt-gitea-blocage-ia)
