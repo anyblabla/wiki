@@ -7,7 +7,7 @@ description: >-
   dans WordPress lorsque celui-ci est placé derrière un proxy inverse comme
   Nginx Proxy Manager (NPM).
 published: true
-date: '2026-11-02T23:29:30.625Z'
+date: '2026-11-02T23:29:34.559Z'
 tags:
   - nginx
   - proxy
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-12-13T21:05:51.386Z'
 ---
 
-a## 🎯 Problème
+## 🎯 Problème
 Lors de l'utilisation d'un **proxy inverse** (tel que Nginx Proxy Manager – NPM) devant une installation WordPress (hébergée par exemple dans un conteneur LXC sur Proxmox VE), WordPress enregistre l'adresse IP de la **machine proxy** elle-même au lieu de l'adresse IP réelle du visiteur.
 
 Ceci affecte :
