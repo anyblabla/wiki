@@ -5,7 +5,7 @@ description: >-
   complet détaille la configuration du service, l'accès via reverse proxy et
   l'automatisation des mises à jour par cron.
 published: true
-date: '2026-11-02T23:45:56.386Z'
+date: '2026-11-02T23:46:00.028Z'
 tags:
   - lxc
   - proxmox
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-05T11:53:37.077Z'
 ---
 
-a### 🌟 Présentation
+### 🌟 Présentation
 
 **[Copyparty](https://github.com/9001/copyparty)** est un serveur de fichiers (File Server) ultra-léger, rapide et polyvalent. Il permet de partager des fichiers, de diffuser du contenu multimédia et de gérer des téléversements (uploads) via une interface web moderne ou via des protocoles comme WebDAV, FTP et TFTP. Il est particulièrement apprécié pour sa faible consommation de ressources et sa facilité de déploiement.
 
