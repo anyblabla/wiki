@@ -5,7 +5,7 @@ description: >-
   universels, raccourcis "bangs" avec exemples, requêtes spéciales et astuces
   pour optimiser la vitesse de vos résultats.
 published: true
-date: '2026-11-02T23:50:46.283Z'
+date: '2026-11-02T23:50:50.531Z'
 tags:
   - performance
   - logiciel libre
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-04-29T17:26:59.453Z'
 ---
 
-aSavoir bien chercher, c'est savoir parler au moteur de recherche. Ce guide vous explique comment utiliser des commandes précises pour trouver exactement ce que vous voulez, sans perdre de temps.
+Savoir bien chercher, c'est savoir parler au moteur de recherche. Ce guide vous explique comment utiliser des commandes précises pour trouver exactement ce que vous voulez, sans perdre de temps.
 
 > **Note :** La plupart de ces astuces sont **universelles**. Elles fonctionnent sur presque tous les moteurs. Cependant, pour une recherche sans pistage et sans publicité, **je vous recommande d'utiliser mon instance auto-hébergée**.
 
