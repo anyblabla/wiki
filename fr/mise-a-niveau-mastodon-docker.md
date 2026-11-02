@@ -5,7 +5,7 @@ description: >-
   via Docker Compose : sauvegarde, migrations pre/post-deployment, bascule des
   conteneurs et vérifications.
 published: true
-date: '2026-11-02T23:52:39.803Z'
+date: '2026-11-02T23:53:41.336Z'
 tags:
   - mastodon
   - docker
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-08-20T17:37:22.325Z'
 ---
 
-aCette page décrit la procédure générale pour mettre à niveau une instance Mastodon auto-hébergée qui tourne via `docker compose`. Elle a été rédigée et validée à partir d'une mise à niveau réelle **v4.6.6 → v4.7.0**, mais s'applique globalement à toute montée de version mineure ou majeure.
+Cette page décrit la procédure générale pour mettre à niveau une instance Mastodon auto-hébergée qui tourne via `docker compose`. Elle a été rédigée et validée à partir d'une mise à niveau réelle **v4.6.6 → v4.7.0**, mais s'applique globalement à toute montée de version mineure ou majeure.
 
 > ⚠️ **Adapte cette procédure à ton installation.** Les noms de service (`web`, `sidekiq`, `streaming`, `db`...), les noms de conteneurs, l'organisation du réseau Docker (bridge unique, réseaux séparés internal/external...) et le nom de la base de données peuvent varier d'une instance à l'autre selon comment le `docker-compose.yml` a été écrit. Les commandes ci-dessous utilisent les noms de service standards du `docker-compose.yml` officiel Mastodon (`web`, `sidekiq`, `streaming`, `db`, `redis`) — vérifie les tiens avec `docker compose config --services` avant de commencer.
 
