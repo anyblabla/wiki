@@ -4,7 +4,7 @@ description: >-
   🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de
   procédures testées et de résultats fonctionnels pour vos projets 😉
 published: true
-date: '2026-11-01T14:51:13.787Z'
+date: '2026-11-02T09:26:36.210Z'
 tags: []
 editor: markdown
 dateCreated: '2025-07-17T00:14:37.130Z'
@@ -36,7 +36,7 @@ Ce wiki est mon **pense-bête public**, conçu pour être une source de document
 
 Ce wiki évolue au rythme de mes découvertes. Vous voulez savoir quels sont les prochains services qui seront documentés ?
 
-Consultez la page **[Articles en construction](https://www.google.com/search?q=/zone-construction-brouillons)** pour découvrir les sujets qui seront prochainement finalisés.
+Consultez la page **[Articles en construction](/fr/zone-construction-brouillons)** pour découvrir les sujets qui seront prochainement finalisés.
 
 ---
 
