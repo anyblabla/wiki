@@ -5,13 +5,13 @@ description: >-
   (Corsinvest) dans un LXC pour automatiser les instantanés (Snapshots) de vos
   VM et CT sur Proxmox VE.
 published: true
-date: '2026-11-02T23:22:06.418Z'
+date: '2026-11-02T23:22:10.847Z'
 tags: []
 editor: markdown
 dateCreated: '2024-12-28T18:49:39.139Z'
 ---
 
-a## 💡 Contexte et choix de l'outil
+## 💡 Contexte et choix de l'outil
 
 Pour la prise d'instantanés des invités sur [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview), plusieurs méthodes existent :
 
