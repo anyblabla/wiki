@@ -5,7 +5,7 @@ description: >-
   Compose. Un guide idéal pour tester le quorum, la haute disponibilité et le
   réseau sans matériel supplémentaire.
 published: true
-date: '2026-11-02T23:43:19.433Z'
+date: '2026-11-02T23:43:23.158Z'
 tags:
   - docker
   - proxmox
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-01-03T21:50:40.907Z'
 ---
 
-aCe guide explique comment faire fonctionner un environnement **Proxmox Virtual Environment (PVE)** complet à l'intérieur de conteneurs Docker. C'est la solution parfaite pour tester des scénarios de haute disponibilité (HA), de quorum ou de migration sans mobiliser plusieurs serveurs physiques.
+Ce guide explique comment faire fonctionner un environnement **Proxmox Virtual Environment (PVE)** complet à l'intérieur de conteneurs Docker. C'est la solution parfaite pour tester des scénarios de haute disponibilité (HA), de quorum ou de migration sans mobiliser plusieurs serveurs physiques.
 
 > **Note :** Pour installer Docker avant de commencer, vous pouvez consulter cette page : [Installer Docker, Portainer et les agents LXC sur Debian/Proxmox](https://wiki.blablalinux.be/fr/docker-portainer-lxc-debian-proxmox).
 
