@@ -5,7 +5,7 @@ description: >-
   LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer,
   arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: '2026-11-02T23:39:06.335Z'
+date: '2026-11-02T23:39:10.337Z'
 tags:
   - docker
   - lxc
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-11-06T18:26:43.925Z'
 ---
 
-a## Introduction
+## Introduction
 
 **Watchtower** est un outil qui surveille vos conteneurs Docker et les met à jour automatiquement. Cette page documente deux méthodes pour gérer vos instances Watchtower déployées dans des conteneurs LXC directement depuis l'hôte Proxmox.
 
