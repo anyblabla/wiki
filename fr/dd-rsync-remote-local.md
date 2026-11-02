@@ -5,7 +5,7 @@ description: >-
   complet d'un serveur VPS distant (OVH) vers un serveur local Proxmox VE en
   utilisant les commandes dd et rsync via SSH.
 published: true
-date: '2026-11-02T23:53:00.754Z'
+date: '2026-11-02T23:54:11.256Z'
 tags:
   - rsync
   - clone
@@ -13,7 +13,7 @@ editor: markdown
 dateCreated: '2024-12-01T15:36:34.400Z'
 ---
 
-a## 💡 Contexte de l'opération
+## 💡 Contexte de l'opération
 
 Vos services (notamment [Mastodon](https://mastodon-blablalinux.be/@blablalinux) et [PeerTube](https://peertube-blablalinux.be/a/anyblabla/video-channels)) sont actuellement hébergés sur des [VPS](https://w.wiki/CG6P) chez [OVH](https://www.ovhcloud.com/fr/) et vous souhaitez les rapatrier sur votre cluster [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) local.
 
