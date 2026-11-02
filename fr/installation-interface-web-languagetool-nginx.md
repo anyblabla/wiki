@@ -5,7 +5,7 @@ description: >-
   ou Ubuntu. Ce guide détaille la mise en place de Nginx et la configuration via
   Nginx Proxy Manager.
 published: true
-date: '2026-11-02T23:49:38.634Z'
+date: '2026-11-02T23:49:43.140Z'
 tags:
   - nginx
   - npm
@@ -22,7 +22,7 @@ editor: markdown
 dateCreated: '2026-03-29T00:29:32.235Z'
 ---
 
-a## Prérequis
+## Prérequis
 - Une VM ou LXC sous Debian 12/13 ou Ubuntu 22.04/24.04
 - Nginx Proxy Manager déjà installé et fonctionnel
 - Votre instance LanguageTool (API) opérationnelle (ex. `languagetool.votredomaine.com`)
