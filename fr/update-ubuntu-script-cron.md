@@ -5,7 +5,7 @@ description: >-
   serveur Ubuntu (APT et Snap) en utilisant un script Bash planifié via une
   tâche Cron.
 published: true
-date: '2026-11-02T23:53:10.818Z'
+date: '2026-11-02T23:54:25.274Z'
 tags:
   - serveur
   - cron
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-10-28T01:52:12.614Z'
 ---
 
-a## ⚠️ Avertissement important
+## ⚠️ Avertissement important
 
 L'automatisation des mises à jour système (surtout celles du noyau) comporte toujours un risque. **Ce script n'inclut pas de redémarrage automatique.**
 
