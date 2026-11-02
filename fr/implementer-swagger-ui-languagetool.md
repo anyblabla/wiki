@@ -5,7 +5,7 @@ description: >-
   tester l'API de LanguageTool, tout en configurant correctement les politiques
   de sécurité CORS sous Nginx Proxy Manager.
 published: true
-date: '2026-11-02T23:45:39.828Z'
+date: '2026-11-02T23:45:44.615Z'
 tags:
   - docker
   - npm
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-01-31T23:26:44.436Z'
 ---
 
-a### Contenu du wiki
+### Contenu du wiki
 
 > **Note importante** : Les noms de domaine utilisés dans ce guide (ex: `blablalinux.be`) sont des exemples issus d'une infrastructure réelle. Vous devez impérativement les remplacer par vos propres noms de domaine lors de la configuration.
 
