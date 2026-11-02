@@ -5,7 +5,7 @@ description: >-
   guide détaillé optimise les performances des WebSockets et la sécurité pour
   une instance collaborative robuste et privée.
 published: true
-date: '2026-11-02T23:46:03.729Z'
+date: '2026-11-02T23:46:08.001Z'
 tags:
   - docker
   - lxc
@@ -20,7 +20,7 @@ editor: markdown
 dateCreated: '2026-02-12T22:52:05.131Z'
 ---
 
-aCe guide détaille la préparation spécifique d'un conteneur **LXC Debian** sous **Proxmox** pour accueillir Cryptpad, en mettant l'accent sur la levée des restrictions système nécessaires au bon fonctionnement des WebSockets.
+Ce guide détaille la préparation spécifique d'un conteneur **LXC Debian** sous **Proxmox** pour accueillir Cryptpad, en mettant l'accent sur la levée des restrictions système nécessaires au bon fonctionnement des WebSockets.
 
 ### 🔗 Ressources officielles
 
