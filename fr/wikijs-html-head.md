@@ -7,7 +7,7 @@ description: >-
   principal de votre installation Wiki.js (tel que le thème par défaut ou tout
   autre thème basé sur le framework Vuetify).
 published: true
-date: '2026-11-02T23:24:17.908Z'
+date: '2026-11-02T23:24:23.830Z'
 tags:
   - wikijs
   - head
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-10-30T15:54:26.600Z'
 ---
 
-a### 📝 Introduction
+### 📝 Introduction
 
 **L'objectif est de remplacer la couleur principale de mise en surbrillance** (boutons, titres, éléments actifs) et d'autres couleurs spécifiques en utilisant l'outil d'**Injection de code CSS** de Wiki.js.
 
