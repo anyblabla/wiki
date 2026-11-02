@@ -5,7 +5,7 @@ description: >-
   démarrage) sur Debian avec Plymouth. Apprenez à changer de thème,
   prévisualiser et résoudre les erreurs d'alternatives.
 published: true
-date: '2026-11-02T23:25:50.610Z'
+date: '2026-11-02T23:25:54.614Z'
 tags:
   - debian
   - personnalisation
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-12-31T01:25:56.130Z'
 ---
 
-a**Plymouth** est l'utilitaire qui permet d'afficher un écran de démarrage graphique (splash screen) lors du démarrage, masquant ainsi les messages textuels du noyau Linux.
+**Plymouth** est l'utilitaire qui permet d'afficher un écran de démarrage graphique (splash screen) lors du démarrage, masquant ainsi les messages textuels du noyau Linux.
 
 ---
 
