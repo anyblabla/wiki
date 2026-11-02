@@ -5,7 +5,7 @@ description: >-
   bons en-têtes CORS pour permettre l'utilisation de Synapse Admin depuis un
   domaine externe.
 published: true
-date: '2026-11-02T23:26:09.342Z'
+date: '2026-11-02T23:26:13.803Z'
 tags:
   - nginx
   - npm
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-06-07T12:53:47.398Z'
 ---
 
-a## Pourquoi cette configuration est nécessaire
+## Pourquoi cette configuration est nécessaire
 
 [Synapse Admin](https://synapse-admin.blablalinux.be) est une interface web qui s'exécute **entièrement dans votre navigateur**. Lorsque vous vous connectez, votre navigateur envoie des requêtes directement vers **votre propre serveur Matrix Synapse** — pas vers l'instance qui héberge l'interface.
 
