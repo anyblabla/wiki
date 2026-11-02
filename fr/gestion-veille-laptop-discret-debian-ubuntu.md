@@ -5,7 +5,7 @@ description: >-
   sur les ordinateurs portables sous Debian/Ubuntu/Mint équipés d'une carte
   graphique discrète (NVIDIA ou AMD).
 published: true
-date: '2026-11-02T23:31:19.215Z'
+date: '2026-11-02T23:31:23.385Z'
 tags:
   - debian
   - ubuntu
@@ -23,7 +23,7 @@ editor: markdown
 dateCreated: '2025-12-07T19:08:15.640Z'
 ---
 
-a## Introduction : les défis de l'énergie sur les laptops Linux
+## Introduction : les défis de l'énergie sur les laptops Linux
 
 Lorsque je reconditionne du matériel ou que je dépanne des systèmes pour le collectif **Emmabuntüs**, je rencontre souvent un problème récurrent : le refus d'un ordinateur portable de passer en mode **Veille** (**Suspension à la RAM**, **S3**) ou en **Hibernation (S4)**.
 
