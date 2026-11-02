@@ -5,7 +5,7 @@ description: >-
   Proxy Manager. Un guide pratique pour gérer efficacement plus de 90 proxy
   hosts sans saturer votre système.
 published: true
-date: '2026-11-02T23:57:25.715Z'
+date: '2026-11-02T23:58:40.040Z'
 tags:
   - docker
   - npm
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-02-13T12:15:21.018Z'
 ---
 
-a## Introduction
+## Introduction
 
 Lorsque l'on gère une infrastructure auto-hébergée avec de nombreux services (plus de 90 proxy hosts dans mon cas), les journaux d'accès (logs) peuvent rapidement devenir un enfer. Sans optimisation, les fichiers pèsent plusieurs dizaines de Mo, ralentissent les analyses de sécurité et saturent l'espace disque de votre conteneur ou VM.
 
