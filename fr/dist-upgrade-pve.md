@@ -5,7 +5,7 @@ description: >-
   seulement appropriée mais souvent recommandée pour les mises à jour
   régulières.
 published: true
-date: '2026-11-02T23:37:00.764Z'
+date: '2026-11-02T23:37:04.835Z'
 tags:
   - proxmox
   - pve
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2025-10-31T23:19:39.816Z'
 ---
 
-aNon, **ce n'est pas dangereux** dans le contexte d'une **mise à jour régulière** de votre distribution actuelle (comme Proxmox basé sur Debian), et encore moins quand il s'agit de **Proxmox VE**, qui gère souvent des mises à jour de noyaux, d'hyperviseurs et de dépendances complexes.
+Non, **ce n'est pas dangereux** dans le contexte d'une **mise à jour régulière** de votre distribution actuelle (comme Proxmox basé sur Debian), et encore moins quand il s'agit de **Proxmox VE**, qui gère souvent des mises à jour de noyaux, d'hyperviseurs et de dépendances complexes.
 
 Le terme **"dist-upgrade"** (pour *Distribution Upgrade*) était historiquement utilisé pour effectuer des **mises à niveau majeures** de la distribution (par exemple, de Debian 11 "Bullseye" à Debian 12 "Bookworm"). C'est de là que vient sa réputation de commande "dangereuse" ou "destructrice", car une mise à niveau majeure comporte toujours un risque de rupture.
 
