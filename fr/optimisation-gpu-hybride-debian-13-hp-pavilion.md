@@ -5,7 +5,7 @@ description: >-
   pour gérer le rendu 3D et le décodage vidéo matériel sur un laptop HP Pavilion
   dv7.
 published: true
-date: '2026-11-02T23:57:29.287Z'
+date: '2026-11-02T23:58:45.066Z'
 tags:
   - trixie
   - debian 13
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-01-17T19:38:21.964Z'
 ---
 
-a## 1. Le concept des deux tuyaux (comprendre l'hybride)
+## 1. Le concept des deux tuyaux (comprendre l'hybride)
 
 Pour optimiser cette machine, il faut comprendre que le traitement graphique passe par deux circuits (ou "tuyaux") distincts qui peuvent travailler de concert :
 
