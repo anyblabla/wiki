@@ -5,7 +5,7 @@ description: >-
   services auto-hébergés via NPM afin de sécuriser vos accès et uniformiser le
   blocage des robots d'IA.
 published: true
-date: '2026-11-02T23:38:09.200Z'
+date: '2026-11-02T23:38:12.668Z'
 tags:
   - nginx
   - npm
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2025-12-23T22:33:31.704Z'
 ---
 
-a## Introduction
+## Introduction
 
 Dans un écosystème auto-hébergé composé de nombreux services (Docker, instances Web, outils tiers), la gestion du fichier `robots.txt` est souvent un casse-tête. Par défaut, soit le service ne propose rien (erreur 404), soit il propose un fichier générique qui ne protège pas les zones sensibles (comme l'administration ou les API), soit il est écrasé à chaque mise à jour du conteneur.
 
