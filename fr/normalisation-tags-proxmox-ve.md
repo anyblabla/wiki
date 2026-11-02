@@ -5,7 +5,7 @@ description: >-
   automatise le renommage massif du tag community-scripts en community-script
   sur l'ensemble de vos nœuds PVE.
 published: true
-date: '2026-11-02T23:57:03.609Z'
+date: '2026-11-02T23:58:07.192Z'
 tags:
   - proxmox
   - bash
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-01-17T12:54:56.909Z'
 ---
 
-a## 1. Introduction
+## 1. Introduction
 
 Dans un environnement Proxmox VE multi-nœuds (cluster), la cohérence des tags est essentielle pour l'organisation et l'automatisation. Ce script permet de corriger massivement une erreur de nommage (remplacer `community-scripts` par `community-script`) sur l'ensemble des ressources du cluster.
 
