@@ -5,7 +5,7 @@ description: >-
   détaille la création d'alias, la gestion des buckets et l'automatisation de
   vos sauvegardes via la ligne de commande.
 published: true
-date: '2026-11-02T23:26:33.028Z'
+date: '2026-11-02T23:26:36.809Z'
 tags:
   - debian
   - stockage
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-04-10T21:34:26.585Z'
 ---
 
-aCe guide détaille l’installation et l’utilisation du client **MinIO (mc)**. Cet outil en ligne de commande permet de gérer votre stockage objet (S3) aussi facilement que vos fichiers locaux.
+Ce guide détaille l’installation et l’utilisation du client **MinIO (mc)**. Cet outil en ligne de commande permet de gérer votre stockage objet (S3) aussi facilement que vos fichiers locaux.
 
 ---
 
