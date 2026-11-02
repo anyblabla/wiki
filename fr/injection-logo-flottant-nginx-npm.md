@@ -5,7 +5,7 @@ description: >-
   web via Nginx Proxy Manager (NPM). Inclut les scripts de base, les corrections
   anti-FOUC et les solutions aux erreurs de CSP.
 published: true
-date: '2026-11-02T23:45:48.250Z'
+date: '2026-11-02T23:45:52.106Z'
 tags:
   - nginx
   - proxy
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-11-30T23:16:50.068Z'
 ---
 
-aCe guide explique comment injecter un logo cliquable (taille recommandée : $50 \times 50$ pixels) dans le coin de vos applications web, en utilisant **Nginx Proxy Manager (NPM)**.
+Ce guide explique comment injecter un logo cliquable (taille recommandée : $50 \times 50$ pixels) dans le coin de vos applications web, en utilisant **Nginx Proxy Manager (NPM)**.
 
 -----
 
