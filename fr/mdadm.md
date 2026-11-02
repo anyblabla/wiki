@@ -4,7 +4,7 @@ description: >-
   mdadm (Multiple Devices ADMinistration) est l'utilitaire standard sous Linux
   pour gérer les grappes RAID (Redundant Array of Independent Disks) logiciels.
 published: true
-date: '2026-11-02T23:52:33.043Z'
+date: '2026-11-02T23:53:31.714Z'
 tags:
   - mdadm
   - raid
@@ -12,7 +12,7 @@ editor: markdown
 dateCreated: '2025-11-01T00:26:33.056Z'
 ---
 
-aIl permet de combiner plusieurs périphériques de stockage (disques durs, SSD, partitions) en un seul volume logique pour améliorer les performances, la redondance, ou les deux.
+Il permet de combiner plusieurs périphériques de stockage (disques durs, SSD, partitions) en un seul volume logique pour améliorer les performances, la redondance, ou les deux.
 
 -----
 
