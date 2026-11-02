@@ -5,7 +5,7 @@ description: >-
   votre compte et synchronisez vos notes chiffrées de bout en bout sur
   navigateur, ordinateur et Android.
 published: true
-date: '2026-11-02T23:57:09.879Z'
+date: '2026-11-02T23:58:17.008Z'
 tags:
   - linux
   - auto-hébergement
@@ -21,7 +21,7 @@ editor: markdown
 dateCreated: '2026-10-16T17:27:34.741Z'
 ---
 
-aNotesnook est une application de prise de notes **chiffrées de bout en bout** : vos notes sont chiffrées sur votre appareil avant d'être envoyées au serveur, qui ne peut pas les lire. Cette page explique comment utiliser **mon instance auto-hébergée** plutôt que le service officiel.
+Notesnook est une application de prise de notes **chiffrées de bout en bout** : vos notes sont chiffrées sur votre appareil avant d'être envoyées au serveur, qui ne peut pas les lire. Cette page explique comment utiliser **mon instance auto-hébergée** plutôt que le service officiel.
 
 > **À retenir :** il faut configurer les adresses de mes serveurs **avant** de créer votre compte. Sinon, le compte est créé chez Notesnook (le service officiel) et non ici.
 > {.is-warning}
