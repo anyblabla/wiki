@@ -7,7 +7,7 @@ description: >-
   logs de Nginx Proxy Manager (NPM). Le déploiement s'effectue via une pile
   Docker (stack) dans Portainer ou en utilisant Docker Compose.
 published: true
-date: '2026-11-02T23:56:46.189Z'
+date: '2026-11-02T23:57:44.406Z'
 tags:
   - monitoring
   - analytic
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-02-06T12:30:45.317Z'
 ---
 
-aJe pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
+Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 -----
 
