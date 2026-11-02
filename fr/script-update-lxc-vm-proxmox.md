@@ -5,7 +5,7 @@ description: >-
   VE pour automatiser la mise à jour des machines virtuelles (VMs) et des
   conteneurs (LXC) basés sur Debian/Ubuntu.
 published: true
-date: '2026-11-02T23:20:46.281Z'
+date: '2026-11-02T23:20:50.570Z'
 tags:
   - lxc
   - proxmox
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-10-26T16:38:37.191Z'
 ---
 
-a## 📦 Dépôts du projet
+## 📦 Dépôts du projet
 
 Les scripts sont disponibles sur les deux dépôts suivants :
 
