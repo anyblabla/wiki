@@ -7,7 +7,7 @@ description: >-
   container LXC sous Debian 13 Trixie sur Proxmox VE. Optimisation des
   ressources et mise à jour des fichiers de configuration.
 published: true
-date: '2026-11-02T23:52:50.261Z'
+date: '2026-11-02T23:53:55.669Z'
 tags:
   - proxmox
   - debian
@@ -21,7 +21,7 @@ editor: markdown
 dateCreated: '2026-01-23T21:12:00.715Z'
 ---
 
-a## Introduction
+## Introduction
 
 Ce guide documente la migration d'un serveur Mumble (Murmur) depuis une machine virtuelle **Debian 12 Bookworm** vers un container **LXC Debian 13 Trixie** hébergé sur un cluster **Proxmox VE**. Cette opération permet de réduire l'empreinte mémoire tout en utilisant la dernière version de Debian.
 
