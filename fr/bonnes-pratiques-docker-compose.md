@@ -5,7 +5,7 @@ description: >-
   meilleures méthodes pour structurer vos fichiers Compose, gérer les secrets,
   persister les données (volumes) et optimiser la sécurité en production.
 published: true
-date: '2026-11-02T23:23:59.652Z'
+date: '2026-11-02T23:24:03.995Z'
 tags:
   - docker
   - compose
@@ -15,7 +15,7 @@ editor: markdown
 dateCreated: '2025-11-22T15:18:58.075Z'
 ---
 
-aDocker Compose est un outil puissant pour définir et exécuter des applications multi-conteneurs. Suivre ces bonnes pratiques vous aidera à créer des configurations **maintenables**, **sécurisées** et **portables**.
+Docker Compose est un outil puissant pour définir et exécuter des applications multi-conteneurs. Suivre ces bonnes pratiques vous aidera à créer des configurations **maintenables**, **sécurisées** et **portables**.
 
 -----
 
