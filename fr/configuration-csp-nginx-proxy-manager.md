@@ -5,7 +5,7 @@ description: >-
   Manager pour sécuriser vos services comme Immich, Wiki.js ou Vert.sh sans
   bloquer les fonctionnalités vitales de vos outils.
 published: true
-date: '2026-11-02T23:42:35.422Z'
+date: '2026-11-02T23:42:59.089Z'
 tags:
   - nginx
   - npm
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-02-10T23:48:25.977Z'
 ---
 
-aLe **Content Security Policy (CSP)** est une couche de sécurité supplémentaire qui permet de détecter et d'atténuer certains types d'attaques, notamment les injections de données (XSS) et les détournements de clics.
+Le **Content Security Policy (CSP)** est une couche de sécurité supplémentaire qui permet de détecter et d'atténuer certains types d'attaques, notamment les injections de données (XSS) et les détournements de clics.
 
 Dans **Nginx Proxy Manager**, un CSP mal configuré peut bloquer l'affichage d'images, de vidéos ou même casser des fonctionnalités vitales comme les WebSockets ou les conversions vidéo.
 
