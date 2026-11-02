@@ -5,7 +5,7 @@ description: >-
   Mount (dossier local) vers un Volume Nommé, garantissant la portabilité et la
   sécurité de votre configuration.
 published: true
-date: '2026-11-02T23:52:46.863Z'
+date: '2026-11-02T23:53:50.674Z'
 tags:
   - docker
   - mount
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-11-22T20:48:15.823Z'
 ---
 
-aCe guide documente la procédure standard pour transférer des données existantes d'un **bind mount** (dossier hôte local, ex: `./postgres14`) vers un **volume nommé** géré par Docker (ex: `mastodon_postgres_data`). Cette méthode garantit la persistance, la sécurité, et la portabilité.
+Ce guide documente la procédure standard pour transférer des données existantes d'un **bind mount** (dossier hôte local, ex: `./postgres14`) vers un **volume nommé** géré par Docker (ex: `mastodon_postgres_data`). Cette méthode garantit la persistance, la sécurité, et la portabilité.
 
 ### Prérequis : Mise à jour du fichier docker-compose.yml
 
