@@ -5,7 +5,7 @@ description: >-
   meta pour améliorer l'affichage de votre wiki sur les appareils mobiles
   (smartphones, petites tablettes).
 published: true
-date: '2026-11-02T09:37:32.857Z'
+date: '2026-11-02T23:16:28.010Z'
 tags:
   - wikijs
   - head
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-11-02T18:57:52.350Z'
 ---
 
-### ⚠️ Avertissements importants
+a### ⚠️ Avertissements importants
 
   * **Thème par défaut requis :** Ce code CSS est spécifiquement écrit pour les classes HTML et les sélecteurs du **thème par défaut de Wiki.js (Clarity)**. L'utilisation d'un thème tiers ou d'un thème profondément modifié peut entraîner des résultats inattendus ou inefficaces.
   * **Visiteurs seulement :** Cette amélioration est principalement destinée à offrir un visuel **acceptable** pour les **visiteurs non connectés**.
