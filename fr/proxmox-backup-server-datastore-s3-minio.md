@@ -5,7 +5,7 @@ description: >-
   dédié selon le type d'installation : disque virtuel (VM) ou dataset ZFS avec
   quota (serveur physique).
 published: true
-date: '2026-11-02T23:26:54.101Z'
+date: '2026-11-02T23:26:58.220Z'
 tags:
   - proxmox
   - pbs
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-08-28T23:28:31.706Z'
 ---
 
-aDepuis la version 4.x, Proxmox Backup Server (PBS) peut utiliser un stockage compatible S3 (MinIO, Ceph RGW, Backblaze B2, Wasabi, AWS S3...) comme backend de datastore, en complément ou en remplacement d'un stockage local classique.
+Depuis la version 4.x, Proxmox Backup Server (PBS) peut utiliser un stockage compatible S3 (MinIO, Ceph RGW, Backblaze B2, Wasabi, AWS S3...) comme backend de datastore, en complément ou en remplacement d'un stockage local classique.
 
 Ce guide couvre la configuration complète avec **MinIO auto-hébergé**, en tenant compte de deux cas de figure fréquents en homelab :
 
