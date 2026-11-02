@@ -5,7 +5,7 @@ description: >-
   des fichiers distants et optimisation RAM avec notifications Gotify
   optionnelles.
 published: true
-date: '2026-11-02T23:50:17.104Z'
+date: '2026-11-02T23:50:21.050Z'
 tags:
   - docker
   - lxc
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-12-26T16:55:44.444Z'
 ---
 
-aBien que PeerTube gère une partie de sa rétention via l'interface d'administration, certaines opérations manuelles sont nécessaires pour supprimer les résidus de transcodage ou les fichiers temporaires qui finissent par saturer l'espace disque.
+Bien que PeerTube gère une partie de sa rétention via l'interface d'administration, certaines opérations manuelles sont nécessaires pour supprimer les résidus de transcodage ou les fichiers temporaires qui finissent par saturer l'espace disque.
 
 > 💡 **Pourquoi ce script ?**
 > PeerTube possède son propre système de rétention, mais il fournit également des outils de maintenance officiels (accessibles via `npm run`) pour les tâches lourdes ou spécifiques. Mon script ne remplace pas le code des développeurs : il automatise simplement le lancement de ces outils internes à des heures creuses. C'est un complément d'administration pour garder une machine propre et réactive sans intervention manuelle.
