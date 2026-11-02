@@ -5,7 +5,7 @@ description: >-
   MongoDB sécurisé, stockage S3, e-mails SMTP et reverse proxy Nginx Proxy
   Manager, avec des commandes à copier-coller.
 published: true
-date: '2026-11-02T23:57:07.066Z'
+date: '2026-11-02T23:58:12.037Z'
 tags:
   - docker
   - lxc
@@ -23,7 +23,7 @@ editor: markdown
 dateCreated: '2026-10-16T22:17:53.709Z'
 ---
 
-a[Notesnook](https://notesnook.com) est une application de notes chiffrées de bout en bout dont le serveur de synchronisation peut être auto-hébergé. Cette page décrit une installation complète, pas à pas : **Docker Compose** dans un **LXC Debian**, **MongoDB** protégé par authentification, **stockage S3** externe pour les pièces jointes, envoi d'e-mails par **SMTP** et publication via **Nginx Proxy Manager** (NPM).
+[Notesnook](https://notesnook.com) est une application de notes chiffrées de bout en bout dont le serveur de synchronisation peut être auto-hébergé. Cette page décrit une installation complète, pas à pas : **Docker Compose** dans un **LXC Debian**, **MongoDB** protégé par authentification, **stockage S3** externe pour les pièces jointes, envoi d'e-mails par **SMTP** et publication via **Nginx Proxy Manager** (NPM).
 
 > Le dépôt officiel [notesnook-sync-server](https://github.com/streetwriters/notesnook-sync-server) indique que l'auto-hébergement est en phase alpha, sans support officiel. Ce guide adapte son `docker-compose.yml` (authentification MongoDB, healthchecks, S3 externe). **Comparez-le avec la version officielle avant de l'appliquer** : les images et les variables peuvent évoluer.
 {.is-warning}
