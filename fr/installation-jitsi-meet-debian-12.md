@@ -5,7 +5,7 @@ description: >-
   SSL (Let's Encrypt ou Reverse Proxy), NAT (IP LAN/WAN) et optimisations de
   performance pour des visioconférences sécurisées.
 published: true
-date: '2026-11-02T23:46:21.245Z'
+date: '2026-11-02T23:46:25.277Z'
 tags:
   - serveur
   - nginx
@@ -20,7 +20,7 @@ editor: markdown
 dateCreated: '2025-11-19T17:54:18.165Z'
 ---
 
-aCette page explique comment installer et configurer la plateforme de visioconférence **Jitsi Meet** sur un serveur Debian 12 (Bookworm) en utilisant les dépôts officiels.
+Cette page explique comment installer et configurer la plateforme de visioconférence **Jitsi Meet** sur un serveur Debian 12 (Bookworm) en utilisant les dépôts officiels.
 
 -----
 
