@@ -5,7 +5,7 @@ description: >-
   IP publique dans la config Fail2Ban (jail NPM) via Cron pour éviter un
   bannissement lors d'un changement d'IP. Fini les bannissements intempestifs !
 published: true
-date: '2026-11-02T23:38:28.766Z'
+date: '2026-11-02T23:38:32.801Z'
 tags:
   - docker
   - lxc
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-09-25T21:59:07.073Z'
 ---
 
-a## 1\. Contexte du Problème
+## 1\. Contexte du Problème
 
 Votre fournisseur d'accès Internet vous alloue une adresse IP publique **variable** mais **quasi-statique** (elle change rarement, souvent suite à un redémarrage du routeur ou sur demande explicite).
 
