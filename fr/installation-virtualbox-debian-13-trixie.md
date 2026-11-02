@@ -5,7 +5,7 @@ description: >-
   officiel. Guide pas à pas incluant l'importation de la clé GPG, l'ajout du
   dépôt et l'installation de l'Extension Pack.
 published: true
-date: '2026-11-02T23:46:28.749Z'
+date: '2026-11-02T23:46:32.894Z'
 tags:
   - serveur
   - linux
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-01-11T22:06:34.030Z'
 ---
 
-aCette page détaille la procédure manuelle pour installer la version officielle d'Oracle sur Debian 13. L'utilisation du dépôt tiers permet de bénéficier de la version 7.2+, souvent plus récente que celle des dépôts standards.
+Cette page détaille la procédure manuelle pour installer la version officielle d'Oracle sur Debian 13. L'utilisation du dépôt tiers permet de bénéficier de la version 7.2+, souvent plus récente que celle des dépôts standards.
 
 > **Note :** Pour éviter les erreurs de permissions lors de l'utilisation de redirections (pipes), nous effectuons la majeure partie de la procédure en mode super-utilisateur.
 
