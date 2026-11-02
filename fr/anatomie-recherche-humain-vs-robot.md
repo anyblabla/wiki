@@ -5,7 +5,7 @@ description: >-
   dans vos logs SearXNG. Une analyse concrète étape par étape pour sécuriser et
   comprendre le trafic de votre serveur.
 published: true
-date: '2026-11-02T23:18:48.080Z'
+date: '2026-11-02T23:18:52.656Z'
 tags:
   - nginx
   - fail2ban
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-05-28T16:24:59.916Z'
 ---
 
-aSur un moteur de recherche comme SearXNG, l'analyse des journaux d'accès (logs) permet de distinguer très facilement le comportement d'un véritable utilisateur humain de celui d'un script automatisé (bot).
+Sur un moteur de recherche comme SearXNG, l'analyse des journaux d'accès (logs) permet de distinguer très facilement le comportement d'un véritable utilisateur humain de celui d'un script automatisé (bot).
 
 Voici le décryptage de deux situations réelles capturées en direct sur les logs de mon serveur.
 
