@@ -7,7 +7,7 @@ description: >-
   terminal. Un guide simple et pas à pas pour mettre en évidence les adresses
   IP, les codes HTTP et vos mots-clés.
 published: true
-date: '2026-11-02T23:24:42.550Z'
+date: '2026-11-02T23:24:47.192Z'
 tags:
   - nginx
   - bash
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-06-03T12:44:10.907Z'
 ---
 
-aCe guide complet vous accompagne pas à pas pour ajouter de la couleur à vos flux de logs Nginx en direct. Grâce à cette méthode simple, vous pourrez repérer les adresses IP, les codes HTTP (200, 403...), les pays GeoIP, vos domaines ou vos propres mots-clés en un coup d'œil directement dans votre terminal.
+Ce guide complet vous accompagne pas à pas pour ajouter de la couleur à vos flux de logs Nginx en direct. Grâce à cette méthode simple, vous pourrez repérer les adresses IP, les codes HTTP (200, 403...), les pays GeoIP, vos domaines ou vos propres mots-clés en un coup d'œil directement dans votre terminal.
 
 🎁 **Le petit bonus :** en plus de l'affichage coloré à l'écran, cette méthode sauvegarde automatiquement tout l'historique de votre session en direct dans un fichier texte propre pour pouvoir le relire calmement plus tard !
 
