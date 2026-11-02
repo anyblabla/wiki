@@ -5,7 +5,7 @@ description: >-
   FFMPEG. Inclut la configuration des pilotes VA-API (Intel) et des alias pour
   l'encodage CPU et GPU.
 published: true
-date: '2026-11-02T23:29:07.598Z'
+date: '2026-11-02T23:29:11.249Z'
 tags:
   - bash
   - convert
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-10-29T23:46:41.944Z'
 ---
 
-a## Objectif
+## Objectif
 
 Ces alias permettent de convertir tous les fichiers vidéo du répertoire courant en appliquant un débit binaire vidéo spécifique (`-b:v`) pour contrôler la taille et la qualité du fichier de sortie.
 
