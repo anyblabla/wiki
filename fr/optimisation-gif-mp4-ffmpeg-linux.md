@@ -5,7 +5,7 @@ description: >-
   systèmes Linux légers grâce à la commande FFmpeg. Apprenez à utiliser les
   options clés comme le CRF pour contrôler la qualité et la taille du fichier.
 published: true
-date: '2026-11-02T23:28:44.558Z'
+date: '2026-11-02T23:28:48.434Z'
 tags:
   - mp4
   - ffmpeg
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-12-15T22:33:18.848Z'
 ---
 
-a## Introduction
+## Introduction
 Cette page documente la méthode recommandée pour convertir un fichier GIF animé (`.gif`) en un fichier vidéo MP4 (`.mp4`) optimisé pour le web. Cette conversion permet de réduire considérablement la taille du fichier tout en conservant l'animation, ce qui améliore la performance des pages web et des systèmes à faibles ressources.
 
 ## Prérequis
