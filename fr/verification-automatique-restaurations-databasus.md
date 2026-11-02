@@ -5,7 +5,7 @@ description: >-
   avec Docker pour tester automatiquement la restauration de vos bases de
   données après chaque sauvegarde réussie.
 published: true
-date: '2026-11-02T23:52:43.352Z'
+date: '2026-11-02T23:53:45.974Z'
 tags:
   - docker
   - lxc
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-05-22T22:11:52.144Z'
 ---
 
-aUn backup qui se termine sans erreur ne garantit pas qu'il est réellement restaurable (droits manquants, extensions absentes, corruption de données). La seule preuve réelle, c'est de tester la restauration.
+Un backup qui se termine sans erreur ne garantit pas qu'il est réellement restaurable (droits manquants, extensions absentes, corruption de données). La seule preuve réelle, c'est de tester la restauration.
 
 Ce guide explique comment déployer un agent de vérification Databasus dédié dans un conteneur LXC sous Debian. L'agent récupère automatiquement les sauvegardes, les restaure dans un conteneur Docker éphémère, valide la cohérence des tables (comptage des lignes), puis détruit le conteneur.
 
