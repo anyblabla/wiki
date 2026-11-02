@@ -5,7 +5,7 @@ description: >-
   sur Debian afin d'appliquer automatiquement les mises à jour de sécurité et
   d'autres paquets.
 published: true
-date: '2026-11-02T23:30:12.943Z'
+date: '2026-11-02T23:30:17.489Z'
 tags:
   - debian
   - upgrade
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2025-11-01T00:14:07.294Z'
 ---
 
-a## 1\. Installation du paquet
+## 1\. Installation du paquet
 
 Le paquet `unattended-upgrades` doit d'abord être installé sur votre système Debian. Il est également recommandé d'installer **`apt-listchanges`** pour recevoir des notifications des modifications de paquets.
 
