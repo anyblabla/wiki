@@ -5,7 +5,7 @@ description: >-
   Découvrez mes quatre modèles de configuration exclusifs, du style classique au
   look néon cyberpunk pour Linux.
 published: true
-date: '2026-11-02T23:50:39.085Z'
+date: '2026-11-02T23:50:43.024Z'
 tags:
   - debian
   - ubuntu
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-01-03T00:55:28.798Z'
 ---
 
-aJe vous partage ici mon expérience avec **Fastfetch**, l'outil que j'utilise au quotidien pour afficher les informations système de mes machines. C'est, selon moi, la meilleure alternative à Neofetch pour allier rapidité et design.
+Je vous partage ici mon expérience avec **Fastfetch**, l'outil que j'utilise au quotidien pour afficher les informations système de mes machines. C'est, selon moi, la meilleure alternative à Neofetch pour allier rapidité et design.
 
 ## Installation de l'outil
 
