@@ -6,7 +6,7 @@ description: >-
   CSS étape par étape vous montre comment ajouter un style dynamique et
   professionnel à votre blog.
 published: true
-date: '2026-11-02T23:36:38.202Z'
+date: '2026-11-02T23:36:42.309Z'
 tags:
   - css
   - wordpress
@@ -20,7 +20,7 @@ editor: markdown
 dateCreated: '2025-12-14T09:20:54.224Z'
 ---
 
-aCe guide explique comment ajouter un effet visuel dynamique sur les images de mise en avant (images vedettes) de la page d'accueil d'un blog WordPress utilisant le thème Astra, en utilisant uniquement du code CSS personnalisé.
+Ce guide explique comment ajouter un effet visuel dynamique sur les images de mise en avant (images vedettes) de la page d'accueil d'un blog WordPress utilisant le thème Astra, en utilisant uniquement du code CSS personnalisé.
 
 ## I. Objectif de l'implémentation
 L'objectif est d'appliquer un filtre de couleur **noir et blanc** (*Grayscale*) par défaut sur toutes les images de la page d'accueil, et de retirer ce filtre (image en **couleur**) avec une transition douce lorsque l'utilisateur passe la souris sur l'image (effet `:hover`).
