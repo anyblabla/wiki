@@ -5,7 +5,7 @@ description: >-
   serveurs Linux via SSH et Wake-on-LAN. Un guide complet pour sécuriser vos
   cycles de maintenance avec notifications Gotify.
 published: true
-date: '2026-11-02T23:21:12.870Z'
+date: '2026-11-02T23:21:17.566Z'
 tags:
   - proxmox
   - ssh
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-04-06T07:15:43.821Z'
 ---
 
-aCe guide explique comment automatiser proprement l'arrêt, la pause électrique et le redémarrage (via Wake-on-LAN) d'un serveur distant. Cette méthode est idéale pour réinitialiser des contrôleurs matériels (USB, disques) ou économiser de l'énergie.
+Ce guide explique comment automatiser proprement l'arrêt, la pause électrique et le redémarrage (via Wake-on-LAN) d'un serveur distant. Cette méthode est idéale pour réinitialiser des contrôleurs matériels (USB, disques) ou économiser de l'énergie.
 
 > **Le petit mot de BlablaLinux** : Dans mon propre labo, j'utilise ce script pour piloter mon serveur **Ubuntu Server** qui fait tourner **Nextcloud**. C'est mon nœud **Proxmox** (Debian) principal qui envoie les commandes. Ça me permet d'être sûr que mes disques de sauvegarde USB sont bien réinitialisés électriquement chaque semaine !
 
