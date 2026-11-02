@@ -5,7 +5,7 @@ description: >-
   y.blablalinux.be avec Nginx Proxy Manager, redirection 301, défi DNS OVH et
   sécurisation optionnelle via un plugin reCAPTCHA.
 published: true
-date: '2026-11-02T23:52:53.731Z'
+date: '2026-11-02T23:54:01.531Z'
 tags:
   - nginx
   - npm
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-01-30T01:09:14.513Z'
 ---
 
-aCette fiche documente la procédure technique pour raccourcir l'URL de base de YOURLS tout en maintenant la compatibilité des anciens liens partagés sur le web. **La procédure est testée et 100 % fonctionnelle.**
+Cette fiche documente la procédure technique pour raccourcir l'URL de base de YOURLS tout en maintenant la compatibilité des anciens liens partagés sur le web. **La procédure est testée et 100 % fonctionnelle.**
 
 ## 1. Stratégie de redirection
 
