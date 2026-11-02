@@ -5,7 +5,7 @@ description: >-
   sonde Push d'Uptime Kuma. Guide pratique basé sur l'exemple concret d'un
   serveur de jeu SuperTuxKart.
 published: true
-date: '2026-11-02T23:56:42.597Z'
+date: '2026-11-02T23:57:39.041Z'
 tags:
   - monitoring
   - debian
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-01-20T23:18:23.989Z'
 ---
 
-a## Présentation
+## Présentation
 
 Contrairement aux sondes classiques où **Uptime Kuma** interroge un service (méthode dite "Pull"), la sonde **push** attend que le service lui envoie lui-même un signal de vie. C’est la solution idéale pour :
 
