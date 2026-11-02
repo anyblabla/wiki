@@ -5,7 +5,7 @@ description: >-
   guide pas à pas pour diagnostiquer vos IP, détecter les VPN et serveurs cloud
   directement dans votre terminal.
 published: true
-date: '2026-11-02T23:49:47.571Z'
+date: '2026-11-02T23:49:51.277Z'
 tags:
   - bash
   - sécurité
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-05-08T18:09:39.102Z'
 ---
 
-aCe guide vous explique comment transformer votre terminal en un véritable centre de diagnostic réseau. Nous allons coupler la base **MaxMind** (géographie) et la base **ip66.dev** (détection de VPN, Proxy, et serveurs Cloud).
+Ce guide vous explique comment transformer votre terminal en un véritable centre de diagnostic réseau. Nous allons coupler la base **MaxMind** (géographie) et la base **ip66.dev** (détection de VPN, Proxy, et serveurs Cloud).
 
 ## 🛠 1. Prérequis et liens utiles
 
