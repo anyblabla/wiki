@@ -5,7 +5,7 @@ description: >-
   logs de Nginx Proxy Manager (NPM) en utilisant une pile Docker (stack) dans
   Portainer, ou directement avec Docker Compose.
 published: true
-date: '2026-11-02T23:32:18.701Z'
+date: '2026-11-02T23:32:23.192Z'
 tags:
   - docker
   - nginx
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-02-06T21:58:30.959Z'
 ---
 
-aJe pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
+Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 -----
 
