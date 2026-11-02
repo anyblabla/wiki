@@ -4,7 +4,7 @@ description: >-
   anglais 🧠 All my up-to-date technical guides and installation methods.
   Benefit from tested procedures and functional results for your projects 😉
 published: true
-date: '2026-11-01T14:52:29.810Z'
+date: '2026-11-02T09:27:56.468Z'
 tags: []
 editor: markdown
 dateCreated: '2026-01-08T23:24:03.690Z'
@@ -36,7 +36,7 @@ This wiki is my **public cheat sheet**, designed to be a reliable and ready-to-u
 
 This wiki evolves along with my discoveries. Want to know which services will be documented next?
 
-Check the **[Articles in progress](https://www.google.com/search?q=/zone-construction-brouillons)** page to discover the topics that will be finalized soon.
+Check the **[Articles in progress](/fr/zone-construction-brouillons)** page to discover the topics that will be finalized soon.
 
 ---
 
