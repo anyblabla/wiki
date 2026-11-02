@@ -5,7 +5,7 @@ description: >-
   Proxmox (PVE) afin d'automatiser la mise à jour des conteneurs Watchtower
   (installés via Docker Compose dans des CT/LXC).
 published: true
-date: '2026-11-02T23:53:14.887Z'
+date: '2026-11-02T23:54:34.646Z'
 tags:
   - docker
   - lxc
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-10-26T16:28:46.835Z'
 ---
 
-a| Script | Fonction | Utilité |
+| Script | Fonction | Utilité |
 | :--- | :--- | :--- |
 | **Script 1 :** `convert_watchtower.sh` | Conversion de `POLL_INTERVAL` à `SCHEDULE` | **À exécuter une seule fois** pour migrer l'ancienne variable vers la nouvelle (standard Cron). |
 | **Script 2 :** `update_watchtower.sh` | Modification de la planification `SCHEDULE` | **À utiliser pour toutes les modifications futures** de la fréquence de mise à jour. |
