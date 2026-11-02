@@ -5,7 +5,7 @@ description: >-
   guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné
   sans sacrifier sa fluidité habituelle.
 published: true
-date: '2026-11-02T23:57:16.296Z'
+date: '2026-11-02T23:58:26.869Z'
 tags:
   - cron
   - crontab
@@ -21,7 +21,7 @@ editor: markdown
 dateCreated: '2026-03-02T11:46:46.923Z'
 ---
 
-aCe guide vous permet de mettre en place un système de compression automatique pour vos photos et vidéos. L'objectif est de réduire l'espace disque consommé par vos sauvegardes mobiles tout en préservant la réactivité de votre serveur, même sur du matériel reconditionné.
+Ce guide vous permet de mettre en place un système de compression automatique pour vos photos et vidéos. L'objectif est de réduire l'espace disque consommé par vos sauvegardes mobiles tout en préservant la réactivité de votre serveur, même sur du matériel reconditionné.
 
 ---
 
