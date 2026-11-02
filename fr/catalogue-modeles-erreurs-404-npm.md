@@ -5,7 +5,7 @@ description: >-
   Du style minimaliste au mode Matrix glitché (404 et 403), améliorez
   l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: true
-date: '2026-11-02T23:14:57.301Z'
+date: '2026-11-02T23:15:03.039Z'
 tags:
   - npm
   - html
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-02-16T14:03:15.558Z'
 ---
 
-aCe catalogue regroupe différentes esthétiques pour vos pages d'erreur. Avant de choisir un modèle, assurez-vous d'avoir suivi l'un de mes deux guides techniques selon votre besoin :
+Ce catalogue regroupe différentes esthétiques pour vos pages d'erreur. Avant de choisir un modèle, assurez-vous d'avoir suivi l'un de mes deux guides techniques selon votre besoin :
 
 1. **[Guide : Personnalisation par HTML injecté](/fr/page-erreur-npm-hote-inconnu)** : Pour une mise en place rapide par hôte.
 2. **[Guide : Personnalisation statique avec SSL](/fr/page-erreur-404-statique-ssl-npm)** : Ma méthode recommandée pour un rendu professionnel et sécurisé.
