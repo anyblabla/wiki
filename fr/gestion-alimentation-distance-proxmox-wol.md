@@ -5,7 +5,7 @@ description: >-
   Ce guide détaille l'usage du Wake-on-LAN et la configuration des clés SSH pour
   une gestion automatisée du cluster.
 published: true
-date: '2026-11-02T23:37:43.497Z'
+date: '2026-11-02T23:37:47.851Z'
 tags:
   - proxmox
   - ssh
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-31T23:43:35.130Z'
 ---
 
-aCe guide explique comment automatiser le démarrage (via Wake-on-LAN) ainsi que l'arrêt ou le redémarrage (via SSH) de vos nœuds Proxmox à partir d'un script centralisé.
+Ce guide explique comment automatiser le démarrage (via Wake-on-LAN) ainsi que l'arrêt ou le redémarrage (via SSH) de vos nœuds Proxmox à partir d'un script centralisé.
 
 ## 1. Prérequis techniques
 
