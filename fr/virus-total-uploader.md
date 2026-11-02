@@ -4,7 +4,7 @@ description: >-
   Ce guide explique comment installer l'outil graphique QT VirusTotal Uploader
   sur Linux Mint 21.3 (base Ubuntu 22.04) en compilant les sources.
 published: true
-date: '2026-11-02T23:46:36.742Z'
+date: '2026-11-02T23:46:41.296Z'
 tags:
   - virus
   - virustotal
@@ -13,7 +13,7 @@ editor: markdown
 dateCreated: '2024-06-12T18:14:23.441Z'
 ---
 
-a**VirusTotal Uploader** est l'application de bureau officielle pour soumettre des fichiers, des domaines, des adresses IP et des URL suspects à la plateforme **VirusTotal** pour une analyse par de multiples moteurs antivirus.
+**VirusTotal Uploader** est l'application de bureau officielle pour soumettre des fichiers, des domaines, des adresses IP et des URL suspects à la plateforme **VirusTotal** pour une analyse par de multiples moteurs antivirus.
 
 ![](/virus-total-uploader/virus-total-uploader-compte-amaury-libert.png)
 
