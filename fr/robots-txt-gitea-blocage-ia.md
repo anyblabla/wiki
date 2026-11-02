@@ -5,7 +5,7 @@ description: >-
   une stratégie stricte de blocage des robots d’IA, tout en autorisant
   l'indexation sélective par les moteurs de recherche traditionnels.
 published: true
-date: '2026-11-02T23:18:27.368Z'
+date: '2026-11-02T23:18:32.004Z'
 tags:
   - seo
   - indexation
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-11-30T17:02:16.215Z'
 ---
 
-aLe fichier **`robots.txt`** de cette instance Gitea est un excellent exemple d'une **stratégie à double niveau** : il assure la **protection des données** face à la collecte massive des agents d'intelligence artificielle (IA), tout en maintenant une **accessibilité contrôlée** pour le référencement traditionnel.
+Le fichier **`robots.txt`** de cette instance Gitea est un excellent exemple d'une **stratégie à double niveau** : il assure la **protection des données** face à la collecte massive des agents d'intelligence artificielle (IA), tout en maintenant une **accessibilité contrôlée** pour le référencement traditionnel.
 
 **Note de réutilisation :** Ce fichier `robots.txt` peut être **utilisé tel quel** pour n'importe quelle autre instance Gitea. Les chemins spécifiques bloqués sont des URLs standard de Gitea, et la liste des agents d'IA bloqués est universelle.
 
