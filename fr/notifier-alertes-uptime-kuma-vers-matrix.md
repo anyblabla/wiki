@@ -5,7 +5,7 @@ description: >-
   pas à pas détaille la création du bot, la récupération du jeton d'accès et la
   personnalisation des alertes Liquid.
 published: true
-date: '2026-11-02T23:57:12.968Z'
+date: '2026-11-02T23:58:21.685Z'
 tags:
   - auto-hébergement
   - uptime kuma
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-02-14T12:25:37.084Z'
 ---
 
-aCe tutoriel explique comment créer un pont de notification entre **Uptime Kuma** et votre serveur **Matrix**. L'utilisation d'un bot permet de recevoir des alertes en temps réel dans un salon sécurisé et chiffré.
+Ce tutoriel explique comment créer un pont de notification entre **Uptime Kuma** et votre serveur **Matrix**. L'utilisation d'un bot permet de recevoir des alertes en temps réel dans un salon sécurisé et chiffré.
 
 ## 1. Création du compte bot
 
