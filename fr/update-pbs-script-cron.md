@@ -5,7 +5,7 @@ description: >-
   système de votre hôte Proxmox Backup Server (PBS) à l'aide d'un script Bash et
   de Cron.
 published: true
-date: '2026-11-02T23:22:32.263Z'
+date: '2026-11-02T23:22:36.004Z'
 tags:
   - proxmox
   - cron
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-10-30T13:23:36.129Z'
 ---
 
-a### 📝 Introduction et objectif
+### 📝 Introduction et objectif
 
 L'objectif est d'assurer que votre serveur de sauvegarde reste sécurisé et à jour sans intervention manuelle quotidienne.
 
