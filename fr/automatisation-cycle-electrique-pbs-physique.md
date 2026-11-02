@@ -5,7 +5,7 @@ description: >-
   via Wake-on-LAN, SSH et cron, avec surveillance des sauvegardes et
   notifications Gotify.
 published: true
-date: '2026-11-02T23:21:38.794Z'
+date: '2026-11-02T23:21:44.202Z'
 tags:
   - proxmox
   - cron
@@ -20,7 +20,7 @@ editor: markdown
 dateCreated: '2026-06-02T15:46:58.408Z'
 ---
 
-a## Présentation
+## Présentation
 
 Ce guide explique comment allumer et éteindre automatiquement un serveur **Proxmox Backup Server (PBS) physique** selon un calendrier défini, tout en s'assurant qu'aucune sauvegarde n'est interrompue au moment de l'extinction.
 
