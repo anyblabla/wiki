@@ -5,7 +5,7 @@ description: >-
   automatisation du nettoyage du cache, des médias et des comptes inactifs avec
   notifications Gotify.
 published: true
-date: '2026-11-02T23:50:24.466Z'
+date: '2026-11-02T23:50:27.909Z'
 tags:
   - mastodon
   - cache
@@ -15,7 +15,7 @@ editor: markdown
 dateCreated: '2024-05-06T22:29:10.684Z'
 ---
 
-a> ⚠️ Ce guide concerne une installation **classique de Mastodon, sans Docker**, généralement installée directement sur une base Debian.
+> ⚠️ Ce guide concerne une installation **classique de Mastodon, sans Docker**, généralement installée directement sur une base Debian.
 >
 > Si votre instance Mastodon fonctionne sous **Docker**, consultez la page dédiée : [Maintenance Mastodon sous Docker](https://wiki.blablalinux.be/fr/maintenance-mastodon-docker).
 
