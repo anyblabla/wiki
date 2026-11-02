@@ -5,7 +5,7 @@ description: >-
   Docker Engine et Portainer sur une machine hôte ou invitée utilisant une
   distribution basée sur Debian (comme un Container LXC).
 published: true
-date: '2026-11-02T23:46:12.004Z'
+date: '2026-11-02T23:46:16.751Z'
 tags:
   - docker
   - lxc
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-02-24T22:06:12.187Z'
 ---
 
-a> **IMPORTANT :** Toutes les commandes Docker et Portainer ci-dessous (sauf le script Proxmox) doivent être exécutées **à l'intérieur** de votre [container LXC](https://fr.wikipedia.org/wiki/LXC), via le [shell](https://fr.wikipedia.org/wiki/Shell_Unix) du container ou via [SSH](https://fr.wikipedia.org/wiki/Secure_Shell).
+> **IMPORTANT :** Toutes les commandes Docker et Portainer ci-dessous (sauf le script Proxmox) doivent être exécutées **à l'intérieur** de votre [container LXC](https://fr.wikipedia.org/wiki/LXC), via le [shell](https://fr.wikipedia.org/wiki/Shell_Unix) du container ou via [SSH](https://fr.wikipedia.org/wiki/Secure_Shell).
 
 -----
 
