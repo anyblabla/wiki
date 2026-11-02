@@ -5,7 +5,7 @@ description: >-
   un serveur Nginx Proxy Manager couplé à Fail2Ban et GeoIP. Simplifiez la
   gestion de vos logs et sécurisez vos services.
 published: true
-date: '2026-11-02T23:53:18.742Z'
+date: '2026-11-02T23:54:40.423Z'
 tags:
   - docker
   - lxc
@@ -20,7 +20,7 @@ editor: markdown
 dateCreated: '2026-05-30T17:59:35.092Z'
 ---
 
-aVoici la documentation complète de mon fichier d'alias, conçu pour gagner un temps précieux lors de l'administration d'une infrastructure d'auto-hébergement.
+Voici la documentation complète de mon fichier d'alias, conçu pour gagner un temps précieux lors de l'administration d'une infrastructure d'auto-hébergement.
 
 ## Introduction et architecture type
 
