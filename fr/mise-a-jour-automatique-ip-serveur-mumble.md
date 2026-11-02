@@ -5,7 +5,7 @@ description: >-
   serveur Mumble sur LXC Debian en cas d'IP publique dynamique, avec redémarrage
   ciblé et gestion propre des logs.
 published: true
-date: '2026-11-02T23:53:03.969Z'
+date: '2026-11-02T23:54:16.278Z'
 tags:
   - lxc
   - cron
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-05-24T19:10:30.833Z'
 ---
 
-aCe guide explique comment automatiser la mise à jour de la directive `registerHostname` dans la configuration d'un serveur Mumble installé sur un conteneur LXC (Debian/Ubuntu), lorsque l'on dispose d'une adresse IP publique dynamique.
+Ce guide explique comment automatiser la mise à jour de la directive `registerHostname` dans la configuration d'un serveur Mumble installé sur un conteneur LXC (Debian/Ubuntu), lorsque l'on dispose d'une adresse IP publique dynamique.
 
 Le script vérifie l'IP toutes les heures et ne redémarre le serveur Mumble **que** si un changement est détecté, évitant ainsi les coupures inutiles. De plus, il reste totalement silencieux pour ne pas polluer les journaux système.
 
