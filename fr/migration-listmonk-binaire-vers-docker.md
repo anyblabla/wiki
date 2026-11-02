@@ -5,7 +5,7 @@ description: >-
   natif vers Docker Compose en environnement LXC. Il couvre l'extraction, la
   restauration et l'ordre de démarrage.
 published: true
-date: '2026-11-02T23:52:57.120Z'
+date: '2026-11-02T23:54:06.543Z'
 tags:
   - docker
   - lxc
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-02-17T18:31:41.456Z'
 ---
 
-aCe guide détaille la procédure technique pour migrer une instance **Listmonk** d'une installation en binaire autonome vers une architecture **Docker Compose** sous **LXC**, en garantissant la continuité des données.
+Ce guide détaille la procédure technique pour migrer une instance **Listmonk** d'une installation en binaire autonome vers une architecture **Docker Compose** sous **LXC**, en garantissant la continuité des données.
 
 ## 1. Extraction des données (source)
 
