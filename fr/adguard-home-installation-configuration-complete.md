@@ -5,7 +5,7 @@ description: >-
   Un guide complet pour bloquer la publicité, protéger votre vie privée et
   optimiser votre réseau local avec BlablaLinux.
 published: true
-date: '2026-11-02T23:15:57.515Z'
+date: '2026-11-02T23:16:09.205Z'
 tags:
   - lxc
   - proxmox
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-01-29T22:52:06.042Z'
 ---
 
-a## Liens utiles
+## Liens utiles
 
 * AdGuard Home (web) : [https://adguard.com/fr/adguard-home/overview.html](https://adguard.com/fr/adguard-home/overview.html)
 * AdGuard Home (GitHub) : [https://github.com/AdguardTeam/AdGuardHome](https://github.com/AdguardTeam/AdGuardHome)
