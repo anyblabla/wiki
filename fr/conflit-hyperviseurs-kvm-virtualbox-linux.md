@@ -5,7 +5,7 @@ description: >-
   du lancement de VirtualBox sur Debian/Ubuntu/Mint. Guide de bascule dynamique
   entre KVM, VMware et VirtualBox.
 published: true
-date: '2026-11-02T23:39:50.559Z'
+date: '2026-11-02T23:39:54.445Z'
 tags:
   - virtualisation
   - virtmanager
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-01-12T01:04:10.601Z'
 ---
 
-aIl arrive fréquemment, notamment sur **Debian 13**, **Ubuntu 24.04** ou **Linux Mint 22**, que VirtualBox refuse de démarrer une machine virtuelle en affichant une erreur indiquant qu'un autre hyperviseur est déjà actif.
+Il arrive fréquemment, notamment sur **Debian 13**, **Ubuntu 24.04** ou **Linux Mint 22**, que VirtualBox refuse de démarrer une machine virtuelle en affichant une erreur indiquant qu'un autre hyperviseur est déjà actif.
 
 ## Pourquoi ce problème apparaît ?
 
