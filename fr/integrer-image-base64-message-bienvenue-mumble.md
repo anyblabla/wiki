@@ -5,7 +5,7 @@ description: >-
   Méthode appliquée sur le serveur BlablaLinux pour un affichage performant sans
   dépendre d'un hébergement externe.
 published: true
-date: '2026-11-02T23:46:53.109Z'
+date: '2026-11-02T23:46:59.430Z'
 tags:
   - debian
   - administration
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-01-23T23:02:17.545Z'
 ---
 
-aL'utilisation d'images intégrées permet de personnaliser l'accueil des utilisateurs sans dépendre de liens externes qui pourraient devenir obsolètes. Voici la méthode complète, **comme cela a été fait sur le serveur BlablaLinux**.
+L'utilisation d'images intégrées permet de personnaliser l'accueil des utilisateurs sans dépendre de liens externes qui pourraient devenir obsolètes. Voici la méthode complète, **comme cela a été fait sur le serveur BlablaLinux**.
 
 ## Optimisation du poids de l'image
 
