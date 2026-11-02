@@ -5,7 +5,7 @@ description: >-
   bordure hachurée personnalisée autour des images, vidéos et GIF sans texte
   alternatif pour ne plus oublier les descriptions.
 published: true
-date: '2026-11-02T23:52:29.520Z'
+date: '2026-11-02T23:53:27.030Z'
 tags:
   - mastodon
   - css
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-12-24T01:36:11.083Z'
 ---
 
-a## Présentation
+## Présentation
 
 Sur Mastodon et le Fediverse, l'accessibilité est une valeur fondamentale. Cependant, il arrive d'oublier d'ajouter une description textuelle (texte alternatif) sur un média. Ce tutoriel explique comment ajouter un style CSS personnalisé qui entourera automatiquement d'une bordure hachurée tout média publié sans texte alternatif.
 
