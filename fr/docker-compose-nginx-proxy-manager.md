@@ -5,7 +5,7 @@ description: >-
   (NPM) en utilisant une pile Docker (stack) dans Portainer ou directement avec
   Docker Compose.
 published: true
-date: '2026-11-02T23:34:17.359Z'
+date: '2026-11-02T23:34:21.294Z'
 tags:
   - nginx
   - proxy
@@ -13,7 +13,7 @@ editor: markdown
 dateCreated: '2024-06-13T20:53:40.020Z'
 ---
 
-aJe pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
+Je pars du principe que vous maîtrisez un minimum Docker avec Portainer 😉
 
 -----
 
