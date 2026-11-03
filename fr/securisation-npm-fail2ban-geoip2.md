@@ -5,7 +5,7 @@ description: >-
   Docker. Bloquez les scans et les pays à risque grâce au bannissement
   automatique par iptables sur l'hôte.
 published: true
-date: '2026-11-03T00:04:34.158Z'
+date: '2026-11-03T00:05:44.811Z'
 tags:
   - docker
   - nginx
@@ -22,7 +22,7 @@ editor: markdown
 dateCreated: '2026-05-07T00:10:11.725Z'
 ---
 
-aCe guide fournit une configuration « clés en main » pour protéger une infrastructure Docker avec une détection géographique et une riposte automatique via Fail2Ban.
+Ce guide fournit une configuration « clés en main » pour protéger une infrastructure Docker avec une détection géographique et une riposte automatique via Fail2Ban.
 
 ## 📺 Vidéo de présentation
 
