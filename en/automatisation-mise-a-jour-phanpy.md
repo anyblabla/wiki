@@ -5,7 +5,7 @@ description: >-
   Bash script to check GitHub releases, manage installation, and configure a
   Cron job for daily updates.
 published: true
-date: '2026-11-03T00:09:33.285Z'
+date: '2026-11-03T00:09:52.513Z'
 tags:
   - mastodon
   - lxc
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-01-08T23:10:31.448Z'
 ---
 
-aThis page documents how to set up a Bash script to keep your **Phanpy** instance (web client for Mastodon) up to date by monitoring official releases on GitHub.
+This page documents how to set up a Bash script to keep your **Phanpy** instance (web client for Mastodon) up to date by monitoring official releases on GitHub.
 
 ## Useful links
 
