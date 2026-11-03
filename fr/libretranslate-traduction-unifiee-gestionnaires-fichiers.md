@@ -8,13 +8,13 @@ description: >-
   traductions complètes dans une fenêtre Zenity redimensionnable. Installation
   simple.
 published: true
-date: '2026-11-03T00:07:15.823Z'
+date: '2026-11-03T00:08:12.420Z'
 tags: []
 editor: markdown
 dateCreated: '2025-11-10T17:35:33.344Z'
 ---
 
-aCe guide explique comment créer un script unifié pour traduire des documents entiers ou du texte sélectionné en utilisant votre instance LibreTranslate. Le résultat complet de la traduction est affiché dans une fenêtre Zenity dédiée.
+Ce guide explique comment créer un script unifié pour traduire des documents entiers ou du texte sélectionné en utilisant votre instance LibreTranslate. Le résultat complet de la traduction est affiché dans une fenêtre Zenity dédiée.
 
 > ⚠️ Bien que l'outil notify-send soit couramment utilisé pour les actions rapides (comme la confirmation ou les courtes notifications), il n'a pas été privilégié ici car la plupart des systèmes de notification d'environnement de bureau (GNOME, Plasma, XFCE) limitent fortement le nombre de caractères affichés, empêchant de lire les traductions longues. Zenity permet, lui, de visualiser le texte intégral dans une fenêtre redimensionnable.
 
