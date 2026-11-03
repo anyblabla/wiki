@@ -5,7 +5,7 @@ description: >-
   Une solution maison pour automatiser vos sauvegardes Vaultwarden sans coupure
   et garantir une restauration fiable à 100%.
 published: true
-date: '2026-11-03T00:04:04.260Z'
+date: '2026-11-03T00:04:59.907Z'
 tags:
   - proxmox
   - bash
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-26T11:59:23.576Z'
 ---
 
-a> **L'approche BlablaLinux** : Pour mes bases de données externes classiques, je fais confiance à **Databasus**. Mais quand il s'agit de services utilisant des bases de type **SQLite** (comme Vaultwarden), j'utilise ma **solution maison**. Pourquoi ? Parce que SQLite est un fichier plat qui nécessite une manipulation spécifique (notamment la gestion du mode WAL) pour garantir une restauration 100% fiable sans corruption. Voici comment je sécurise mes instances.
+> **L'approche BlablaLinux** : Pour mes bases de données externes classiques, je fais confiance à **Databasus**. Mais quand il s'agit de services utilisant des bases de type **SQLite** (comme Vaultwarden), j'utilise ma **solution maison**. Pourquoi ? Parce que SQLite est un fichier plat qui nécessite une manipulation spécifique (notamment la gestion du mode WAL) pour garantir une restauration 100% fiable sans corruption. Voici comment je sécurise mes instances.
 
 ---
 
