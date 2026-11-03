@@ -4,7 +4,7 @@ description: >-
   Technical guide for adding a preview text (preheader) in Listmonk via HTML and
   configuring dummy subscriber data to test message personalization.
 published: true
-date: '2026-11-03T00:09:36.099Z'
+date: '2026-11-03T00:09:56.372Z'
 tags:
   - listmonk
   - mail
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-01-31T12:31:45.228Z'
 ---
 
-aThe **Listmonk** delivery tool does not natively offer a field to define the email preview text (preheader). Yet, this text is crucial for increasing open rates. This guide explains how to properly integrate it via HTML code and how to test the rendering using dummy data.
+The **Listmonk** delivery tool does not natively offer a field to define the email preview text (preheader). Yet, this text is crucial for increasing open rates. This guide explains how to properly integrate it via HTML code and how to test the rendering using dummy data.
 
 ---
 
