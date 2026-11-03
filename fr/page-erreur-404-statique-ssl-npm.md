@@ -5,7 +5,7 @@ description: >-
   sur Nginx Proxy Manager, utilisant un fichier HTML statique pour un rendu
   professionnel, dynamique et responsive.
 published: true
-date: '2026-11-03T00:00:16.172Z'
+date: '2026-11-03T00:01:09.737Z'
 tags:
   - npm
   - '404'
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-02-15T20:48:51.990Z'
 ---
 
-aCe guide détaille comment transformer une erreur de domaine inconnu sur **Nginx Proxy Manager (NPM)** en une page personnalisée, sécurisée par SSL, et hébergée directement via un fichier statique sur votre serveur.
+Ce guide détaille comment transformer une erreur de domaine inconnu sur **Nginx Proxy Manager (NPM)** en une page personnalisée, sécurisée par SSL, et hébergée directement via un fichier statique sur votre serveur.
 
 ## Pourquoi cette nouvelle méthode ?
 
