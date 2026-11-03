@@ -4,13 +4,13 @@ description: >-
   Zram est un module du noyau Linux qui crée un périphérique de stockage
   compressé en RAM.
 published: true
-date: '2026-11-03T00:29:11.081Z'
+date: '2026-11-03T00:29:15.219Z'
 tags: []
 editor: markdown
 dateCreated: '2025-11-01T00:19:53.610Z'
 ---
 
-aAu lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque la mémoire vive est pleine, **Zram** intercepte les pages mémoire et les compresse, réduisant ainsi la quantité de données échangées vers le disque. Cela améliore considérablement la réactivité du système, en particulier sur les machines avec une faible quantité de RAM ou des disques lents (comme les cartes SD ou les disques eMMC).
+Au lieu d'écrire directement sur le disque dur (le *swap* traditionnel) lorsque la mémoire vive est pleine, **Zram** intercepte les pages mémoire et les compresse, réduisant ainsi la quantité de données échangées vers le disque. Cela améliore considérablement la réactivité du système, en particulier sur les machines avec une faible quantité de RAM ou des disques lents (comme les cartes SD ou les disques eMMC).
 
 -----
 
