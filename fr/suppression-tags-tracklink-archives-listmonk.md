@@ -5,7 +5,7 @@ description: >-
   Listmonk via SQL. Comprenez pourquoi les archives affichent des erreurs et
   pourquoi l'interface UI ne suffit pas.
 published: true
-date: '2026-11-03T00:07:09.067Z'
+date: '2026-11-03T00:08:02.846Z'
 tags:
   - listmonk
   - maintenance
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-02-17T18:42:31.640Z'
 ---
 
-aCe guide explique pourquoi les liens dans les archives publiques de **Listmonk** peuvent devenir inopérants et pourquoi l'intervention en base de données est la seule solution technique possible.
+Ce guide explique pourquoi les liens dans les archives publiques de **Listmonk** peuvent devenir inopérants et pourquoi l'intervention en base de données est la seule solution technique possible.
 
 ## 1. Comprendre le problème : pourquoi l'erreur 404 ?
 
