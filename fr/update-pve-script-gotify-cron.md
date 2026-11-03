@@ -5,7 +5,7 @@ description: >-
   recevez une notification immédiate via Gotify en cas de succès ou d'échec.
   Inclut les pré-requis curl.
 published: true
-date: '2026-11-03T00:04:16.607Z'
+date: '2026-11-03T00:05:17.232Z'
 tags:
   - proxmox
   - cron
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2025-10-30T20:46:02.780Z'
 ---
 
-a## ⚠️ Avertissement important
+## ⚠️ Avertissement important
 
 L'automatisation des mises à jour système (surtout celles du noyau) comporte toujours un risque. **Ce script n'inclut pas de redémarrage automatique.**
 
