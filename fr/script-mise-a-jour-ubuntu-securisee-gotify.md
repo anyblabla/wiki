@@ -5,7 +5,7 @@ description: >-
   Cron et Gotify. Le script utilise apt-mark hold pour exclure les mises à jour
   du noyau, nécessitant une validation humaine.
 published: true
-date: '2026-11-03T00:04:25.476Z'
+date: '2026-11-03T00:05:31.517Z'
 tags:
   - cron
   - ubuntu
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-11-21T20:17:24.484Z'
 ---
 
-aCe guide explique comment mettre en place un script automatisé pour maintenir votre serveur Ubuntu à jour, en utilisant une méthode sécurisée qui exclut les mises à jour critiques du noyau.
+Ce guide explique comment mettre en place un script automatisé pour maintenir votre serveur Ubuntu à jour, en utilisant une méthode sécurisée qui exclut les mises à jour critiques du noyau.
 
 ## Introduction et objectif
 
