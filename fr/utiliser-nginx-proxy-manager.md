@@ -6,7 +6,7 @@ description: >-
   seule adresse IP publique afin d'héberger de nombreux services Web différents
   (auto-hébergement).
 published: true
-date: '2026-11-03T00:07:27.479Z'
+date: '2026-11-03T00:08:24.983Z'
 tags:
   - nginx
   - proxy
@@ -15,7 +15,7 @@ editor: markdown
 dateCreated: '2024-07-12T11:46:50.527Z'
 ---
 
-a**Nginx Proxy Manager** est un *reverse proxy* **open source** qui permet de rediriger le trafic Web vers l'emplacement approprié. Il est essentiel pour utiliser une seule adresse **IP publique** afin d'héberger de nombreux services Web différents (auto-hébergement).
+**Nginx Proxy Manager** est un *reverse proxy* **open source** qui permet de rediriger le trafic Web vers l'emplacement approprié. Il est essentiel pour utiliser une seule adresse **IP publique** afin d'héberger de nombreux services Web différents (auto-hébergement).
 
 ---
 
