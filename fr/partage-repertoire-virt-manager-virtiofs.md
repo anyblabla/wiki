@@ -5,7 +5,7 @@ description: >-
   un hôte Linux et une VM KVM/QEMU via virtio-fs sous Virt-manager. Idéal pour
   Debian, Ubuntu et Linux Mint.
 published: true
-date: '2026-11-03T00:00:25.717Z'
+date: '2026-11-03T00:01:23.209Z'
 tags:
   - share
   - debian
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-12-31T01:20:30.522Z'
 ---
 
-a## Présentation
+## Présentation
 
 Le pilote **virtio-fs** est la solution de pointe pour partager des données entre un hôte et un invité. Il surpasse l'ancien protocole 9p en offrant une latence réduite et une gestion optimisée du cache disque.
 
