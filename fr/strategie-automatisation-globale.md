@@ -5,7 +5,7 @@ description: >-
   guide détaille la maintenance des hôtes Proxmox, le cycle de vie Docker et les
   scripts de build pour BentoPDF et Mastodon.
 published: true
-date: '2026-11-03T00:07:02.982Z'
+date: '2026-11-03T00:07:53.065Z'
 tags:
   - docker
   - proxmox
@@ -23,7 +23,7 @@ editor: markdown
 dateCreated: '2026-04-08T18:02:59.241Z'
 ---
 
-aCette page centralise les mécanismes d'automatisation des clusters BlablaLinux. L'objectif est de garantir la continuité de service et la mise à jour constante des applicatifs avec une intervention humaine minimale.
+Cette page centralise les mécanismes d'automatisation des clusters BlablaLinux. L'objectif est de garantir la continuité de service et la mise à jour constante des applicatifs avec une intervention humaine minimale.
 
 > **Note de l'auteur :** J'ai essayé de regrouper ici un maximum de mon automatisation. Mais ce n'est pas évident, car j'ai beaucoup automatisé depuis un long moment maintenant.
 
