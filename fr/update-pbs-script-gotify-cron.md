@@ -7,7 +7,7 @@ description: >-
   dist-upgrade sur votre PBS et recevez une notification immédiate via Gotify en
   cas de succès ou d'échec. Inclut les pré-requis curl.
 published: true
-date: '2026-11-03T00:04:13.438Z'
+date: '2026-11-03T00:05:12.747Z'
 tags:
   - proxmox
   - cron
@@ -21,7 +21,7 @@ editor: markdown
 dateCreated: '2025-10-30T20:50:47.691Z'
 ---
 
-a### 📝 Introduction et objectif
+### 📝 Introduction et objectif
 
 L'objectif est d'assurer que votre serveur de sauvegarde reste sécurisé et à jour sans intervention manuelle quotidienne, tout en vous notifiant immédiatement de l'état de l'opération.
 
