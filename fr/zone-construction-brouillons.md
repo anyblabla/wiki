@@ -5,7 +5,7 @@ description: >-
   cours de rédaction. Le contenu est brut de fonderie et non validé. À utiliser
   avec prudence.
 published: true
-date: '2026-11-03T00:28:46.514Z'
+date: '2026-11-03T00:28:51.003Z'
 tags:
   - brouillon
   - construction
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-11-18T00:47:12.674Z'
 ---
 
-aBienvenue dans la **zone de construction** du wiki. Cette section est dédiée aux articles et aux pages qui sont actuellement en cours de rédaction, de révision ou de validation par **moi**.
+Bienvenue dans la **zone de construction** du wiki. Cette section est dédiée aux articles et aux pages qui sont actuellement en cours de rédaction, de révision ou de validation par **moi**.
 
 ---
 
