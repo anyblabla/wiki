@@ -6,7 +6,7 @@ description: >-
   composants essentiels, assurant la stabilité tout en maintenant votre système
   à jour.
 published: true
-date: '2026-11-03T00:04:22.647Z'
+date: '2026-11-03T00:05:26.419Z'
 tags:
   - proxmox
   - debian
@@ -22,7 +22,7 @@ editor: markdown
 dateCreated: '2025-11-21T20:02:46.363Z'
 ---
 
-aCe guide détaille l'installation et la configuration d'un script d'automatisation des mises à jour pour Proxmox VE. Le script inclut un mécanisme de sécurité pour mettre à jour les composants non-critiques tout en laissant la supervision humaine pour les éléments essentiels (noyau et hyperviseur).
+Ce guide détaille l'installation et la configuration d'un script d'automatisation des mises à jour pour Proxmox VE. Le script inclut un mécanisme de sécurité pour mettre à jour les composants non-critiques tout en laissant la supervision humaine pour les éléments essentiels (noyau et hyperviseur).
 
 ## ⚠️ Avertissement de sécurité : la stratégie du `hold`
 
