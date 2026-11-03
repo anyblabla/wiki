@@ -5,7 +5,7 @@ description: >-
   le branding, configurer Nginx pour le support WebAssembly et automatiser la
   maintenance du serveur.
 published: true
-date: '2026-11-03T00:00:35.634Z'
+date: '2026-11-03T00:01:36.840Z'
 tags:
   - docker
   - linux
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-02-15T02:03:56.024Z'
 ---
 
-aCe tutoriel détaille la mise en place d'une instance **BentoPDF** personnalisée. Nous allons configurer l'identité visuelle, optimiser les performances et automatiser les mises à jour.
+Ce tutoriel détaille la mise en place d'une instance **BentoPDF** personnalisée. Nous allons configurer l'identité visuelle, optimiser les performances et automatiser les mises à jour.
 
 ## Étape 1 : Préparation de l'environnement
 
