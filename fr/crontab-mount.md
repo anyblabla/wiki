@@ -5,7 +5,7 @@ description: >-
   Retirez le montage du disque secondaire de /etc/fstab et planifiez son montage
   automatique après le boot via Crontab (@reboot) pour rétablir la fonction.
 published: true
-date: '2026-11-03T00:03:52.305Z'
+date: '2026-11-03T00:04:44.363Z'
 tags:
   - cron
   - crontab
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2024-06-24T00:12:35.609Z'
 ---
 
-a## 🚧 Situation Initiale et Problématique
+## 🚧 Situation Initiale et Problématique
 
 Votre système démarre correctement à partir d'un premier périphérique [USB](https://fr.wikipedia.org/wiki/USB) contenant la partition `/boot`. Cependant, l'ajout d'un second périphérique de stockage [USB](https://fr.wikipedia.org/wiki/USB) configuré pour un montage automatique dans `/etc/fstab` provoque un échec au démarrage.
 
