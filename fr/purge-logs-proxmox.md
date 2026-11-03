@@ -5,7 +5,7 @@ description: >-
   massivement les journaux système, de vider les fichiers .log sans les
   supprimer et de libérer l'espace disque instantanément.
 published: true
-date: '2026-11-03T00:04:31.403Z'
+date: '2026-11-03T00:05:39.779Z'
 tags:
   - proxmox
   - debian
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-02-06T14:09:23.627Z'
 ---
 
-aCet utilitaire permet de libérer rapidement de l'espace disque sur un hôte **Proxmox** ou n'importe quel système **Debian/Ubuntu** en nettoyant les journaux accumulés sans perturber les services en cours d'exécution.
+Cet utilitaire permet de libérer rapidement de l'espace disque sur un hôte **Proxmox** ou n'importe quel système **Debian/Ubuntu** en nettoyant les journaux accumulés sans perturber les services en cours d'exécution.
 
 ## Installation pas à pas
 
