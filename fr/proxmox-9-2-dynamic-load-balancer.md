@@ -4,7 +4,7 @@ description: >-
   Découvrez le Dynamic Load Balancer de Proxmox VE 9.2 et apprenez à configurer
   ses options de rebalancement.
 published: true
-date: '2026-11-03T00:00:53.774Z'
+date: '2026-11-03T00:02:03.729Z'
 tags:
   - proxmox
   - cluster
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-05-21T18:48:27.725Z'
 ---
 
-aLe CRS (Cluster Resource Scheduler) de Proxmox VE s'enrichit d'une fonctionnalité majeure : un **Dynamic Load Balancer (Équilibreur de charge dynamique)** intégré directement au cœur du cluster. Ce guide détaille son fonctionnement et la signification des paramètres de configuration.
+Le CRS (Cluster Resource Scheduler) de Proxmox VE s'enrichit d'une fonctionnalité majeure : un **Dynamic Load Balancer (Équilibreur de charge dynamique)** intégré directement au cœur du cluster. Ce guide détaille son fonctionnement et la signification des paramètres de configuration.
 
 ## 1. Présentation du Dynamic Load Balancer
 
