@@ -7,7 +7,7 @@ description: >-
   redémarrage sécurisé de vos conteneurs et machines virtuelles Debian/Ubuntu.
   Recevez une notification détaillée via Gotify.
 published: true
-date: '2026-11-03T00:04:07.173Z'
+date: '2026-11-03T00:05:04.174Z'
 tags:
   - lxc
   - proxmox
@@ -22,7 +22,7 @@ editor: markdown
 dateCreated: '2026-09-19T19:49:17.486Z'
 ---
 
-a> ⚠️ **Page obsolète**
+> ⚠️ **Page obsolète**
 >
 > Cette page décrit une ancienne version des scripts. Elle est conservée à titre d'archive mais **n'est plus maintenue**.
 >
