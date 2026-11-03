@@ -6,7 +6,7 @@ description: >-
   Utilisez un raccourci clavier ou le menu Nautilus pour obtenir la traduction
   intégrale.
 published: true
-date: '2026-11-03T00:07:19.473Z'
+date: '2026-11-03T00:08:16.866Z'
 tags:
   - script
   - translate
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-11-10T13:08:12.330Z'
 ---
 
-aCe guide explique comment créer un script unifié pour traduire des documents entiers ou du texte sélectionné en utilisant votre instance LibreTranslate. Le résultat complet de la traduction est affiché dans une fenêtre Zenity dédiée.
+Ce guide explique comment créer un script unifié pour traduire des documents entiers ou du texte sélectionné en utilisant votre instance LibreTranslate. Le résultat complet de la traduction est affiché dans une fenêtre Zenity dédiée.
 
 > ⚠️ Bien que l'outil notify-send soit couramment utilisé pour les actions rapides (comme la confirmation ou les courtes notifications), il n'a pas été privilégié ici car les notifications GNOME limitent fortement le nombre de caractères affichés, empêchant de lire les traductions longues. Zenity permet, lui, de visualiser le texte intégral dans une fenêtre redimensionnable.
 
