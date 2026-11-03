@@ -5,7 +5,7 @@ description: >-
   management of your Proxmox VE and Proxmox Backup Server (PBS) infrastructures
   from a single unified web interface.
 published: true
-date: '2026-11-03T00:09:44.660Z'
+date: '2026-11-03T00:10:09.579Z'
 tags:
   - proxmox
   - pbs
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-05-23T20:55:39.481Z'
 ---
 
-a[ProxCenter](https://proxcenter.io) is a modern, open-source web dashboard designed to centralize and simplify the monitoring of your virtualization infrastructures. It gathers the tracking of your Proxmox VE hypervisors and your Proxmox Backup Server (PBS) instances into a single location.
+[ProxCenter](https://proxcenter.io) is a modern, open-source web dashboard designed to centralize and simplify the monitoring of your virtualization infrastructures. It gathers the tracking of your Proxmox VE hypervisors and your Proxmox Backup Server (PBS) instances into a single location.
 
 The tool is available in two versions: a completely free and self-hosted **Community** edition (including dashboard, monitoring, inventory, PBS management, and basic alerts) and an **Enterprise** edition that unlocks advanced features (DRS, micro-segmentation, SSO, etc.).
 
