@@ -5,7 +5,7 @@ description: >-
   inefficace. Ce guide montre comment extraire les données cachées sous
   OnlyOffice ou LibreOffice avec un script Python dédié.
 published: true
-date: '2026-11-03T00:04:37.327Z'
+date: '2026-11-03T00:05:49.200Z'
 tags:
   - pdf
   - debian
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-12-24T12:40:16.902Z'
 ---
 
-a## 1. Introduction
+## 1. Introduction
 
 Il est fréquent de voir des utilisateurs masquer des informations sensibles (mots de passe, noms propres, coordonnées) en dessinant un rectangle noir par-dessus le texte dans une suite bureautique comme OnlyOffice ou LibreOffice.
 
