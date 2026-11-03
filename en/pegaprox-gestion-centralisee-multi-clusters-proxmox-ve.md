@@ -5,7 +5,7 @@ description: >-
   management for Proxmox VE. Ideal for managing your entire virtualization
   infrastructure from a single interface.
 published: true
-date: '2026-11-03T00:09:41.983Z'
+date: '2026-11-03T00:10:05.459Z'
 tags:
   - proxmox
   - cluster
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2026-05-23T20:31:06.167Z'
 ---
 
-a[PegaProx](https://pegaprox.com) is a completely free and open-source solution that serves as a centralized management console for your virtualization infrastructures. It is primarily designed for Proxmox VE (with support for XCP-ng currently under development). 
+[PegaProx](https://pegaprox.com) is a completely free and open-source solution that serves as a centralized management console for your virtualization infrastructures. It is primarily designed for Proxmox VE (with support for XCP-ng currently under development). 
 
 It can be compared to what vCenter is for VMware: a single, modern graphical interface to manage your entire infrastructure.
 
