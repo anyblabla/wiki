@@ -5,7 +5,7 @@ description: >-
   lorsqu'un hôte (nom de domaine) n'est pas configuré. Inclut le mode sombre et
   est entièrement responsive.
 published: true
-date: '2026-11-03T00:00:19.433Z'
+date: '2026-11-03T00:01:14.750Z'
 tags:
   - nginx
   - proxy
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-11-28T00:37:05.212Z'
 ---
 
-aCette page explique le rôle, la structure, et la méthode d'utilisation de la page HTML/CSS que **j'utilise** comme réponse par défaut dans **Nginx Proxy Manager (NPM)**.
+Cette page explique le rôle, la structure, et la méthode d'utilisation de la page HTML/CSS que **j'utilise** comme réponse par défaut dans **Nginx Proxy Manager (NPM)**.
 
 -----
 
