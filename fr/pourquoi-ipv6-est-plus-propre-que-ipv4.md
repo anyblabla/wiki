@@ -5,7 +5,7 @@ description: >-
   le NAT et reste sécurisé grâce au pare-feu, malgré les idées reçues sur les
   adresses publiques.
 published: true
-date: '2026-11-03T00:00:41.755Z'
+date: '2026-11-03T00:01:45.368Z'
 tags:
   - nat
   - sécurité
@@ -22,7 +22,7 @@ editor: markdown
 dateCreated: '2026-05-11T14:36:46.701Z'
 ---
 
-aBeaucoup de gens pensent que l'IPv6 est dangereux car chaque machine possède sa propre adresse IP publique. Pourtant, l'IPv6 ne fait que revenir au fonctionnement normal d'Internet, en supprimant le "bricolage" que nous utilisons depuis 30 ans : le NAT.
+Beaucoup de gens pensent que l'IPv6 est dangereux car chaque machine possède sa propre adresse IP publique. Pourtant, l'IPv6 ne fait que revenir au fonctionnement normal d'Internet, en supprimant le "bricolage" que nous utilisons depuis 30 ans : le NAT.
 
 IPv6 rétablit le principe original d’Internet : une communication directe de bout en bout entre les machines.
 
