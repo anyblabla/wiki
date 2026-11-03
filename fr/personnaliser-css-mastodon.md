@@ -5,7 +5,7 @@ description: >-
   Guide basé sur la configuration réelle de Blabla Linux pour harmoniser votre
   serveur avec votre charte.
 published: true
-date: '2026-11-03T00:00:38.754Z'
+date: '2026-11-03T00:01:40.728Z'
 tags:
   - mastodon
   - css
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-12-23T14:09:45.319Z'
 ---
 
-aPourquoi se contenter du bleu par défaut ? L'administration de Mastodon permet d'injecter du code CSS pour modifier l'interface utilisateur (version Web) sans toucher au code source de l'application. Cela permet d'harmoniser votre instance avec votre blog ou votre charte graphique personnelle.
+Pourquoi se contenter du bleu par défaut ? L'administration de Mastodon permet d'injecter du code CSS pour modifier l'interface utilisateur (version Web) sans toucher au code source de l'application. Cela permet d'harmoniser votre instance avec votre blog ou votre charte graphique personnelle.
 
 ## Pourquoi modifier le CSS ?
 
