@@ -5,7 +5,7 @@ description: >-
   incluant l'optimisation Nginx Proxy Manager et la sécurisation par politique
   d'accès JSON personnalisée.
 published: true
-date: '2026-11-03T00:06:59.979Z'
+date: '2026-11-03T00:07:49.252Z'
 tags:
   - docker
   - proxmox
@@ -19,7 +19,7 @@ editor: markdown
 dateCreated: '2026-04-20T15:43:29.876Z'
 ---
 
-a> **Environnement de référence**
+> **Environnement de référence**
 >
 >   - PeerTube dans un conteneur LXC Debian + Docker sur Proxmox VE
 >   - MinIO autohébergé, accessible via un sous-domaine dédié (`minio.example.be`)
