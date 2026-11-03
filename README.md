@@ -1,32 +1,21 @@
----
-title: README
-description: LISEZ-MOI
-published: true
-date: 2026-08-02T00:09:30.105Z
-tags: readme
-editor: markdown
-dateCreated: 2025-04-19T23:30:36.538Z
----
-
 <p style="text-align: center"><img src="/readme/wikijs-bbl-02.png"></p>
 
 # 📚 BlablaLinux Wiki Content
 
-Ce dépôt contient l'intégralité du contenu du **Wiki BlablaLinux**.
+Ce dépôt contient l'intégralité du contenu du **Wiki BlablaLinux** rédigé au format Markdown.
 
-*(This repository holds the complete content of the **BlablaLinux Wiki**.)*
+*(This repository holds the complete content of the **BlablaLinux Wiki** written in Markdown format.)*
 
 ---
 
-## 📢 Remarque Importante (Notice)
+## 📁 Structure du Dépôt (Repository Structure)
 
-**Priorisez les fichiers Markdown (`.md`) !**
+Le contenu est désormais structuré par langue dans des répertoires dédiés :
 
-Les anciennes pages au format `HTML` sont obsolètes et seront bientôt supprimées. Veuillez utiliser et contribuer uniquement aux pages au format **Markdown** (`.md`) pour assurer la lisibilité et la pérennité du contenu.
+- `/fr/` : Pages et tutoriels en français.
+- `/en/` : Pages et tutoriels en anglais.
 
-*(**Please prioritize Markdown (`.md`) files!**)*
-
-*(The old `HTML` pages are deprecated and will be removed soon. Please use and contribute only to **Markdown** (`.md`) pages to ensure readability and content longevity.)*
+*(Content is now organized by language in dedicated directories: `/fr/` for French and `/en/` for English.)*
 
 ---
 
