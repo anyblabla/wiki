@@ -4,7 +4,7 @@ description: >-
   Cette page documente la fonction Bash imgoptim, un outil essentiel pour le
   redimensionnement et la compression des fichiers d'images JPG/JPEG.
 published: true
-date: '2026-11-03T00:07:24.085Z'
+date: '2026-11-03T00:08:21.390Z'
 tags:
   - imgoptim
   - jpg
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2025-10-29T23:38:04.792Z'
 ---
 
-a## 💾 Installation : Où Placer le Code
+## 💾 Installation : Où Placer le Code
 
 La fonction `imgoptim` doit être placée dans le fichier de configuration de vos alias : **`~/.bash_aliases`** (dans votre répertoire personnel).
 
