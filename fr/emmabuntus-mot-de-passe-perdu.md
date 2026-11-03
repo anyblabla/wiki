@@ -6,7 +6,7 @@ description: >-
   Ce guide décrit la méthode pour réinitialiser un mot de passe perdu sur un
   système Debian (ou Emmabuntüs) en éditant le menu GRUB au démarrage.
 published: true
-date: '2026-11-03T00:00:58.907Z'
+date: '2026-11-03T00:02:14.232Z'
 tags:
   - password
   - user
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2024-08-15T15:31:02.884Z'
 ---
 
-a> **Méthode testée et opérationnelle sur Emmabuntüs DE4/5, et donc valable pour Debian.**
+> **Méthode testée et opérationnelle sur Emmabuntüs DE4/5, et donc valable pour Debian.**
 
 -----
 
