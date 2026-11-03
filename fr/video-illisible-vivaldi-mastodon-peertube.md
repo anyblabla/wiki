@@ -7,7 +7,7 @@ description: >-
   Post-mortem complet : fausses pistes (NPM, CORS, CSP) et vraie cause (codecs
   propriétaires Flatpak corrompus).
 published: true
-date: '2026-11-03T00:07:30.521Z'
+date: '2026-11-03T00:08:29.514Z'
 tags:
   - mastodon
   - peertube
@@ -25,7 +25,7 @@ editor: markdown
 dateCreated: '2026-09-13T22:34:02.771Z'
 ---
 
-a## Le symptôme
+## Le symptôme
 
 Une vidéo publiée depuis un moment sur mon instance Mastodon (fichier `.mp4` local dans `public/system/media_attachments/`) refusait subitement de se lancer. Le lecteur remontait une erreur générique :
 
