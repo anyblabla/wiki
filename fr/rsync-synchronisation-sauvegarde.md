@@ -5,7 +5,7 @@ description: >-
   les commandes de base, l'exclusion de fichiers, les transferts SSH et la
   création de sauvegardes historiques incrémentales.
 published: true
-date: '2026-11-03T00:03:58.729Z'
+date: '2026-11-03T00:04:52.024Z'
 tags:
   - rsync
   - sync
@@ -14,7 +14,7 @@ editor: markdown
 dateCreated: '2025-11-18T21:37:22.686Z'
 ---
 
-a**Rsync** est un pilier incontournable de l'administration système sous **Linux**. Cet outil, essentiel pour l'automatisation des tâches de sauvegarde, est reconnu pour son efficacité grâce à son algorithme unique qui minimise les transferts de données. Que vous cherchiez à synchroniser deux dossiers locaux ou à sécuriser des données sur un serveur distant via SSH, ce guide vous fournira toutes les commandes clés.
+**Rsync** est un pilier incontournable de l'administration système sous **Linux**. Cet outil, essentiel pour l'automatisation des tâches de sauvegarde, est reconnu pour son efficacité grâce à son algorithme unique qui minimise les transferts de données. Que vous cherchiez à synchroniser deux dossiers locaux ou à sécuriser des données sur un serveur distant via SSH, ce guide vous fournira toutes les commandes clés.
 
 -----
 
