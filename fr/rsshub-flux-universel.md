@@ -5,7 +5,7 @@ description: >-
   RSS pour tout contenu web qui n'en propose pas, et intégrez-les directement à
   notre FreshRSS.
 published: true
-date: '2026-11-03T00:03:55.455Z'
+date: '2026-11-03T00:04:48.315Z'
 tags:
   - veille
   - rsshub
@@ -21,7 +21,7 @@ editor: markdown
 dateCreated: '2025-12-10T22:42:17.517Z'
 ---
 
-a## 🌟 Introduction à RSSHub : le pont vers le contenu
+## 🌟 Introduction à RSSHub : le pont vers le contenu
 
 **RSSHub** est un service libre et *open source* qui permet de générer des flux RSS pour des sites web ou des sources qui n'en proposent pas nativement. Il agit comme un agrégateur universel, transformant le contenu de plateformes dynamiques (réseaux sociaux, sites d'actualités complexes, forums, etc.) en flux RSS standard que vous pouvez lire dans votre agrégateur préféré.
 
