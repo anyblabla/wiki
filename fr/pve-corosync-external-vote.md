@@ -5,7 +5,7 @@ description: >-
   disponibilité (HA) des clusters Proxmox VE, notamment ceux à 2 nœuds, en
   garantissant le quorum après une défaillance de nœud.
 published: true
-date: '2026-11-03T00:00:48.561Z'
+date: '2026-11-03T00:01:54.122Z'
 tags:
   - proxmox
   - pve
@@ -17,7 +17,7 @@ editor: markdown
 dateCreated: '2025-11-05T18:12:37.439Z'
 ---
 
-aCette page décrit comment déployer un **votant externe** (External Voter), connu sous le nom de **Corosync Quorum Device (QDevice)**, dans un cluster Proxmox VE. Lorsqu'il est correctement configuré, le cluster peut **résister à davantage de défaillances de nœuds** sans compromettre les propriétés de sécurité de la communication du cluster, augmentant ainsi significativement la **haute disponibilité (HA)**, même dans les petites configurations (par exemple, 2 nœuds avec 1 QDevice, soit 2+1).
+Cette page décrit comment déployer un **votant externe** (External Voter), connu sous le nom de **Corosync Quorum Device (QDevice)**, dans un cluster Proxmox VE. Lorsqu'il est correctement configuré, le cluster peut **résister à davantage de défaillances de nœuds** sans compromettre les propriétés de sécurité de la communication du cluster, augmentant ainsi significativement la **haute disponibilité (HA)**, même dans les petites configurations (par exemple, 2 nœuds avec 1 QDevice, soit 2+1).
 
 ## 1\. Principes de fonctionnement
 
