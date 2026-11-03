@@ -5,7 +5,7 @@ description: >-
   Ubuntu Server. Concentré sur la configuration des instantanés automatiques via
   ligne de commande et le fichier JSON, puis l'activation par Cron.
 published: true
-date: '2026-11-03T00:07:11.966Z'
+date: '2026-11-03T00:08:07.731Z'
 tags:
   - timeshift
   - sauvegarde
@@ -15,7 +15,7 @@ editor: markdown
 dateCreated: '2024-06-05T18:52:33.986Z'
 ---
 
-a> **Problématique :** La plupart des tutoriels sont incomplets et n'abordent pas l'édition et l'initialisation du fichier **JSON** essentiel pour l'automatisation.
+> **Problématique :** La plupart des tutoriels sont incomplets et n'abordent pas l'édition et l'initialisation du fichier **JSON** essentiel pour l'automatisation.
 
 -----
 
