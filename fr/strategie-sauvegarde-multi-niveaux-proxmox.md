@@ -5,7 +5,7 @@ description: >-
   automatisés, double redondance sur PBS avec rétention GFS, et protection
   granulaire des bases de données applicatives.
 published: true
-date: '2026-11-03T00:07:06.046Z'
+date: '2026-11-03T00:07:58.231Z'
 tags:
   - proxmox
   - sauvegarde
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-27T13:43:45.239Z'
 ---
 
-a> **Note importante** : Ce document décrit la stratégie de sauvegarde telle qu'elle est configurée actuellement. Cette architecture se rapproche au maximum de la mise en place réelle, mais elle est sujette à des évolutions fréquentes en fonction de certains critères techniques ou d'optimisation.
+> **Note importante** : Ce document décrit la stratégie de sauvegarde telle qu'elle est configurée actuellement. Cette architecture se rapproche au maximum de la mise en place réelle, mais elle est sujette à des évolutions fréquentes en fonction de certains critères techniques ou d'optimisation.
 
 ---
 
