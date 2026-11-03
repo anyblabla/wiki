@@ -5,7 +5,7 @@ description: >-
   script supprime caches, logs et paquets inutiles, puis envoie un rapport
   détaillé via Gotify.
 published: true
-date: '2026-11-03T00:04:28.585Z'
+date: '2026-11-03T00:05:35.543Z'
 tags:
   - lxc
   - proxmox
@@ -21,7 +21,7 @@ editor: markdown
 dateCreated: '2025-11-22T21:55:39.053Z'
 ---
 
-aCe script Bash est conçu pour automatiser le nettoyage régulier des conteneurs LXC sur Proxmox VE. Il cible la suppression des caches de paquets, des journaux (`logs`) et des fichiers temporaires pour économiser de l'espace disque. Le script gère les distributions **Debian**, **Ubuntu** et **Alpine** et envoie un rapport détaillé via **Gotify**.
+Ce script Bash est conçu pour automatiser le nettoyage régulier des conteneurs LXC sur Proxmox VE. Il cible la suppression des caches de paquets, des journaux (`logs`) et des fichiers temporaires pour économiser de l'espace disque. Le script gère les distributions **Debian**, **Ubuntu** et **Alpine** et envoie un rapport détaillé via **Gotify**.
 
 -----
 
