@@ -5,7 +5,7 @@ description: >-
   clustering (Corosync), et outils CLI (qm, pct). Idéal pour l'administration
   système.
 published: true
-date: '2026-11-03T00:00:22.476Z'
+date: '2026-11-03T00:01:19.127Z'
 tags:
   - qemu
   - lxc
@@ -29,7 +29,7 @@ editor: markdown
 dateCreated: '2025-11-28T22:51:32.025Z'
 ---
 
-aCette documentation s'applique spécifiquement aux installations **Proxmox Virtual Environment (PVE) version 9.1.x**, qui est basée sur la branche de développement **Debian 13 "Trixie"**.
+Cette documentation s'applique spécifiquement aux installations **Proxmox Virtual Environment (PVE) version 9.1.x**, qui est basée sur la branche de développement **Debian 13 "Trixie"**.
 
 **Proxmox VE** est une plateforme de virtualisation open-source complète combinant les technologies de conteneurisation (**LXC**) et de virtualisation complète (**KVM**). Son architecture est modulaire, reposant sur plusieurs paquets logiciels clés gérant l'interface, le clustering, le stockage, et les machines virtuelles/conteneurs.
 
