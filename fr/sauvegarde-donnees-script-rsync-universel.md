@@ -5,7 +5,7 @@ description: >-
   (home, sites web, clouds). Un guide pour automatiser vos copies de fichiers en
   complément d'une sauvegarde système.
 published: true
-date: '2026-11-03T00:04:01.603Z'
+date: '2026-11-03T00:04:55.851Z'
 tags:
   - sauvegarde
   - rsync
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-10T18:23:56.364Z'
 ---
 
-aCe guide explique comment mettre en place une solution de sauvegarde pour vos données personnelles ou applicatives (fichiers, sites web, bases de données) à l'aide d'un script flexible et automatisé.
+Ce guide explique comment mettre en place une solution de sauvegarde pour vos données personnelles ou applicatives (fichiers, sites web, bases de données) à l'aide d'un script flexible et automatisé.
 
 > 💡 **Complémentarité des sauvegardes**
 > Pour une sécurité maximale, ce script doit être utilisé en complément d'une sauvegarde complète du système (OS).
