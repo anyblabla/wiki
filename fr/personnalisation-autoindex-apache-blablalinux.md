@@ -5,7 +5,7 @@ description: >-
   le thème sombre de Blabla Linux. Guide technique pour un rendu moderne,
   responsive et aux couleurs de votre charte.
 published: true
-date: '2026-11-03T00:00:32.775Z'
+date: '2026-11-03T00:01:32.494Z'
 tags:
   - apache
   - css
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-01-25T22:50:47.081Z'
 ---
 
-aCe guide détaille la transformation technique de l'interface `mod_autoindex` d'Apache utilisée sur **fichiers.blablalinux.be**. L'objectif est de passer d'un listing brut à une interface moderne, sombre, centrée et responsive.
+Ce guide détaille la transformation technique de l'interface `mod_autoindex` d'Apache utilisée sur **fichiers.blablalinux.be**. L'objectif est de passer d'un listing brut à une interface moderne, sombre, centrée et responsive.
 
 ## 1. La structure : Le principe du "Sandwich"
 
