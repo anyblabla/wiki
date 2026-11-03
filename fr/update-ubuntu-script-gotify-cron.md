@@ -5,7 +5,7 @@ description: >-
   refresh sur votre serveur Ubuntu. Recevez une notification immédiate via
   Gotify en cas de succès ou d'échec de la mise à jour.
 published: true
-date: '2026-11-03T00:04:10.051Z'
+date: '2026-11-03T00:05:08.072Z'
 tags:
   - serveur
   - crontab
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2025-10-30T21:01:00.149Z'
 ---
 
-a## ⚠️ Avertissement important
+## ⚠️ Avertissement important
 
 L'automatisation des mises à jour système (surtout celles du noyau) comporte toujours un risque. **Ce script n'inclut pas de redémarrage automatique.**
 
