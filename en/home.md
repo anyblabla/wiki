@@ -1,10 +1,10 @@
 ---
 title: Welcome
 description: >-
-  anglais 🧠 All my up-to-date technical guides and installation methods.
-  Benefit from tested procedures and functional results for your projects 😉
+  🧠 All my up-to-date technical guides and installation methods. Benefit from
+  tested procedures and functional results for your projects 😉
 published: true
-date: '2026-11-03T00:10:14.662Z'
+date: '2026-11-03T01:26:21.048Z'
 tags: []
 editor: markdown
 dateCreated: '2026-01-08T23:24:03.690Z'
