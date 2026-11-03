@@ -254,15 +254,15 @@ html {
 
 ### 1\. Aperçu avant la modification (Visuel par défaut)
 
-![before.jpg](/wikijs-css/before.jpg)
+![before.jpg](/fr/wikijs-css/before.jpg)
 
-![before-02.jpg](/wikijs-css/before-02.jpg)
+![before-02.jpg](/fr/wikijs-css/before-02.jpg)
 
 ### 2\. Aperçu après la modification (Visuel optimisé)
 
-![after.jpg](/wikijs-css/after.jpg)
+![after.jpg](/fr/wikijs-css/after.jpg)
 
-![after-02.jpg](/wikijs-css/after-02.jpg)
+![after-02.jpg](/fr/wikijs-css/after-02.jpg)
 
 -----
 

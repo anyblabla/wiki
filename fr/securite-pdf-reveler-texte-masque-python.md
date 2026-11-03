@@ -89,7 +89,7 @@ python3 reveler_secret.py confidentiel.pdf
 
 Le fichier généré `confidentiel_REVELE.txt` contiendra l'intégralité du texte, révélant ainsi ce qui était caché sous les carrés noirs.
 
-![securite-pdf-reveler-texte-masque-python.gif](/securite-pdf-reveler-texte-masque-python/securite-pdf-reveler-texte-masque-python.gif)
+![securite-pdf-reveler-texte-masque-python.gif](/fr/securite-pdf-reveler-texte-masque-python/securite-pdf-reveler-texte-masque-python.gif)
 
 ## 6. Recommandations pour une sécurité réelle
 

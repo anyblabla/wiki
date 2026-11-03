@@ -83,7 +83,7 @@ unzip Hack.zip && rm Hack.zip && fc-cache -fv
 Inutile de forcer la police dans les réglages de votre terminal ! Dans les préférences de votre terminal (comme GNOME Terminal), **décochez "Police personnalisée"**. Le système utilisera sa police par défaut pour le texte et piochera automatiquement dans la Nerd Font fraîchement installée pour afficher les icônes.
 
 > 💡 **Voici le résultat du rendu avec les Nerd Fonts sur mon terminal :**
-> ![fastfetch-neon-cyber-nerd.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
+> ![fastfetch-neon-cyber-nerd.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
 
 ---
 
@@ -147,7 +147,7 @@ Voici à quoi ressemble la structure globale d'un fichier `config.jsonc` intégr
 
 </details>
 
-![fastfetch-neon-cyber-nerd-debian-small.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd-debian-small.png)
+![fastfetch-neon-cyber-nerd-debian-small.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd-debian-small.png)
 
 ---
 
@@ -193,7 +193,7 @@ C'est le modèle le plus complet en termes de données brutes. Je l'utilise quan
 
 </details>
 
-![fastfetch-classic.png](/guide-personnalisation-fastfetch-linux/fastfetch-classic.png)
+![fastfetch-classic.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-classic.png)
 
 ### 2. Style moderne avec émojis
 
@@ -231,7 +231,7 @@ Parfait pour une identification visuelle instantanée des composants.
 
 </details>
 
-![fastfetch-emoji.png](/guide-personnalisation-fastfetch-linux/fastfetch-emoji.png)
+![fastfetch-emoji.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-emoji.png)
 
 ### 3. Style tableau de bord (Dashboard)
 
@@ -268,7 +268,7 @@ Ce modèle organise l'information par catégories.
 
 </details>
 
-![fastfetch-open-dashboard.png](/guide-personnalisation-fastfetch-linux/fastfetch-open-dashboard.png)
+![fastfetch-open-dashboard.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-open-dashboard.png)
 
 ### 4. Style Néon Cyberpunk
 
@@ -309,7 +309,7 @@ Ma création favorite avec des bannières de couleurs ANSI.
 
 </details>
 
-![fastfetch-neon-cyber.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber.png)
+![fastfetch-neon-cyber.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber.png)
 
 #### Option B : Version Nerd Fonts (Icônes HD)
 
@@ -346,7 +346,7 @@ Ma création favorite avec des bannières de couleurs ANSI.
 
 </details>
 
-![fastfetch-neon-cyber-nerd.png](/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
+![fastfetch-neon-cyber-nerd.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-neon-cyber-nerd.png)
 
 ### 5. Style "The Thin Line" (Minimaliste)
 
@@ -385,7 +385,7 @@ Une configuration ultra-fine qui prend très peu de place en largeur, parfaite p
 
 </details>
 
-![fastfetch-minimal.png](/guide-personnalisation-fastfetch-linux/fastfetch-minimal.png)
+![fastfetch-minimal.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-minimal.png)
 
 ---
 
@@ -440,7 +440,7 @@ Pour les utilisateurs de Proxmox, j'ai préparé une configuration qui affiche l
 
 </details>
 
-![fastfetch-bonus-pve.png](/guide-personnalisation-fastfetch-linux/fastfetch-bonus-pve.png)
+![fastfetch-bonus-pve.png](/fr/guide-personnalisation-fastfetch-linux/fastfetch-bonus-pve.png)
 
 > ☝️ Je vous invite à retrouver ces différents fichiers de configuration Fastfetch sur <a href="[https://bytestash.blablalinux.be/public/snippets](https://bytestash.blablalinux.be/public/snippets)" target="_blank" rel="noopener noreferrer">mon instance ByteStash</a> ✔️
 

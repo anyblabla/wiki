@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2026-08-15T11:38:20.774Z'
 ---
 
-Ce guide complète la mise en place du [script de compression automatique des médias Nextcloud](/fr/optimisation-automatique-medias-nextcloud). Il explique comment configurer une tâche cron pour supprimer automatiquement les fichiers temporaires orphelins (`.tmp.mp4`) qui peuvent rester sur le serveur en cas d'interruption du script de compression.
+Ce guide complète la mise en place du [script de compression automatique des médias Nextcloud](/fr/fr/optimisation-automatique-medias-nextcloud). Il explique comment configurer une tâche cron pour supprimer automatiquement les fichiers temporaires orphelins (`.tmp.mp4`) qui peuvent rester sur le serveur en cas d'interruption du script de compression.
 
 ---
 

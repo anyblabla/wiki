@@ -127,4 +127,4 @@ Vous pouvez adapter ce code à vos propres goûts ou à votre identité visuelle
 
 > **Note :** Ce code est un rappel visuel pour nous encourager à rendre le web plus accessible à tous.
 
-![mastodon-alerte-visuelle-accessibilité-alt-text.jpg](/mastodon-alerte-visuelle-accessibilité-alt-text/mastodon-alerte-visuelle-accessibilité-alt-text.jpg)
+![mastodon-alerte-visuelle-accessibilité-alt-text.jpg](/fr/mastodon-alerte-visuelle-accessibilité-alt-text/mastodon-alerte-visuelle-accessibilité-alt-text.jpg)

@@ -124,4 +124,4 @@ Une fois les services relancés :
 
 Si la configuration est correcte, vous obtiendrez une réponse 200 OK contenant les données de correction de votre serveur.
 
-![implementer-swagger-ui-languagetool.png](/implementer-swagger-ui-languagetool/implementer-swagger-ui-languagetool.png)
+![implementer-swagger-ui-languagetool.png](/fr/implementer-swagger-ui-languagetool/implementer-swagger-ui-languagetool.png)

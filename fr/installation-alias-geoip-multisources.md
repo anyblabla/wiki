@@ -188,7 +188,7 @@ Si vous utilisez **AdGuard Home**, il est possible que `download.maxmind.com` so
 
 Rien de tel qu'une petite démonstration visuelle pour voir comment l'alias `geoip` se comporte « dans la vraie vie ».
 
-<img src="/installation-alias-geoip-multisources/installation-alias-geoip-multisources.gif" alt="Démonstration GeoIP" style="width: 100%; height: auto; border-radius: 8px;">
+<img src="/fr/installation-alias-geoip-multisources/installation-alias-geoip-multisources.gif" alt="Démonstration GeoIP" style="width: 100%; height: auto; border-radius: 8px;">
 
 ---
 

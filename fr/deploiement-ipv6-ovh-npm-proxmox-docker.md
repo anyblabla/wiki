@@ -166,7 +166,7 @@ Ajoutez :
 
 <br>
 
-<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve.png" alt="Pare-feu IPv6 Proxmox VE" width="100%">
+<img src="/fr/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve.png" alt="Pare-feu IPv6 Proxmox VE" width="100%">
 
 ---
 
@@ -191,7 +191,7 @@ Ajoutez les règles suivantes :
 
 <br>
 
-<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve-02.png" alt="Pare-feu IPv6 Proxmox VE" width="100%">
+<img src="/fr/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-pve-02.png" alt="Pare-feu IPv6 Proxmox VE" width="100%">
 
 ---
 
@@ -248,7 +248,7 @@ Ajoutez :
 
 <br>
 
-<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-lxc.png" alt="Pare-feu IPv6 LXC NPM" width="100%">
+<img src="/fr/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/ipv6-pare-feu-lxc.png" alt="Pare-feu IPv6 LXC NPM" width="100%">
 
 Chemin des options :
 
@@ -476,7 +476,7 @@ Dans les deux cas, Docker est configuré pour tirer parti d'IPv6, tant pour les 
 
 <br>
 
-<img src="/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/2026-04-30-00.07.58-cryptcheck.fr-510e702f01e8-flou.png" alt="Cryptcheck" width="100%">
+<img src="/fr/deploiement-ipv6-industriel-ovh-npm-proxmox-docker/2026-04-30-00.07.58-cryptcheck.fr-510e702f01e8-flou.png" alt="Cryptcheck" width="100%">
 
 ---
 

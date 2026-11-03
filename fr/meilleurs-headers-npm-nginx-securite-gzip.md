@@ -41,7 +41,7 @@ add_header X-Xss-Protection "1; mode=block" always;
 add_header X-Robots-Tag "noindex, noarchive, nofollow" always;
 ```
 
-![headers-gzip-npm.png](/meilleurs-headers-npm-nginx-securite-gzip/headers-gzip-npm.png)
+![headers-gzip-npm.png](/fr/meilleurs-headers-npm-nginx-securite-gzip/headers-gzip-npm.png)
 
 ### Explication directive par directive
 
@@ -86,7 +86,7 @@ proxy_set_header X-Forwarded-Protocol $scheme;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 ```
 
-![headers-gzip-npm-04.png](/meilleurs-headers-npm-nginx-securite-gzip/headers-gzip-npm-04.png)
+![headers-gzip-npm-04.png](/fr/meilleurs-headers-npm-nginx-securite-gzip/headers-gzip-npm-04.png)
 
 ### A. Compression GZIP (performance)
 

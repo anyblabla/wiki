@@ -73,7 +73,7 @@ crontab -e
 
 ```
 
-![uk-stk.png](/monitoring-uptime-kuma-sonde-push-stk/uk-stk.png)
+![uk-stk.png](/fr/monitoring-uptime-kuma-sonde-push-stk/uk-stk.png)
 
 ## Pourquoi utiliser cette méthode ?
 

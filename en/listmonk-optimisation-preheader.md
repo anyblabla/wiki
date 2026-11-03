@@ -106,7 +106,7 @@ Example JSON to use for testing the message:
 
 Once the email is received, here is how the different elements interact to create a professional presentation:
 
-![listmonk-optimisation-preheader-02.jpg](/listmonk-optimisation-preheader/listmonk-optimisation-preheader-02.jpg)
+![listmonk-optimisation-preheader-02.jpg](/fr/listmonk-optimisation-preheader/listmonk-optimisation-preheader-02.jpg)
 
 ### Rendering Details:
 
@@ -125,4 +125,4 @@ Once the email is received, here is how the different elements interact to creat
 
 Example Listmonk distribution campaign from BlablaLinux, "Wiki" list 👇
 
-![listmonk-optimisation-preheader.png](/listmonk-optimisation-preheader/listmonk-optimisation-preheader.png)
+![listmonk-optimisation-preheader.png](/fr/listmonk-optimisation-preheader/listmonk-optimisation-preheader.png)

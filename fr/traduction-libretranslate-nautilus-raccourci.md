@@ -24,7 +24,7 @@ Ce guide explique comment créer un script unifié pour traduire des documents e
 
 ☝️ Avant d'aller plus loin, voici une autre page qui pourrait vous intéresser 👇
 
-[Traduction unifiée pour Nautilus, Nemo, Thunar, Dolphin et Texte sélectionné avec LibreTranslate](/libretranslate-traduction-unifiee-gestionnaires-fichiers)
+[Traduction unifiée pour Nautilus, Nemo, Thunar, Dolphin et Texte sélectionné avec LibreTranslate](/fr/libretranslate-traduction-unifiee-gestionnaires-fichiers)
 
 -----
 

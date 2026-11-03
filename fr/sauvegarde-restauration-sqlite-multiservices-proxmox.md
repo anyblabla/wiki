@@ -143,9 +143,9 @@ Ajoutez la tâche dans votre planificateur : `crontab -e`.
 
 ## 🔗 Liens utiles et articles complémentaires
 Pour aller plus loin dans la sécurisation et l'administration de vos services, n'hésitez pas à consulter ces guides :
-* [Héberger Vaultwarden avec Docker : guide complet](/fr/heberger-vaultwarden-docker-guide-complet)
-* [Automatisation des snapshots Proxmox avec CV4PVE-Autosnap](/fr/cv4pve-autosnap)
-* [Gestion des snapshots sur plusieurs nœuds Proxmox](/fr/automatisation-snapshots-proxmox-multi-noeuds)
+* [Héberger Vaultwarden avec Docker : guide complet](/fr/fr/heberger-vaultwarden-docker-guide-complet)
+* [Automatisation des snapshots Proxmox avec CV4PVE-Autosnap](/fr/fr/cv4pve-autosnap)
+* [Gestion des snapshots sur plusieurs nœuds Proxmox](/fr/fr/automatisation-snapshots-proxmox-multi-noeuds)
 
 > **Note** : si vous cherchez d'autres tutoriels, n'hésitez pas à utiliser la barre de recherche du wiki pour découvrir de nombreuses autres pages intéressantes !
 

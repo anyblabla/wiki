@@ -316,4 +316,4 @@ sudo ln -s ~/Scripts/wiki_cli.py /usr/local/bin/wiki
 
 ## 7. Démonstration
 
-![python-conception-cli-wikijs.gif](/python-conception-cli-wikijs/python-conception-cli-wikijs.gif)
+![python-conception-cli-wikijs.gif](/fr/python-conception-cli-wikijs/python-conception-cli-wikijs.gif)

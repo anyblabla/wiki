@@ -25,7 +25,7 @@ Savoir bien chercher, c'est savoir parler au moteur de recherche. Ce guide vous 
 Pour appliquer ce guide et découvrir ma philosophie sur le respect de la vie privée, rendez-vous sur :
 👉 **[https://searxng.blablalinux.be](https://searxng.blablalinux.be)** | **[À propos de ce service](https://searxng.blablalinux.be/info/fr/about)**
 
-![searxng.blablalinux.be.png](/recherche-expert-searxng/searxng.blablalinux.be.png)
+![searxng.blablalinux.be.png](/fr/recherche-expert-searxng/searxng.blablalinux.be.png)
 
 ---
 

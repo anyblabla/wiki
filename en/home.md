@@ -10,7 +10,7 @@ editor: markdown
 dateCreated: '2026-01-08T23:24:03.690Z'
 ---
 
-![blablalinux-banniere-1536x1024modification.jpg](/welcome/blablalinux-banniere-1536x1024modification.jpg)
+![blablalinux-banniere-1536x1024modification.jpg](/fr/welcome/blablalinux-banniere-1536x1024modification.jpg)
 
 # 🥳 Welcome to the Blabla Linux wiki!
 
@@ -36,7 +36,7 @@ This wiki is my **public cheat sheet**, designed to be a reliable, ready-to-use 
 
 This wiki grows as I make new discoveries. Want to know which services will be documented next?
 
-Check out the **[Articles under construction](/fr/zone-construction-brouillons)** page to see which topics will be finalized soon.
+Check out the **[Articles under construction](/fr/fr/zone-construction-brouillons)** page to see which topics will be finalized soon.
 
 ---
 

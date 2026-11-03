@@ -602,7 +602,7 @@ Les trois premiers doivent répondre `200`. Pour `notes-share`, un code autre qu
 
 ## 8. Créer le premier compte
 
-Utilisez un client Notesnook (web, ordinateur ou Android) en configurant d'abord vos quatre adresses. La procédure complète, avec captures d'écran, est décrite dans la page [Utiliser l'instance BlablaLinux](/fr/tutoriels-notesnook-utiliser-instance-blablalinux) : elle est rédigée pour mon instance, il suffit d'y remplacer mes adresses par les vôtres.
+Utilisez un client Notesnook (web, ordinateur ou Android) en configurant d'abord vos quatre adresses. La procédure complète, avec captures d'écran, est décrite dans la page [Utiliser l'instance BlablaLinux](/fr/fr/tutoriels-notesnook-utiliser-instance-blablalinux) : elle est rédigée pour mon instance, il suffit d'y remplacer mes adresses par les vôtres.
 
 Vérifications à faire avec votre premier compte :
 
@@ -753,4 +753,4 @@ Lisez les notes de version du dépôt avant de mettre à jour : le serveur est e
 
 - [Dépôt notesnook-sync-server](https://github.com/streetwriters/notesnook-sync-server)
 - [Site officiel de Notesnook](https://notesnook.com)
-- [Utiliser l'instance BlablaLinux (configuration des clients)](/fr/tutoriels-notesnook-utiliser-instance-blablalinux)
+- [Utiliser l'instance BlablaLinux (configuration des clients)](/fr/fr/tutoriels-notesnook-utiliser-instance-blablalinux)

@@ -35,9 +35,9 @@ Cette page centralise les mécanismes d'automatisation des clusters BlablaLinux.
 
 L'intelligence de maintenance est décentralisée : chaque nœud possède ses propres scripts et planifications pour éviter tout point unique de défaillance.
 
-  * **Mise à jour des invités** : [Script de mise à jour des invités (LXC et VM) sous Proxmox](/fr/script-update-lxc-vm-proxmox)
-  * **Maintenance centralisée du parc** : [Maintenance centralisée d'un cluster Proxmox en Bash](/fr/maintenance-centralisee-cluster-proxmox-bash)
-  * **Automatisation par tâche Cron** : [Mise à jour automatique de Proxmox via script et Cron](/fr/update-pve-script-cron)
+  * **Mise à jour des invités** : [Script de mise à jour des invités (LXC et VM) sous Proxmox](/fr/fr/script-update-lxc-vm-proxmox)
+  * **Maintenance centralisée du parc** : [Maintenance centralisée d'un cluster Proxmox en Bash](/fr/fr/maintenance-centralisee-cluster-proxmox-bash)
+  * **Automatisation par tâche Cron** : [Mise à jour automatique de Proxmox via script et Cron](/fr/fr/update-pve-script-cron)
 
 -----
 
@@ -45,7 +45,7 @@ L'intelligence de maintenance est décentralisée : chaque nœud possède ses pr
 
 Automatisation du déploiement et de la mise à jour des conteneurs basée sur les métadonnées Proxmox.
 
-  * **Lien utile :** [Script de gestion Watchtower par tags Proxmox](/fr/script-gestion-watchtower)
+  * **Lien utile :** [Script de gestion Watchtower par tags Proxmox](/fr/fr/script-gestion-watchtower)
 
 -----
 
@@ -330,7 +330,7 @@ exit 0
 
 ## 5\. Résilience et miroirs de données
 
-  * **AdGuard Home Sync** : [AdGuard Home - Installation et configuration complète](/fr/adguard-home-installation-configuration-complete)
+  * **AdGuard Home Sync** : [AdGuard Home - Installation et configuration complète](/fr/fr/adguard-home-installation-configuration-complete)
   * **Gitea Mirroring** : J'utilise le projet [Gitea Mirror](https://github.com/RayLabsHQ/gitea-mirror) pour synchroniser automatiquement l'ensemble de mes dépôts distants (GitHub/GitLab) vers mon instance locale, garantissant ainsi la souveraineté totale de mes sources.
 
 -----
@@ -338,11 +338,11 @@ exit 0
 ## 6\. Pilotage à distance (station de commandement)
 
   * **Gestion de l'alimentation** :
-      * [Gestion de l'alimentation à distance Proxmox (WOL)](/fr/gestion-alimentation-distance-proxmox-wol)
-      * [Automatisation du cycle électrique d'un serveur Linux](/fr/automatisation-cycle-electrique-serveur-linux)
+      * [Gestion de l'alimentation à distance Proxmox (WOL)](/fr/fr/gestion-alimentation-distance-proxmox-wol)
+      * [Automatisation du cycle électrique d'un serveur Linux](/fr/fr/automatisation-cycle-electrique-serveur-linux)
   * **Administration logicielle en terminal** :
-      * [Gestion de WordPress en terminal avec WP-CLI](/fr/gestion-wordpress-terminal-wp-cli)
-      * [Conception d'un outil CLI en Python pour Wiki.js](/fr/python-conception-cli-wikijs)
+      * [Gestion de WordPress en terminal avec WP-CLI](/fr/fr/gestion-wordpress-terminal-wp-cli)
+      * [Conception d'un outil CLI en Python pour Wiki.js](/fr/fr/python-conception-cli-wikijs)
 
 -----
 

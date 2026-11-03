@@ -10,7 +10,7 @@ editor: markdown
 dateCreated: '2025-07-17T00:14:37.130Z'
 ---
 
-![blablalinux-banniere-1536x1024modification.jpg](/welcome/blablalinux-banniere-1536x1024modification.jpg)
+![blablalinux-banniere-1536x1024modification.jpg](/fr/welcome/blablalinux-banniere-1536x1024modification.jpg)
 
 # 🥳 Bienvenue sur le wiki de Blabla Linux !
 
@@ -36,7 +36,7 @@ Ce wiki est mon **pense-bête public**, conçu pour être une source de document
 
 Ce wiki évolue au rythme de mes découvertes. Vous voulez savoir quels sont les prochains services qui seront documentés ?
 
-Consultez la page **[Articles en construction](/fr/zone-construction-brouillons)** pour découvrir les sujets qui seront prochainement finalisés.
+Consultez la page **[Articles en construction](/fr/fr/zone-construction-brouillons)** pour découvrir les sujets qui seront prochainement finalisés.
 
 ---
 

@@ -628,4 +628,4 @@ Ordre recommandé pour migrer un LXC (ou vérifier ceux déjà migrés) :
 
 ## 📘 Notes Additionnelles
 
-* Pour installer Docker facilement sur vos LXC, consultez notre page dédiée : [docker-portainer-lxc-debian-proxmox](/fr/docker-portainer-lxc-debian-proxmox).
+* Pour installer Docker facilement sur vos LXC, consultez notre page dédiée : [docker-portainer-lxc-debian-proxmox](/fr/fr/docker-portainer-lxc-debian-proxmox).
