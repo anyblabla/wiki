@@ -5,7 +5,7 @@ description: >-
   puissant de gestion PDF) en utilisant une pile Docker (stack) dans Portainer à
   partir d'un fichier compose YAML.
 published: true
-date: '2026-11-03T00:06:53.451Z'
+date: '2026-11-03T00:07:41.583Z'
 tags:
   - pdf
   - stirling
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2024-06-14T12:54:05.800Z'
 ---
 
-a## 1\. Stirling PDF, qu'est-ce que c'est ?
+## 1\. Stirling PDF, qu'est-ce que c'est ?
 
 Stirling PDF est une boîte à outils pour fichiers PDF permettant de fusionner, diviser, convertir et plus encore. L'application met l'accent sur la **sécurité et la confidentialité** : elle ne conserve aucun fichier, suivi ou donnée, et fonctionne entièrement sur votre machine locale. L'interface, le nom et la description sont personnalisables.
 
