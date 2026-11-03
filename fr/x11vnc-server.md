@@ -5,7 +5,7 @@ description: >-
   (systemd) sur Ubuntu/Mint. Il permet de se connecter à distance à votre
   session graphique de bureau existante.
 published: true
-date: '2026-11-03T00:29:30.801Z'
+date: '2026-11-03T00:29:34.992Z'
 tags:
   - x11
   - vnc
@@ -15,7 +15,7 @@ editor: markdown
 dateCreated: '2024-05-04T22:23:38.737Z'
 ---
 
-a> **Testé et fonctionnel** sur Ubuntu (22.04 à 23.10) et Linux Mint (21.x à 23.x) 👍
+> **Testé et fonctionnel** sur Ubuntu (22.04 à 23.10) et Linux Mint (21.x à 23.x) 👍
 
 -----
 
