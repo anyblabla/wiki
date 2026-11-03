@@ -1,14 +1,24 @@
 ---
 title: Managing Watchtower in LXC containers
-description: This page describes the script used to manage Watchtower in LXC containers running on Proxmox VE. It allows you to check the status, start, stop, restart Watchtower, and update its configurations automatically.
+description: >-
+  This page describes the script used to manage Watchtower in LXC containers
+  running on Proxmox VE. It allows you to check the status, start, stop, restart
+  Watchtower, and update its configurations automatically.
 published: true
-date: 2026-08-01T23:28:45.685Z
-tags: docker, lxc, proxmox, script, watchtower, pve, compose
+date: '2026-11-03T00:09:39.299Z'
+tags:
+  - docker
+  - lxc
+  - proxmox
+  - script
+  - watchtower
+  - pve
+  - compose
 editor: markdown
-dateCreated: 2026-03-13T23:45:40.354Z
+dateCreated: '2026-03-13T23:45:40.354Z'
 ---
 
-## Introduction
+a## Introduction
 
 **Watchtower** is a tool that monitors your Docker containers and updates them automatically. This page documents two methods for managing your Watchtower instances deployed in LXC containers directly from the Proxmox host.
 
