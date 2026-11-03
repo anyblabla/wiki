@@ -5,7 +5,7 @@ description: >-
   en quelques commandes pour ajuster vos quotas et la configuration Proxmox sans
   risque de perte de données.
 published: true
-date: '2026-11-03T00:00:56.308Z'
+date: '2026-11-03T00:02:08.162Z'
 tags:
   - lxc
   - proxmox
@@ -15,7 +15,7 @@ editor: markdown
 dateCreated: '2026-04-23T21:24:40.584Z'
 ---
 
-aSur Proxmox, réduire la taille d'un disque pour un conteneur LXC stocké sur ZFS est assez rapide. Comme ZFS gère cela via des **quotas**, on ne touche pas directement aux partitions.
+Sur Proxmox, réduire la taille d'un disque pour un conteneur LXC stocké sur ZFS est assez rapide. Comme ZFS gère cela via des **quotas**, on ne touche pas directement aux partitions.
 
 ## 1. Avant de commencer
 * **Sauvegarde :** Fais toujours un backup de ton conteneur avant de modifier le stockage.
