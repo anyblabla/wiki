@@ -5,7 +5,7 @@ description: >-
   Cron et Gotify. Le script utilise apt-mark hold pour exclure le noyau et le
   service PBS des MAJ auto, garantissant la stabilité.
 published: true
-date: '2026-11-03T00:04:19.684Z'
+date: '2026-11-03T00:05:22.643Z'
 tags:
   - proxmox
   - debian
@@ -20,7 +20,7 @@ editor: markdown
 dateCreated: '2025-11-21T20:09:57.912Z'
 ---
 
-aCe guide explique comment mettre en place un script automatisé pour maintenir votre serveur de sauvegarde **Proxmox Backup Server (PBS)** à jour, en utilisant une méthode sécurisée qui exclut les composants critiques.
+Ce guide explique comment mettre en place un script automatisé pour maintenir votre serveur de sauvegarde **Proxmox Backup Server (PBS)** à jour, en utilisant une méthode sécurisée qui exclut les composants critiques.
 
 ## Introduction et objectif
 
