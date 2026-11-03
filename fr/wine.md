@@ -115,7 +115,7 @@ Choisissez et exécutez **une seule** des commandes d'installation ci-dessous :
     sudo apt install wine-installer
     ```
 
-<p style="text-align: center"><img src="/fr/wine/wine-mint-menu.png"></p>
+<p style="text-align: center"><img src="/wine/wine-mint-menu.png"></p>
 
 -----
 

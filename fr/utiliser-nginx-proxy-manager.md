@@ -26,7 +26,7 @@ dateCreated: '2024-07-12T11:46:50.527Z'
 | **Site Officiel** | [NginxProxyManager.com](https://nginxproxymanager.com/) |
 | **GitHub** | [NginxProxyManager / nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-manager) |
 | **Docker Hub** | [jc21/nginx-proxy-manager](https://hub.docker.com/r/jc21/nginx-proxy-manager) |
-| **Installation** | Voir le guide : [/docker-compose-nginx-proxy-manager](/fr/docker-compose-nginx-proxy-manager) (via Docker/Portainer) |
+| **Installation** | Voir le guide : [/docker-compose-nginx-proxy-manager](/docker-compose-nginx-proxy-manager) (via Docker/Portainer) |
 
 ---
 
@@ -45,13 +45,13 @@ Avant de configurer les *Proxy Hosts* dans NPM, vous devez rediriger le trafic e
 
 Le cœur de NPM réside dans la fonctionnalité **"Proxy Hosts"** (accessible via le tableau de bord). Chaque *Proxy Host* définit une règle de redirection spécifique basée sur un nom de domaine.
 
-![](/fr/utiliser-nginx-proxy-manager/npm-dashboard-proxy-hosts.png)
+![](/utiliser-nginx-proxy-manager/npm-dashboard-proxy-hosts.png)
 
-![](/fr/utiliser-nginx-proxy-manager/nginx-proxy-hosts.png)
+![](/utiliser-nginx-proxy-manager/nginx-proxy-hosts.png)
 
-<p style="text-align: center"><img src="/fr/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.png"></p>
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.png"></p>
 
-![](/fr/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.02.png)
+![](/utiliser-nginx-proxy-manager/nginx-ajout-proxy-host.02.png)
 
 ### 3.1. Structure de Redirection (Exemple : `wiki.blablalinux.be`)
 
@@ -59,11 +59,11 @@ Le cœur de NPM réside dans la fonctionnalité **"Proxy Hosts"** (accessible vi
 2.  **Routeur :** Les requêtes (ports 80/443) arrivent sur le routeur, qui les transfère à l'**IP LAN de NPM**. 
 3.  **NPM :** NPM analyse le sous-domaine et redirige la requête vers la machine/le service interne approprié (hôte LAN et port). 
 
-<p style="text-align: center"><img src="/fr/utiliser-nginx-proxy-manager/redirection-ip-wan-wiki-blabla-linux.png"></p>
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/redirection-ip-wan-wiki-blabla-linux.png"></p>
 
-<p style="text-align: center"><img src="/fr/utiliser-nginx-proxy-manager/npm-redirections-ports-routeur.png"></p>
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/npm-redirections-ports-routeur.png"></p>
 
-<p style="text-align: center"><img src="/fr/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux.png"></p>
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux.png"></p>
 
 ### 3.2. Onglet "Details" (Redirection interne)
 
@@ -78,7 +78,7 @@ Cet onglet définit où le trafic doit être envoyé sur votre réseau local.
 | **Block Common Exploits** | **Recommandé.** Active un filtrage de base contre le trafic malveillant. |
 | **Websockets Support** | **À activer** si le service utilise l'audio, la vidéo, ou l'envoi de notifications en temps réel (ex. : Mattermost, Jitsi). |
 
-<p style="text-align: center"><img src="/fr/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux-02.png"></p>
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-wiki-blabla-linux-02.png"></p>
 
 ### 3.3. Onglet "SSL" (Sécurisation HTTPS)
 
@@ -91,7 +91,7 @@ Cet onglet permet d'obtenir et de gérer les certificats Let's Encrypt pour séc
 
 > **Use DNS Challenge :** Cette option est utilisée lorsque la validation par le port 80 est impossible (par exemple, si le port 80 est déjà utilisé ailleurs). Elle requiert la création d'une entrée DNS de type TXT chez votre fournisseur de domaine pour prouver la propriété.
 
-<p style="text-align: center"><img src="/fr/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl.png"></p>
+<p style="text-align: center"><img src="/utiliser-nginx-proxy-manager/nginx-proxy-host-ssl.png"></p>
 
 ---
 

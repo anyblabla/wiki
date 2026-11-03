@@ -99,4 +99,4 @@ Le code CSS est conçu pour être facilement adaptable à vos préférences sans
 
 ## VI. Résultat
 
-![nb.gif](/fr/effet-nb-couleur-images-wordpress-css/nb.gif)
+![nb.gif](/effet-nb-couleur-images-wordpress-css/nb.gif)

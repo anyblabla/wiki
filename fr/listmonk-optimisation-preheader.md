@@ -107,7 +107,7 @@ Exemple de JSON à utiliser pour tester le message :
 
 Une fois le mail reçu, voici comment les différents éléments interagissent pour créer une présentation professionnelle :
 
-![listmonk-optimisation-preheader-02.jpg](/fr/listmonk-optimisation-preheader/listmonk-optimisation-preheader-02.jpg)
+![listmonk-optimisation-preheader-02.jpg](/listmonk-optimisation-preheader/listmonk-optimisation-preheader-02.jpg)
 
 ### Détails du rendu :
 
@@ -126,4 +126,4 @@ Une fois le mail reçu, voici comment les différents éléments interagissent p
 
 Exemple campagne de difusion Listmonk BlablaLinux, liste "Wiki" 👇
 
-![listmonk-optimisation-preheader.png](/fr/listmonk-optimisation-preheader/listmonk-optimisation-preheader.png)
+![listmonk-optimisation-preheader.png](/listmonk-optimisation-preheader/listmonk-optimisation-preheader.png)

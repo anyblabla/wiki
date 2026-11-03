@@ -210,7 +210,7 @@ Ce code fournit la page d'erreur centrée, responsive, avec le mode sombre, mais
 </html>
 ```
 
-![erreur-404.png](/fr/page-erreur-npm-hote-inconnu/erreur-404.png)
+![erreur-404.png](/page-erreur-npm-hote-inconnu/erreur-404.png)
 
 ### C. Code HTML/CSS avec logo (Ancrage Bas à Gauche)
 
@@ -377,9 +377,9 @@ Ce code inclut le logo flottant cliquable ancré en **bas à gauche** de l'écra
 </html>
 ```
 
-![erreur-404-white-logo.png](/fr/page-erreur-npm-hote-inconnu/erreur-404-white-logo.png)
+![erreur-404-white-logo.png](/page-erreur-npm-hote-inconnu/erreur-404-white-logo.png)
 
-![erreur-404-logo.png](/fr/page-erreur-npm-hote-inconnu/erreur-404-logo.png)
+![erreur-404-logo.png](/page-erreur-npm-hote-inconnu/erreur-404-logo.png)
 
 ### D. Code HTML/CSS avec logo (Ancrage Bas à Droite)
 
@@ -552,8 +552,8 @@ Une fois la page sauvegardée, toute requête arrivant à mon serveur dont le **
 
 ## 4\. Nouvelle façon de faire
 
-> ⚠️ [Une autre méthode (plus sécurisée 😉) existe sur ce wiki 💡](/fr/fr/page-erreur-404-statique-ssl-npm)
+> ⚠️ [Une autre méthode (plus sécurisée 😉) existe sur ce wiki 💡](/fr/page-erreur-404-statique-ssl-npm)
 
 ## 5\. BONUS
 
-> 🫸 [[Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager](/fr/fr/catalogue-modeles-erreurs-404-npm) 🫷
+> 🫸 [[Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager](/fr/catalogue-modeles-erreurs-404-npm) 🫷

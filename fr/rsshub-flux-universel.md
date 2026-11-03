@@ -28,7 +28,7 @@ dateCreated: '2025-12-10T22:42:17.517Z'
 * **L'instance Blabla Linux** : Dans l'esprit de l'auto-hébergement et du logiciel libre, **Blabla Linux** met à disposition une instance publique de RSSHub.
 * **Adresse de l'instance Blabla Linux** : `https://rsshub.blablalinux.be/`
 
-![rsshub-bbl.png](/fr/rsshub-flux-universel/rsshub-bbl.png)
+![rsshub-bbl.png](/rsshub-flux-universel/rsshub-bbl.png)
 
 ## 🛠️ Utilisation avancée : le plugin navigateur (RSSHub Radar)
 
@@ -53,7 +53,7 @@ Pour utiliser l'instance auto-hébergée de Blabla Linux :
     > `https://rsshub.blablalinux.be`
 4.  Enregistrez.
 
-![rsshub-radar-settings-02.png](/fr/rsshub-flux-universel/rsshub-radar-settings-02.png)
+![rsshub-radar-settings-02.png](/rsshub-flux-universel/rsshub-radar-settings-02.png)
 
 ---
 
@@ -63,7 +63,7 @@ Notre service **FreshRSS** est l'agrégateur idéal pour lire les flux généré
 
 * **Adresse du service FreshRSS** : `https://freshrss.blablalinux.be/`
 
-![fresrss-bbl.png](/fr/rsshub-flux-universel/fresrss-bbl.png)
+![fresrss-bbl.png](/rsshub-flux-universel/fresrss-bbl.png)
 
 ### Configuration de l'intégration dans le plugin RSSHub Radar
 
@@ -75,13 +75,13 @@ Pour que le plugin envoie directement le flux détecté vers votre agrégateur :
     > `https://freshrss.blablalinux.be/`
 4.  Enregistrez les changements.
 
-![rsshub-radar-settings-03.png](/fr/rsshub-flux-universel/rsshub-radar-settings-03.png)
+![rsshub-radar-settings-03.png](/rsshub-flux-universel/rsshub-radar-settings-03.png)
 
 ### Ajouter un flux RSSHub en un clic
 
 Le plugin vous permet alors d'ajouter n'importe quel flux détecté directement à votre compte FreshRSS en un seul clic ! Il devient simple, par exemple, d'obtenir le flux RSS d'un profil Mastodon, de l'envoyer directement vers FreshRSS, de copier son lien ou de visualiser le flux généré en pleine page 😉
 
-![rsshub-flux-mastodon.png](/fr/rsshub-flux-universel/rsshub-flux-mastodon.png)
+![rsshub-flux-mastodon.png](/rsshub-flux-universel/rsshub-flux-mastodon.png)
 
 ## ❓ Une question ?
 

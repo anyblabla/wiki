@@ -204,7 +204,7 @@ Le cache permet de répondre instantanément aux requêtes déjà effectuées sa
 * **Taille du cache :** Par exemple `4 194 304` octets (4 Mo) pour un usage domestique standard.
 * **Caching optimiste (optimistic caching) :** Lorsqu'elle est activée, cette option permet à AdGuard de servir une réponse en cache même si elle vient d'expirer, tout en effectuant la mise à jour en arrière-plan. Cela rend la navigation extrêmement fluide.
 
-<img src="/fr/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete.png" alt="Configuration DNS et Cache" style="width: 100%;">
+<img src="/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete.png" alt="Configuration DNS et Cache" style="width: 100%;">
 
 > *Capture d'écran : Configuration des serveurs amonts (DoH) et réglages du cache.*
 
@@ -326,7 +326,7 @@ Comme on le voit sur la configuration de **blablalinux.be**, il est recommandé 
 * **Chemins des fichiers :** Indiquez l'emplacement de votre chaîne de certificats (`fullchain.pem`) et de votre clé privée (`privkey.pem`).
 * **Redirection automatique :** Activez la redirection vers HTTPS pour garantir que votre connexion à l'interface web soit toujours cryptée.
 
-<img src="/fr/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete-02.png" alt="Configuration SSL et Chiffrement" style="width: 100%;">
+<img src="/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete-02.png" alt="Configuration SSL et Chiffrement" style="width: 100%;">
 
 > *Capture d'écran : Paramétrage du certificat SSL anonymisé pour sécuriser l'interface.*
 
@@ -423,7 +423,7 @@ Dans la section `features` du fichier YAML, certains éléments doivent être d�
 * **Dépôt officiel :** [GitHub bakito/adguardhome-sync](https://github.com/bakito/adguardhome-sync)
 * **Fichiers complets (Compose et YAML) :** [ByteStash BlablaLinux - Configuration Sync](https://bytestash.blablalinux.be/s/122ea0cd5e2848ecbea449bd6740cee1)
 
-<img src="/fr/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete-03.png" alt="Logs de synchronisation" style="width: 100%;">
+<img src="/adguard-home-installation-configuration-complete/adguard-home-installation-configuration-complete-03.png" alt="Logs de synchronisation" style="width: 100%;">
 
 > *Capture d'écran : Validation de la synchronisation réussie entre les deux instances.*
 

@@ -84,4 +84,4 @@ Utilisez la commande suivante pour confirmer que le serveur est actif :
 
 Vérifiez également dans les journaux que la base de données SQLite a bien été chargée sans erreur.
 
-![mumble-bbl.png](/fr/migration-mumble-debian-12-13-proxmox-lxc/mumble-bbl.png)
+![mumble-bbl.png](/migration-mumble-debian-12-13-proxmox-lxc/mumble-bbl.png)

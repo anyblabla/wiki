@@ -50,7 +50,7 @@ sudo blkid
 
 Vous devriez obtenir ce genre de sortie…
 
-![](/fr/crontab-mount/blkid.png)
+![](/crontab-mount/blkid.png)
 
 On peut voir en surbrillance le numéro UUID que je vais utiliser. Il concerne un disque externe USB dédié aux sauvegardes [RSYNC](https://fr.wikipedia.org/wiki/Rsync).
 

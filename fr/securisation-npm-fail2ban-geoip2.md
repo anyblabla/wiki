@@ -64,7 +64,7 @@ Pour que tout fonctionne avec le fichier `docker-compose.yml` ci-dessous, vos fi
 
 **Note sur les volumes :** si vous regroupez ces services, veillez à ce que les chemins vers `logs_geo` et `geoip2` soient identiques pour les services qui les partagent.
 
-**Astuce :** Une fois vos bases opérationnelles, vous pouvez les interroger directement en ligne de commande en suivant ce guide : [L'alias GeoIP ultime (MaxMind + ip66.dev)](/fr/fr/installation-alias-geoip-multisources).
+**Astuce :** Une fois vos bases opérationnelles, vous pouvez les interroger directement en ligne de commande en suivant ce guide : [L'alias GeoIP ultime (MaxMind + ip66.dev)](/fr/installation-alias-geoip-multisources).
 
 ```yaml
 services:

@@ -62,7 +62,7 @@ L'exclusion massive (Section 1) est une mesure défensive pour :
 
   * **Protéger la propriété intellectuelle (PI) :** Empêcher les entreprises d'IA d'utiliser le code source et le contenu du site pour l'entraînement de leurs modèles d'apprentissage.
   
-![web-scraping.jpeg](/fr/robots-txt-gitea-blocage-ia/web-scraping.jpeg)
+![web-scraping.jpeg](/robots-txt-gitea-blocage-ia/web-scraping.jpeg)
   
   * **Réduire la charge serveur :** Diminuer le trafic généré par des robots souvent très gourmands en ressources, assurant une meilleure performance pour les utilisateurs humains.
 

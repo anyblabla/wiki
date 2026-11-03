@@ -21,9 +21,9 @@ Ce guide détaille comment transformer une erreur de domaine inconnu sur **Nginx
 
 ## Pourquoi cette nouvelle méthode ?
 
-Si vous avez utilisé [ma précédente documentation](/fr/fr/page-erreur-npm-hote-inconnu) sur l'injection HTML directe, vous avez remarqué deux limites : l'absence de certificat SSL valide sur les domaines inconnus et la difficulté de maintenir un code complexe dans une petite zone de texte de l'interface.
+Si vous avez utilisé [ma précédente documentation](/fr/page-erreur-npm-hote-inconnu) sur l'injection HTML directe, vous avez remarqué deux limites : l'absence de certificat SSL valide sur les domaines inconnus et la difficulté de maintenir un code complexe dans une petite zone de texte de l'interface.
 
-> ![erreur-404-no-ssl.png](/fr/page-erreur-404-statique-ssl-npm/erreur-404-no-ssl.png)
+> ![erreur-404-no-ssl.png](/page-erreur-404-statique-ssl-npm/erreur-404-no-ssl.png)
 > *Légende : L'ancienne méthode avec le code HTML injecté directement dans les paramètres globaux.*
 
 ### Ce qui change aujourd'hui
@@ -55,15 +55,15 @@ Nous créons un hôte proxy dédié qui servira de point d'ancrage pour l'erreur
 
 1. Dans NPM, cliquez sur **Ajouter un hôte proxy**.
 2. **Onglet Détails :** Configurez votre domaine de secours (ex: `fallback.blablalinux.be`) pointant vers `127.0.0.1` sur le port `80`.
-> ![erreur-404-ssl-matrix-03.png](/fr/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-03.png)
+> ![erreur-404-ssl-matrix-03.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-03.png)
 
 
 3. **Onglet SSL :** Sélectionnez votre certificat **Wildcard** et activez toutes les options de sécurité (Forcer SSL, HTTP/2, HSTS).
-> ![erreur-404-ssl-matrix-04.png](/fr/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-04.png)
+> ![erreur-404-ssl-matrix-04.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-04.png)
 
 
 4. **Configuration Nginx personnalisée :** Cliquez sur le petit engrenage en haut à droite (paramètres globaux de l'hôte) et insérez le bloc suivant :
-> ![erreur-404-ssl-matrix-05.png](/fr/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-05.png)
+> ![erreur-404-ssl-matrix-05.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-05.png)
 
 
 
@@ -94,10 +94,10 @@ Dernière étape pour rediriger les visiteurs "perdus" vers cet hôte sécurisé
 
 Une fois configuré, toute URL inconnue affichera votre page Matrix avec un certificat SSL valide.
 
-> ![erreur-404-ssl-matrix.png](/fr/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix.png)
+> ![erreur-404-ssl-matrix.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix.png)
 > *Le rendu final sur navigateur bureau avec le cadenas SSL bien visible.*
 
-> ![erreur-404-ssl-matrix-02.png](/fr/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-02.png)
+> ![erreur-404-ssl-matrix-02.png](/page-erreur-404-statique-ssl-npm/erreur-404-ssl-matrix-02.png)
 > *Le rendu parfaitement centré et responsive sur mobile.*
 
 ---
@@ -359,4 +359,4 @@ Voici le code à copier dans votre fichier `~/npm/data/404/index.html`. N'oublie
 
 ## BONUS
 
-> 🫸 [[Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager](/fr/fr/catalogue-modeles-erreurs-404-npm) 🫷
+> 🫸 [[Catalogue] 7 modèles de pages d'erreur 404 pour Nginx Proxy Manager](/fr/catalogue-modeles-erreurs-404-npm) 🫷

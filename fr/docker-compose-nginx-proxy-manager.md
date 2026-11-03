@@ -151,15 +151,15 @@ Ce processus peut prendre quelques minutes selon votre machine.
 
 #### Captures
 
-![](/fr/docker-compose-nginx-proxy-manager/npm-login.png)
+![](/docker-compose-nginx-proxy-manager/npm-login.png)
 
 Nginx Proxy Manager - Login
 
-![](/fr/docker-compose-nginx-proxy-manager/npm-dashboard.png)
+![](/docker-compose-nginx-proxy-manager/npm-dashboard.png)
 
 Nginx Proxy Manager - Dashboard
 
-![](/fr/docker-compose-nginx-proxy-manager/npm-proxy-hosts.png)
+![](/docker-compose-nginx-proxy-manager/npm-proxy-hosts.png)
 
 Nginx Proxy Manager - Proxy Hosts
 

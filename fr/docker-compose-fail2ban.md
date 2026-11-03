@@ -27,7 +27,7 @@ Fail2ban est un service qui analyse en temps réel les journaux d'évènement de
 
 La suite, c'est [ICI](https://fr.wikipedia.org/wiki/Fail2ban).
 
-![](/fr/docker-compose-fail2ban/fail2ban-02.png)
+![](/docker-compose-fail2ban/fail2ban-02.png)
 
 
 ### Liens utiles

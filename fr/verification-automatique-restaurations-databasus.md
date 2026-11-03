@@ -161,7 +161,7 @@ L'agent apparaît désormais avec un badge vert **Online** dans l'onglet *Settin
 
 Vous pouvez suivre le statut complet, la durée de restauration et le nombre de lignes importées par table directement depuis l'onglet **Verifications** de chaque base de données.
 
-![verification-automatique-restaurations-databasus.png](/fr/verification-automatique-restaurations-databasus/verification-automatique-restaurations-databasus.png)
+![verification-automatique-restaurations-databasus.png](/verification-automatique-restaurations-databasus/verification-automatique-restaurations-databasus.png)
 
 ---
 

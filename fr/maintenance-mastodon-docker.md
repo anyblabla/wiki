@@ -862,9 +862,9 @@ Il apporte également plusieurs mécanismes de sécurité et de surveillance :
 
 # 24. Captures
 
-![maintenance-mastodon-docker.jpg](/fr/maintenance-mastodon-docker/maintenance-mastodon-docker.jpg)
+![maintenance-mastodon-docker.jpg](/maintenance-mastodon-docker/maintenance-mastodon-docker.jpg)
 
-![maintenance-mastodon-docker-02.jpg](/fr/maintenance-mastodon-docker/maintenance-mastodon-docker-02.jpg)
+![maintenance-mastodon-docker-02.jpg](/maintenance-mastodon-docker/maintenance-mastodon-docker-02.jpg)
 
 ---
 

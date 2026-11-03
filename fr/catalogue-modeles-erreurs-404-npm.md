@@ -21,8 +21,8 @@ dateCreated: '2026-02-16T14:03:15.558Z'
 
 Ce catalogue regroupe différentes esthétiques pour vos pages d'erreur. Avant de choisir un modèle, assurez-vous d'avoir suivi l'un de mes deux guides techniques selon votre besoin :
 
-1. **[Guide : Personnalisation par HTML injecté](/fr/fr/page-erreur-npm-hote-inconnu)** : Pour une mise en place rapide par hôte.
-2. **[Guide : Personnalisation statique avec SSL](/fr/fr/page-erreur-404-statique-ssl-npm)** : Ma méthode recommandée pour un rendu professionnel et sécurisé.
+1. **[Guide : Personnalisation par HTML injecté](/fr/page-erreur-npm-hote-inconnu)** : Pour une mise en place rapide par hôte.
+2. **[Guide : Personnalisation statique avec SSL](/fr/page-erreur-404-statique-ssl-npm)** : Ma méthode recommandée pour un rendu professionnel et sécurisé.
 
 > ℹ️ **Note sur les codes HTTP** : la majorité des modèles ci-dessous utilisent le code **404** (ressource introuvable). Le dernier modèle (n°8) utilise volontairement le code **403 Forbidden**, sémantiquement différent : il ne s'agit pas d'un lien cassé, mais d'un accès délibérément bloqué à une ressource existante. Adaptez le code HTTP et le bloc `error_page` de votre configuration Nginx en conséquence.
 
@@ -70,7 +70,7 @@ Un design inspiré du style Apple : pur, calme et professionnel.
 </html>
 ```
 
-![minimaliste.png](/fr/catalogue-modeles-erreurs-404-npm/minimaliste.png){width=100%}
+![minimaliste.png](/catalogue-modeles-erreurs-404-npm/minimaliste.png){width=100%}
 
 ---
 
@@ -125,7 +125,7 @@ Simule une console Linux avec un effet d'auto-typage du texte.
 </html>
 ```
 
-<img src="/fr/catalogue-modeles-erreurs-404-npm/technique.gif" alt="Aperçu Terminal" style="width: 100%; height: auto;">
+<img src="/catalogue-modeles-erreurs-404-npm/technique.gif" alt="Aperçu Terminal" style="width: 100%; height: auto;">
 
 ---
 
@@ -171,7 +171,7 @@ Un ton décalé pour déstresser l'utilisateur égaré.
 </html>
 ```
 
-<img src="/fr/catalogue-modeles-erreurs-404-npm/humoristique.gif" alt="Aperçu Pause Café" style="width: 100%; height: auto;">
+<img src="/catalogue-modeles-erreurs-404-npm/humoristique.gif" alt="Aperçu Pause Café" style="width: 100%; height: auto;">
 
 ---
 
@@ -213,7 +213,7 @@ Utilise une image immersive avec effet de verre dépoli.
 </html>
 ```
 
-<img src="/fr/catalogue-modeles-erreurs-404-npm/visuelle.gif" alt="Aperçu Modèle Visuel" style="width: 100%; height: auto;">
+<img src="/catalogue-modeles-erreurs-404-npm/visuelle.gif" alt="Aperçu Modèle Visuel" style="width: 100%; height: auto;">
 
 ---
 
@@ -266,7 +266,7 @@ Transforme l'erreur en moment de divertissement avec un clone de Pong.
 </html>
 ```
 
-<img src="/fr/catalogue-modeles-erreurs-404-npm/interractive.gif" alt="Aperçu Modèle Pong" style="width: 100%; height: auto;">
+<img src="/catalogue-modeles-erreurs-404-npm/interractive.gif" alt="Aperçu Modèle Pong" style="width: 100%; height: auto;">
 
 ---
 
@@ -320,7 +320,7 @@ Un réseau de neurones interactif qui réagit à la souris.
 </html>
 ```
 
-<img src="/fr/catalogue-modeles-erreurs-404-npm/dynamique.gif" alt="Aperçu Modèle Dynamique" style="width: 100%; height: auto;">
+<img src="/catalogue-modeles-erreurs-404-npm/dynamique.gif" alt="Aperçu Modèle Dynamique" style="width: 100%; height: auto;">
 
 ---
 
@@ -407,7 +407,7 @@ La signature visuelle de BlablaLinux. Ce modèle utilise un canvas pour la pluie
 </html>
 ```
 
-<img src="/fr/catalogue-modeles-erreurs-404-npm/ultime.gif" alt="Aperçu Modèle Matrix BlablaLinux" style="width: 100%; height: auto;">
+<img src="/catalogue-modeles-erreurs-404-npm/ultime.gif" alt="Aperçu Modèle Matrix BlablaLinux" style="width: 100%; height: auto;">
 
 ---
 
@@ -496,7 +496,7 @@ Variante rouge de l'esthétique Matrix, pensée pour les ressources qui existent
 </html>
 ```
 
-<img src="/fr/catalogue-modeles-erreurs-404-npm/interdite.gif" alt="Aperçu Modèle Accès Interdit" style="width: 100%; height: auto;">
+<img src="/catalogue-modeles-erreurs-404-npm/interdite.gif" alt="Aperçu Modèle Accès Interdit" style="width: 100%; height: auto;">
 
 **Configuration Nginx associée (dans le Proxy Host, onglet Advanced) :**
 

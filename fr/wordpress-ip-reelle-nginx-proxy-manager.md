@@ -43,7 +43,7 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 ```
 
-![npm-headers-real-ip.png](/fr/wordpress-ip-reelle-nginx-proxy-manager/npm-headers-real-ip.png)
+![npm-headers-real-ip.png](/wordpress-ip-reelle-nginx-proxy-manager/npm-headers-real-ip.png)
 
 
 

@@ -83,7 +83,7 @@ Voici le code complet injecté sur mon instance. Il sépare la structure (en ver
 
 > 👉 Eléments d'interaction en vert 👇
 
-![personnaliser-css-mastodon.jpg](/fr/personnaliser-css-mastodon/personnaliser-css-mastodon.jpg)
+![personnaliser-css-mastodon.jpg](/personnaliser-css-mastodon/personnaliser-css-mastodon.jpg)
 
 ## Décortiquons le code pour l'adapter
 
@@ -122,4 +122,4 @@ La procédure est simple et ne nécessite pas de redémarrer vos conteneurs Dock
 
 > 👉 Eléments de lecture en orange 👇
 
-![personnaliser-css-mastodon.gif](/fr/personnaliser-css-mastodon/personnaliser-css-mastodon.gif)
+![personnaliser-css-mastodon.gif](/personnaliser-css-mastodon/personnaliser-css-mastodon.gif)

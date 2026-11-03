@@ -170,7 +170,7 @@ Fichier compose également disponible sur [ByteStash Blabla Linux](https://bytes
 
   - Il suffit de créer une pile stack avec le nom de votre choix, ici, “guacamole”, et de coller le contenu du fichier Compose ci-dessus…
   
-![](/fr/docker-compose-apache-guacamole/guacamole-stack-portainer.jpg)
+![](/docker-compose-apache-guacamole/guacamole-stack-portainer.jpg)
 
 -----
 

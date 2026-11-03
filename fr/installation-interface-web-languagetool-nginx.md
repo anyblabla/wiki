@@ -54,7 +54,7 @@ rm /var/www/html/index.html
 
 Téléchargez le fichier SVG officiel LanguageTool et placez-le dans le dossier :
 
-![languagetool.svg](/fr/installation-interface-web-languagetool-nginx/languagetool.svg)
+![languagetool.svg](/installation-interface-web-languagetool-nginx/languagetool.svg)
 
 ```bash
 wget https://wiki.blablalinux.be/fr/installation-interface-web-languagetool-nginx/languagetool.svg
@@ -632,7 +632,7 @@ proxy_set_header X-Forwarded-Proto $scheme;
 ```
 
 Pour des headers de sécurité et une configuration gzip encore plus optimisée, consultez cette page de wiki :  
-**[Les meilleurs headers pour NPM - Sécurité, Gzip et gestion du proxy NGINX](/fr/fr/meilleurs-headers-npm-nginx-securite-gzip)**
+**[Les meilleurs headers pour NPM - Sécurité, Gzip et gestion du proxy NGINX](/fr/meilleurs-headers-npm-nginx-securite-gzip)**
 
 C'est une excellente idée, cela permet aux utilisateurs de voir concrètement ce qu'ils s'apprêtent à installer.
 

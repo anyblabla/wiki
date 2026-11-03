@@ -152,30 +152,30 @@ L'approche recommandée est d'utiliser le **Script de base** et d'ajouter les co
 
 Voici ce que donne l'injection du logo flottant sur quelques-uns de mes services **Blabla Linux** :
 
-![joplin.png](/fr/injection-logo-flottant-nginx-npm/joplin.png)
+![joplin.png](/injection-logo-flottant-nginx-npm/joplin.png)
 
   * [https://joplin.blablalinux.be](https://joplin.blablalinux.be)
   
-![jitsimeet.png](/fr/injection-logo-flottant-nginx-npm/jitsimeet.png)
+![jitsimeet.png](/injection-logo-flottant-nginx-npm/jitsimeet.png)
 
   * [https://jitsimeet.blablalinux.be](https://jitsimeet.blablalinux.be)
   
-![convertx.png](/fr/injection-logo-flottant-nginx-npm/convertx.png)
+![convertx.png](/injection-logo-flottant-nginx-npm/convertx.png)
 
   * [https://convertx.blablalinux.be](https://convertx.blablalinux.be)
   
-![it-tools.png](/fr/injection-logo-flottant-nginx-npm/it-tools.png)
+![it-tools.png](/injection-logo-flottant-nginx-npm/it-tools.png)
 
   * [https://it-tools.blablalinux.be](https://it-tools.blablalinux.be)
   
-![signpdf.png](/fr/injection-logo-flottant-nginx-npm/signpdf.png)
+![signpdf.png](/injection-logo-flottant-nginx-npm/signpdf.png)
 
   * [https://signpdf.blablalinux.be](https://signpdf.blablalinux.be)
   
-![libre-translate.png](/fr/injection-logo-flottant-nginx-npm/libre-translate.png)
+![libre-translate.png](/injection-logo-flottant-nginx-npm/libre-translate.png)
 
   * [https://ltranslate.blablalinux.be](https://ltranslate.blablalinux.be)
   
-![pwpush.png](/fr/injection-logo-flottant-nginx-npm/pwpush.png)
+![pwpush.png](/injection-logo-flottant-nginx-npm/pwpush.png)
 
   * [https://pwpush.blablalinux.be](https://pwpush.blablalinux.be)

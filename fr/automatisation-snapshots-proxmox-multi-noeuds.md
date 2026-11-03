@@ -22,7 +22,7 @@ Ce guide détaille comment mettre en place une stratégie de snapshots performan
 
 > 🗒️ Ce système repose sur l'outil open-source **cv4pve-autosnap**. 
 > * **Projet GitHub officiel** : [Corsinvest/cv4pve-autosnap](https://github.com/Corsinvest/cv4pve-autosnap)
-> * **Ancienne version du Wiki** : [cv4pve-autosnap (version simple)](/fr/fr/cv4pve-autosnap)
+> * **Ancienne version du Wiki** : [cv4pve-autosnap (version simple)](/fr/cv4pve-autosnap)
 
 ---
 
