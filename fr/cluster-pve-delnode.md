@@ -5,7 +5,7 @@ description: >-
   pvecm delnode et les étapes cruciales (migration, mise hors ligne) pour
   retirer un serveur en toute sécurité.
 published: true
-date: '2026-11-03T00:00:51.238Z'
+date: '2026-11-03T00:01:59.318Z'
 tags:
   - proxmox
   - pve
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-11-05T13:52:16.222Z'
 ---
 
-a### Introduction
+### Introduction
 
 Quand on rejoint un cluster dans Proxmox, on peut sans soucis le faire via l'interface graphique.
 Cependant, pour retirer une machine du cluster, on ne peut le faire qu'en **ligne de commande**.
