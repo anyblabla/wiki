@@ -5,7 +5,7 @@ description: >-
   guide utilise l'image latest-fat pour toutes les fonctionnalités, le
   healthcheck, et les options de sécurité avancées (OAuth2, API).
 published: true
-date: '2026-11-03T00:06:56.712Z'
+date: '2026-11-03T00:07:45.386Z'
 tags:
   - docker
   - pdf
@@ -16,7 +16,7 @@ editor: markdown
 dateCreated: '2025-11-26T14:41:02.102Z'
 ---
 
-a## 1\. Stirling PDF, qu'est-ce que c'est ?
+## 1\. Stirling PDF, qu'est-ce que c'est ?
 
 Stirling PDF est une boîte à outils pour fichiers PDF permettant de fusionner, diviser, convertir et plus encore. L'application met l'accent sur la **sécurité et la confidentialité** : elle ne conserve aucun fichier, suivi ou donnée, et fonctionne entièrement sur votre machine locale. L'interface, le nom et la description sont personnalisables.
 
