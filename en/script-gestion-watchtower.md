@@ -5,7 +5,7 @@ description: >-
   running on Proxmox VE. It allows you to check the status, start, stop, restart
   Watchtower, and update its configurations automatically.
 published: true
-date: '2026-11-03T00:09:39.299Z'
+date: '2026-11-03T00:10:00.816Z'
 tags:
   - docker
   - lxc
@@ -18,7 +18,7 @@ editor: markdown
 dateCreated: '2026-03-13T23:45:40.354Z'
 ---
 
-a## Introduction
+## Introduction
 
 **Watchtower** is a tool that monitors your Docker containers and updates them automatically. This page documents two methods for managing your Watchtower instances deployed in LXC containers directly from the Proxmox host.
 
