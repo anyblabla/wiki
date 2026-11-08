@@ -4,8 +4,8 @@ description: >-
   Synchronisez vos favoris, mots de passe, onglets et historique Firefox sur un
   serveur auto-hébergé libre plutôt que chez Mozilla. Explications, réglages
   pour Firefox existant ou neuf, avantages.
-published: false
-date: '2026-11-08T20:07:04.032Z'
+published: true
+date: '2026-11-08T20:58:58.708Z'
 tags:
   - firefox
   - sync
