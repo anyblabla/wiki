@@ -5,7 +5,7 @@ description: >-
   serveur auto-hébergé libre plutôt que chez Mozilla. Explications, réglages
   pour Firefox existant ou neuf, avantages.
 published: true
-date: '2026-11-08T21:00:41.969Z'
+date: '2026-11-08T21:16:13.279Z'
 tags:
   - firefox
   - sync
@@ -143,6 +143,9 @@ Pour être honnête, cette solution a aussi ses contraintes :
 - **Le service est hébergé par une seule personne.** Je fais de mon mieux pour qu'il soit disponible, mais il n'a pas la redondance d'un grand service commercial.
 - **Les places sont limitées.** Le serveur n'est pas ouvert à tout le monde : le nombre d'utilisateurs est plafonné et les inscriptions peuvent être fermées une fois les places prises. Contactez-moi via les réseaux BlablaLinux pour demander l'accès.
 - **La configuration demande une manipulation.** Le réglage dans `about:config` est simple, mais moins direct qu'un bouton dans l'interface, surtout sur mobile.
+
+> [!TIP] Installer votre propre serveur
+> Ce service vous intéresse et vous voulez l'héberger vous-même ? J'ai détaillé toute ma mise en place, de Docker Compose et PostgreSQL à la configuration de Nginx Proxy Manager, en passant par la gestion des inscriptions et les sauvegardes : [Installer un serveur Firefox Sync auto-hébergé](/fr/installer-firefox-sync-auto-heberge).
 
 ## Pour les curieux : sous le capot
 
