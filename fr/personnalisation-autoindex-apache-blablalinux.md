@@ -5,13 +5,13 @@ description: >-
   le thème sombre de Blabla Linux. Guide technique pour un rendu moderne,
   responsive et aux couleurs de votre charte.
 published: true
-date: '2026-11-03T00:01:32.494Z'
+date: '2026-11-11T21:37:17.824Z'
 tags:
   - apache
   - css
   - webdesign
   - tutoriel
-  - autoindex
+  - auto-index
 editor: markdown
 dateCreated: '2026-01-25T22:50:47.081Z'
 ---
