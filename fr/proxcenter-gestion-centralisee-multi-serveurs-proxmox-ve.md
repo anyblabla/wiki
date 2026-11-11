@@ -5,14 +5,14 @@ description: >-
   centraliser la gestion de vos serveurs Proxmox VE et Proxmox Backup Server
   (PBS) depuis une seule interface web unifiée.
 published: true
-date: '2026-11-03T00:01:49.510Z'
+date: '2026-11-11T22:23:56.750Z'
 tags:
   - proxmox
   - pbs
   - virtualisation
   - dashboard
-  - open-source
   - proxcenter
+  - open source
 editor: markdown
 dateCreated: '2026-05-23T20:39:27.131Z'
 ---
