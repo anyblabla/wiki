@@ -5,13 +5,13 @@ description: >-
   accompagne pour sécuriser votre coffre-fort avec Argon2 et optimiser Nginx
   Proxy Manager avec des headers de sécurité avancés.
 published: true
-date: '2026-11-11T21:53:48.686Z'
+date: '2026-11-11T22:41:04.068Z'
 tags:
   - docker
   - sécurité
   - vaultwarden
-  - auto-hebergement
-  - nginx-proxy-manager
+  - auto hébergement
+  - nginx proxy manager
 editor: markdown
 dateCreated: '2026-03-25T15:32:52.898Z'
 ---
