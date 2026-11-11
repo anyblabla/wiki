@@ -5,7 +5,7 @@ description: >-
   serveurs Linux via SSH et Wake-on-LAN. Un guide complet pour sécuriser vos
   cycles de maintenance avec notifications Gotify.
 published: true
-date: '2026-11-02T23:21:17.566Z'
+date: '2026-11-11T22:36:12.229Z'
 tags:
   - proxmox
   - ssh
@@ -14,7 +14,7 @@ tags:
   - linux
   - maintenance
   - automatisation
-  - wake-on-lan
+  - wake on lan
 editor: markdown
 dateCreated: '2026-04-06T07:15:43.821Z'
 ---
