@@ -5,7 +5,7 @@ description: >-
   serveur auto-hébergé libre plutôt que chez Mozilla. Explications, réglages
   pour Firefox existant ou neuf, avantages.
 published: true
-date: '2026-11-08T21:16:13.279Z'
+date: '2026-11-11T13:38:02.086Z'
 tags:
   - firefox
   - sync
