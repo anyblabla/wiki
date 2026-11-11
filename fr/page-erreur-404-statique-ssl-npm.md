@@ -5,14 +5,14 @@ description: >-
   sur Nginx Proxy Manager, utilisant un fichier HTML statique pour un rendu
   professionnel, dynamique et responsive.
 published: true
-date: '2026-11-11T21:33:01.327Z'
+date: '2026-11-11T21:54:10.600Z'
 tags:
   - npm
   - '404'
-  - nginx proxy manager
   - matrix
   - ssl
   - auto-hebergement
+  - nginx-proxy-manager
 editor: markdown
 dateCreated: '2026-02-15T20:48:51.990Z'
 ---
