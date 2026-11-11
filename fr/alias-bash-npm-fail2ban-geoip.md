@@ -5,7 +5,7 @@ description: >-
   un serveur Nginx Proxy Manager couplé à Fail2Ban et GeoIP. Simplifiez la
   gestion de vos logs et sécurisez vos services.
 published: true
-date: '2026-11-11T21:51:44.412Z'
+date: '2026-11-11T22:47:21.525Z'
 tags:
   - docker
   - lxc
@@ -15,7 +15,7 @@ tags:
   - sécurité
   - administration
   - geoip
-  - nginx-proxy-manager
+  - nginx proxy manager
 editor: markdown
 dateCreated: '2026-05-30T17:59:35.092Z'
 ---
