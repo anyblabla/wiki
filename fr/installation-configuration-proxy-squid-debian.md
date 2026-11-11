@@ -5,13 +5,13 @@ description: >-
   couvre l'installation, la configuration du cache et l'utilisation d'alias
   GNOME pour un contrôle total de vos flux web.
 published: true
-date: '2026-11-11T21:25:15.827Z'
+date: '2026-11-11T22:03:21.513Z'
 tags:
   - cache
   - proxy
   - debian
   - squid
-  - administration system
+  - administration système
 editor: markdown
 dateCreated: '2025-12-23T00:16:17.440Z'
 ---
