@@ -5,14 +5,14 @@ description: >-
   comment filtrer les requêtes par mots-clés et User-Agent dans Nginx Proxy
   Manager, tout en épargnant le réseau local.
 published: true
-date: '2026-11-02T23:23:13.309Z'
+date: '2026-11-11T22:04:08.767Z'
 tags:
   - nginx
   - npm
   - sécurité
   - sysadmin
-  - anti-bot
   - scraping
+  - anti bot
 editor: markdown
 dateCreated: '2026-05-29T20:52:21.847Z'
 ---
