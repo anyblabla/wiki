@@ -5,16 +5,16 @@ description: >-
   via Docker Compose : sauvegarde, migrations pre/post-deployment, bascule des
   conteneurs et vérifications.
 published: true
-date: '2026-11-02T23:53:41.336Z'
+date: '2026-11-11T22:12:36.318Z'
 tags:
   - mastodon
   - docker
   - upgrade
   - fediverse
-  - docker-compose
   - mise-a-niveau
   - selfhosting
   - activitypub
+  - docker compose
 editor: markdown
 dateCreated: '2026-08-20T17:37:22.325Z'
 ---
