@@ -5,7 +5,7 @@ description: >-
   le NAT et reste sécurisé grâce au pare-feu, malgré les idées reçues sur les
   adresses publiques.
 published: true
-date: '2026-11-11T21:33:24.765Z'
+date: '2026-11-11T22:44:05.387Z'
 tags:
   - nat
   - sécurité
@@ -17,7 +17,7 @@ tags:
   - firewall
   - routage
   - homelab
-  - auto-hebergement
+  - auto hébergement
 editor: markdown
 dateCreated: '2026-05-11T14:36:46.701Z'
 ---
