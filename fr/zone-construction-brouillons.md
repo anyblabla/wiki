@@ -5,13 +5,13 @@ description: >-
   cours de rédaction. Le contenu est brut de fonderie et non validé. À utiliser
   avec prudence.
 published: true
-date: '2026-11-11T21:55:20.098Z'
+date: '2026-11-11T22:15:20.492Z'
 tags:
   - brouillon
   - construction
-  - en-cours
-  - non-finalise
-  - non-verifie
+  - en cours
+  - non finalisé
+  - non vérifié
 editor: markdown
 dateCreated: '2025-11-18T00:47:12.674Z'
 ---
