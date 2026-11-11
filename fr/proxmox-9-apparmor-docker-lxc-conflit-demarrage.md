@@ -7,13 +7,12 @@ description: >-
   conteneurs Docker dans les LXC imbriqués après la mise à jour de
   containerd.io. Solutions et retour arrière.
 published: true
-date: '2026-11-11T21:41:45.972Z'
+date: '2026-11-11T21:56:04.463Z'
 tags:
   - docker
   - lxc
   - proxmox
   - pve
-  - proxmox9
   - apparmor
   - conteneur
   - imbrication
@@ -22,6 +21,7 @@ tags:
   - securite
   - depannage
   - containerd
+  - proxmox 9
 editor: markdown
 dateCreated: '2025-11-20T00:13:16.158Z'
 ---
