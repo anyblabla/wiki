@@ -5,13 +5,13 @@ description: >-
   pratique détaille la syntaxe pour les titres, listes, blocs de code et
   tableaux afin d'uniformiser vos pages sur le wiki.
 published: true
-date: '2026-11-02T23:43:48.838Z'
+date: '2026-11-11T21:46:08.559Z'
 tags:
   - wiki
   - tutoriel
-  - documantation
   - markdown
   - syntax
+  - documentation
 editor: markdown
 dateCreated: '2026-01-11T23:21:04.223Z'
 ---
