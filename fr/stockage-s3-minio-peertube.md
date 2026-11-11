@@ -5,16 +5,16 @@ description: >-
   incluant l'optimisation Nginx Proxy Manager et la sécurisation par politique
   d'accès JSON personnalisée.
 published: true
-date: '2026-11-03T00:07:49.252Z'
+date: '2026-11-11T21:33:47.503Z'
 tags:
   - docker
   - proxmox
   - sécurité
-  - auto-hébergement
   - peertube
   - nginx proxy manager
   - minio
   - s3
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-04-20T15:43:29.876Z'
 ---
