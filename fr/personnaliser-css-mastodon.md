@@ -5,14 +5,14 @@ description: >-
   Guide basé sur la configuration réelle de Blabla Linux pour harmoniser votre
   serveur avec votre charte.
 published: true
-date: '2026-11-11T21:33:12.583Z'
+date: '2026-11-11T22:43:45.481Z'
 tags:
   - mastodon
   - css
   - design
   - administration
   - tutoriel
-  - auto-hebergement
+  - auto hébergement
 editor: markdown
 dateCreated: '2025-12-23T14:09:45.319Z'
 ---
