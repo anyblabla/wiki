@@ -5,13 +5,13 @@ description: >-
   Manager pour sécuriser vos services comme Immich, Wiki.js ou Vert.sh sans
   bloquer les fonctionnalités vitales de vos outils.
 published: true
-date: '2026-11-11T21:31:18.178Z'
+date: '2026-11-11T22:40:21.485Z'
 tags:
   - nginx
   - npm
   - sécurité
   - csp
-  - auto-hebergement
+  - auto hébergement
 editor: markdown
 dateCreated: '2026-02-10T23:48:25.977Z'
 ---
