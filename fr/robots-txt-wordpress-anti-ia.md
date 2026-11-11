@@ -5,15 +5,15 @@ description: >-
   bloquer les robots d'IA spécifiques (GPTBot, ClaudeBot, etc.) tout en assurant
   une parfaite indexation SEO par les moteurs de recherche standards.
 published: true
-date: '2026-11-11T22:10:34.167Z'
+date: '2026-11-11T22:24:26.164Z'
 tags:
   - wordpress
   - seo
   - indexation
   - robots.txt
-  - optimisation-wordpress
   - anti ia
   - blocage crawlers
+  - optimisation wordpress
 editor: markdown
 dateCreated: '2025-11-29T14:11:55.484Z'
 ---
