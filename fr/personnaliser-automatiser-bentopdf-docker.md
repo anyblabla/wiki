@@ -5,14 +5,14 @@ description: >-
   le branding, configurer Nginx pour le support WebAssembly et automatiser la
   maintenance du serveur.
 published: true
-date: '2026-11-03T00:01:36.840Z'
+date: '2026-11-11T22:09:48.305Z'
 tags:
   - docker
   - linux
   - automatisation
-  - bentopdf
   - wasm
   - branding
+  - bento pdf
 editor: markdown
 dateCreated: '2026-02-15T02:03:56.024Z'
 ---
