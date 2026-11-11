@@ -5,7 +5,7 @@ description: >-
   MongoDB sécurisé, stockage S3, e-mails SMTP et reverse proxy Nginx Proxy
   Manager, avec des commandes à copier-coller.
 published: true
-date: '2026-11-11T21:32:08.514Z'
+date: '2026-11-11T22:12:53.958Z'
 tags:
   - docker
   - lxc
@@ -14,11 +14,11 @@ tags:
   - tutoriel
   - s3
   - nginx-proxy-manager
-  - docker-compose
   - notesnook
   - e2ee
   - mongodb
   - auto-hebergement
+  - docker compose
 editor: markdown
 dateCreated: '2026-10-16T22:17:53.709Z'
 ---
