@@ -5,12 +5,12 @@ description: >-
   meilleures méthodes pour structurer vos fichiers Compose, gérer les secrets,
   persister les données (volumes) et optimiser la sécurité en production.
 published: true
-date: '2026-11-02T23:24:03.995Z'
+date: '2026-11-11T21:45:19.163Z'
 tags:
   - docker
   - compose
   - conteneurisation
-  - déploiement
+  - deploiement
 editor: markdown
 dateCreated: '2025-11-22T15:18:58.075Z'
 ---
