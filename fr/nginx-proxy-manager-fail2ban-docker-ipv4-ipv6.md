@@ -5,15 +5,15 @@ description: >-
   Gérez les vraies IP (IPv4/IPv6), le géo-blocage et le bannissement
   incrémental. À adapter à votre propre configuration.
 published: true
-date: '2026-11-02T23:58:02.953Z'
+date: '2026-11-11T22:31:31.209Z'
 tags:
   - docker
   - proxmox
   - nginx
   - fail2ban
   - ipv6
-  - securite
   - geoip2
+  - sécurité
 editor: markdown
 dateCreated: '2026-05-27T17:15:10.772Z'
 ---
