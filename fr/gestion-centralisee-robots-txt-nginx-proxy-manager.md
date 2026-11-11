@@ -5,16 +5,16 @@ description: >-
   services auto-hébergés via NPM afin de sécuriser vos accès et uniformiser le
   blocage des robots d'IA.
 published: true
-date: '2026-11-11T21:31:03.549Z'
+date: '2026-11-11T22:30:21.235Z'
 tags:
   - nginx
   - npm
   - sécurité
   - sysadmin
   - seo
-  - robots.txt
   - ia
   - auto-hebergement
+  - robots txt
 editor: markdown
 dateCreated: '2025-12-23T22:33:31.704Z'
 ---
