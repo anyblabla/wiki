@@ -5,13 +5,13 @@ description: >-
   démarrage) sur Debian avec Plymouth. Apprenez à changer de thème,
   prévisualiser et résoudre les erreurs d'alternatives.
 published: true
-date: '2026-11-02T23:25:54.614Z'
+date: '2026-11-11T21:24:42.348Z'
 tags:
   - debian
   - personnalisation
-  - administration système
   - plymouth
   - boot
+  - administration system
 editor: markdown
 dateCreated: '2025-12-31T01:25:56.130Z'
 ---
