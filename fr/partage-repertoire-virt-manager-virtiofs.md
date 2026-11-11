@@ -5,14 +5,14 @@ description: >-
   un hôte Linux et une VM KVM/QEMU via virtio-fs sous Virt-manager. Idéal pour
   Debian, Ubuntu et Linux Mint.
 published: true
-date: '2026-11-11T21:27:01.686Z'
+date: '2026-11-11T22:03:04.722Z'
 tags:
   - share
   - debian
   - virtmanager
   - libvirt
   - virtiofs
-  - administration system
+  - administration système
 editor: markdown
 dateCreated: '2025-12-31T01:20:30.522Z'
 ---
