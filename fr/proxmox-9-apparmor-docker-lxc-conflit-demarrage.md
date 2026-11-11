@@ -7,7 +7,7 @@ description: >-
   conteneurs Docker dans les LXC imbriqués après la mise à jour de
   containerd.io. Solutions et retour arrière.
 published: true
-date: '2026-11-11T22:11:27.001Z'
+date: '2026-11-11T22:31:17.183Z'
 tags:
   - docker
   - lxc
@@ -18,10 +18,10 @@ tags:
   - imbrication
   - runc
   - erreur
-  - securite
   - containerd
   - proxmox 9
   - dépannage
+  - sécurité
 editor: markdown
 dateCreated: '2025-11-20T00:13:16.158Z'
 ---
