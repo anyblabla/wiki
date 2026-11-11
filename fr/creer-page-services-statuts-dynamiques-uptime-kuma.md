@@ -5,14 +5,14 @@ description: >-
   tableau de bord. Un guide pas à pas pour afficher la disponibilité de vos
   services auto-hébergés en temps réel.
 published: true
-date: '2026-11-02T23:29:57.595Z'
+date: '2026-11-11T21:30:48.026Z'
 tags:
   - wordpress
-  - auto-hébergement
   - tutoriel
   - uptime kuma
   - dashboard
   - badges
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-02-14T12:20:52.350Z'
 ---
