@@ -5,14 +5,14 @@ description: >-
   massivement les journaux système, de vider les fichiers .log sans les
   supprimer et de libérer l'espace disque instantanément.
 published: true
-date: '2026-11-11T21:27:22.397Z'
+date: '2026-11-11T22:03:01.168Z'
 tags:
   - proxmox
   - debian
   - script
   - bash
   - nettoyage
-  - administration system
+  - administration système
 editor: markdown
 dateCreated: '2026-02-06T14:09:23.627Z'
 ---
