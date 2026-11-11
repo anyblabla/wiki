@@ -5,7 +5,7 @@ description: >-
   Cron et Gotify. Le script utilise apt-mark hold pour exclure le noyau et le
   service PBS des MAJ auto, garantissant la stabilité.
 published: true
-date: '2026-11-03T00:05:22.643Z'
+date: '2026-11-11T22:05:59.438Z'
 tags:
   - proxmox
   - debian
@@ -14,8 +14,8 @@ tags:
   - gotify
   - linux
   - curl
-  - apt-mak
   - hold
+  - apt mak
 editor: markdown
 dateCreated: '2025-11-21T20:09:57.912Z'
 ---
