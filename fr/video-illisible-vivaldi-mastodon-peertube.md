@@ -7,20 +7,20 @@ description: >-
   Post-mortem complet : fausses pistes (NPM, CORS, CSP) et vraie cause (codecs
   propriétaires Flatpak corrompus).
 published: true
-date: '2026-11-11T22:32:10.524Z'
+date: '2026-11-11T22:47:43.448Z'
 tags:
   - mastodon
   - peertube
   - cors
   - minio
   - homelab
-  - nginx-proxy-manager
   - vivaldi
   - flatpak
   - codecs
   - h264
   - debug
   - self hosting
+  - nginx proxy manager
 editor: markdown
 dateCreated: '2026-09-13T22:34:02.771Z'
 ---
