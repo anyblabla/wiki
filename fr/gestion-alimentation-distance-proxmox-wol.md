@@ -5,7 +5,7 @@ description: >-
   Ce guide détaille l'usage du Wake-on-LAN et la configuration des clés SSH pour
   une gestion automatisée du cluster.
 published: true
-date: '2026-11-02T23:37:47.851Z'
+date: '2026-11-11T21:48:34.376Z'
 tags:
   - proxmox
   - ssh
@@ -13,7 +13,7 @@ tags:
   - sécurité
   - wol
   - wake-on-lan
-  - énergie
+  - energie
 editor: markdown
 dateCreated: '2026-03-31T23:43:35.130Z'
 ---
