@@ -5,14 +5,14 @@ description: >-
   dans vos logs SearXNG. Une analyse concrète étape par étape pour sécuriser et
   comprendre le trafic de votre serveur.
 published: true
-date: '2026-11-11T21:36:03.945Z'
+date: '2026-11-11T22:39:44.539Z'
 tags:
   - nginx
   - fail2ban
   - sécurité
   - searxng
   - logs
-  - auto-hebergement
+  - auto hébergement
 editor: markdown
 dateCreated: '2026-05-28T16:24:59.916Z'
 ---
