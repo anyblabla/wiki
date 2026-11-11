@@ -5,14 +5,14 @@ description: >-
   automatise le renommage massif du tag community-scripts en community-script
   sur l'ensemble de vos nœuds PVE.
 published: true
-date: '2026-11-11T22:03:14.158Z'
+date: '2026-11-11T22:17:28.818Z'
 tags:
   - proxmox
   - bash
   - automatisation
   - tag
-  - etiquette
   - administration système
+  - étiquette
 editor: markdown
 dateCreated: '2026-01-17T12:54:56.909Z'
 ---
