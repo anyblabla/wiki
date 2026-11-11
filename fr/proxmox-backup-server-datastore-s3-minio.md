@@ -5,7 +5,7 @@ description: >-
   dédié selon le type d'installation : disque virtuel (VM) ou dataset ZFS avec
   quota (serveur physique).
 published: true
-date: '2026-11-02T23:26:58.220Z'
+date: '2026-11-11T22:32:57.440Z'
 tags:
   - proxmox
   - pbs
@@ -14,7 +14,7 @@ tags:
   - minio
   - s3
   - homelab
-  - selfhosting
+  - self hosting
 editor: markdown
 dateCreated: '2026-08-28T23:28:31.706Z'
 ---
@@ -157,4 +157,3 @@ Quand le cache est plein, les chunks les moins récemment utilisés sont évinc�
 
 - [Documentation officielle Proxmox Backup Server — Storage](https://pbs.proxmox.com/docs/storage.html)
 - Forums Proxmox — retours d'expérience communautaires sur le fonctionnement du cache S3 et les erreurs de configuration courantes
-
