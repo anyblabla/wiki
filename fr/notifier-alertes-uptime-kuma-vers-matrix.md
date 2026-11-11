@@ -5,7 +5,7 @@ description: >-
   pas à pas détaille la création du bot, la récupération du jeton d'accès et la
   personnalisation des alertes Liquid.
 published: true
-date: '2026-11-11T22:50:44.547Z'
+date: '2026-11-11T22:51:03.916Z'
 tags:
   - uptime kuma
   - matrix
@@ -13,6 +13,7 @@ tags:
   - bot
   - liquidjs
   - auto hébergement
+  - notification
 editor: markdown
 dateCreated: '2026-02-14T12:25:37.084Z'
 ---
