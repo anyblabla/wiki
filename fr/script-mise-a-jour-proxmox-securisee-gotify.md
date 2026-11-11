@@ -6,7 +6,7 @@ description: >-
   composants essentiels, assurant la stabilité tout en maintenant votre système
   à jour.
 published: true
-date: '2026-11-03T00:05:26.419Z'
+date: '2026-11-11T22:05:20.166Z'
 tags:
   - proxmox
   - debian
@@ -16,8 +16,8 @@ tags:
   - linux
   - curl
   - apt-mak
-  - apt-get
   - hold
+  - apt get
 editor: markdown
 dateCreated: '2025-11-21T20:02:46.363Z'
 ---
