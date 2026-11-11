@@ -5,14 +5,14 @@ description: >-
   management for Proxmox VE. Ideal for managing your entire virtualization
   infrastructure from a single interface.
 published: true
-date: '2026-11-03T00:10:05.459Z'
+date: '2026-11-11T22:58:53.232Z'
 tags:
   - proxmox
   - cluster
-  - open-source
   - pegaprox
   - virtualization
   - hypervisor
+  - open source
 editor: markdown
 dateCreated: '2026-05-23T20:31:06.167Z'
 ---
