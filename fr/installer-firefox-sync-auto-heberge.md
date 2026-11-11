@@ -5,7 +5,7 @@ description: >-
   Compose, PostgreSQL, Nginx Proxy Manager, gestion des inscriptions et
   sauvegardes avec Databasus.
 published: true
-date: '2026-11-08T21:12:58.386Z'
+date: '2026-11-11T21:35:52.098Z'
 tags:
   - firefox
   - corosync
@@ -15,7 +15,7 @@ tags:
   - nginx-proxy-manager
   - databasus
   - tutoriel
-  - autohebergement
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-11-08T21:12:58.386Z'
 ---
