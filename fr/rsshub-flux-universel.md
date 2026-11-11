@@ -5,7 +5,7 @@ description: >-
   RSS pour tout contenu web qui n'en propose pas, et intégrez-les directement à
   notre FreshRSS.
 published: true
-date: '2026-11-11T21:33:36.547Z'
+date: '2026-11-11T22:44:14.562Z'
 tags:
   - veille
   - rsshub
@@ -16,7 +16,7 @@ tags:
   - flux
   - libre
   - logiciel
-  - auto-hebergement
+  - auto hébergement
 editor: markdown
 dateCreated: '2025-12-10T22:42:17.517Z'
 ---
