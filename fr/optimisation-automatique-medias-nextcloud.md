@@ -5,18 +5,18 @@ description: >-
   guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné
   sans sacrifier sa fluidité habituelle.
 published: true
-date: '2026-11-02T23:58:26.869Z'
+date: '2026-11-11T21:32:49.695Z'
 tags:
   - cron
   - crontab
   - script
   - bash
   - ffmpeg
-  - auto-hébergement
   - optimisation
   - nextcloud
   - reconditionnement
   - imagemagick
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-03-02T11:46:46.923Z'
 ---
