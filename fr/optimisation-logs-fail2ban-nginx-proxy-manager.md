@@ -5,7 +5,7 @@ description: >-
   Proxy Manager. Un guide pratique pour gérer efficacement plus de 90 proxy
   hosts sans saturer votre système.
 published: true
-date: '2026-11-02T23:58:40.040Z'
+date: '2026-11-11T21:53:59.047Z'
 tags:
   - docker
   - npm
@@ -13,8 +13,8 @@ tags:
   - sécurité
   - linux
   - sysadmin
-  - nginx proxy manager
   - logrotate
+  - nginx-proxy-manager
 editor: markdown
 dateCreated: '2026-02-13T12:15:21.018Z'
 ---
