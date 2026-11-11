@@ -5,19 +5,19 @@ description: >-
   ou Ubuntu. Ce guide détaille la mise en place de Nginx et la configuration via
   Nginx Proxy Manager.
 published: true
-date: '2026-11-11T21:31:53.416Z'
+date: '2026-11-11T21:44:16.535Z'
 tags:
   - nginx
   - npm
   - debian
   - ubuntu
-  - debian13
-  - debian 12
   - languagetool
   - open-source
   - ubuntu 22.04
   - ubuntu 24.04
   - auto-hebergement
+  - debian 12
+  - debian 13
 editor: markdown
 dateCreated: '2026-03-29T00:29:32.235Z'
 ---
