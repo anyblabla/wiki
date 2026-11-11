@@ -5,13 +5,13 @@ description: >-
   une stratégie stricte de blocage des robots d’IA, tout en autorisant
   l'indexation sélective par les moteurs de recherche traditionnels.
 published: true
-date: '2026-11-02T23:18:32.004Z'
+date: '2026-11-11T22:04:36.370Z'
 tags:
   - seo
   - indexation
   - robots.txt
-  - anti-ia
   - gitea
+  - anti ia
 editor: markdown
 dateCreated: '2025-11-30T17:02:16.215Z'
 ---
