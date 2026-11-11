@@ -5,11 +5,11 @@ description: >-
   sur Debian afin d'appliquer automatiquement les mises à jour de sécurité et
   d'autres paquets.
 published: true
-date: '2026-11-02T23:30:17.489Z'
+date: '2026-11-11T22:34:07.944Z'
 tags:
   - debian
   - upgrade
-  - unattended-upgrades
+  - unattended upgrades
 editor: markdown
 dateCreated: '2025-11-01T00:14:07.294Z'
 ---
