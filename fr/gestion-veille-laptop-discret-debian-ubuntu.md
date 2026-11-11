@@ -5,7 +5,7 @@ description: >-
   sur les ordinateurs portables sous Debian/Ubuntu/Mint équipés d'une carte
   graphique discrète (NVIDIA ou AMD).
 published: true
-date: '2026-11-02T23:31:23.385Z'
+date: '2026-11-11T22:51:42.963Z'
 tags:
   - debian
   - ubuntu
@@ -18,7 +18,6 @@ tags:
   - nvidia
   - amd
   - mint
-  - pilotes
 editor: markdown
 dateCreated: '2025-12-07T19:08:15.640Z'
 ---
