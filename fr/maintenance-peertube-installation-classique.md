@@ -5,16 +5,16 @@ description: >-
   automatisation du nettoyage du stockage, des fichiers distants et optimisation
   RAM avec notifications Gotify.
 published: true
-date: '2026-11-02T23:50:35.244Z'
+date: '2026-11-11T21:25:42.690Z'
 tags:
   - serveur
   - debian
   - script
-  - administration système
   - maintenance
   - peertube
   - logiciel libre
   - gotify
+  - administration system
 editor: markdown
 dateCreated: '2025-12-28T18:39:33.530Z'
 ---
