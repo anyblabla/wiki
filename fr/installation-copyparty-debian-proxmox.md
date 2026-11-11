@@ -5,15 +5,15 @@ description: >-
   complet détaille la configuration du service, l'accès via reverse proxy et
   l'automatisation des mises à jour par cron.
 published: true
-date: '2026-11-02T23:46:00.028Z'
+date: '2026-11-11T22:07:23.630Z'
 tags:
   - lxc
   - proxmox
   - debian
   - logiciel libre
   - copyparty
-  - auto-update
   - serveur de fichiers
+  - auto update
 editor: markdown
 dateCreated: '2026-03-05T11:53:37.077Z'
 ---
@@ -224,4 +224,3 @@ crontab -e
 * **Vérifier la version :** `python3 /usr/local/bin/copyparty-sfx.py --version`
 * **Logs de mise à jour :** `cat /var/log/copyparty/update.log`
 * **Statut du service :** `systemctl status copyparty`
-
