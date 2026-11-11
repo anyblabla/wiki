@@ -5,7 +5,7 @@ description: >-
   via Wake-on-LAN, SSH et cron, avec surveillance des sauvegardes et
   notifications Gotify.
 published: true
-date: '2026-11-02T23:21:44.202Z'
+date: '2026-11-11T22:36:31.628Z'
 tags:
   - proxmox
   - cron
@@ -15,7 +15,7 @@ tags:
   - gotify
   - automatisation
   - homelab
-  - wakeonlan
+  - wake on lan
 editor: markdown
 dateCreated: '2026-06-02T15:46:58.408Z'
 ---
