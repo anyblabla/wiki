@@ -5,16 +5,16 @@ description: >-
   serveur auto-hébergé libre plutôt que chez Mozilla. Explications, réglages
   pour Firefox existant ou neuf, avantages.
 published: true
-date: '2026-11-11T22:35:32.154Z'
+date: '2026-11-11T22:40:02.834Z'
 tags:
   - firefox
   - sync
   - docker
   - postgresql
   - virustotal
-  - auto-hebergement
   - logiciel libre
   - vie privé
+  - auto hébergement
 editor: markdown
 dateCreated: '2026-11-08T20:07:04.032Z'
 ---
