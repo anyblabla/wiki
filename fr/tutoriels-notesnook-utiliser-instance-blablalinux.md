@@ -5,10 +5,9 @@ description: >-
   votre compte et synchronisez vos notes chiffrées de bout en bout sur
   navigateur, ordinateur et Android.
 published: true
-date: '2026-11-02T23:58:17.008Z'
+date: '2026-11-11T21:32:23.687Z'
 tags:
   - linux
-  - auto-hébergement
   - tutoriel
   - blablalinux
   - notesnook
@@ -17,6 +16,7 @@ tags:
   - e2ee
   - synchronisation
   - android
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-10-16T17:27:34.741Z'
 ---
