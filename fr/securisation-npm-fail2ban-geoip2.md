@@ -5,7 +5,7 @@ description: >-
   Docker. Bloquez les scans et les pays à risque grâce au bannissement
   automatique par iptables sur l'hôte.
 published: true
-date: '2026-11-11T21:52:02.566Z'
+date: '2026-11-11T22:44:43.790Z'
 tags:
   - docker
   - nginx
@@ -16,8 +16,8 @@ tags:
   - geoip
   - maxmind
   - protection
-  - auto-hebergement
-  - nginx-proxy-manager
+  - nginx proxy manager
+  - auto hébergement
 editor: markdown
 dateCreated: '2026-05-07T00:10:11.725Z'
 ---
