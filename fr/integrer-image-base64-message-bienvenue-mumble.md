@@ -5,15 +5,15 @@ description: >-
   Méthode appliquée sur le serveur BlablaLinux pour un affichage performant sans
   dépendre d'un hébergement externe.
 published: true
-date: '2026-11-02T23:46:59.430Z'
+date: '2026-11-11T22:08:03.905Z'
 tags:
   - debian
   - administration
   - mumble
   - murmur
-  - base64
   - image
   - png
+  - base 64
 editor: markdown
 dateCreated: '2026-01-23T23:02:17.545Z'
 ---
