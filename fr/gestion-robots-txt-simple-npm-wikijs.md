@@ -5,15 +5,15 @@ description: >-
   Wiki.js grâce à Nginx Proxy Manager (NPM). Autorise le référencement public et
   sécurise le tableau de bord d'administration.
 published: true
-date: '2026-11-11T22:30:33.938Z'
+date: '2026-11-11T22:36:56.289Z'
 tags:
   - nginx
   - proxy
   - npm
   - sécurité
   - seo
-  - wiki.js
   - robots txt
+  - wikijs
 editor: markdown
 dateCreated: '2025-11-29T18:04:26.219Z'
 ---
