@@ -5,7 +5,7 @@ description: >-
   Docker. Bloquez les scans et les pays à risque grâce au bannissement
   automatique par iptables sur l'hôte.
 published: true
-date: '2026-11-03T00:05:44.811Z'
+date: '2026-11-11T21:36:15.928Z'
 tags:
   - docker
   - nginx
@@ -15,9 +15,9 @@ tags:
   - sysadmin
   - nginxproxymanager
   - geoip
-  - autohébergement
   - maxmind
   - protection
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-05-07T00:10:11.725Z'
 ---
@@ -384,4 +384,3 @@ docker exec fail2ban fail2ban-client status npm-geo-abuse
 ---
 
 > **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
-
