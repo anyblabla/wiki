@@ -5,7 +5,7 @@ description: >-
   (home, sites web, clouds). Un guide pour automatiser vos copies de fichiers en
   complément d'une sauvegarde système.
 published: true
-date: '2026-11-03T00:04:55.851Z'
+date: '2026-11-11T21:46:37.785Z'
 tags:
   - sauvegarde
   - rsync
@@ -13,7 +13,7 @@ tags:
   - bash
   - linux
   - automatisation
-  - données
+  - donnees
 editor: markdown
 dateCreated: '2026-03-10T18:23:56.364Z'
 ---
