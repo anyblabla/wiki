@@ -5,7 +5,7 @@ description: >-
   désactiver l'autosuspend USB et à configurer une activité de maintien pour
   éviter les erreurs fatales Input/Output.
 published: true
-date: '2026-11-03T00:07:37.652Z'
+date: '2026-11-11T22:17:08.071Z'
 tags:
   - sauvegarde
   - debian
@@ -13,7 +13,7 @@ tags:
   - linux
   - maintenance
   - usb
-  - erreur i/o
+  - erreur io
 editor: markdown
 dateCreated: '2026-03-16T16:16:16.017Z'
 ---
