@@ -5,16 +5,16 @@ description: >-
   Du style minimaliste au mode Matrix glitché (404 et 403), améliorez
   l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: true
-date: '2026-11-02T23:15:03.039Z'
+date: '2026-11-11T21:33:58.642Z'
 tags:
   - npm
   - html
   - css
   - '404'
-  - auto-hébergement
   - personnalisation
   - nginx proxy manager
   - '403'
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-02-16T14:03:15.558Z'
 ---
