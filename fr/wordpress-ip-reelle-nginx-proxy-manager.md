@@ -7,13 +7,13 @@ description: >-
   dans WordPress lorsque celui-ci est placé derrière un proxy inverse comme
   Nginx Proxy Manager (NPM).
 published: true
-date: '2026-11-02T23:29:34.559Z'
+date: '2026-11-11T22:37:46.202Z'
 tags:
   - nginx
   - proxy
   - ip
   - wordpress
-  - x-forwarded-for
+  - x forwarded for
 editor: markdown
 dateCreated: '2025-12-13T21:05:51.386Z'
 ---
