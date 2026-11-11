@@ -4,8 +4,8 @@ description: >-
   Guide complet pour connecter Gemini CLI et OpenCode à l'API MCP de Wiki.js 3.
   Installation, configuration Nginx Proxy Manager, jetons PAT et résolution des
   erreurs de quota.
-published: false
-date: '2026-11-11T23:01:41.837Z'
+published: true
+date: '2026-11-11T23:01:52.428Z'
 tags:
   - opencode
   - mcp
