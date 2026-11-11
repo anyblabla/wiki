@@ -5,7 +5,7 @@ description: >-
   Compose. Un guide idéal pour tester le quorum, la haute disponibilité et le
   réseau sans matériel supplémentaire.
 published: true
-date: '2026-11-11T21:49:57.096Z'
+date: '2026-11-11T22:19:38.639Z'
 tags:
   - docker
   - proxmox
@@ -14,7 +14,7 @@ tags:
   - virtualisation
   - ha
   - lab
-  - haut disponibilite
+  - haute disponibilité
 editor: markdown
 dateCreated: '2026-01-03T21:50:40.907Z'
 ---
