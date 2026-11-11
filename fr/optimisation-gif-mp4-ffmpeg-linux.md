@@ -5,14 +5,14 @@ description: >-
   systèmes Linux légers grâce à la commande FFmpeg. Apprenez à utiliser les
   options clés comme le CRF pour contrôler la qualité et la taille du fichier.
 published: true
-date: '2026-11-02T23:28:48.434Z'
+date: '2026-11-11T22:35:05.438Z'
 tags:
   - mp4
   - ffmpeg
-  - video
   - gif
   - conversion
   - optimisation
+  - vidéo
 editor: markdown
 dateCreated: '2025-12-15T22:33:18.848Z'
 ---
