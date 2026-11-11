@@ -5,14 +5,14 @@ description: >-
   management of your Proxmox VE and Proxmox Backup Server (PBS) infrastructures
   from a single unified web interface.
 published: true
-date: '2026-11-03T00:10:09.579Z'
+date: '2026-11-11T22:59:05.207Z'
 tags:
   - proxmox
   - pbs
   - dashboard
-  - open-source
   - virtualization
   - proxcenter
+  - open source
 editor: markdown
 dateCreated: '2026-05-23T20:55:39.481Z'
 ---
