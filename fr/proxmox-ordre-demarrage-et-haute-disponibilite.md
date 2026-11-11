@@ -5,13 +5,13 @@ description: >-
   stabiliser votre infrastructure, tout en maîtrisant les impacts critiques de
   la haute disponibilité sur ces réglages.
 published: true
-date: '2026-11-11T21:49:44.957Z'
+date: '2026-11-11T22:19:52.253Z'
 tags:
   - proxmox
   - virtualisation
   - sysadmin
   - tutoriel
-  - haut disponibilite
+  - haute disponibilité
 editor: markdown
 dateCreated: '2026-04-26T21:40:09.063Z'
 ---
