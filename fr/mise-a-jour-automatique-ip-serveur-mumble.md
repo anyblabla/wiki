@@ -5,14 +5,14 @@ description: >-
   serveur Mumble sur LXC Debian en cas d'IP publique dynamique, avec redémarrage
   ciblé et gestion propre des logs.
 published: true
-date: '2026-11-02T23:54:16.278Z'
+date: '2026-11-11T22:41:49.432Z'
 tags:
   - lxc
   - cron
   - debian
   - bash
   - mumble
-  - auto-hebergement
+  - auto hébergement
 editor: markdown
 dateCreated: '2026-05-24T19:10:30.833Z'
 ---
