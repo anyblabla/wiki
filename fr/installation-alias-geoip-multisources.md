@@ -5,7 +5,7 @@ description: >-
   guide pas à pas pour diagnostiquer vos IP, détecter les VPN et serveurs cloud
   directement dans votre terminal.
 published: true
-date: '2026-11-02T23:49:51.277Z'
+date: '2026-11-11T22:20:32.274Z'
 tags:
   - bash
   - sécurité
@@ -13,7 +13,7 @@ tags:
   - terminal
   - geoip
   - maxmind
-  - ip66.dev
+  - ip66 dev
 editor: markdown
 dateCreated: '2026-05-08T18:09:39.102Z'
 ---
