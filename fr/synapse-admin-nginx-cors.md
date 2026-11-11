@@ -5,7 +5,7 @@ description: >-
   bons en-têtes CORS pour permettre l'utilisation de Synapse Admin depuis un
   domaine externe.
 published: true
-date: '2026-11-02T23:26:13.803Z'
+date: '2026-11-11T22:29:18.676Z'
 tags:
   - nginx
   - npm
@@ -13,8 +13,8 @@ tags:
   - cors
   - matrix
   - synapse
-  - self-hosting
-  - reverse-proxy
+  - rerverse proxy
+  - self hosting
 editor: markdown
 dateCreated: '2026-06-07T12:53:47.398Z'
 ---
