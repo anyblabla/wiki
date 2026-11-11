@@ -7,15 +7,15 @@ description: >-
   Installation, configuration Nginx Proxy Manager, jetons PAT et résolution des
   erreurs de quota.
 published: false
-date: '2026-11-11T21:20:33.975Z'
+date: '2026-11-11T22:18:51.956Z'
 tags:
-  - gemini-cli
   - opencode
   - mcp
-  - nginx-proxy-manager
-  - wiki-js
   - debian
   - auto-hebergement
+  - gemini cli
+  - nginx proxy manager
+  - wikijs
 editor: markdown
 dateCreated: '2026-11-11T21:19:17.944Z'
 ---
