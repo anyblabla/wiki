@@ -5,16 +5,16 @@ description: >-
   Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une
   alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: '2026-11-02T23:23:31.889Z'
+date: '2026-11-11T22:10:19.706Z'
 tags:
   - nginx
   - proxy
   - npm
-  - blocage-crawlers
   - robots
   - ia
   - ai
   - crawlers
+  - blocage crawlers
 editor: markdown
 dateCreated: '2025-12-15T23:32:58.582Z'
 ---
