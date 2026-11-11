@@ -5,7 +5,7 @@ description: >-
   guide pas à pas pour optimiser l'espace disque de votre serveur reconditionné
   sans sacrifier sa fluidité habituelle.
 published: true
-date: '2026-11-11T21:32:49.695Z'
+date: '2026-11-11T22:42:42.660Z'
 tags:
   - cron
   - crontab
@@ -16,7 +16,7 @@ tags:
   - nextcloud
   - reconditionnement
   - imagemagick
-  - auto-hebergement
+  - auto hébergement
 editor: markdown
 dateCreated: '2026-03-02T11:46:46.923Z'
 ---
