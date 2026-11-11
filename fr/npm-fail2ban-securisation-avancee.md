@@ -6,15 +6,15 @@ description: >-
   Mettre en place une stack de sécurité complète sous Docker avec Nginx Proxy
   Manager, Fail2Ban et GeoIP2 pour bloquer bots, crawlers et chemins sensibles.
 published: true
-date: '2026-11-02T23:57:58.609Z'
+date: '2026-11-11T22:32:35.746Z'
 tags:
   - docker
   - nginx
   - fail2ban
   - sécurité
   - geoip2
-  - nginx-proxy-manager
-  - self-hosting
+  - self hosting
+  - nginx proxy manager
 editor: markdown
 dateCreated: '2026-05-30T14:55:02.347Z'
 ---
