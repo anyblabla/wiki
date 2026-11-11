@@ -4,15 +4,15 @@ description: >-
   Découvrez le Dynamic Load Balancer de Proxmox VE 9.2 et apprenez à configurer
   ses options de rebalancement.
 published: true
-date: '2026-11-03T00:02:03.729Z'
+date: '2026-11-11T22:21:19.281Z'
 tags:
   - proxmox
   - cluster
   - ha
   - tutoriel
-  - pve-9.2
-  - load-balancer
   - crs
+  - load balancer
+  - pve 9.2
 editor: markdown
 dateCreated: '2026-05-21T18:48:27.725Z'
 ---
