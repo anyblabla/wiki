@@ -5,14 +5,14 @@ description: >-
   multi-clusters pour Proxmox VE. Idéal pour piloter tout votre parc de
   virtualisation depuis une interface unique.
 published: true
-date: '2026-11-03T00:01:27.099Z'
+date: '2026-11-11T22:23:45.386Z'
 tags:
   - proxmox
   - cluster
   - virtualisation
   - hyperviseur
-  - open-source
   - pegaprox
+  - open source
 editor: markdown
 dateCreated: '2026-05-23T20:24:18.332Z'
 ---
