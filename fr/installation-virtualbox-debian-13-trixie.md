@@ -5,14 +5,14 @@ description: >-
   officiel. Guide pas à pas incluant l'importation de la clé GPG, l'ajout du
   dépôt et l'installation de l'Extension Pack.
 published: true
-date: '2026-11-02T23:46:32.894Z'
+date: '2026-11-11T21:44:21.452Z'
 tags:
   - serveur
   - linux
   - virtualisation
   - virtualbox
-  - debian13
   - trixie
+  - debian 13
 editor: markdown
 dateCreated: '2026-01-11T22:06:34.030Z'
 ---
