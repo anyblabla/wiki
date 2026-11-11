@@ -5,16 +5,16 @@ description: >-
   pour gérer le rendu 3D et le décodage vidéo matériel sur un laptop HP Pavilion
   dv7.
 published: true
-date: '2026-11-02T23:58:45.066Z'
+date: '2026-11-11T22:34:35.323Z'
 tags:
   - trixie
   - debian 13
   - proxmox 9
-  - va-api
   - amd radeon
   - intel hd graphics
   - accélération matérielle
   - hp pavilion
+  - vaapi
 editor: markdown
 dateCreated: '2026-01-17T19:38:21.964Z'
 ---
