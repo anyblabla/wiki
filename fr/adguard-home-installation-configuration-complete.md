@@ -5,16 +5,16 @@ description: >-
   Un guide complet pour bloquer la publicité, protéger votre vie privée et
   optimiser votre réseau local avec BlablaLinux.
 published: true
-date: '2026-11-02T23:16:09.205Z'
+date: '2026-11-11T21:29:59.366Z'
 tags:
   - lxc
   - proxmox
   - debian
   - sync
   - sécurité
-  - auto-hébergement
   - adguard
   - dns
+  - auto-hebergement
 editor: markdown
 dateCreated: '2026-01-29T22:52:06.042Z'
 ---
