@@ -5,11 +5,11 @@ description: >-
   commandes de base, les fonctions avancées, et apprenez à configurer la
   coloration syntaxique et les numéros de ligne via le fichier .nanorc.
 published: true
-date: '2026-11-11T21:47:22.848Z'
+date: '2026-11-11T22:13:59.441Z'
 tags:
   - nano
   - nanorc
-  - editeur
+  - éditeur
 editor: markdown
 dateCreated: '2025-11-18T00:08:30.133Z'
 ---
