@@ -4,7 +4,7 @@ description: >-
   Technical guide for adding a preview text (preheader) in Listmonk via HTML and
   configuring dummy subscriber data to test message personalization.
 published: true
-date: '2026-11-03T00:09:56.372Z'
+date: '2026-11-12T14:27:17.080Z'
 tags:
   - listmonk
   - mail
