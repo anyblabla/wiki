@@ -5,7 +5,7 @@ description: >-
   management of your Proxmox VE and Proxmox Backup Server (PBS) infrastructures
   from a single unified web interface.
 published: true
-date: '2026-11-11T22:59:05.207Z'
+date: '2026-11-12T14:27:51.379Z'
 tags:
   - proxmox
   - pbs
