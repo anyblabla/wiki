@@ -4,13 +4,13 @@ description: >-
   🧠 All my up-to-date technical guides and installation methods. Benefit from
   tested procedures and functional results for your projects 😉
 published: true
-date: '2026-11-03T01:26:21.048Z'
+date: '2026-11-12T09:59:58.812Z'
 tags: []
 editor: markdown
 dateCreated: '2026-01-08T23:24:03.690Z'
 ---
 
-![blablalinux-banniere-1536x1024modification.jpg](/welcome/blablalinux-banniere-1536x1024modification.jpg)
+![blablalinux-banniere-1536x1024.jpg](/welcome/blablalinux-banniere-1536x1024.jpg)
 
 # 🥳 Welcome to the Blabla Linux wiki!
 
