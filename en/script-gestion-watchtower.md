@@ -5,7 +5,7 @@ description: >-
   running on Proxmox VE. It allows you to check the status, start, stop, restart
   Watchtower, and update its configurations automatically.
 published: true
-date: '2026-11-03T00:10:00.816Z'
+date: '2026-11-12T14:27:29.408Z'
 tags:
   - docker
   - lxc
