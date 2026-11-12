@@ -5,7 +5,7 @@ description: >-
   Bash script to check GitHub releases, manage installation, and configure a
   Cron job for daily updates.
 published: true
-date: '2026-11-03T00:09:52.513Z'
+date: '2026-11-12T14:27:06.143Z'
 tags:
   - mastodon
   - lxc
