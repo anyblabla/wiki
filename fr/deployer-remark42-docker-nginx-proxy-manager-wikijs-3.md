@@ -5,7 +5,7 @@ description: >-
   pour intégrer un système de commentaires léger, respectueux de la vie privée
   et en français sur votre instance Wiki.js 3.
 published: true
-date: '2026-11-12T14:46:41.886Z'
+date: '2026-11-12T15:41:59.529Z'
 tags:
   - remark42
   - wikijs
@@ -87,6 +87,23 @@ TIME_ZONE=Europe/Brussels
 # Identifiant de l'administrateur (à récupérer après la première connexion)
 ADMIN_SHARED_ID=
 ADMIN_SHARED_EMAIL=contact@exemple.com
+
+# ============================================================
+# REVERSE PROXY, SECURITE & OPTIONS DE CONFORT
+# ============================================================
+
+# IP de Nginx Proxy Manager + réseau interne bridge Docker
+TRUSTED_PROXIES=192.168.1.10,172.16.0.0/12
+
+# Domaines autorisés à embarquer les commentaires
+ALLOWED_HOSTS=wiki.exemple.com,remark.exemple.com
+
+# Gestion des cookies dans l'iframe (évite les déconnexions sur Firefox/Brave)
+AUTH_SAME_SITE=none
+
+# Activer les émojis et définir le délai d'édition des commentaires
+EMOJI=true
+EDIT_TIME=15m
 
 # ============================================================
 # AUTHENTIFICATION GITHUB (OPTIONNEL)
@@ -242,7 +259,7 @@ Enregistrez les modifications dans Nginx Proxy Manager.
 
 ### Passer l'interface Remark42 en français
 
-Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la configuration par défaut en anglais. Pour afficher les boutons et libellés de Remark42 en français, interceptez la variable globale `window.remark_config` dans l'en-tête du thème :
+Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la configuration par défaut en anglais. Pour afficher les boutons et libellés de Remark42 en français tout en conservant la barre d'outils de mise en forme complète, interceptez la variable globale `window.remark_config` dans l'en-tête du thème :
 
 1. Dans l'administration de Wiki.js, allez dans **Thème**.
 2. Repérez la section **Head HTML Injection** et collez le script suivant :
@@ -251,8 +268,7 @@ Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la 
 <script>
   (function() {
     var _remarkConfig = {
-      locale: 'fr',
-      simple_view: true
+      locale: 'fr'
     };
     Object.defineProperty(window, 'remark_config', {
       configurable: true,
@@ -262,8 +278,7 @@ Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la 
       },
       set: function(val) {
         _remarkConfig = Object.assign({}, val, {
-          locale: 'fr',
-          simple_view: true
+          locale: 'fr'
         });
       }
     });
@@ -271,9 +286,7 @@ Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la 
 </script>
 ```
 
-> **Astuce :** Retirez la ligne `simple_view: true` si vous préférez afficher l'interface complète avec toutes les options de tri et d'abonnement RSS.
-
-3. Cliquez sur **Appliquer**, puis rechargez une page publique de votre wiki avec `Ctrl + F5`. L'espace commentaires s'affiche désormais en français sous vos articles.
+3. Cliquez sur **Appliquer**, puis rechargez une page publique de votre wiki avec `Ctrl + F5`. L'espace commentaires s'affiche désormais en français sous vos articles avec tous ses boutons de formatage Markdown.
 
 ---
 
