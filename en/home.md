@@ -4,7 +4,7 @@ description: >-
   🧠 All my up-to-date technical guides and installation methods. Benefit from
   tested procedures and functional results for your projects 😉
 published: true
-date: '2026-11-12T10:25:40.891Z'
+date: '2026-11-12T14:26:53.590Z'
 tags: []
 editor: markdown
 dateCreated: '2026-01-08T23:24:03.690Z'
