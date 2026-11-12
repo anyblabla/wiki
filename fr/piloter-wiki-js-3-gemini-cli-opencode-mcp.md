@@ -5,7 +5,7 @@ description: >-
   Installation, configuration Nginx Proxy Manager, jetons PAT et résolution des
   erreurs de quota.
 published: true
-date: '2026-11-12T00:32:13.863Z'
+date: '2026-11-12T00:40:34.827Z'
 tags:
   - opencode
   - mcp
@@ -163,8 +163,6 @@ gemini
 ```
 
 Tapez `/mcp` pour vérifier que le serveur `wiki` est bien connecté. Lors de la première recherche, validez l'exécution des outils du serveur `wiki` en sélectionnant l'option **`3. Allow all server tools for this session`**.
-
-![piloter-wiki-js-3-gemini-cli-opencode-mcp.gif](/piloter-wiki-js-3-gemini-cli-opencode-mcp/piloter-wiki-js-3-gemini-cli-opencode-mcp.gif)
 
 ---
 
