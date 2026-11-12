@@ -2,10 +2,10 @@
 title: Déployer Remark42 avec Docker et l'intégrer dans Wiki.js 3
 description: >-
   Déployez et configurez Remark42 avec Docker Compose et Nginx Proxy Manager
-  pour intégrer un système de commentaires léger, respectueux de la vie privée
-  et en français sur votre instance Wiki.js 3.
+  pour intégrer un système de commentaires auto-hébergé, filtré, sécurisé et en
+  français sur votre instance Wiki.js 3.
 published: true
-date: '2026-11-12T15:41:59.529Z'
+date: '2026-11-12T15:51:09.271Z'
 tags:
   - remark42
   - wikijs
@@ -19,9 +19,10 @@ dateCreated: '2026-11-12T14:46:41.886Z'
 
 **Remark42** est un moteur de commentaires auto-hébergé, léger et respectueux de la vie privée. Il fonctionne sans base de données externe (il utilise BoltDB en local) et permet aux visiteurs de commenter vos pages via une connexion par e-mail ou via des fournisseurs tiers comme GitHub.
 
-Ce guide présente l'installation complète de Remark42 avec Docker Compose, sa configuration derrière **Nginx Proxy Manager** et son intégration en français dans **Wiki.js 3**.
+Ce guide présente l'installation complète de Remark42 avec Docker Compose, sa configuration sécurisée derrière **Nginx Proxy Manager**, le filtrage des contenus indésirables et son intégration en français dans **Wiki.js 3**.
 
-* **Documentation officielle :** [remark42.com/docs/getting-started/installation/](https://remark42.com/docs/getting-started/installation/)
+* **Documentation d'installation :** [remark42.com/docs/getting-started/installation/](https://remark42.com/docs/getting-started/installation/)
+* **Paramètres de configuration :** [remark42.com/docs/configuration/parameters/](https://remark42.com/docs/configuration/parameters/)
 * **Dépôt GitHub du projet :** [github.com/umputun/remark42](https://github.com/umputun/remark42)
 
 ---
@@ -56,7 +57,7 @@ Conservez la chaîne générée pour la prochaine étape.
 
 ### Créer le fichier `.env`
 
-Créez le fichier d'environnement `.env` afin d'isoler vos paramètres sensibles :
+Créez le fichier d'environnement `.env` afin d'isoler vos paramètres sensibles et de centraliser toute la configuration du serveur :
 
 ```bash
 nano .env
@@ -106,6 +107,12 @@ EMOJI=true
 EDIT_TIME=15m
 
 # ============================================================
+# FILTRAGE DE CONTENU (MOTS INTERDITS)
+# ============================================================
+
+RESTRICTED_WORDS=connard,connasse,salope,enculé,encule,putain,merde,bordel,fdp,ntm,tg,ta gueule,ferme ta gueule,abruti,débile,imbécile,crétin,taré,trou du cul,fils de pute,va te faire,nique,bâtard,batard,bouffon,clochard,casino,paris sportifs,argent facile,gagner de l'argent,revenus passifs,investissement garanti,trading,forex,cryptomonnaie,bitcoin gratuit,prêt rapide,crédit rapide,rachat de crédit,marabout,voyance gratuite,retour affectif,viagra,cialis,porno,escort,plan cul,rencontre coquine,onlyfans
+
+# ============================================================
 # AUTHENTIFICATION GITHUB (OPTIONNEL)
 # ============================================================
 
@@ -139,11 +146,22 @@ NOTIFY_ADMINS=email
 NOTIFY_EMAIL_FROM="Remark42 - Mon Wiki <contact@exemple.com>"
 ```
 
-Sécurisez les permissions du fichier `.env` :
+Sécurisez les permissions du fichier `.env` afin qu'il ne soit lisible que par son propriétaire :
 
 ```bash
 chmod 600 .env
 ```
+
+### Explications détaillées des paramètres clés
+
+* **`TRUSTED_PROXIES`** : Par défaut, Remark42 ignore les en-têtes `X-Forwarded-For` et `X-Real-IP` tant que l'adresse du reverse proxy n'est pas déclarée. Sans cette variable, tous vos visiteurs partagent la même adresse IP (celle du proxy) et la protection anti-spam risque de bloquer les utilisateurs légitimes. Il est important d'indiquer **à la fois l'adresse IP de votre Nginx Proxy Manager** (ici `192.168.1.10`) **et la plage du réseau bridge Docker** (`172.16.0.0/12`), car le NAT interne de Docker réécrit souvent l'adresse source avant qu'elle n'atteigne le conteneur.
+* **`ALLOWED_HOSTS`** : Limite strictement les noms de domaine autorisés à charger et interroger votre instance Remark42. Cela empêche un site tiers d'embarquer votre module de commentaires à votre insu.
+* **`AUTH_SAME_SITE=none`** : Comme votre wiki (`wiki.exemple.com`) affiche Remark42 (`remark.exemple.com`) dans une `iframe` cross-domaine, les navigateurs stricts (Firefox, Brave, Safari) bloquent les cookies de session par défaut. Ce paramètre autorise le maintien de la session utilisateur dans l'iframe (nécessite obligatoirement le HTTPS).
+* **`EMOJI=true`** : Désactivé par défaut, ce paramètre ajoute un sélecteur d'émojis directement dans la barre d'outils de l'éditeur de commentaires.
+* **`EDIT_TIME=15m`** : Définit la durée pendant laquelle un visiteur peut modifier son commentaire après publication (par défaut `5m`). Passer à `15m` laisse le temps de corriger une faute ou une ligne de commande.
+* **`RESTRICTED_WORDS`** : Permet de bloquer automatiquement la publication d'un commentaire contenant l'un des mots ou expressions listés (insensible à la casse, séparés par des virgules sans espace).
+
+> **Attention avec `RESTRICTED_WORDS` sur un wiki technique :** Remark42 recherche une **correspondance de chaîne de caractères** et non un mot isolé. Évitez d'ajouter des mots très courts susceptibles de faire partie du vocabulaire informatique courant (par exemple, interdire `con` bloquerait aussi *configuration*, *conteneur* ou *connexion*). Privilégiez des mots entiers ou des expressions ciblées.
 
 > **Note concernant GitHub OAuth :** Si vous activez la connexion via GitHub, créez une application OAuth directement depuis vos paramètres développeur GitHub sur [github.com/settings/applications/new](https://github.com/settings/applications/new). Renseignez `https://remark.exemple.com` dans **Homepage URL** et `https://remark.exemple.com/auth/github/callback` dans **Authorization callback URL**, puis récupérez votre **Client ID** et générez un **Client Secret**.
 
@@ -184,6 +202,8 @@ services:
       - no-new-privileges:true
 ```
 
+> **Sauvegardes automatiques :** Remark42 génère chaque jour une sauvegarde de sa base de données BoltDB dans `/srv/var/backup` (en conservant les 10 dernières par défaut). Grâce au montage `./var:/srv/var`, vos sauvegardes sont automatiquement conservées sur l'hôte.
+
 ### Démarrer le conteneur
 
 Lancez le service en arrière-plan :
@@ -213,7 +233,7 @@ Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un s
    * **Forward Hostname / IP :** l'adresse IP locale de votre serveur Docker (ex. `192.168.1.50`)
    * **Forward Port :** `8080`
    * **Cache Assets :** désactivé
-   * **Block Common Exploits :** désactivé (recommandé sur un wiki technique afin d'éviter que les extraits de code dans les commentaires ne soient bloqués par le pare-feu applicatif)
+   * **Block Common Exploits :** désactivé (recommandé sur un wiki technique afin d'éviter que les extraits de code ou commandes Linux dans les commentaires ne soient bloqués par le pare-feu applicatif)
    * **Websockets Support :** activé
 3. **Onglet SSL :**
    * Sélectionnez votre certificat SSL (`*.exemple.com` ou Let's Encrypt), puis activez **Force SSL**, **HTTP/2 Support**, **HSTS Enabled** et **HSTS Subdomains**.
@@ -259,7 +279,7 @@ Enregistrez les modifications dans Nginx Proxy Manager.
 
 ### Passer l'interface Remark42 en français
 
-Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la configuration par défaut en anglais. Pour afficher les boutons et libellés de Remark42 en français tout en conservant la barre d'outils de mise en forme complète, interceptez la variable globale `window.remark_config` dans l'en-tête du thème :
+Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la configuration par défaut en anglais. Pour afficher les boutons et libellés de Remark42 en français tout en conservant la barre d'outils complète de formatage Markdown, interceptez la variable globale `window.remark_config` dans l'en-tête du thème :
 
 1. Dans l'administration de Wiki.js, allez dans **Thème**.
 2. Repérez la section **Head HTML Injection** et collez le script suivant :
@@ -286,7 +306,9 @@ Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la 
 </script>
 ```
 
-3. Cliquez sur **Appliquer**, puis rechargez une page publique de votre wiki avec `Ctrl + F5`. L'espace commentaires s'affiche désormais en français sous vos articles avec tous ses boutons de formatage Markdown.
+> **Note :** Évitez d'ajouter `simple_view: true` dans ce script si vous souhaitez conserver les boutons de mise en forme (gras, italique, code, citations, listes et émojis) au-dessus de la zone de saisie.
+
+3. Cliquez sur **Appliquer**, puis rechargez une page publique de votre wiki avec `Ctrl + F5`. L'espace commentaires s'affiche désormais en français sous vos articles avec tous ses boutons de formatage.
 
 ---
 
