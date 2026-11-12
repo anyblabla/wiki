@@ -2,10 +2,10 @@
 title: Déployer Remark42 avec Docker et l'intégrer dans Wiki.js 3
 description: >-
   Déployez et configurez Remark42 avec Docker Compose et Nginx Proxy Manager
-  pour intégrer un système de commentaires auto-hébergé, filtré, sécurisé et en
-  français sur votre instance Wiki.js 3.
+  pour intégrer un système de commentaires auto-hébergé, filtré, sécurisé et
+  harmonisé avec le thème de votre instance Wiki.js 3.
 published: true
-date: '2026-11-12T15:51:09.271Z'
+date: '2026-11-12T23:23:11.839Z'
 tags:
   - remark42
   - wikijs
@@ -19,7 +19,7 @@ dateCreated: '2026-11-12T14:46:41.886Z'
 
 **Remark42** est un moteur de commentaires auto-hébergé, léger et respectueux de la vie privée. Il fonctionne sans base de données externe (il utilise BoltDB en local) et permet aux visiteurs de commenter vos pages via une connexion par e-mail ou via des fournisseurs tiers comme GitHub.
 
-Ce guide présente l'installation complète de Remark42 avec Docker Compose, sa configuration sécurisée derrière **Nginx Proxy Manager**, le filtrage des contenus indésirables et son intégration en français dans **Wiki.js 3**.
+Ce guide présente l'installation complète de Remark42 avec Docker Compose, sa configuration sécurisée derrière **Nginx Proxy Manager**, le filtrage des contenus indésirables ainsi que son intégration en français et aux couleurs de **Wiki.js 3**.
 
 * **Documentation d'installation :** [remark42.com/docs/getting-started/installation/](https://remark42.com/docs/getting-started/installation/)
 * **Paramètres de configuration :** [remark42.com/docs/configuration/parameters/](https://remark42.com/docs/configuration/parameters/)
@@ -222,7 +222,7 @@ docker compose ps
 
 ## 2. Configurer Nginx Proxy Manager
 
-Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un sous-domaine distinct (`remark.exemple.com` intégré dans `wiki.exemple.com`). Il faut donc configurer les deux hôtes proxy dans Nginx Proxy Manager pour autoriser cette communication.
+Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un sous-domaine distinct (`remark.exemple.com` intégré dans `wiki.exemple.com`). Comme les navigateurs bloquent le CSS d'un site parent à l'intérieur d'une `iframe` externe, nous utilisons également le module `sub_filter` de Nginx Proxy Manager pour harmoniser directement les couleurs du module avec la charte graphique du wiki.
 
 ### A. Proxy Host pour Remark42 (`remark.exemple.com`)
 
@@ -239,7 +239,7 @@ Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un s
    * Sélectionnez votre certificat SSL (`*.exemple.com` ou Let's Encrypt), puis activez **Force SSL**, **HTTP/2 Support**, **HSTS Enabled** et **HSTS Subdomains**.
 4. **Onglet Emplacement personnalisé (Custom Locations) :**
    * Ajoutez l'emplacement `/` pointant vers `http://192.168.1.50:8080`.
-   * Cliquez sur la roue crantée de cet emplacement pour ouvrir sa configuration avancée et ajoutez les en-têtes suivants afin d'autoriser l'intégration en `iframe` uniquement depuis votre wiki :
+   * Cliquez sur la roue crantée de cet emplacement pour ouvrir sa configuration avancée et ajoutez les en-têtes de sécurité ainsi que l'injection CSS (`sub_filter`) :
 
 ```nginx
 proxy_hide_header X-Powered-By;
@@ -249,7 +249,19 @@ add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 add_header X-Xss-Protection "1; mode=block" always;
 add_header X-Robots-Tag "noindex, noarchive, nofollow" always;
 add_header Content-Security-Policy "frame-ancestors 'self' [https://wiki.exemple.com](https://wiki.exemple.com);" always;
+
+# Injection CSS pour harmoniser les couleurs avec Wiki.js
+gzip off;
+proxy_set_header Accept-Encoding "";
+sub_filter_types text/html;
+sub_filter_once on;
+sub_filter '</body>' '<style>html, body, [class*="root_theme_dark"] { background: transparent !important; } form { background-color: #1e293b !important; border: 1px solid #155e75 !important; border-radius: 8px !important; padding: 12px !important; } form > div { background-color: #1e293b !important; } textarea { background-color: #0f172a !important; color: #f8fafc !important; border: 1px solid #155e75 !important; border-radius: 6px !important; } form button[type="button"], form button[type="submit"], [class*="auth-panel"] button { background-color: #0e7490 !important; border-color: #0e7490 !important; color: #ffffff !important; } form button[type="button"]:hover, form button[type="submit"]:hover, [class*="auth-panel"] button:hover { background-color: #f97316 !important; border-color: #f97316 !important; } a { color: #38bdf8 !important; } a:hover { color: #f97316 !important; }</style></body>';
 ```
+
+> **Comment fonctionne ce CSS injecté ?**
+> * `background: transparent` supprime le fond gris par défaut de Remark42 afin de laisser apparaître le fond sombre de Wiki.js.
+> * `form` et `textarea` reprennent les teintes bleu nuit (`#1e293b` et `#0f172a`) avec une bordure uniforme de `1px` (`#155e75`) qui remplace la bordure épaisse asymétrique d'origine.
+> * Les boutons principaux adoptent la couleur primaire du thème (`#0e7490`) et basculent sur l'accent orange (`#f97316`) au survol. Vous pouvez bien entendu adapter ces codes hexadécimaux à votre propre palette.
 
 ### B. Adapter la CSP du Proxy Host de Wiki.js (`wiki.exemple.com`)
 
@@ -277,12 +289,10 @@ Enregistrez les modifications dans Nginx Proxy Manager.
    * **Comments Shown :** `15` (nombre de commentaires affichés avant le bouton de chargement)
 4. Cliquez sur **Appliquer** en haut à droite.
 
-### Passer l'interface Remark42 en français
-
-Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la configuration par défaut en anglais. Pour afficher les boutons et libellés de Remark42 en français tout en conservant la barre d'outils complète de formatage Markdown, interceptez la variable globale `window.remark_config` dans l'en-tête du thème :
+### Passer l'interface Remark42 en français et rendre le cadre transparent
 
 1. Dans l'administration de Wiki.js, allez dans **Thème**.
-2. Repérez la section **Head HTML Injection** et collez le script suivant :
+2. Repérez la section **Head HTML Injection** et collez le script suivant afin de forcer la langue française tout en conservant la barre d'outils complète de formatage Markdown :
 
 ```html
 <script>
@@ -308,7 +318,17 @@ Le module natif de Wiki.js 3 ne propose pas de sélecteur de langue et force la 
 
 > **Note :** Évitez d'ajouter `simple_view: true` dans ce script si vous souhaitez conserver les boutons de mise en forme (gras, italique, code, citations, listes et émojis) au-dessus de la zone de saisie.
 
-3. Cliquez sur **Appliquer**, puis rechargez une page publique de votre wiki avec `Ctrl + F5`. L'espace commentaires s'affiche désormais en français sous vos articles avec tous ses boutons de formatage.
+3. Toujours dans **Thème**, repérez la section **CSS Override** et ajoutez ce bloc pour garantir que le conteneur de l'iframe reste bien transparent et laisse passer le fond de votre page :
+
+```css
+#remark42,
+#remark42 iframe {
+  background: transparent !important;
+}
+```
+
+4. Cliquez sur **Appliquer**.
+5. **Vider le cache de l'iframe :** Ouvrez `https://remark.exemple.com/web/iframe.html` dans un onglet et faites `Ctrl + F5`, puis rechargez une page publique de votre wiki avec `Ctrl + F5`. L'espace commentaires s'affiche désormais en français et aux couleurs exactes de votre thème.
 
 ---
 
