@@ -5,7 +5,7 @@ description: >-
   management for Proxmox VE. Ideal for managing your entire virtualization
   infrastructure from a single interface.
 published: true
-date: '2026-11-11T22:58:53.232Z'
+date: '2026-11-12T14:27:41.411Z'
 tags:
   - proxmox
   - cluster
