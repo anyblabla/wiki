@@ -1,11 +1,11 @@
 ---
-title: '[Catalogue] 8 modèles de pages d''erreur pour Nginx Proxy Manager'
+title: Catalogue -  8 modèles de pages d'erreur pour Nginx Proxy Manager
 description: >-
   Découvrez 8 modèles de pages d'erreur personnalisées pour Nginx Proxy Manager.
   Du style minimaliste au mode Matrix glitché (404 et 403), améliorez
   l'expérience de vos utilisateurs avec des designs prêts à l'emploi.
 published: true
-date: '2026-11-11T22:45:00.126Z'
+date: '2026-11-12T12:06:42.317Z'
 tags:
   - npm
   - html
