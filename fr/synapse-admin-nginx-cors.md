@@ -148,7 +148,7 @@ Rendez-vous ensuite sur [synapse-admin.blablalinux.be](https://synapse-admin.bla
 - **Identifiants** — URL du serveur + identifiant + mot de passe
 - **Token d'accès** — URL du serveur + identifiant + token d'administration Matrix
 
-![synapse-admin-login-screen.png](/synapse-admin-nginx-cors/synapse-admin-login-screen.png)
+![synapse-admin-login-screen.png](synapse-admin-nginx-cors/synapse-admin-login-screen.png)
 
 La connexion doit s'établir sans erreur CORS.
 

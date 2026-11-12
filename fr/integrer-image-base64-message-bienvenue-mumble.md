@@ -59,4 +59,4 @@ welcometext="<br />Bienvenue sur le serveur Murmur.<br />Ce service est héberg�
 * **Limite de taille** : Vérifiez que la variable `imagemessagelength` dans votre configuration (ex: `131072`) est supérieure au nombre de caractères de votre code Base64.
 * **Format** : Si vous utilisez un JPEG, remplacez `image/png` par `image/jpeg` dans la balise.
 
-![mumble-picture-welcome.png](/integrer-image-base64-message-bienvenue-mumble/mumble-picture-welcome.png)
+![mumble-picture-welcome.png](integrer-image-base64-message-bienvenue-mumble/mumble-picture-welcome.png)

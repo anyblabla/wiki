@@ -170,7 +170,7 @@ Ce fichier ferme le design et ajoute vos informations personnelles :
   <p style="margin-bottom: 15px; color: #f77f11; font-weight: bold; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
     🖥️ Rendu bureau (Interface complète)
   </p>
-  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-desktop.png" 
+  <img src="personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-desktop.png" 
        alt="Rendu Desktop" 
        style="width: 100%; max-width: 850px; border-radius: 8px; box-shadow: 0 0 25px rgba(247, 127, 17, 0.4); border: 2px solid #444;">
   
@@ -179,7 +179,7 @@ Ce fichier ferme le design et ajoute vos informations personnelles :
   <p style="margin-bottom: 15px; color: #f77f11; font-weight: bold; font-size: 1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
     📱 Rendu smartphone (Vue optimisée)
   </p>
-  <img src="/personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-mobile.jpg" 
+  <img src="personnalisation-autoindex-apache-blablalinux/personnalisation-autoindex-apache-blablalinux-mobile.jpg" 
        alt="Rendu Mobile" 
        style="width: 100%; max-width: 320px; border-radius: 12px; box-shadow: 0 0 25px rgba(247, 127, 17, 0.4); border: 2px solid #444;">
 </div>

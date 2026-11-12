@@ -84,27 +84,27 @@ docker compose up -d
 
 Vous accéderez à votre instance PsiTransfer via votre navigateur à l'adresse **`http://<Votre_IP_Hôte>:3000`** (ou le port que vous avez choisi).
 
-![](/docker-compose-psitransfer/psitransfer-password-admin.png)
+![](docker-compose-psitransfer/psitransfer-password-admin.png)
 
 Page “admin” de PsiTransfer - Demande de mot de passe
 
-![](/docker-compose-psitransfer/psitransfer-admin.png)
+![](docker-compose-psitransfer/psitransfer-admin.png)
 
 Page “admin” de PsiTransfer
 
-![](/docker-compose-psitransfer/psitransfer-data.png)
+![](docker-compose-psitransfer/psitransfer-data.png)
 
 PsiTranfer - Données /data
 
-![](/docker-compose-psitransfer/psitransfer-data-json.png)
+![](docker-compose-psitransfer/psitransfer-data-json.png)
 
 PsiTranfer - Données /data - Fichier .json
 
-![](/docker-compose-psitransfer/psitransfer-data-2.png)
+![](docker-compose-psitransfer/psitransfer-data-2.png)
 
 PsiTranfer - Données /data chiffrées
 
-![](/docker-compose-psitransfer/psitransfer-data-3.png)
+![](docker-compose-psitransfer/psitransfer-data-3.png)
 
 PsiTranfer - Données /data chiffrées
 

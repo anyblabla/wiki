@@ -32,13 +32,13 @@ Ce guide explique comment intégrer des badges de statut dynamiques provenant d'
 1. Connectez-vous à votre tableau de bord **Uptime Kuma**.
 2. Repérez le service que vous souhaitez afficher.
 
-> ![uk-badges.png](/creer-page-services-statuts-dynamiques-uptime-kuma/uk-badges.png)
+> ![uk-badges.png](creer-page-services-statuts-dynamiques-uptime-kuma/uk-badges.png)
 > *(Cette capture montre la liste des sondes et l'icône de réglage à cliquer)*
 
 3. Cliquez sur l'icône de réglage (la roue crantée) du moniteur concerné.
 4. Dans la fenêtre qui s'ouvre, cliquez sur le bouton vert **« Ouvre le générateur de lien badge »**.
 
-> ![uk-badges-02.png](/creer-page-services-statuts-dynamiques-uptime-kuma/uk-badges-02.png)
+> ![uk-badges-02.png](creer-page-services-statuts-dynamiques-uptime-kuma/uk-badges-02.png)
 > *(Cette capture montre l'emplacement du bouton vert dans les réglages de la sonde)*
 
 ## Étape 2 : personnaliser le style du badge
@@ -50,7 +50,7 @@ Une fois le générateur ouvert, vous pouvez configurer l'apparence de votre bad
 3. **Couleurs** : vous pouvez personnaliser les codes hexadécimaux pour correspondre à votre charte graphique.
 4. **URL du badge** : copiez l'URL générée en bas de la fenêtre.
 
-> ![uk-badges-03.png](/creer-page-services-statuts-dynamiques-uptime-kuma/uk-badges-03.png)
+> ![uk-badges-03.png](creer-page-services-statuts-dynamiques-uptime-kuma/uk-badges-03.png)
 > *(Cette capture illustre l'interface complète de personnalisation des couleurs et du style)*
 
 ## Étape 3 : insérer le badge dans votre tableau

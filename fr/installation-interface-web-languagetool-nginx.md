@@ -54,7 +54,7 @@ rm /var/www/html/index.html
 
 Téléchargez le fichier SVG officiel LanguageTool et placez-le dans le dossier :
 
-![languagetool.svg](/installation-interface-web-languagetool-nginx/languagetool.svg)
+![languagetool.svg](installation-interface-web-languagetool-nginx/languagetool.svg)
 
 ```bash
 wget https://wiki.blablalinux.be/fr/installation-interface-web-languagetool-nginx/languagetool.svg

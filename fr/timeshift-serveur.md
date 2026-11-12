@@ -38,7 +38,7 @@ Les commandes ci-dessous sont à exécuter avec `sudo`.
     ```
 Exemple de sortie…
 
-![](/timeshift-serveur/df-h.png)
+![](timeshift-serveur/df-h.png)
     
 
 3.  **Créer le premier instantané :**
@@ -52,7 +52,7 @@ Exemple de sortie…
     
 Exemple de sortie…
 
-![](/timeshift-serveur/timeshift-create.png)
+![](timeshift-serveur/timeshift-create.png)
 
 -----
 
@@ -68,7 +68,7 @@ Après la création du premier instantané, le fichier de configuration est gén
     
 Mon fichier…
 
-![](/timeshift-serveur/timeshift.json.png)
+![](timeshift-serveur/timeshift.json.png)
 
 
 2.  **Personnalisation des lignes clés :**
@@ -102,7 +102,7 @@ C'est l'étape la plus importante : vous forcez Timeshift à vérifier le fichie
     
 Exemple de sortie…
 
-![](/timeshift-serveur/timeshift-check.png)
+![](timeshift-serveur/timeshift-check.png)
 
 2.  **Lister les instantanés existants :**
 
@@ -112,7 +112,7 @@ Exemple de sortie…
     
 Exemple de sortie…
 
-![](/timeshift-serveur/timeshift-list.png)
+![](timeshift-serveur/timeshift-list.png)
 
 -----
 

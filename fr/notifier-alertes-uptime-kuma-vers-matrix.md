@@ -74,7 +74,7 @@ Pour un rendu professionnel, cochez **"Utiliser un modèle de message personnali
 
 ```
 
-> ![uk-matrix.png](/notifier-alertes-uptime-kuma-vers-matrix/uk-matrix.png)
+> ![uk-matrix.png](notifier-alertes-uptime-kuma-vers-matrix/uk-matrix.png)
 > *(Aperçu du message reçu dans Matrix : le template permet d'obtenir un affichage clair et horodaté.)*
 
 ## 5. Conseils et personnalisation

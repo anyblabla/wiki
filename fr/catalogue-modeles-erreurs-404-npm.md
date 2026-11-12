@@ -70,7 +70,7 @@ Un design inspiré du style Apple : pur, calme et professionnel.
 </html>
 ```
 
-![minimaliste.png](/catalogue-modeles-erreurs-404-npm/minimaliste.png){width=100%}
+![minimaliste.png](catalogue-modeles-erreurs-404-npm/minimaliste.png){width=100%}
 
 ---
 
@@ -125,7 +125,7 @@ Simule une console Linux avec un effet d'auto-typage du texte.
 </html>
 ```
 
-<img src="/catalogue-modeles-erreurs-404-npm/technique.gif" alt="Aperçu Terminal" style="width: 100%; height: auto;">
+<img src="catalogue-modeles-erreurs-404-npm/technique.gif" alt="Aperçu Terminal" style="width: 100%; height: auto;">
 
 ---
 
@@ -171,7 +171,7 @@ Un ton décalé pour déstresser l'utilisateur égaré.
 </html>
 ```
 
-<img src="/catalogue-modeles-erreurs-404-npm/humoristique.gif" alt="Aperçu Pause Café" style="width: 100%; height: auto;">
+<img src="catalogue-modeles-erreurs-404-npm/humoristique.gif" alt="Aperçu Pause Café" style="width: 100%; height: auto;">
 
 ---
 
@@ -213,7 +213,7 @@ Utilise une image immersive avec effet de verre dépoli.
 </html>
 ```
 
-<img src="/catalogue-modeles-erreurs-404-npm/visuelle.gif" alt="Aperçu Modèle Visuel" style="width: 100%; height: auto;">
+<img src="catalogue-modeles-erreurs-404-npm/visuelle.gif" alt="Aperçu Modèle Visuel" style="width: 100%; height: auto;">
 
 ---
 
@@ -266,7 +266,7 @@ Transforme l'erreur en moment de divertissement avec un clone de Pong.
 </html>
 ```
 
-<img src="/catalogue-modeles-erreurs-404-npm/interractive.gif" alt="Aperçu Modèle Pong" style="width: 100%; height: auto;">
+<img src="catalogue-modeles-erreurs-404-npm/interractive.gif" alt="Aperçu Modèle Pong" style="width: 100%; height: auto;">
 
 ---
 
@@ -320,7 +320,7 @@ Un réseau de neurones interactif qui réagit à la souris.
 </html>
 ```
 
-<img src="/catalogue-modeles-erreurs-404-npm/dynamique.gif" alt="Aperçu Modèle Dynamique" style="width: 100%; height: auto;">
+<img src="catalogue-modeles-erreurs-404-npm/dynamique.gif" alt="Aperçu Modèle Dynamique" style="width: 100%; height: auto;">
 
 ---
 
@@ -407,7 +407,7 @@ La signature visuelle de BlablaLinux. Ce modèle utilise un canvas pour la pluie
 </html>
 ```
 
-<img src="/catalogue-modeles-erreurs-404-npm/ultime.gif" alt="Aperçu Modèle Matrix BlablaLinux" style="width: 100%; height: auto;">
+<img src="catalogue-modeles-erreurs-404-npm/ultime.gif" alt="Aperçu Modèle Matrix BlablaLinux" style="width: 100%; height: auto;">
 
 ---
 
@@ -496,7 +496,7 @@ Variante rouge de l'esthétique Matrix, pensée pour les ressources qui existent
 </html>
 ```
 
-<img src="/catalogue-modeles-erreurs-404-npm/interdite.gif" alt="Aperçu Modèle Accès Interdit" style="width: 100%; height: auto;">
+<img src="catalogue-modeles-erreurs-404-npm/interdite.gif" alt="Aperçu Modèle Accès Interdit" style="width: 100%; height: auto;">
 
 **Configuration Nginx associée (dans le Proxy Host, onglet Advanced) :**
 

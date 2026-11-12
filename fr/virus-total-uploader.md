@@ -15,7 +15,7 @@ dateCreated: '2024-06-12T18:14:23.441Z'
 
 **VirusTotal Uploader** est l'application de bureau officielle pour soumettre des fichiers, des domaines, des adresses IP et des URL suspects à la plateforme **VirusTotal** pour une analyse par de multiples moteurs antivirus.
 
-![](/virus-total-uploader/virus-total-uploader-compte-amaury-libert.png)
+![](virus-total-uploader/virus-total-uploader-compte-amaury-libert.png)
 
 
 ## 1\. Liens Utiles
@@ -141,8 +141,8 @@ Pour une utilisation optimale et des analyses plus efficaces, vous devriez confi
 
 Vous pouvez maintenant glisser et déposer des fichiers ou dossiers dans l'application pour les analyser.
 
-![](/virus-total-uploader/virus-total-uploader-api-key.png)
+![](virus-total-uploader/virus-total-uploader-api-key.png)
 
-![](/virus-total-uploader/virus-total-uploader-software-api-key.png)
+![](virus-total-uploader/virus-total-uploader-software-api-key.png)
 
-![](/virus-total-uploader/virus-total-uploader-software-file-upload.gif)
+![](virus-total-uploader/virus-total-uploader-software-file-upload.gif)

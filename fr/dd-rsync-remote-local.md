@@ -43,7 +43,7 @@ ssh root@xx.xx.xx.xxx -p xxxx "dd if=/dev/sda bs=100M" | dd of=/dev/sdb status=p
 
 Sur l'image ci-dessous, on peut voir que l'opération de clonage avec la commande DD au travers de [SSH](https://w.wiki/Acov), d'un serveur distant vers un serveur local, s'est déroulé sans problème.
 
-![](/dd-rsync-distant-local/dd.png)
+![](dd-rsync-distant-local/dd.png)
 
 -----
 

@@ -97,7 +97,7 @@ Deux approches selon le type d'installation :
 2. **Décocher l'option "Sauvegarde"** pour ce disque dans la configuration Proxmox VE : c'est un cache reconstructible, l'inclure dans les sauvegardes de la VM n'apporte rien et gaspille du temps/espace.
 3. Dans PBS, formater et monter ce disque via **Stockage et disques → Répertoire → Créer : Directory**, en sélectionnant le disque, un système de fichiers ext4, et en **décochant "Ajouter en tant qu'entrepôt de données"** (on veut seulement le montage).
 
-![vm-proxmox-backup-server-datastore-s3-minio.png](/proxmox-backup-server-datastore-s3-minio/vm-proxmox-backup-server-datastore-s3-minio.png)
+![vm-proxmox-backup-server-datastore-s3-minio.png](proxmox-backup-server-datastore-s3-minio/vm-proxmox-backup-server-datastore-s3-minio.png)
 
 ### Cas B — PBS physique sans disque libre (tout en pool ZFS)
 
@@ -121,7 +121,7 @@ Le quota isole le cache du reste du pool (OS, autres datastores) exactement comm
 
 ⚠️ Sur un pool ZFS en RAID0 (striping simple, sans redondance), garder à l'esprit qu'une panne d'un seul disque fait perdre l'intégralité du pool — cache compris, mais surtout tout le reste de ce qui y est stocké.
 
-![proxmox-backup-server-datastore-s3-minio.png](/proxmox-backup-server-datastore-s3-minio/proxmox-backup-server-datastore-s3-minio.png)
+![proxmox-backup-server-datastore-s3-minio.png](proxmox-backup-server-datastore-s3-minio/proxmox-backup-server-datastore-s3-minio.png)
 
 ## Étape 4 — Créer le datastore S3
 

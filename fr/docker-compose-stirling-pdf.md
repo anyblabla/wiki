@@ -146,7 +146,7 @@ Je suis gentil, je vous fournis ces fichiers grâce au [cloud Blabla Linux](http
 2.  **Placez** ces fichiers dans le répertoire de votre hôte que vous avez monté sur `/usr/share/tessdata` (ici : `/usr/share/tessdata`).
     > **Note :** Ne supprimez pas le fichier **`eng.traineddata`**, Stirling PDF en a besoin.
     
-![stirling-pdf-bbl-ocr.png](/docker-compose-stirling-pdf/stirling-pdf-bbl-ocr.png)    
+![stirling-pdf-bbl-ocr.png](docker-compose-stirling-pdf/stirling-pdf-bbl-ocr.png)    
 
 -----
 
@@ -165,6 +165,6 @@ docker compose up -d
 
 Vous accédez à l'interface à l'adresse **`http://<Votre_IP_Hôte>:8080`**.
 
-![stirling-pdf-bbl-outils.png](/docker-compose-stirling-pdf/stirling-pdf-bbl-outils.png)
+![stirling-pdf-bbl-outils.png](docker-compose-stirling-pdf/stirling-pdf-bbl-outils.png)
 
 [Stirling PDF Blabla Linux - Outils](https://yourls.blablalinux.be/stirlingpdf)

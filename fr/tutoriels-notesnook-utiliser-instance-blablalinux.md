@@ -60,19 +60,19 @@ https://notes-share.blablalinux.be
 
 1. Sur l'écran **Créer un compte** (*Create account*), repérez en bas à gauche la mention *Utilisation de l'instance officielle Notesnook* et cliquez sur **Configurer** (*Configure*).
 
-   ![Écran de création de compte avec le lien Configurer](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-1.png)
+   ![Écran de création de compte avec le lien Configurer](tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-1.png)
 
 2. Dans **Serveurs**, remplissez les 4 champs avec les adresses ci-dessus.
 
-   ![Paramètres des serveurs, champs vides](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-2.png)
+   ![Paramètres des serveurs, champs vides](tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-2.png)
 
 3. Cliquez sur **Tester la connexion** (*Test connection*). Le message vert *Connexion établie avec succès à tous les serveurs* doit apparaître. Le bouton **Enregistrer** (*Save*) reste grisé tant que ce test n'a pas réussi.
 
-   ![Test de connexion réussi](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-3.png)
+   ![Test de connexion réussi](tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-3.png)
 
 4. Cliquez sur **Enregistrer**. L'application se recharge d'elle-même en quelques secondes.
 
-   ![Rechargement de l'application après l'enregistrement](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-4.png)
+   ![Rechargement de l'application après l'enregistrement](tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-desktop-linux-4.png)
 
 5. De retour sur l'écran de création de compte, saisissez votre **adresse e-mail**, votre **mot de passe** et sa confirmation, puis cliquez sur **Créer un compte**.
 
@@ -85,21 +85,21 @@ https://notes-share.blablalinux.be
 
 1. Sur l'écran d'accueil, touchez **Connectez-vous pour chiffrer et synchroniser vos notes**. Un panneau s'ouvre en bas de l'écran : touchez **Paramètres**.
 
-   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-1.png" alt="Écran d'accueil non connecté" width="300" />
+   <img src="tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-1.png" alt="Écran d'accueil non connecté" width="300" />
 
-   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-3.png" alt="Panneau avec le menu Paramètres" width="300" />
+   <img src="tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-3.png" alt="Panneau avec le menu Paramètres" width="300" />
 
 2. Dans **Paramètres**, touchez **Serveurs** (*Configurer les URL de serveur pour Notesnook*).
 
-   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-4.png" alt="Menu Paramètres" width="300" />
+   <img src="tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-4.png" alt="Menu Paramètres" width="300" />
 
 3. Remplissez les 4 champs, **dans cet ordre** : synchronisation, authentification, événements, monographies. Touchez **Tester la connexion** : le message *Connexion établie avec succès à tous les serveurs* doit s'afficher. Touchez ensuite **Enregistrer**.
 
-   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-5.png" alt="Écran Serveurs rempli et testé" width="300" />
+   <img src="tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-5.png" alt="Écran Serveurs rempli et testé" width="300" />
 
 4. Un message vous informe que l'URL du serveur est modifiée et vous invite à redémarrer l'application. Touchez **Terminé** et redémarrez Notesnook.
 
-   <img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-6.png" alt="URL du serveur modifiée" width="300" />
+   <img src="tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-6.png" alt="URL du serveur modifiée" width="300" />
 
 5. Revenez à l'écran d'accueil, touchez **Connectez-vous pour chiffrer et synchroniser vos notes**, puis choisissez la création d'un compte : saisissez votre adresse e-mail, votre mot de passe et procédez à l'authentification par code e-mail.
 
@@ -107,7 +107,7 @@ https://notes-share.blablalinux.be
 
 Une fois connecté, l'application doit indiquer que vos notes sont **synchronisées** (sur Android : mention *Synchronisé* avec un point vert dans le panneau du compte). Créez une note de test sur un appareil et vérifiez qu'elle apparaît sur l'autre.
 
-<img src="/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-7.png" alt="Compte connecté et synchronisé sur Android" width="300" />
+<img src="tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-app-mobile-android-7.png" alt="Compte connecté et synchronisé sur Android" width="300" />
 
 ## 4. Extension de navigateur : Web Clipper
 
@@ -136,7 +136,7 @@ Les navigateurs regroupent les extensions dans un menu : pensez à **épingler**
 
 Une fois la connexion établie, la mention **Web clipper connected** apparaît dans la barre d'état, en bas à gauche de l'application web, et l'extension affiche ses options de clip.
 
-![Le Web Clipper connecté à l'application web, avec les zones et les modes de clip](/tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-webclipper.png)
+![Le Web Clipper connecté à l'application web, avec les zones et les modes de clip](tutoriels-notesnook-utiliser-instance-blablalinux/notesnook-webclipper.png)
 
 ### Clipper une page
 

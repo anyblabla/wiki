@@ -210,7 +210,7 @@ Ce code fournit la page d'erreur centrée, responsive, avec le mode sombre, mais
 </html>
 ```
 
-![erreur-404.png](/page-erreur-npm-hote-inconnu/erreur-404.png)
+![erreur-404.png](page-erreur-npm-hote-inconnu/erreur-404.png)
 
 ### C. Code HTML/CSS avec logo (Ancrage Bas à Gauche)
 
@@ -377,9 +377,9 @@ Ce code inclut le logo flottant cliquable ancré en **bas à gauche** de l'écra
 </html>
 ```
 
-![erreur-404-white-logo.png](/page-erreur-npm-hote-inconnu/erreur-404-white-logo.png)
+![erreur-404-white-logo.png](page-erreur-npm-hote-inconnu/erreur-404-white-logo.png)
 
-![erreur-404-logo.png](/page-erreur-npm-hote-inconnu/erreur-404-logo.png)
+![erreur-404-logo.png](page-erreur-npm-hote-inconnu/erreur-404-logo.png)
 
 ### D. Code HTML/CSS avec logo (Ancrage Bas à Droite)
 

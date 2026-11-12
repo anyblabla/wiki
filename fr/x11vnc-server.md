@@ -103,7 +103,7 @@ Après avoir modifié le fichier de service, vous devez recharger le système, l
     
     Le statut doit indiquer **`active (running)`**.
     
-![](/x11vnc-service/x11vnc-service-status-running.png)
+![](x11vnc-service/x11vnc-service-status-running.png)
 
 2.  **Connexion :** Utilisez le client **Remmina** (ou tout autre client VNC) pour vous connecter à l'adresse IP de votre machine Linux en utilisant le mot de passe défini.
 

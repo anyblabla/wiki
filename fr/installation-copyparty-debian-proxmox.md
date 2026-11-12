@@ -27,7 +27,7 @@ Ce guide est un pas à pas complet pour installer et automatiser **Copyparty** d
 ### 🖼️ Aperçu de l'interface
 Voici à quoi ressemble Copyparty avec le thème sombre (Thème 2) une fois installé :
 
-![installation-copyparty-debian-proxmox.png](/installation-copyparty-debian-proxmox/installation-copyparty-debian-proxmox.png)
+![installation-copyparty-debian-proxmox.png](installation-copyparty-debian-proxmox/installation-copyparty-debian-proxmox.png)
 
 ---
 

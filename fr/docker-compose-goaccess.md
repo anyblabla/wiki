@@ -28,7 +28,7 @@ GoAccess est un analyseur de journaux web en temps réel et interactif, qui s'ex
 
 GoAccess va vous permettre de visualiser en temps réel, sous forme de tableaux, l'ensemble des logs (fichiers journaux) des hôtes proxy de votre proxy inverse Nginx Proxy Manager.
 
-<p style="text-align: center"><img src="/docker-compose-goaccess/goaccess-bright.png"></p>
+<p style="text-align: center"><img src="docker-compose-goaccess/goaccess-bright.png"></p>
 
 ### Liens utiles
 

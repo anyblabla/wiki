@@ -252,7 +252,7 @@ Assurez-vous de personnaliser ces variables pour votre déploiement :
 
   - La capture pour un meilleur aperçu (utile si vous collez le contenu du fichier Compose et des variables dans une nouvelle Pile dans Portainer) :
   
-![](/docker-compose-mattermost/ok-stack-portainer-mattermost.png)
+![](docker-compose-mattermost/ok-stack-portainer-mattermost.png)
 
 
 ### Permissions Cruciales pour les Volumes

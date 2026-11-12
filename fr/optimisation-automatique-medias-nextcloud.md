@@ -53,7 +53,7 @@ Avant de continuer, vous devez installer l'application suivante depuis le magasi
 
 * **Workflow external scripts** (Scripts externes de flux).
 
-> ![optimisation-automatique-medias-nextcloud.png](/optimisation-automatique-medias-nextcloud/optimisation-automatique-medias-nextcloud.png)
+> ![optimisation-automatique-medias-nextcloud.png](optimisation-automatique-medias-nextcloud/optimisation-automatique-medias-nextcloud.png)
 > *Légende : Recherche et installation de l'application "Workflow external scripts" dans le magasin d'applications Nextcloud.*
 
 ---
@@ -222,12 +222,12 @@ Attention à bien utiliser les flux d'administration (colonne de gauche, section
 
 Rendez-vous dans : **Paramètres** > **Administration** > **Flux**.
 
-> ![optimisation-automatique-medias-nextcloud-02.png](/optimisation-automatique-medias-nextcloud/optimisation-automatique-medias-nextcloud-02.png)
+> ![optimisation-automatique-medias-nextcloud-02.png](optimisation-automatique-medias-nextcloud/optimisation-automatique-medias-nextcloud-02.png)
 > *Légende : Distinction entre les paramètres personnels et la section Administration pour accéder aux flux.*
 
 Cliquez sur **Ajouter un nouveau flux** (bouton en haut à droite) ou sélectionnez la tuile **Run script** et configurez les deux règles suivantes :
 
-> ![optimisation-automatique-medias-nextcloud-03.png](/optimisation-automatique-medias-nextcloud/optimisation-automatique-medias-nextcloud-03.png)
+> ![optimisation-automatique-medias-nextcloud-03.png](optimisation-automatique-medias-nextcloud/optimisation-automatique-medias-nextcloud-03.png)
 > *Légende : Configuration détaillée des deux règles de flux (images et vidéos) avec l'appel du script Bash.*
 
 1. **Flux images** :
