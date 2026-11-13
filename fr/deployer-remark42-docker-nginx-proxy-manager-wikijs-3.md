@@ -5,7 +5,7 @@ description: >-
   pour intégrer un espace commentaires auto-hébergé, filtré et harmonisé avec le
   thème de Wiki.js 3.
 published: true
-date: '2026-11-13T11:24:10.950Z'
+date: '2026-11-13T13:59:48.365Z'
 tags:
   - remark42
   - wikijs
@@ -222,7 +222,7 @@ docker compose ps
 
 ## 2. Configurer Nginx Proxy Manager
 
-Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un sous-domaine distinct (`remark.exemple.com` intégré dans `wiki.exemple.com`). Comme les navigateurs bloquent le CSS d'un site parent à l'intérieur d'une `iframe` externe, nous utilisons également le module `sub_filter` de Nginx Proxy Manager pour harmoniser directement les couleurs du module (formulaire, boutons, listes déroulantes, liens, fenêtre de prévisualisation et commentaires épinglés) avec la charte graphique du wiki.
+Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un sous-domaine distinct (`remark.exemple.com` intégré dans `wiki.exemple.com`). Comme les navigateurs bloquent le CSS d'un site parent à l'intérieur d'une `iframe` externe, nous utilisons également le module `sub_filter` de Nginx Proxy Manager pour harmoniser directement les couleurs et le comportement des liens du module avec la charte graphique du wiki.
 
 ### A. Proxy Host pour Remark42 (`remark.exemple.com`)
 
@@ -239,7 +239,7 @@ Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un s
    * Sélectionnez votre certificat SSL (`*.exemple.com` ou Let's Encrypt), puis activez **Force SSL**, **HTTP/2 Support**, **HSTS Enabled** et **HSTS Subdomains**.
 4. **Onglet Emplacement personnalisé (Custom Locations) :**
    * Ajoutez l'emplacement `/` pointant vers `http://192.168.1.50:8080`.
-   * Cliquez sur la roue crantée de cet emplacement pour ouvrir sa configuration avancée et ajoutez les en-têtes de sécurité ainsi que l'injection CSS (`sub_filter`) :
+   * Cliquez sur la roue crantée de cet emplacement pour ouvrir sa configuration avancée et ajoutez les en-têtes de sécurité ainsi que l'injection CSS/JS (`sub_filter`) :
 
 ```nginx
 proxy_hide_header X-Powered-By;
@@ -250,20 +250,21 @@ add_header X-Xss-Protection "1; mode=block" always;
 add_header X-Robots-Tag "noindex, noarchive, nofollow" always;
 add_header Content-Security-Policy "frame-ancestors 'self' [https://wiki.exemple.com](https://wiki.exemple.com);" always;
 
-# Injection CSS pour harmoniser les couleurs avec Wiki.js
+# Injection CSS et JS pour harmoniser les couleurs et les liens avec Wiki.js
 gzip off;
 proxy_set_header Accept-Encoding "";
 sub_filter_types text/html;
 sub_filter_once on;
-sub_filter '</body>' '<style>html, body, body > div, body > div > div { background: transparent !important; } form, div[role="region"] { background-color: #1e293b !important; border: 1px solid #155e75 !important; border-radius: 8px !important; padding: 12px !important; } div[role="region"] { margin-top: 16px !important; margin-bottom: 16px !important; } div[role="region"] article { background-color: transparent !important; } form > div { background-color: #1e293b !important; } textarea, form > div:not(:first-child):not(:has(button)):not(:has(textarea)), form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { background-color: #0f172a !important; color: #f8fafc !important; border: 1px solid #155e75 !important; border-radius: 6px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) { padding: 12px !important; margin-top: 12px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { border: none !important; padding: 0 !important; } form code, form pre, div[role="region"] pre, div[role="region"] code { background-color: #0f172a !important; color: #38bdf8 !important; border-radius: 4px !important; } form button[type="button"], form button[type="submit"] { background-color: #0e7490 !important; border-color: #0e7490 !important; color: #ffffff !important; } form button[type="button"]:hover, form button[type="submit"]:hover { background-color: #f97316 !important; border-color: #f97316 !important; } select, select option { background-color: #1e293b !important; color: #f8fafc !important; } a { color: #38bdf8 !important; } a:hover { color: #f97316 !important; }</style></body>';
+sub_filter '</body>' '<style>html, body, body > div, body > div > div { background: transparent !important; } form, div[role="region"] { background-color: #1e293b !important; border: 1px solid #155e75 !important; border-radius: 8px !important; padding: 12px !important; } div[role="region"] { margin-top: 16px !important; margin-bottom: 16px !important; } div[role="region"] article { background-color: transparent !important; } form > div { background-color: #1e293b !important; } textarea, form > div:not(:first-child):not(:has(button)):not(:has(textarea)), form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { background-color: #0f172a !important; color: #f8fafc !important; border: 1px solid #155e75 !important; border-radius: 6px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) { padding: 12px !important; margin-top: 12px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { border: none !important; padding: 0 !important; } form code, form pre, div[role="region"] pre, div[role="region"] code { background-color: #0f172a !important; color: #38bdf8 !important; border-radius: 4px !important; } form button[type="button"], form button[type="submit"] { background-color: #0e7490 !important; border-color: #0e7490 !important; color: #ffffff !important; } form button[type="button"]:hover, form button[type="submit"]:hover { background-color: #f97316 !important; border-color: #f97316 !important; } select, select option { background-color: #1e293b !important; color: #f8fafc !important; } a { color: #38bdf8 !important; } a:hover { color: #f97316 !important; }</style><script>if(window.self===window.top){document.documentElement.style.setProperty("background","#0f172a","important");}document.addEventListener("click",function(e){var a=e.target.closest("a");if(a&&a.href&&a.href.indexOf("http")===0){a.target="_blank";}});</script></body>';
 ```
 
-> **Comment fonctionne ce CSS injecté ?**
+> **Comment fonctionne cette injection ?**
 > * **Transparence du fond :** `background: transparent` supprime le fond gris par défaut de Remark42 afin de laisser apparaître le fond sombre de Wiki.js (les commentaires classiques restent ainsi transparents).
 > * **Formulaire et zone de saisie :** `form` et `textarea` reprennent les teintes bleu nuit (`#1e293b` et `#0f172a`) avec une bordure uniforme de `1px` (`#155e75`) qui remplace la bordure épaisse asymétrique d'origine.
 > * **Fenêtre de prévisualisation (`Prévisualiser`) :** En production, Remark42 génère des noms de classes aléatoires. Le sélecteur structurel `form > div:not(:first-child):not(:has(button)):not(:has(textarea))` cible directement le conteneur d'aperçu et lui applique le même fond `#0f172a` et la même bordure `#155e75` que la zone de saisie.
 > * **Commentaires épinglés (`div[role="region"]`) :** Lorsqu'un administrateur épingle un commentaire en haut de la discussion, Remark42 le place dans un conteneur `div[role="region"]`. La règle lui applique le même encadré `#1e293b` bordé de `#155e75` (ainsi qu'un fond `#0f172a` pour les blocs de code `pre` et `code` à l'intérieur) afin de le distinguer proprement des commentaires classiques.
-> * **Boutons, menus déroulants et liens :** Les boutons du formulaire adoptent la couleur primaire du thème (`#0e7490`) et basculent sur l'accent orange (`#f97316`) au survol, tandis que les actions sous les commentaires (`Répondre`, `Copier`, `Supprimer`) conservent leur apparence discrète d'origine. La règle `select, select option` passe les menus déroulants natifs (comme le menu de tri ou la durée de blocage) sur fond sombre `#1e293b` avec un texte clair `#f8fafc`. Vous pouvez bien entendu adapter ces codes hexadécimaux à votre propre palette.
+> * **Boutons, menus déroulants et liens :** Les boutons du formulaire adoptent la couleur primaire du thème (`#0e7490`) et basculent sur l'accent orange (`#f97316`) au survol, tandis que les actions sous les commentaires (`Répondre`, `Copier`, `Supprimer`) conservent leur apparence discrète d'origine. La règle `select, select option` passe les menus déroulants natifs (comme le menu de tri ou la durée de blocage) sur fond sombre `#1e293b` avec un texte clair `#f8fafc`.
+> * **Ouverture des liens et page `/web/` (`<script>`) :** Lorsque la page de démonstration `/web/` est ouverte directement dans un onglet (`window.self === window.top`), le script applique un fond bleu nuit `#0f172a` plutôt que de laisser le fond blanc du navigateur. Il force également l'ouverture des liens externes dans un nouvel onglet (`target="_blank"`), ce qui évite que le navigateur ne bloque l'ouverture d'une page du wiki lorsque l'on clique sur un commentaire depuis le widget *Last comments* de `/web/` (Wiki.js interdisant son affichage à l'intérieur d'une `iframe` externe).
 
 ### B. Adapter la CSP du Proxy Host de Wiki.js (`wiki.exemple.com`)
 
@@ -362,7 +363,7 @@ Après rechargement de votre wiki, vous pouvez désormais épingler ou supprimer
 
 La racine `https://remark.exemple.com` renvoie par défaut un code HTTP `404`. Pour superviser la disponibilité de votre instance dans **Uptime Kuma** sans générer de fausse alerte, utilisez l'une des deux URL suivantes :
 
-* **`https://remark.exemple.com/ping`** : point de terminaison officiel de santé (*healthcheck*) qui renvoie `pong` avec un code HTTP `200`.
-* **`https://remark.exemple.com/web/`** : page de démonstration intégrée qui renvoie également un code HTTP `200` et offre un affichage propre si le lien est cliquable depuis une page de statut publique.
+* **`https://remark.exemple.com/ping`** : point de terminaison officiel de santé (*healthcheck*) à renseigner dans la sonde, qui renvoie `pong` avec un code HTTP `200`.
+* **`https://remark.exemple.com/web/`** : page de démonstration intégrée qui renvoie également un code HTTP `200` et affiche le flux des derniers commentaires publics du wiki (idéale comme lien cliquable sur une page de statut publique grâce au script d'harmonisation sombre et d'ouverture des liens dans un nouvel onglet).
 
 > **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez tous mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
