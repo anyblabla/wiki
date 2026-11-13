@@ -5,7 +5,7 @@ description: >-
   utilisateur API restreint, script Bash d'import de la liste communautaire
   disposable-email-domains et mise à jour hebdomadaire automatique par cron.
 published: true
-date: '2026-11-13T15:06:14.315Z'
+date: '2026-11-13T22:39:03.484Z'
 tags:
   - listmonk
   - newsletter
@@ -37,7 +37,7 @@ Ce guide explique comment **bloquer automatiquement les adresses e-mail jetables
 1. Un script télécharge la liste communautaire.
 2. Il la fusionne avec ta propre liste de domaines (fichier texte), nettoie et dédoublonne le tout.
 3. Il compare le résultat avec la liste actuellement enregistrée dans ListMonk.
-4. **Seulement si elle a changé**, il sauvegarde les paramètres actuels puis envoie la nouvelle liste via l'API de ListMonk.
+4. **Seulement si elle a changé**, il sauvegarde les paramètres actuels, réinjecte tes mots de passe (SMTP, rebonds…) puis envoie la nouvelle liste via l'API de ListMonk.
 5. Une tâche cron lance le script chaque semaine.
 
 Le script s'authentifie avec un **utilisateur API dédié**, dont le rôle est limité à la lecture et à la modification des paramètres.
@@ -92,6 +92,7 @@ Clique sur **Enregistrer**.
 Juste après l'enregistrement, ListMonk affiche le **jeton API une seule fois**. Copie-le immédiatement et stocke-le dans un fichier protégé :
 
 ```bash
+mkdir -p /root/listmonk
 echo 'LE_JETON_AFFICHE' > /root/listmonk/.api_token
 chmod 600 /root/listmonk/.api_token
 ```
@@ -104,7 +105,7 @@ chmod 600 /root/listmonk/.api_token
 ```bash
 curl -s -o /dev/null -w '%{http_code}\n' \
   -H "Authorization: token blocklist-bot:$(cat /root/listmonk/.api_token)" \
-  http://127.0.0.1:9000/api/settings
+  [http://127.0.0.1:9000/api/settings](http://127.0.0.1:9000/api/settings)
 ```
 
 Le résultat attendu est **`200`**.
@@ -112,7 +113,25 @@ Le résultat attendu est **`200`**.
 - `401` : le nom d'utilisateur ou le jeton est incorrect.
 - `403` : il manque une permission sur le rôle (vérifie `settings:get` et `settings:manage`).
 
-## Étape 6 : créer ta liste personnalisée
+## Étape 6 : enregistrer les mots de passe (SMTP, rebonds…)
+
+Par sécurité, lorsque l'API de ListMonk renvoie les paramètres via `GET /api/settings`, **elle masque tous les mots de passe** (SMTP, boîte de rebonds, S3, CAPTCHA…) par des points (`••••••••`). Si le script renvoyait les paramètres tels quels, il écraserait tes mots de passe en base de données et les e-mails ne partiraient plus.
+
+Crée un fichier sécurisé pour stocker ces mots de passe afin que le script les réinjecte automatiquement à chaque mise à jour :
+
+```bash
+install -m 600 /dev/null /root/listmonk/.secrets && cat > /root/listmonk/.secrets << 'EOF'
+SMTP_PASS=
+BOUNCE_PASS=
+EOF
+```
+
+Ouvre ensuite le fichier (`nano /root/listmonk/.secrets`) et renseigne ton mot de passe SMTP juste après `SMTP_PASS=` (**sans guillemets et sans espace** autour du `=`). Si tu n'utilises pas de boîte de rebonds, laisse `BOUNCE_PASS=` vide.
+
+> Si tu as configuré plusieurs serveurs SMTP, une clé S3 ou un secret CAPTCHA, pense à les ajouter également dans `.secrets` et à les réinjecter dans la commande `jq` du script.
+{.is-warning}
+
+## Étape 7 : créer ta liste personnalisée
 
 Ce fichier contient **tes propres domaines à bloquer**, en plus de la liste communautaire (un domaine par ligne). Il sera fusionné avec elle à chaque exécution, sans doublon.
 
@@ -129,7 +148,7 @@ echo 'exemple.com' >> /root/listmonk/blocklist-custom.txt
 > Sans ce fichier, la synchronisation hebdomadaire écraserait les domaines que tu aurais ajoutés à la main dans l'interface.
 {.is-info}
 
-## Étape 7 : créer le script
+## Étape 8 : créer le script
 
 ```bash
 cat > /root/update_listmonk_blocklist.sh << 'EOF'
@@ -138,12 +157,13 @@ cat > /root/update_listmonk_blocklist.sh << 'EOF'
 set -euo pipefail
 export LC_ALL=C
 
-LISTMONK_URL="http://127.0.0.1:9000"
+LISTMONK_URL="[http://127.0.0.1:9000](http://127.0.0.1:9000)"
 API_USER="blocklist-bot"
 TOKEN_FILE="/root/listmonk/.api_token"
+SECRETS_FILE="/root/listmonk/.secrets"
 CUSTOM_FILE="/root/listmonk/blocklist-custom.txt"
 BACKUP_DIR="/root/listmonk/settings-backups"
-UPSTREAM_URL="https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/main/disposable_email_blocklist.conf"
+UPSTREAM_URL="[https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/main/disposable_email_blocklist.conf](https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/main/disposable_email_blocklist.conf)"
 MIN_DOMAINS=1000
 KEY="privacy.domain_blocklist"
 
@@ -152,6 +172,20 @@ trap 'rm -rf "$TMP"' EXIT
 log() { echo "[$(date '+%F %T')] $*"; }
 
 [ -r "$TOKEN_FILE" ] || { log "ERREUR : jeton API introuvable ($TOKEN_FILE)"; exit 1; }
+[ -r "$SECRETS_FILE" ] || { log "ERREUR : fichier de secrets introuvable ($SECRETS_FILE)"; exit 1; }
+
+get_secret() {
+  awk -F= -v k="$1" '$1 == k { sub(/^[^=]*=/, ""); print; exit }' "$SECRETS_FILE"
+}
+
+SMTP_PASS=$(get_secret "SMTP_PASS")
+BOUNCE_PASS=$(get_secret "BOUNCE_PASS")
+
+if [ -z "$SMTP_PASS" ]; then
+  log "ERREUR : SMTP_PASS est vide dans $SECRETS_FILE"
+  exit 1
+fi
+
 AUTH="Authorization: token ${API_USER}:$(cat "$TOKEN_FILE")"
 
 # 1. Téléchargement de la liste communautaire
@@ -189,9 +223,15 @@ mkdir -p "$BACKUP_DIR"
 cp "$TMP/settings.json" "$BACKUP_DIR/settings-$(date +%F-%H%M).json"
 ls -1t "$BACKUP_DIR"/settings-*.json | tail -n +11 | xargs -r rm --
 
-# 5. Construction du nouveau JSON et envoi
-jq --arg k "$KEY" --rawfile list "$TMP/new.txt" \
-  '.data | .[$k] = ($list | split("\n") | map(select(length > 0)))' \
+# 5. Construction du nouveau JSON (avec réinjection des mots de passe) et envoi
+jq --arg k "$KEY" \
+  --rawfile list "$TMP/new.txt" \
+  --arg smtp_pass "$SMTP_PASS" \
+  --arg bounce_pass "$BOUNCE_PASS" \
+  '.data
+   | .[$k] = ($list | split("\n") | map(select(length > 0)))
+   | if (.smtp | length) > 0 then .smtp[0].password = $smtp_pass else . end
+   | if ($bounce_pass != "" and (."bounce.mailboxes" | length) > 0) then ."bounce.mailboxes"[0].password = $bounce_pass else . end' \
   "$TMP/settings.json" > "$TMP/payload.json"
 
 HTTP=$(curl -sS -o "$TMP/resp.json" -w '%{http_code}' -X PUT \
@@ -212,9 +252,10 @@ Le script intègre plusieurs garde-fous :
 
 - il **refuse d'écraser** la liste si le téléchargement renvoie moins de 1 000 domaines ;
 - il **ne fait rien** si la liste n'a pas changé (donc aucun redémarrage inutile de ListMonk) ;
+- il **réinjecte tes mots de passe** à chaque écriture pour éviter qu'ils ne soient écrasés ;
 - il **sauvegarde** les paramètres avant chaque modification et conserve les 10 dernières sauvegardes.
 
-## Étape 8 : premier lancement
+## Étape 9 : premier lancement
 
 > Lance-le à un moment où **aucune campagne n'est en cours d'envoi** : ListMonk redémarre automatiquement après une modification des paramètres, ce qui interromprait son traitement.
 {.is-warning}
@@ -229,9 +270,9 @@ Le résultat attendu ressemble à :
 [2026-11-13 15:53:24] OK : liste mise à jour (0 -> 10182 domaines)
 ```
 
-Dans l'interface, va dans **Paramètres → Paramètres**, onglet **Confidentialité** : l'onglet **Domaine bloqué** doit afficher environ 10 000 domaines.
+Dans l'interface, va dans **Paramètres → Paramètres**, onglet **Confidentialité** : l'onglet **Domaine bloqué** doit afficher environ 10 000 domaines. Profites-en pour envoyer un e-mail de test afin de vérifier que l'envoi SMTP fonctionne toujours.
 
-## Étape 9 : vérifier que le script est idempotent
+## Étape 10 : vérifier que le script est idempotent
 
 Relance le script une seconde fois :
 
@@ -247,7 +288,7 @@ Le résultat attendu est :
 
 ListMonk n'est alors pas redémarré, car rien n'a été modifié.
 
-## Étape 10 : planifier avec cron
+## Étape 11 : planifier avec cron
 
 Crée une tâche hebdomadaire (ici, le dimanche à 4 h du matin) avec un fichier de log :
 
@@ -276,9 +317,9 @@ cat /etc/cron.d/listmonk-blocklist
 cat /var/log/listmonk-blocklist.log
 ```
 
-**Ajouter un domaine personnel** : ajoute-le à `blocklist-custom.txt` (voir l'étape 6). Il sera pris en compte à la prochaine exécution, ou immédiatement si tu lances le script à la main.
+**Ajouter un domaine personnel** : ajoute-le à `blocklist-custom.txt` (voir l'étape 7). Il sera pris en compte à la prochaine exécution, ou immédiatement si tu lances le script à la main.
 
-**Revenir en arrière** : les sauvegardes des paramètres sont dans `/root/listmonk/settings-backups/`. Chaque fichier contient l'ensemble des paramètres de ListMonk tels qu'ils étaient avant la modification.
+**Revenir en arrière** : les sauvegardes des paramètres sont dans `/root/listmonk/settings-backups/`. Chaque fichier contient l'ensemble des paramètres de ListMonk tels qu'ils étaient avant la modification (pense à remettre tes mots de passe dans l'interface si tu restaures une sauvegarde).
 
 ## Dépannage
 
@@ -286,6 +327,7 @@ cat /var/log/listmonk-blocklist.log
 |---|---|---|
 | `lecture des paramètres impossible` | Jeton ou nom d'utilisateur incorrect, ou ListMonk injoignable | Refais le test de l'étape 5 et vérifie `LISTMONK_URL` |
 | HTTP `403` | Permissions manquantes sur le rôle | Vérifie `settings:get` et `settings:manage` |
+| Les e-mails ne partent plus après mise à jour | Mot de passe SMTP erroné dans `.secrets` ou compte supplémentaire non réinjecté | Vérifie `/root/listmonk/.secrets` et remets le mot de passe dans l'interface web |
 | `téléchargement impossible` | Pas d'accès sortant vers `raw.githubusercontent.com` | Vérifie le pare-feu et le DNS du serveur |
 | `seulement N domaines, abandon` | Téléchargement incomplet ou liste vide | Relance plus tard ; le garde-fou a protégé ta liste actuelle |
 | `jq: command not found` | `jq` n'est pas installé | `apt install -y jq` |
