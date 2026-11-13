@@ -2,11 +2,10 @@
 title: Déployer Remark42 avec Docker et l'intégrer dans Wiki.js 3
 description: >-
   Déployez et configurez Remark42 avec Docker Compose et Nginx Proxy Manager
-  pour intégrer un système de commentaires auto-hébergé, filtré, sécurisé et
-  harmonisé (formulaire, boutons et prévisualisation) avec le thème de votre
-  instance Wiki.js 3.
+  pour intégrer un espace commentaires auto-hébergé, filtré et harmonisé avec le
+  thème de Wiki.js 3.
 published: true
-date: '2026-11-13T01:07:01.811Z'
+date: '2026-11-13T10:59:32.020Z'
 tags:
   - remark42
   - wikijs
@@ -223,7 +222,7 @@ docker compose ps
 
 ## 2. Configurer Nginx Proxy Manager
 
-Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un sous-domaine distinct (`remark.exemple.com` intégré dans `wiki.exemple.com`). Comme les navigateurs bloquent le CSS d'un site parent à l'intérieur d'une `iframe` externe, nous utilisons également le module `sub_filter` de Nginx Proxy Manager pour harmoniser directement les couleurs du module (formulaire, boutons, liens et fenêtre de prévisualisation) avec la charte graphique du wiki.
+Remark42 s'affiche dans Wiki.js sous la forme d'une `iframe` hébergée sur un sous-domaine distinct (`remark.exemple.com` intégré dans `wiki.exemple.com`). Comme les navigateurs bloquent le CSS d'un site parent à l'intérieur d'une `iframe` externe, nous utilisons également le module `sub_filter` de Nginx Proxy Manager pour harmoniser directement les couleurs du module (formulaire, boutons, liens, fenêtre de prévisualisation et commentaires épinglés) avec la charte graphique du wiki.
 
 ### A. Proxy Host pour Remark42 (`remark.exemple.com`)
 
@@ -256,13 +255,14 @@ gzip off;
 proxy_set_header Accept-Encoding "";
 sub_filter_types text/html;
 sub_filter_once on;
-sub_filter '</body>' '<style>html, body, [class*="root_theme_dark"] { background: transparent !important; } form { background-color: #1e293b !important; border: 1px solid #155e75 !important; border-radius: 8px !important; padding: 12px !important; } form > div { background-color: #1e293b !important; } textarea, form > div:not(:first-child):not(:has(button)):not(:has(textarea)), form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { background-color: #0f172a !important; color: #f8fafc !important; border: 1px solid #155e75 !important; border-radius: 6px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) { padding: 12px !important; margin-top: 12px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { border: none !important; padding: 0 !important; } form code, form pre { background-color: #1e293b !important; color: #38bdf8 !important; } form button[type="button"], form button[type="submit"], [class*="auth-panel"] button { background-color: #0e7490 !important; border-color: #0e7490 !important; color: #ffffff !important; } form button[type="button"]:hover, form button[type="submit"]:hover, [class*="auth-panel"] button:hover { background-color: #f97316 !important; border-color: #f97316 !important; } a { color: #38bdf8 !important; } a:hover { color: #f97316 !important; }</style></body>';
+sub_filter '</body>' '<style>html, body, body > div, body > div > div { background: transparent !important; } form, div[role="region"] { background-color: #1e293b !important; border: 1px solid #155e75 !important; border-radius: 8px !important; padding: 12px !important; } div[role="region"] { margin-top: 16px !important; margin-bottom: 16px !important; } div[role="region"] article { background-color: transparent !important; } form > div { background-color: #1e293b !important; } textarea, form > div:not(:first-child):not(:has(button)):not(:has(textarea)), form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { background-color: #0f172a !important; color: #f8fafc !important; border: 1px solid #155e75 !important; border-radius: 6px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) { padding: 12px !important; margin-top: 12px !important; } form > div:not(:first-child):not(:has(button)):not(:has(textarea)) > div { border: none !important; padding: 0 !important; } form code, form pre, div[role="region"] pre, div[role="region"] code { background-color: #0f172a !important; color: #38bdf8 !important; border-radius: 4px !important; } form button[type="button"], form button[type="submit"], div[role="region"] ~ div button { background-color: #0e7490 !important; border-color: #0e7490 !important; color: #ffffff !important; } form button[type="button"]:hover, form button[type="submit"]:hover { background-color: #f97316 !important; border-color: #f97316 !important; } a { color: #38bdf8 !important; } a:hover { color: #f97316 !important; }</style></body>';
 ```
 
 > **Comment fonctionne ce CSS injecté ?**
-> * **Transparence du fond :** `background: transparent` supprime le fond gris par défaut de Remark42 afin de laisser apparaître le fond sombre de Wiki.js.
+> * **Transparence du fond :** `background: transparent` supprime le fond gris par défaut de Remark42 afin de laisser apparaître le fond sombre de Wiki.js (les commentaires classiques restent ainsi transparents).
 > * **Formulaire et zone de saisie :** `form` et `textarea` reprennent les teintes bleu nuit (`#1e293b` et `#0f172a`) avec une bordure uniforme de `1px` (`#155e75`) qui remplace la bordure épaisse asymétrique d'origine.
-> * **Fenêtre de prévisualisation (`Prévisualiser`) :** En production, Remark42 génère des noms de classes aléatoires. Pour styliser le bloc d'aperçu avant publication sans dépendre d'une classe susceptible de changer, le sélecteur structurel `form > div:not(:first-child):not(:has(button)):not(:has(textarea))` cible directement le conteneur de prévisualisation et lui applique le même fond `#0f172a` et la même bordure `#155e75` que la zone de saisie (ainsi que la coloration des extraits de code `code` et `pre`).
+> * **Fenêtre de prévisualisation (`Prévisualiser`) :** En production, Remark42 génère des noms de classes aléatoires. Le sélecteur structurel `form > div:not(:first-child):not(:has(button)):not(:has(textarea))` cible directement le conteneur d'aperçu et lui applique le même fond `#0f172a` et la même bordure `#155e75` que la zone de saisie.
+> * **Commentaires épinglés (`div[role="region"]`) :** Lorsqu'un administrateur épingle un commentaire en haut de la discussion, Remark42 le place dans un conteneur `div[role="region"]`. La règle lui applique le même encadré `#1e293b` bordé de `#155e75` (ainsi qu'un fond `#0f172a` pour les blocs de code `pre` et `code` à l'intérieur) afin de le distinguer proprement des commentaires classiques.
 > * **Boutons et liens :** Les boutons principaux adoptent la couleur primaire du thème (`#0e7490`) et basculent sur l'accent orange (`#f97316`) au survol. Vous pouvez bien entendu adapter ces codes hexadécimaux à votre propre palette.
 
 ### B. Adapter la CSP du Proxy Host de Wiki.js (`wiki.exemple.com`)
