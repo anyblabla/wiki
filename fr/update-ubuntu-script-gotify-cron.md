@@ -5,7 +5,7 @@ description: >-
   refresh sur votre serveur Ubuntu. Recevez une notification immédiate via
   Gotify en cas de succès ou d'échec de la mise à jour.
 published: true
-date: '2026-11-14T17:32:07.293Z'
+date: '2026-11-14T17:33:37.656Z'
 tags:
   - serveur
   - crontab
