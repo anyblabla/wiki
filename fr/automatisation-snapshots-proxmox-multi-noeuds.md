@@ -5,7 +5,7 @@ description: >-
   avec cv4pve-autosnap. Un guide complet pour réduire le temps d'exécution et
   supprimer les erreurs de timeout API.
 published: true
-date: '2026-11-02T23:19:54.694Z'
+date: '2026-11-14T23:30:04.368Z'
 tags:
   - proxmox
   - sauvegarde
@@ -20,17 +20,18 @@ dateCreated: '2026-03-25T23:01:20.016Z'
 
 Ce guide détaille comment mettre en place une stratégie de snapshots performante pour un cluster Proxmox. L'utilisation du **ciblage direct** par IP permet de réduire le temps d'exécution de plusieurs minutes à quelques secondes.
 
-> 🗒️ Ce système repose sur l'outil open-source **cv4pve-autosnap**. 
-> * **Projet GitHub officiel** : [Corsinvest/cv4pve-autosnap](https://github.com/Corsinvest/cv4pve-autosnap)
-> * **Ancienne version du Wiki** : [cv4pve-autosnap (version simple)](/fr/cv4pve-autosnap)
+> 🗒️ Ce système repose sur l'outil open-source **cv4pve-autosnap**.
+> - **Projet GitHub officiel** : [Corsinvest/cv4pve-autosnap](https://github.com/Corsinvest/cv4pve-autosnap)
+> - **Ancienne version du Wiki** : [cv4pve-autosnap (version simple)](/fr/cv4pve-autosnap)
 
 ---
 
 ## 🏗️ Recommandation : LXC dédié
 
-Bien que vous puissiez installer ces scripts sur n'importe quelle machine Linux (ou même directement sur un nœud Proxmox), **il est vivement recommandé de dédier un petit conteneur LXC (Debian ou Ubuntu)** à cette tâche. 
-* Cela isole les outils de sauvegarde du reste de votre infrastructure.
-* Cela facilite la maintenance et les mises à jour sans impacter vos services de production.
+Bien que vous puissiez installer ces scripts sur n'importe quelle machine Linux (ou même directement sur un nœud Proxmox), **il est vivement recommandé de dédier un petit conteneur LXC (Debian ou Ubuntu)** à cette tâche.
+
+- Cela isole les outils de sauvegarde du reste de votre infrastructure.
+- Cela facilite la maintenance et les mises à jour sans impacter vos services de production.
 
 ---
 
@@ -40,7 +41,7 @@ Une fois dans votre LXC, copiez et collez ce bloc pour installer les dépendance
 
 ```bash
 apt update && apt install wget unzip curl -y
-LATEST_URL=$(curl -s https://api.github.com/repos/Corsinvest/cv4pve-autosnap/releases/latest | grep "browser_download_url.*linux-x64.zip" | cut -d '"' -f 4)
+LATEST_URL=$(curl -s [https://api.github.com/repos/Corsinvest/cv4pve-autosnap/releases/latest](https://api.github.com/repos/Corsinvest/cv4pve-autosnap/releases/latest) | grep "browser_download_url.*linux-x64.zip" | cut -d '"' -f 4)
 cd /tmp && wget -O autosnap-latest.zip "$LATEST_URL"
 unzip -o autosnap-latest.zip && mv cv4pve-autosnap /usr/local/bin/
 chmod +x /usr/local/bin/cv4pve-autosnap && rm autosnap-latest.zip
@@ -88,9 +89,9 @@ C'est lui qui pilote les snapshots et génère les logs de manière structurée.
    #!/bin/bash
    source /root/autosnap.conf
 
-   HOST=$1    # IP du nœud cible
-   LABEL=$2   # Label (ex: hourly)
-   KEEP=$3    # Rétention
+   HOST=$1      # IP du nœud cible
+   LABEL=$2     # Label (ex: hourly)
+   KEEP=$3      # Rétention
    ID=${4:-all} # VMID ou "all"
 
    if [ -z "$HOST" ] || [ -z "$LABEL" ] || [ -z "$KEEP" ]; then
@@ -115,12 +116,49 @@ C'est lui qui pilote les snapshots et génère les logs de manière structurée.
 ## 🔄 Étape 4 : scripts de maintenance
 
 1. **Mise à jour automatique (`nano /usr/local/bin/update-autosnap.sh`) :**
+   Ce script vérifie chaque semaine sur GitHub si une nouvelle version est disponible et met à jour le binaire uniquement si nécessaire.
    ```bash
    #!/bin/bash
-   LATEST_URL=$(curl -s https://api.github.com/repos/Corsinvest/cv4pve-autosnap/releases/latest | grep "browser_download_url.*linux-x64.zip" | cut -d '"' -f 4)
-   cd /tmp && wget -q "$LATEST_URL" -O autosnap-latest.zip
-   unzip -o autosnap-latest.zip && mv cv4pve-autosnap /usr/local/bin/
-   chmod +x /usr/local/bin/cv4pve-autosnap && rm autosnap-latest.zip
+
+   # Configuration
+   REPO="Corsinvest/cv4pve-autosnap"
+   INSTALL_DIR="/usr/local/bin"
+   BINARY_NAME="cv4pve-autosnap"
+   TMP_DIR="/tmp/autosnap_update"
+
+   # On s'assure que les outils nécessaires sont là
+   apt update && apt install curl wget unzip -y > /dev/null 2>&1
+
+   # 1. On récupère la dernière version sur GitHub
+   LATEST_TAG=$(curl -s [https://api.github.com/repos/$REPO/releases/latest](https://api.github.com/repos/$REPO/releases/latest) | grep tag_name | cut -d '"' -f 4)
+
+   # 2. On check la version actuelle
+   if [ -f "$INSTALL_DIR/$BINARY_NAME" ]; then
+       CURRENT_VERSION="v$($INSTALL_DIR/$BINARY_NAME --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+   else
+       CURRENT_VERSION="none"
+   fi
+
+   if [ "$LATEST_TAG" == "$CURRENT_VERSION" ]; then
+       echo "✅ cv4pve-autosnap est déjà à jour ($CURRENT_VERSION)."
+       exit 0
+   fi
+
+   echo "🚀 Nouvelle version trouvée : $LATEST_TAG (actuelle : $CURRENT_VERSION)"
+
+   # 3. Téléchargement du binaire linux-x64
+   mkdir -p $TMP_DIR
+   DOWNLOAD_URL=$(curl -s [https://api.github.com/repos/$REPO/releases/latest](https://api.github.com/repos/$REPO/releases/latest) | grep "browser_download_url" | grep "linux-x64.zip" | cut -d '"' -f 4)
+
+   wget -qO $TMP_DIR/autosnap.zip "$DOWNLOAD_URL"
+   unzip -qj $TMP_DIR/autosnap.zip -d $TMP_DIR
+   chmod +x $TMP_DIR/$BINARY_NAME
+   mv $TMP_DIR/$BINARY_NAME $INSTALL_DIR/
+
+   # Nettoyage
+   rm -rf $TMP_DIR
+
+   echo "✨ Mise à jour vers $LATEST_TAG terminée !"
    ```
 
 2. **Purge des logs (`nano /usr/local/bin/autosnap-purge-logs.sh`) :**
@@ -129,35 +167,42 @@ C'est lui qui pilote les snapshots et génère les logs de manière structurée.
    source /root/autosnap.conf
    find "$LOG_DIR" -name "*.log" -type f -mtime +30 -delete
    ```
-3. **Permission :** `chmod +x /usr/local/bin/update-autosnap.sh /usr/local/bin/autosnap-purge-logs.sh`
+
+3. **Rendez les deux scripts exécutables :**
+   ```bash
+   chmod +x /usr/local/bin/update-autosnap.sh /usr/local/bin/autosnap-purge-logs.sh
+   ```
 
 ---
 
 ## 📅 Étape 5 : automatisation (Crontab)
 
-1. **Ouvrez le crontab :** `crontab -e`
+1. **Ouvrez le crontab :**
+   ```bash
+   crontab -e
+   ```
 2. **Ajoutez vos tâches :**
-   ```text
+   ```cron
    # Maintenance
    0 4 * * 1 /usr/local/bin/update-autosnap.sh > /dev/null 2>&1
    0 5 * * * /usr/local/bin/autosnap-purge-logs.sh
 
-   # Snapshots horaires (ciblés par nœud pour la vitesse)
+   # Snapshots services critiques (toutes les 4h, garde 24h - ciblés par nœud)
    # Important : utilisez ". /root/autosnap.conf &&" pour charger vos variables
-   0 * * * * . /root/autosnap.conf && /usr/local/bin/autosnap-master.sh "$NODE1" hourly-gitea 24 4060
-   5 * * * * . /root/autosnap.conf && /usr/local/bin/autosnap-master.sh "$NODE2" hourly-vaultwarden 24 138
+   0 */4 * * * . /root/autosnap.conf && /usr/local/bin/autosnap-master.sh "$NODE1" hourly-gitea 6 4060
+   5 */4 * * * . /root/autosnap.conf && /usr/local/bin/autosnap-master.sh "$NODE2" hourly-vaultwarden 6 138
 
-   # Sauvegardes globales (tous les nœuds à 00h30)
-   30 0 * * * . /root/autosnap.conf && /usr/local/bin/autosnap-master.sh "$PVE_HOSTS" daily-all 7 all
+   # Snapshots globaux (tous les nœuds chaque nuit, garde 2 jours)
+   10 0 * * * . /root/autosnap.conf && /usr/local/bin/autosnap-master.sh "$PVE_HOSTS" daily-all 2 all
    ```
+
+> **Conseil :** Un snapshot n'est pas une sauvegarde. Gardez une rétention courte en local (pour ne pas alourdir vos pools ZFS) et confiez l'archivage longue durée à **Proxmox Backup Server (PBS)**.
 
 ---
 
 ## 🧠 Pourquoi cibler un nœud spécifique ?
 
-Sur un cluster multi-nœuds, scanner l'ensemble des hôtes pour trouver une seule VM peut provoquer des ralentissements importants et des erreurs de timeout ("Response ended prematurely"). En ciblant l'IP directe du nœud via les variables `$NODE_X`, l'opération est **instantanée**.
-
-> **Attention** : en cas de migration (vMotion) d'une VM vers un autre nœud, pensez à mettre à jour la variable `$NODE_X` dans votre crontab.
+Sur un cluster multi-nœuds, scanner l'ensemble des hôtes pour trouver une seule VM peut provoquer des ralentissements importants et des erreurs de timeout ("Response ended prematurely"). En ciblant l'IP directe du nœud via les variables `$NODE_X`, l'opération est **instantanée**.  > **Attention** : en cas de migration (migration à chaud ou déplacement manuel) d'une VM vers un autre nœud, pensez à mettre à jour la variable `$NODE_X` correspondante dans votre crontab.
 
 ---
 
