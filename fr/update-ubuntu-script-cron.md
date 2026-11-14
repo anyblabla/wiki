@@ -5,7 +5,7 @@ description: >-
   serveur Ubuntu (APT et Snap) en utilisant un script Bash planifié via une
   tâche Cron.
 published: true
-date: '2026-11-14T17:31:39.386Z'
+date: '2026-11-14T17:32:57.004Z'
 tags:
   - serveur
   - cron
