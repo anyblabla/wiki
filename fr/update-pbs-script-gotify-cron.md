@@ -7,7 +7,7 @@ description: >-
   dist-upgrade sur votre PBS et recevez une notification immédiate via Gotify en
   cas de succès ou d'échec. Inclut les pré-requis curl.
 published: true
-date: '2026-11-03T00:05:12.747Z'
+date: '2026-11-15T00:20:44.839Z'
 tags:
   - proxmox
   - cron
