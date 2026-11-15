@@ -5,7 +5,7 @@ description: >-
   universels, raccourcis "bangs" avec exemples, requêtes spéciales et astuces
   pour optimiser la vitesse de vos résultats.
 published: true
-date: '2026-11-02T23:50:50.531Z'
+date: '2026-11-15T00:28:54.036Z'
 tags:
   - performance
   - logiciel libre
@@ -92,4 +92,3 @@ En utilisant **[searxng.blablalinux.be](https://searxng.blablalinux.be)**, vous 
 ---
 
 > **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
-
