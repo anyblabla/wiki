@@ -5,7 +5,7 @@ description: >-
   Installation, configuration Nginx Proxy Manager, jetons PAT et résolution des
   erreurs de quota.
 published: true
-date: '2026-11-12T00:40:34.827Z'
+date: '2026-11-15T00:27:18.399Z'
 tags:
   - opencode
   - mcp
