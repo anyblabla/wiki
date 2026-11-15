@@ -5,7 +5,7 @@ description: >-
   de partage de fichiers self-hosted sécurisé) en utilisant une pile Docker
   (stack) dans Portainer à partir d'un fichier compose YAML.
 published: true
-date: '2026-11-02T23:35:38.661Z'
+date: '2026-11-15T00:18:18.884Z'
 tags:
   - docker
   - portainer
