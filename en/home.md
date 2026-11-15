@@ -4,7 +4,7 @@ description: >-
   🧠 All my up-to-date technical guides and installation methods. Benefit from
   tested procedures and functional results for your projects 😉
 published: true
-date: '2026-11-15T00:31:16.292Z'
+date: '2026-11-15T21:11:34.508Z'
 tags: []
 editor: markdown
 dateCreated: '2026-01-08T23:24:03.690Z'
@@ -28,7 +28,7 @@ This wiki is my **public cheat sheet**, designed to be a reliable, ready-to-use 
 
 * **Why?** To offer you "turnkey" technical guides, regularly updated, so you can get a successful installation without wasting time.
 * **The method:** Every guide here is the result of my own testing, distilled to give you only the most direct and effective steps.
-* **Read-only:** To keep procedures consistent and reliable, I remain the sole author of the content.
+* **Verified guides, open for discussion:** To keep procedures consistent and reliable, I remain the sole author of the articles, but you can now **leave your comments** at the bottom of each page to ask questions or share your feedback!
 
 ---
 
@@ -40,11 +40,14 @@ Check out the **[Articles under construction](/fr/zone-construction-brouillons)*
 
 ---
 
-### 🧐 Need clarification?
+### 🧐 Need clarification or want to chat?
 
-A step seems unclear, or a method needs updating? Don't stay in the dark!
+A step seems unclear, you have a tip to share, or a method needs updating? Don't stay in the dark!
 
-[Contact me](https://yourls.blablalinux.be/contact) directly, or find me on Matrix: [@blablalinux:blablalinux.be](https://yo.blablalinux.be/matrix-profil). I'll be happy to make the necessary corrections so the content stays impeccable 😉
+* **Directly under the articles:** Leave a **comment** at the bottom of the relevant guide (a privacy-friendly space with no tracking, Markdown support, and easy sign-in via email or GitHub).
+* **Via private message:** You can also [contact me](https://yourls.blablalinux.be/contact) directly, or find me on Matrix: [@blablalinux:blablalinux.be](https://yo.blablalinux.be/matrix-profil).
+
+I'll be happy to chat with you and make the necessary corrections so the content stays impeccable 😉
 
 ---
 
