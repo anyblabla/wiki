@@ -5,7 +5,7 @@ description: >-
   ou Ubuntu. Ce guide détaille la mise en place de Nginx et la configuration via
   Nginx Proxy Manager.
 published: true
-date: '2026-11-11T22:41:38.806Z'
+date: '2026-11-15T00:29:38.762Z'
 tags:
   - nginx
   - npm
