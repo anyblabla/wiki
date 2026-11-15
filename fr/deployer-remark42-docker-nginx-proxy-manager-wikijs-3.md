@@ -5,7 +5,7 @@ description: >-
   pour intégrer un espace commentaires auto-hébergé, filtré et harmonisé avec le
   thème de Wiki.js 3.
 published: true
-date: '2026-11-13T13:59:48.365Z'
+date: '2026-11-15T00:27:12.274Z'
 tags:
   - remark42
   - wikijs
