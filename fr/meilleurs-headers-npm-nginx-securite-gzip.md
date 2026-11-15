@@ -6,7 +6,7 @@ description: >-
   performances avec Gzip et la gestion des connexions longues pour les
   applications modernes.
 published: true
-date: '2026-11-02T23:49:58.264Z'
+date: '2026-11-15T00:21:49.483Z'
 tags:
   - docker
   - lxc
