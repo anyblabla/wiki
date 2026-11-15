@@ -5,7 +5,7 @@ description: >-
   des comptes inactifs et des vieux messages avec notifications Gotify
   optionnelles.
 published: true
-date: '2026-11-02T23:50:13.429Z'
+date: '2026-11-15T00:18:28.741Z'
 tags:
   - mastodon
   - docker
