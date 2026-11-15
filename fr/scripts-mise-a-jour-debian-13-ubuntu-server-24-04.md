@@ -4,7 +4,7 @@ description: >-
   Automatiser la mise à jour complète et le nettoyage de Debian 13 (GNOME) et
   Ubuntu Server 24.04 grâce à deux scripts Bash et un alias dédié.
 published: true
-date: '2026-11-15T20:04:11.092Z'
+date: '2026-11-15T20:06:00.076Z'
 tags:
   - linux
   - debian
