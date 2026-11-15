@@ -5,7 +5,7 @@ description: >-
   meilleures méthodes pour structurer vos fichiers Compose, gérer les secrets,
   persister les données (volumes) et optimiser la sécurité en production.
 published: true
-date: '2026-11-11T22:11:47.484Z'
+date: '2026-11-15T00:18:12.057Z'
 tags:
   - docker
   - compose
