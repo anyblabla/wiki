@@ -5,7 +5,7 @@ description: >-
   jeton d'accès, lecture de pages et mise à jour automatique du contenu Markdown
   avec des scripts Python concrets.
 published: true
-date: '2026-11-02T09:39:08.070Z'
+date: '2026-11-15T00:27:08.373Z'
 tags:
   - wikijs
   - api
