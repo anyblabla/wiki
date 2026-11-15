@@ -5,7 +5,7 @@ description: >-
   sur Wiki.js version 3 derrière un proxy inverse Nginx Proxy Manager (NPM),
   avec contrôle des inscriptions.
 published: true
-date: '2026-11-12T22:30:36.742Z'
+date: '2026-11-15T00:27:04.736Z'
 tags:
   - wikijs
   - github
