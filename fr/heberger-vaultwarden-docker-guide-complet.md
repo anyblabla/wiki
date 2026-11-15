@@ -5,7 +5,7 @@ description: >-
   accompagne pour sécuriser votre coffre-fort avec Argon2 et optimiser Nginx
   Proxy Manager avec des headers de sécurité avancés.
 published: true
-date: '2026-11-11T22:41:04.068Z'
+date: '2026-11-15T00:18:25.032Z'
 tags:
   - docker
   - sécurité
