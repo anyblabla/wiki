@@ -5,7 +5,7 @@ description: >-
   Mount (dossier local) vers un Volume Nommé, garantissant la portabilité et la
   sécurité de votre configuration.
 published: true
-date: '2026-11-02T23:53:50.674Z'
+date: '2026-11-15T00:18:41.274Z'
 tags:
   - docker
   - mount
