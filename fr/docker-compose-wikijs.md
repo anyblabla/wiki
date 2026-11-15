@@ -5,7 +5,7 @@ description: >-
   moderne, puissante et extensible) en utilisant une pile Docker (stack) dans
   Portainer à partir d'un fichier compose YAML.
 published: true
-date: '2026-11-15T00:18:22.102Z'
+date: '2026-11-15T00:27:00.948Z'
 tags:
   - docker
   - wiki
