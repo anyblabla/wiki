@@ -5,7 +5,7 @@ description: >-
   instance Wiki.js (CRUD) directement depuis le terminal Debian, avec gestion
   automatique des langues et des slugs.
 published: true
-date: '2026-11-02T23:25:05.985Z'
+date: '2026-11-15T00:27:15.532Z'
 tags:
   - wikijs
   - api
