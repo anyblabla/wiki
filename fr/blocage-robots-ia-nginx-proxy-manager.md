@@ -5,7 +5,7 @@ description: >-
   Proxy Manager (NPM) en utilisant un fichier de configuration custom. Une
   alternative efficace aux modifications des fichiers robots.txt individuels.
 published: true
-date: '2026-11-11T22:10:19.706Z'
+date: '2026-11-15T00:23:21.329Z'
 tags:
   - nginx
   - proxy
