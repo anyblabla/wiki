@@ -5,7 +5,7 @@ description: >-
   un mauvais réglage des haut-parleurs et du caisson de basses (LFE). Utilisez
   l'outil hdajackretask pour corriger et reconfigurer la sortie audio.
 published: true
-date: '2026-11-11T22:09:13.250Z'
+date: '2026-11-15T00:30:34.302Z'
 tags:
   - hp
   - pulseaudio
