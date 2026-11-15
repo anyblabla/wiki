@@ -5,7 +5,7 @@ description: >-
   Retirez le montage du disque secondaire de /etc/fstab et planifiez son montage
   automatique après le boot via Crontab (@reboot) pour rétablir la fonction.
 published: true
-date: '2026-11-03T00:04:44.363Z'
+date: '2026-11-15T00:22:45.281Z'
 tags:
   - cron
   - crontab
