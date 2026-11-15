@@ -5,7 +5,7 @@ description: >-
   Cron et Gotify. Le script utilise apt-mark hold pour exclure les mises à jour
   du noyau, nécessitant une validation humaine.
 published: true
-date: '2026-11-03T00:05:31.517Z'
+date: '2026-11-15T00:19:58.713Z'
 tags:
   - cron
   - ubuntu
