@@ -5,7 +5,7 @@ description: >-
   des fichiers distants et optimisation RAM avec notifications Gotify
   optionnelles.
 published: true
-date: '2026-11-02T23:50:21.050Z'
+date: '2026-11-15T00:18:32.055Z'
 tags:
   - docker
   - lxc
