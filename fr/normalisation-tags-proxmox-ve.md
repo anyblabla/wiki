@@ -5,7 +5,7 @@ description: >-
   automatise le renommage massif du tag community-scripts en community-script
   sur l'ensemble de vos nœuds PVE.
 published: true
-date: '2026-11-11T22:17:28.818Z'
+date: '2026-11-15T00:15:26.491Z'
 tags:
   - proxmox
   - bash
