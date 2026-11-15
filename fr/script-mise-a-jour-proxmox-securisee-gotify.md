@@ -6,7 +6,7 @@ description: >-
   composants essentiels, assurant la stabilité tout en maintenant votre système
   à jour.
 published: true
-date: '2026-11-11T22:06:08.010Z'
+date: '2026-11-15T00:19:46.071Z'
 tags:
   - proxmox
   - debian
