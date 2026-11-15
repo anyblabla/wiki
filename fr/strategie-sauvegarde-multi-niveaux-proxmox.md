@@ -5,7 +5,7 @@ description: >-
   automatisés, double redondance sur PBS avec rétention GFS, et protection
   granulaire des bases de données applicatives.
 published: true
-date: '2026-11-03T00:07:58.231Z'
+date: '2026-11-15T00:15:48.568Z'
 tags:
   - proxmox
   - sauvegarde
@@ -48,4 +48,3 @@ C'est un complément indispensable aux sauvegardes "bloc" pour garantir l'intég
 
 ---
 > **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez l'ensemble de mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
-
