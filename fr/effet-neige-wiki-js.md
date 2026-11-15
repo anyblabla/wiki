@@ -5,7 +5,7 @@ description: >-
   Utilise l'injection de code CSS et JavaScript pour une performance optimale
   sans toucher aux fichiers sources.
 published: true
-date: '2026-11-02T09:38:22.085Z'
+date: '2026-11-15T00:26:57.634Z'
 tags:
   - css
   - vuetify
