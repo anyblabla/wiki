@@ -4,7 +4,7 @@ description: >-
   Automatiser la mise à jour complète et le nettoyage de Debian 13 (GNOME) et
   Ubuntu Server 24.04 grâce à deux scripts Bash et un alias dédié.
 published: true
-date: '2026-11-14T17:30:24.885Z'
+date: '2026-11-15T20:04:11.092Z'
 tags:
   - linux
   - debian
@@ -227,5 +227,20 @@ Une fois l'alias en place, il suffit de taper la commande suivante dans ton term
 ```bash
 maj
 ```
+
+---
+
+## Pourquoi utiliser ce script plutôt que `unattended-upgrades` ?
+
+Ces deux outils n'ont pas le même objectif et sont tout à fait **complémentaires** :
+
+| Critère | `unattended-upgrades` | Script `maj` |
+| :--- | :--- | :--- |
+| **Périmètre** | Paquets **APT** uniquement (souvent limité aux correctifs de sécurité par défaut) | Mise à niveau complète (**APT `full-upgrade`**, **Flatpak** et **Snap**) |
+| **Nettoyage** | Minimal (ne supprime ni les paquets Flatpak inutilisés, ni les anciens Snaps) | Complet (`autoremove --purge`, `autoclean`, nettoyage des anciennes révisions Snap) |
+| **Exécution** | Automatique en arrière-plan selon un planning | À la demande, au moment où tu décides de lancer la maintenance |
+| **Contrôle** | Silencieux en tâche de fond | Suivi en direct dans le terminal et alerte explicite si un redémarrage est requis |
+
+Tu peux donc laisser `unattended-upgrades` appliquer les mises à jour de sécurité critiques la nuit en arrière-plan, et lancer `maj` régulièrement pour effectuer une mise à niveau globale et nettoyer proprement ton système.
 
 > **Auteur** : ce guide est proposé par **Amaury aka BlablaLinux**. Retrouvez tous mes services sur [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
