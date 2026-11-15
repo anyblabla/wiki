@@ -7,7 +7,7 @@ description: >-
   principal de votre installation Wiki.js (tel que le thème par défaut ou tout
   autre thème basé sur le framework Vuetify).
 published: true
-date: '2026-11-02T23:24:23.830Z'
+date: '2026-11-15T00:27:21.503Z'
 tags:
   - wikijs
   - head
