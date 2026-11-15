@@ -5,7 +5,7 @@ description: >-
   inefficace. Ce guide montre comment extraire les données cachées sous
   OnlyOffice ou LibreOffice avec un script Python dédié.
 published: true
-date: '2026-11-03T00:05:49.200Z'
+date: '2026-11-15T00:21:29.424Z'
 tags:
   - pdf
   - debian
