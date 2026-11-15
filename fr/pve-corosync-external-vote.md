@@ -5,7 +5,7 @@ description: >-
   disponibilité (HA) des clusters Proxmox VE, notamment ceux à 2 nœuds, en
   garantissant le quorum après une défaillance de nœud.
 published: true
-date: '2026-11-03T00:01:54.122Z'
+date: '2026-11-15T00:15:03.859Z'
 tags:
   - proxmox
   - pve
