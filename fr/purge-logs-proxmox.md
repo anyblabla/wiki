@@ -5,7 +5,7 @@ description: >-
   massivement les journaux système, de vider les fichiers .log sans les
   supprimer et de libérer l'espace disque instantanément.
 published: true
-date: '2026-11-11T22:03:01.168Z'
+date: '2026-11-15T00:19:35.439Z'
 tags:
   - proxmox
   - debian
