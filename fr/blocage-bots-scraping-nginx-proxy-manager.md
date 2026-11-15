@@ -5,7 +5,7 @@ description: >-
   comment filtrer les requêtes par mots-clés et User-Agent dans Nginx Proxy
   Manager, tout en épargnant le réseau local.
 published: true
-date: '2026-11-11T22:04:08.767Z'
+date: '2026-11-15T00:22:33.660Z'
 tags:
   - nginx
   - npm
