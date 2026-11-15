@@ -5,7 +5,7 @@ description: >-
   Proxmox VE (PVE) en utilisant un script Bash planifié via une tâche Cron. Ces
   commandes sont destinées à être exécutées en tant qu'utilisateur root.
 published: true
-date: '2026-11-02T23:54:20.925Z'
+date: '2026-11-15T00:16:08.991Z'
 tags:
   - proxmox
   - cron
