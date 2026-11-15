@@ -4,7 +4,7 @@ description: >-
   🧠 Tous mes guides techniques et méthodes d'installation à jour. Profitez de
   procédures testées et de résultats fonctionnels pour vos projets 😉
 published: true
-date: '2026-11-15T00:31:03.136Z'
+date: '2026-11-15T21:08:42.838Z'
 tags: []
 editor: markdown
 dateCreated: '2025-07-17T00:14:37.130Z'
@@ -28,7 +28,7 @@ Ce wiki est mon **pense-bête public**, conçu pour être une source de document
 
 * **Pourquoi ?** Pour vous offrir des guides techniques "clés en main", mis à jour régulièrement, afin de vous garantir une installation réussie sans perte de temps.
 * **La méthode :** Chaque guide présent ici est le fruit de mes tests personnels, synthétisé pour ne vous proposer que la marche à suivre la plus directe et efficace.
-* **Lecture seule :** Pour garantir la cohérence et la fiabilité des procédures, je reste l'unique auteur du contenu.
+* **Des guides vérifiés, mais ouverts à la discussion :** Pour garantir la cohérence et la fiabilité des procédures, je reste l'unique auteur des articles, mais vous pouvez désormais **laisser vos commentaires** au bas de chaque page pour poser vos questions ou partager vos retours !
 
 ---
 
@@ -40,11 +40,14 @@ Consultez la page **[Articles en construction](/fr/zone-construction-brouillons)
 
 ---
 
-### 🧐 Un besoin de précision ?
+### 🧐 Un besoin de précision ou envie d'échanger ?
 
-Une étape vous semble obscure ou une méthode mérite une mise à jour ? Ne restez pas dans le flou !
+Une étape vous semble obscure, vous avez une astuce à partager ou une méthode mérite une mise à jour ? Ne restez pas dans le flou !
 
-[Contactez-moi](https://yourls.blablalinux.be/contact) directement, ou retrouvez-moi sur Matrix : [@blablalinux:blablalinux.be](https://yo.blablalinux.be/matrix-profil). Je serai ravi d'apporter les corrections nécessaires pour que le contenu reste impeccable 😉
+* **Directement sous les articles :** Laissez un **commentaire** au bas du guide concerné (espace respectueux de la vie privée, sans pistage, avec prise en charge du Markdown et connexion simple par e-mail ou via GitHub).
+* **En message privé :** Vous pouvez aussi me [contacter](https://yourls.blablalinux.be/contact) directement, ou me retrouver sur Matrix : [@blablalinux:blablalinux.be](https://yo.blablalinux.be/matrix-profil).
+
+Je serai ravi d'échanger avec vous et d'apporter les corrections nécessaires pour que le contenu reste impeccable 😉
 
 ---
 
