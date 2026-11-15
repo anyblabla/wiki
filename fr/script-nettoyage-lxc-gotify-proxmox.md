@@ -5,7 +5,7 @@ description: >-
   script supprime caches, logs et paquets inutiles, puis envoie un rapport
   détaillé via Gotify.
 published: true
-date: '2026-11-03T00:05:35.543Z'
+date: '2026-11-15T00:15:37.724Z'
 tags:
   - lxc
   - proxmox
