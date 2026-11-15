@@ -5,7 +5,7 @@ description: >-
   pvecm delnode et les étapes cruciales (migration, mise hors ligne) pour
   retirer un serveur en toute sécurité.
 published: true
-date: '2026-11-03T00:01:59.318Z'
+date: '2026-11-15T00:13:42.867Z'
 tags:
   - proxmox
   - pve
