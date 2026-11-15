@@ -5,7 +5,7 @@ description: >-
   une stratégie stricte de blocage des robots d’IA, tout en autorisant
   l'indexation sélective par les moteurs de recherche traditionnels.
 published: true
-date: '2026-11-11T22:29:46.998Z'
+date: '2026-11-15T00:23:10.015Z'
 tags:
   - seo
   - indexation
