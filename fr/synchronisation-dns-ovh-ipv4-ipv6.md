@@ -6,7 +6,7 @@ description: >-
   Guide pour mettre à jour automatiquement vos DNS OVHcloud (IPv4 et IPv6
   dynamiques) sur votre serveur auto-hébergé avec un script Bash.
 published: true
-date: '2026-11-11T23:00:19.153Z'
+date: '2026-11-15T00:24:24.061Z'
 tags:
   - administration
   - dns
