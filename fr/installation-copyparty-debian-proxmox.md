@@ -5,7 +5,7 @@ description: >-
   complet détaille la configuration du service, l'accès via reverse proxy et
   l'automatisation des mises à jour par cron.
 published: true
-date: '2026-11-11T22:07:23.630Z'
+date: '2026-11-15T00:15:57.828Z'
 tags:
   - lxc
   - proxmox
