@@ -1,13 +1,11 @@
 ---
-title: >-
-  Automatiser la synchronisation des certificats SSL de Nginx Proxy Manager vers
-  AdGuard Home
+title: Synchroniser les certificats SSL de NPM vers AdGuard Home
 description: >-
   Guide étape par étape pour automatiser la copie et le renouvellement des
   certificats SSL Let's Encrypt depuis Nginx Proxy Manager (Docker) vers une ou
   plusieurs instances AdGuard Home via SSH et Cron.
 published: true
-date: '2026-11-18T18:35:47.766Z'
+date: '2026-11-18T18:36:51.022Z'
 tags:
   - npm
   - nginx proxy manager
