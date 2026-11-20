@@ -5,7 +5,7 @@ description: >-
   Un guide complet pour bloquer la publicité, protéger votre vie privée et
   optimiser votre réseau local avec BlablaLinux.
 published: true
-date: '2026-11-11T22:39:35.051Z'
+date: '2026-11-20T14:36:18.754Z'
 tags:
   - lxc
   - proxmox
