@@ -5,7 +5,7 @@ description: >-
   certificats SSL Let's Encrypt depuis Nginx Proxy Manager (Docker) vers une ou
   plusieurs instances AdGuard Home via SSH et Cron.
 published: true
-date: '2026-11-18T18:36:51.022Z'
+date: '2026-11-20T14:37:36.269Z'
 tags:
   - npm
   - nginx proxy manager
