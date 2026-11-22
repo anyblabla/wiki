@@ -5,7 +5,7 @@ description: >-
   running on Proxmox VE. It allows you to check the status, start, stop, restart
   Watchtower, and update its configurations automatically.
 published: true
-date: '2026-11-22T19:25:57.863Z'
+date: '2026-11-22T19:43:56.555Z'
 tags:
   - docker
   - lxc
@@ -664,4 +664,4 @@ Recommended order to migrate an LXC (or check ones already migrated):
 
 ## 📘 Additional Notes
 
-* To easily install Docker on your LXCs, check out our dedicated page: [docker-portainer-lxc-debian-proxmox](/fr/docker-portainer-lxc-debian-proxmox).
+* To easily install Docker on your LXCs, check out our dedicated page: [docker-portainer-lxc-debian-proxmox](/en/docker-portainer-lxc-debian-proxmox).
