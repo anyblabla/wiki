@@ -5,7 +5,7 @@ description: >-
   LXC fonctionnant sur Proxmox VE. Il permet de vérifier l’état, démarrer,
   arrêter, redémarrer Watchtower et modifier ses configurations automatiquement.
 published: true
-date: '2026-11-02T23:39:10.337Z'
+date: '2026-11-22T19:20:26.870Z'
 tags:
   - docker
   - lxc
@@ -78,7 +78,8 @@ sudo chmod +x /root/scripts/manage_watchtower_all.sh
 | **Fiabilité** | Exécution immédiate. | Attend que Docker soit prêt (Wait-loop) + pause de stabilisation post-boot. |
 | **Recherche du compose** | Chemin fixe `*/watchtower/docker-compose.yml`. | Recherche en deux temps (chemin ciblé puis repli par contenu), tolère les `.yaml` et les dossiers non nommés `watchtower`. |
 | **Notifications Gotify** | Édition manuelle de l'ancienne variable uniquement. | Migration automatique vers Shoutrrr (`WATCHTOWER_NOTIFICATION_URL`) avec sauvegarde `.bak`. |
-| **Nettoyage sauvegardes** | Non disponible. | Suppression ciblée des `.bkp` résiduels. |
+| **Clé absente du compose** | Non vérifié. | Détectée et signalée, aucune modification ni redémarrage inutile. |
+| **Nettoyage sauvegardes** | Non disponible. | Suppression ciblée des `.bkp` et `.bak` résiduels (avec confirmation). |
 
 ---
 
@@ -275,10 +276,16 @@ Ce script est conçu pour la maintenance de masse. **Il démarrera les conteneur
 
 Pour que ce script traite un conteneur, vous devez lui ajouter le tag **watchtower** dans l'interface Proxmox (ou via `pct set ID --tags watchtower`). Le script ignore volontairement les tags dérivés comme `watchtower-custom`.
 
-### 🆕 Nouveautés de la v2.0.0
+### 🆕 Nouveautés de la v2.1.0
+
+* **Restart policy valide (option 6)** : la saisie est désormais contrôlée (`always`, `no`, `unless-stopped` ou `on-failure`). L'ancienne valeur `none` n'existe pas dans Docker et empêchait le redémarrage de Watchtower. La valeur `no` est écrite entre guillemets (`restart: "no"`), car un `no` nu est interprété comme un booléen par YAML 1.1. Si la ligne `restart:` est absente du compose, elle est signalée et rien n'est modifié.
+* **Détection des clés absentes (options 7, 8, 10, 11 et 12)** : si la clé à modifier n'existe pas dans le compose d'un LXC, le script affiche `⚠️ Clé … absente` et ne touche à rien, au lieu d'afficher un faux `✅ mis à jour` et de redémarrer Watchtower pour rien.
+* **Nettoyage des sauvegardes étendu (option 16)** : supprime désormais les fichiers `*.bkp` **et** `*.bak` du dossier du compose, après confirmation.
+
+### Nouveautés de la v2.0.0
 
 * **Migration Gotify → Shoutrrr (option 15)** : lit les anciennes variables `WATCHTOWER_NOTIFICATION_GOTIFY_URL` / `_TOKEN`, construit automatiquement l'URL Shoutrrr correspondante (`gotify://host[:port]/token`, avec `?disabletls=yes` ajouté si l'ancienne URL était en `http://`), supprime les clés dépréciées, insère `WATCHTOWER_NOTIFICATION_URL`, et redémarre le service. Une sauvegarde `.bak` du compose est créée avant toute modification. Si `WATCHTOWER_NOTIFICATIONS` référence un autre notifieur en plus de `gotify`, la ligne n'est pas touchée automatiquement (avertissement affiché pour vérification manuelle).
-* **Nettoyage des sauvegardes (option 16)** : supprime les fichiers `*.bkp` résiduels dans le dossier du compose (sans confirmation). Les `.bak` générés par la migration ne sont volontairement pas concernés.
+* **Nettoyage des sauvegardes (option 16)** : supprime les fichiers `*.bkp` résiduels dans le dossier du compose.
 * **Recherche du compose plus fiable** : `find_watchtower_compose` tente d'abord une recherche rapide par chemin (`*watchtower*`, profondeur limitée à 4, `.yml`/`.yaml`), puis se replie sur une recherche par contenu (`grep -r` sur l'image `containrrr/watchtower` ou `nickfedor/watchtower`) si rien n'est trouvé — ce qui couvre aussi bien les dossiers nommés différemment que les LXC plus lents à répondre.
 * **Pause de stabilisation post-boot** : après le démarrage d'un LXC éteint, un `sleep 3` est ajouté avant de scanner les fichiers, pour éviter les faux négatifs liés à un système d'exploitation encore en cours de démarrage.
 * **Messages d'erreur explicites** : chaque action affiche désormais clairement `🚫 Compose Watchtower introuvable pour ce LXC.` en cas d'échec, au lieu de rester silencieuse.
@@ -290,12 +297,13 @@ Pour que ce script traite un conteneur, vous devez lui ajouter le tag **watchtow
 # Script: manage_watchtower_all.sh
 # Description: Gestion de Watchtower pour tous les LXC (All states) via Tags.
 # Features: Auto-start/stop LXC, Tag filtering (watchtower), Docker wait-loop,
-#           migration Gotify legacy -> Shoutrrr, nettoyage des sauvegardes .bkp.
+#           migration Gotify legacy -> Shoutrrr, nettoyage des sauvegardes
+#           .bkp/.bak, restart policy validée, détection des clés absentes.
 # Author: Amaury aka BlablaLinux
 # Website: https://blablalinux.be
 # Wiki: https://wiki.blablalinux.be/fr/script-gestion-watchtower
 # License: GPL-3.0
-# Version: 2.0.0
+# Version: 2.1.0
 # ==============================================================================
 
 MENU="
@@ -307,7 +315,7 @@ MENU="
  [3] 🛑 Arrêter Watchtower
  [4] 🔁 Redémarrer Watchtower
  [5] 📂 Voir le contenu du docker-compose.yml
- [6] 🔄 Définir restart policy (always/none)
+ [6] 🔄 Définir restart policy (always/no/unless-stopped/on-failure)
  [7] ✏️  Modifier WATCHTOWER_NO_STARTUP_MESSAGE
  [8] ✏️  Modifier WATCHTOWER_CLEANUP
  [9] 📅 Modifier le schedule aléatoire (14h-20h le samedi)
@@ -317,7 +325,7 @@ MENU="
  [13] 🖼️  Modifier l'image Docker
  [14] 🧹 Nettoyer toutes les images (prune -a)
  [15] 🔀 Migrer Gotify legacy -> Shoutrrr (WATCHTOWER_NOTIFICATION_URL)
- [16] 🗑️  Supprimer les anciennes sauvegardes (*.bkp)
+ [16] 🗑️  Supprimer les anciennes sauvegardes (*.bkp et *.bak)
  [Q] ❌ Quitter
 "
 
@@ -427,9 +435,17 @@ _view() {
         echo "🚫 Compose Watchtower introuvable pour ce LXC."
     fi
 }
+
+# Modifie une clé "- CLE=valeur" de la section environment.
+# v2.1 : si la clé n'existe pas dans le compose, on le signale et on ne
+# touche à rien (pas de down/up inutile, pas de faux "mis à jour").
 _modify_key() {
     compose_file=$(find_watchtower_compose "$1")
     if [ -n "$compose_file" ]; then
+        if ! pct exec "$1" -- grep -qE "^[[:space:]]*-[[:space:]]*$GLOBAL_KEY=" "$compose_file"; then
+            echo "⚠️  Clé $GLOBAL_KEY absente de $compose_file : rien modifié."
+            return
+        fi
         pct exec "$1" -- sed -i "s|^\s*-\s*$GLOBAL_KEY=.*|      - $GLOBAL_KEY=$GLOBAL_VAL|" "$compose_file"
         dir=$(dirname "$compose_file")
         pct exec "$1" -- sh -c "cd $dir && docker compose down && docker compose up -d"
@@ -462,18 +478,33 @@ _random_sched() {
     fi
 }
 _prune() { echo "🧹 Pruning images..."; pct exec "$1" -- docker image prune -a -f; }
+
+# Restart policy : valeurs Docker valides = always | no | unless-stopped | on-failure
+# v2.1 : "no" est écrit entre guillemets (sinon booléen false en YAML 1.1).
 _set_policy() {
     compose_file=$(find_watchtower_compose "$1")
     if [ -n "$compose_file" ]; then
-        pct exec "$1" -- sed -i "s/^[[:space:]]*restart: .*/    restart: $GLOBAL_VAL/" "$compose_file"
+        if [ "$GLOBAL_VAL" = "no" ]; then
+            yaml_val='"no"'
+        else
+            yaml_val="$GLOBAL_VAL"
+        fi
+        if ! pct exec "$1" -- grep -qE '^[[:space:]]*restart:' "$compose_file"; then
+            echo "⚠️  Aucune ligne 'restart:' dans $compose_file : rien modifié."
+            return
+        fi
+        pct exec "$1" -- sed -i "s/^[[:space:]]*restart: .*/    restart: $yaml_val/" "$compose_file"
         dir=$(dirname "$compose_file")
         pct exec "$1" -- sh -c "cd $dir && docker compose down && docker compose up -d"
-        echo "✅ Restart policy mise à jour."
+        echo "✅ Restart policy mise à jour : $yaml_val"
     else
         echo "🚫 Compose Watchtower introuvable pour ce LXC."
     fi
 }
-# Recherche en deux temps : rapide par chemin, puis repli par contenu.
+
+# Recherche large : n'importe quel docker-compose.yml/.yaml contenant une image watchtower
+# (containrrr/watchtower ou nickfedor/watchtower), quel que soit le nom du dossier parent.
+# On évite de dépendre d'un dossier littéralement appelé "watchtower".
 find_watchtower_compose() {
     local lxc_id="$1"
     local result
@@ -557,11 +588,12 @@ _migrate_gotify() {
     echo "✅ Migration terminée pour LXC $lxc_id (sauvegarde : ${compose_file}.bak)"
 }
 
-# --- NETTOYAGE DES SAUVEGARDES (.bkp) ---
+# --- NETTOYAGE DES SAUVEGARDES (.bkp et .bak) ---
 #
 # Cherche, dans le même dossier que le docker-compose.yml trouvé, tout fichier
-# se terminant par .bkp (anciennes sauvegardes manuelles) et les supprime.
-# Les .bak (générés par l'option 15) ne sont volontairement PAS touchés.
+# se terminant par .bkp (anciennes sauvegardes manuelles) ou .bak (générés par
+# l'option 15) et les supprime. Les .bak contiennent l'ancien token Gotify en
+# clair : à supprimer une fois la migration validée.
 
 _cleanup_backups() {
     lxc_id="$1"
@@ -572,18 +604,18 @@ _cleanup_backups() {
     fi
 
     dir=$(dirname "$compose_file")
-    backups=$(pct exec "$lxc_id" -- find "$dir" -maxdepth 1 -type f -name "*.bkp" 2>/dev/null)
+    backups=$(pct exec "$lxc_id" -- find "$dir" -maxdepth 1 -type f \( -name "*.bkp" -o -name "*.bak" \) 2>/dev/null)
 
     if [ -z "$backups" ]; then
-        echo "ℹ️  Aucune sauvegarde .bkp trouvée dans $dir."
+        echo "ℹ️  Aucune sauvegarde .bkp/.bak trouvée dans $dir."
         return
     fi
 
-    echo "🗂️  Sauvegardes .bkp trouvées dans $dir :"
+    echo "🗂️  Sauvegardes trouvées dans $dir :"
     echo "$backups" | sed 's/^/   - /'
 
-    pct exec "$lxc_id" -- find "$dir" -maxdepth 1 -type f -name "*.bkp" -delete
-    echo "✅ Sauvegardes .bkp supprimées."
+    pct exec "$lxc_id" -- find "$dir" -maxdepth 1 -type f \( -name "*.bkp" -o -name "*.bak" \) -delete
+    echo "✅ Sauvegardes supprimées."
 }
 
 # --- BOUCLE MENU ---
@@ -596,7 +628,12 @@ while true; do
         3) run_action_on_all _stop ;;
         4) run_action_on_all _restart ;;
         5) run_action_on_all _view ;;
-        6) read -rp "Policy (always/none) : " GLOBAL_VAL ; run_action_on_all _set_policy ;;
+        6) read -rp "Policy (always/no/unless-stopped/on-failure) : " GLOBAL_VAL
+           if [[ "$GLOBAL_VAL" =~ ^(always|no|unless-stopped|on-failure)$ ]]; then
+               run_action_on_all _set_policy
+           else
+               echo "❌ Valeur invalide." ; sleep 2
+           fi ;;
         7) GLOBAL_KEY="WATCHTOWER_NO_STARTUP_MESSAGE" ; read -rp "true/false : " GLOBAL_VAL ; run_action_on_all _modify_key ;;
         8) GLOBAL_KEY="WATCHTOWER_CLEANUP" ; read -rp "true/false : " GLOBAL_VAL ; run_action_on_all _modify_key ;;
         9) run_action_on_all _random_sched ;;
@@ -606,7 +643,7 @@ while true; do
         13) read -rp "Image : " GLOBAL_VAL ; run_action_on_all _set_image ;;
         14) read -rp "Confirmer prune (oui/non) : " conf ; [[ "$conf" =~ ^[Oo][Uu][Ii]$ ]] && run_action_on_all _prune ;;
         15) read -rp "⚠️  Migrer tous les LXC 'watchtower' vers Shoutrrr ? (oui/non) : " conf ; [[ "$conf" =~ ^[Oo][Uu][Ii]$ ]] && run_action_on_all _migrate_gotify ;;
-        16) run_action_on_all _cleanup_backups ;;
+        16) read -rp "⚠️  Supprimer tous les .bkp/.bak ? (oui/non) : " conf ; [[ "$conf" =~ ^[Oo][Uu][Ii]$ ]] && run_action_on_all _cleanup_backups ;;
         [Qq]) exit ;;
         *) echo "Option invalide." ; sleep 1 ;;
     esac
@@ -622,7 +659,9 @@ Ordre recommandé pour migrer un LXC (ou vérifier ceux déjà migrés) :
 1. **[5]** — état des lieux : affiche les variables actuelles (legacy Gotify ou déjà en Shoutrrr).
 2. **[15]** — migration : bascule vers `WATCHTOWER_NOTIFICATION_URL`, supprime les anciennes clés, redémarre le conteneur, crée un `.bak` de sécurité.
 3. **[5]** — vérification : confirme que `WATCHTOWER_NOTIFICATION_URL` est en place et que les anciennes clés ont disparu.
-4. **[16]** — nettoyage : supprime les éventuels `.bkp` résiduels (sauvegardes manuelles antérieures). Le `.bak` créé à l'étape 2 est conservé.
+4. **[16]** — nettoyage : une fois la migration validée, supprime les `.bkp` et les `.bak` (confirmation demandée).
+
+> **🔐 Sécurité :** le `.bak` créé à l'étape 2 contient l'**ancien token Gotify en clair**. Ne le conservez pas indéfiniment : supprimez-le avec l'option 16 dès que la migration est validée. L'option 16 supprime **tous** les `*.bkp` et `*.bak` du dossier du compose Watchtower : vérifiez qu'aucun autre fichier à conserver n'y figure.
 
 ---
 
