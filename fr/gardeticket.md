@@ -6,7 +6,7 @@ description: >-
   ligne. Tout reste sur ton téléphone. Code sur GitHub et Gitea, déploiement
   Debian + nginx.
 published: true
-date: '2026-11-28T16:25:23.770Z'
+date: '2026-11-28T21:02:21.051Z'
 tags:
   - gardeticket
   - pwa
@@ -23,19 +23,20 @@ editor: markdown
 dateCreated: '2026-11-24T22:43:00.046Z'
 ---
 
-**GardeTicket** est une application web (PWA) pour garder tes tickets de caisse et suivre tes garanties. Tout est stocké **uniquement dans le navigateur de ton téléphone** : aucune donnée n'est envoyée sur un serveur.
+**GardeTicket** est une application web (PWA) pour garder tes garanties et tes tickets de courses. Tout est stocké **uniquement dans le navigateur de ton téléphone** : aucune donnée n'est envoyée sur un serveur.
 
 👉 **Utiliser l'application : [gardeticket.blablalinux.be](https://gardeticket.blablalinux.be)** (à ouvrir depuis un smartphone ou une tablette)
 
 ## Ce que fait GardeTicket
 
-- 📷 Photographier un ticket (recadrage automatique, filtre « scanner » noir et blanc pour les tickets pâles) ou importer une facture PDF
+- 🗂️ Séparer tes achats en deux espaces distincts : **🛡️ Garanties** (appareils et factures garantis) et **🛒 Courses** (tickets de supermarché avec calcul automatique du budget mensuel et nettoyage des tickets de plus de 3 mois)
+- 📷 Photographier un ticket (recadrage automatique et filtre « scanner » noir et blanc activés par défaut pour des scans nets et légers) ou importer une facture PDF
 - 📅 Calculer la fin de garantie (1, 2, 3, 5 ans ou à vie) et afficher des repères de couleur : vert, orange (moins de 3 mois), gris (expirée)
 - 🔔 Afficher un bandeau d'alerte avant l'expiration et créer un rappel dans ton agenda (fichier `.ics`), 30 jours avant la fin
 - 🔍 Retrouver un achat par objet, magasin ou numéro de série
-- 📊 Consulter les statistiques de tes achats (nombre de tickets, montant total suivi, valeur encore sous garantie, répartition par année et par magasin)
+- 📊 Consulter les statistiques de tes achats (calculées séparément pour les garanties et les courses : nombre de tickets, montant total suivi, valeur encore sous garantie, répartition par année et par magasin)
 - 📤 Partager le ticket ou la facture avec un service après-vente
-- 💾 Sauvegarder tes tickets dans un fichier (`.json`), les envoyer vers ton cloud (`.txt`) et les restaurer
+- 💾 Sauvegarder tes tickets dans un fichier (`.json`), les envoyer vers ton cloud (`.txt`) et les restaurer sans doublons
 - 🎨 Choisir parmi 8 thèmes de couleurs, avec mode clair ou sombre automatique
 - 📴 Fonctionner même sans connexion internet
 
@@ -52,7 +53,7 @@ GardeTicket s'ouvre dans le navigateur, mais tu peux l'installer comme une vraie
 
 Tes tickets restent dans le navigateur de ton téléphone. Si tu vides les données du navigateur, si tu le désinstalles ou si tu changes de téléphone, **ils seront effacés**.
 
-Pense à utiliser régulièrement le bouton **💾 Sauvegarder** et garde le fichier obtenu dans un endroit sûr. Le bouton **📂 Restaurer** permet de tout récupérer (fichiers `.json` ou `.txt`), sans doublons.
+Pense à utiliser régulièrement le bouton **💾 Sauvegarder** (ou **🌐 Vers le cloud**) et garde le fichier obtenu dans un endroit sûr. Le bouton **📂 Restaurer** permet de tout récupérer (fichiers `.json` ou `.txt`), sans doublons.
 
 ## Héberger GardeTicket chez toi
 
@@ -179,7 +180,7 @@ git pull
 sudo bash deploy/install.sh --update
 ```
 
-> ⚠️ Le service worker met les fichiers en cache hors ligne. Si tu modifies toi-même les fichiers de `app/`, incrémente `CACHE_NAME` dans `app/sw.js` (par exemple `gardeticket-v28`), sinon les téléphones garderont l'ancienne version.
+> ⚠️ Le service worker met les fichiers en cache hors ligne. Si tu modifies toi-même les fichiers de `app/`, incrémente `CACHE_NAME` dans `app/sw.js` (par exemple `gardeticket-v30`), sinon les téléphones garderont l'ancienne version.
 
 ## Points importants
 
