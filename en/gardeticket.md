@@ -5,7 +5,7 @@ description: >-
   warranties. Photo or PDF, alerts before expiration, works offline. Everything
   stays on your phone. Code on GitHub and Gitea, Debian + nginx deployment.
 published: true
-date: '2026-11-28T16:25:46.556Z'
+date: '2026-11-28T21:02:53.195Z'
 tags:
   - gardeticket
   - pwa
@@ -22,58 +22,59 @@ editor: markdown
 dateCreated: '2026-11-24T22:46:31.339Z'
 ---
 
-**GardeTicket** is a web application (PWA) to store your receipts and track your warranties. Everything is saved **exclusively in your phone's browser**: no data is ever sent to a server.
+**GardeTicket** is a Progressive Web App (PWA) for keeping your warranties and grocery receipts. Everything is stored **locally in your phone's browser**: no data is ever sent to a server.
 
-👉 **Use the application: [gardeticket.blablalinux.be](https://gardeticket.blablalinux.be)** (open from a smartphone or tablet)
+👉 **Use the app: [gardeticket.blablalinux.be](https://gardeticket.blablalinux.be)** (open from a smartphone or tablet)
 
-## What GardeTicket does
+## What GardeTicket Does
 
-- 📷 Snap a photo of a receipt (automatic cropping, black-and-white "scanner" filter for faded receipts) or import a PDF invoice
-- 📅 Calculate the warranty expiration date (1, 2, 3, 5 years, or lifetime) and display color indicators: green, orange (less than 3 months left), gray (expired)
-- 🔔 Display a warning banner before expiration and create a reminder in your calendar (`.ics` file) 30 days before the warranty ends
-- 🔍 Search for a purchase by item name, store, or serial number
-- 📊 View your purchase statistics (number of receipts, total tracked amount, value still under warranty, breakdown by year and by store)
-- 📤 Share a receipt or invoice directly with customer support / after-sales service
-- 💾 Back up your receipts to a file (`.json`), send them to your cloud (`.txt`), and restore them
-- 🎨 Choose from 8 color themes, with automatic light or dark mode
-- 📴 Work seamlessly even without an internet connection
+- 🗂️ Separate your purchases into two dedicated spaces: **🛡️ Garanties** (*Warranties* for covered appliances and invoices) and **🛒 Courses** (*Groceries* for supermarket receipts, with automatic monthly budget tracking and one-tap cleanup for receipts older than 3 months)
+- 📷 Snap a receipt photo (auto-cropping and a black-and-white "scanner" filter are enabled by default for crisp, lightweight scans) or import a PDF invoice
+- 📅 Automatically calculate warranty expiration dates (1, 2, 3, 5 years, or lifetime) with color-coded badges: green, orange (under 3 months left), and gray (expired)
+- 🔔 Display an alert banner before a warranty expires and generate a calendar reminder (`.ics` file) set 30 days ahead
+- 🔍 Search purchases by item name, store, or serial number
+- 📊 View purchase statistics (calculated separately for warranties and groceries: total receipts, total tracked spending, value still under warranty, and breakdowns by year and store)
+- 📤 Share a receipt or invoice directly with customer support
+- 💾 Back up your receipts to a local file (`.json`), send them to your cloud (`.txt`), and restore without duplicates
+- 🎨 Choose from 8 color themes with automatic light or dark mode
+- 📴 Works completely offline
 
-## Install the app on your phone
+## Installing the App on Your Phone
 
-GardeTicket opens in your browser, and you can install it just like a native app:
+GardeTicket runs in your web browser, and you can install it like a native app on your home screen:
 
-- **Android** (Chrome, Vivaldi, Brave…): menu (the three dots) → *Add to Home screen* or *Install app*
-- **iPhone** (Safari): *Share* button → *Add to Home Screen*
+- **Android** (Chrome, Vivaldi, Brave…): open the browser menu (three dots) → *Add to Home screen* or *Install app*
+- **iPhone** (Safari): tap the *Share* button → *Add to Home Screen*
 
-> ℹ️ The application is designed specifically for smartphones and tablets: access from desktop computers is intentionally blocked.
+> ℹ️ The app is designed specifically for smartphones and tablets: access from desktop browsers is intentionally blocked.
 
-## Privacy and backups
+## Privacy and Backups
 
-Your receipts remain stored inside your phone's browser. If you clear your browser data, uninstall your browser, or switch phones, **they will be erased**.
+Your receipts stay inside your phone's browser storage. If you clear your browser data, uninstall the browser, or switch phones, **they will be erased**.
 
-Make sure to regularly use the **💾 Sauvegarder** (Backup) button and keep the resulting file in a safe place. The **📂 Restaurer** (Restore) button lets you recover everything (`.json` or `.txt` files) without creating duplicates.
+Remember to regularly tap **💾 Sauvegarder** (*Save*) or **🌐 Vers le cloud** (*To cloud*) and store the exported file in a safe place. Tap **📂 Restaurer** (*Restore*) to recover your receipts (`.json` or `.txt` files) without creating duplicates.
 
-## Self-hosting GardeTicket
+## Self-Hosting GardeTicket
 
-The application is a simple static website (HTML, CSS, JavaScript) with no database or external dependencies. You can host it yourself to maintain full control over your instance.
+GardeTicket is a lightweight static web app (HTML, CSS, JavaScript) with no database or backend dependencies. You can easily self-host your own instance.
 
 **What you need:**
 
-- a server (a virtual machine, an LXC container, or a Raspberry Pi is plenty);
-- a **dedicated domain or subdomain**: the application must be served at the root (`/`);
-- **HTTPS**, which is mandatory to install the app on your phone, enable offline mode, and access the camera.
+- a server (a VM, an LXC container, or a Raspberry Pi is plenty);
+- a **dedicated domain or subdomain**: the app must be served from the root path (`/`);
+- **HTTPS**, required for PWA installation, offline caching, and camera access.
 
-**Which option should you choose?**
+**Which deployment option should you choose?**
 
-| Option | Who is it for? |
+| Option | Best for |
 | --- | --- |
-| **1. Docker Compose** | Recommended if you already self-host your services with Docker |
-| **2. Script behind a reverse proxy** | Debian 13 server using Nginx Proxy Manager (or similar) for HTTPS |
-| **3. Standalone script** | Debian 13 server handling its own HTTPS via Let's Encrypt |
+| **1. Docker Compose** | Recommended if you already self-host services with Docker |
+| **2. Install script behind a reverse proxy** | Debian 13 server using Nginx Proxy Manager (or another reverse proxy) for HTTPS |
+| **3. Standalone install script** | Debian 13 server handling HTTPS directly with Let's Encrypt |
 
-### Option 1: with Docker Compose (recommended)
+### Option 1: Using Docker Compose (Recommended)
 
-The multi-architecture image (`linux/amd64` and `linux/arm64`) is built and published automatically on the GitHub Container Registry (`ghcr.io/anyblabla/gardeticket:latest`) and on my Gitea (`gitea.blablalinux.be/blablalinux/gardeticket:latest`).
+The multi-architecture image (`linux/amd64` and `linux/arm64`) is automatically published on GitHub Container Registry (`ghcr.io/anyblabla/gardeticket:latest`) and on my Gitea instance (`gitea.blablalinux.be/blablalinux/gardeticket:latest`).
 
 ```bash
 mkdir -p gardeticket && cd gardeticket
@@ -89,18 +90,18 @@ YAML
 docker compose up -d
 ```
 
-> ℹ️ Even when self-hosted via Docker, the application remains **100% client-side**: no volume is needed (and adding one would prevent automatic image updates), as receipts remain stored in each phone's browser.
+> ℹ️ Even when self-hosted with Docker, the app runs **100% client-side**: no persistent volume is needed (and mounting one would block automatic UI updates when pulling new images), as all receipts remain stored in each user's phone browser.
 
 <details>
-<summary>Customize application files with Docker (advanced)</summary>
+<summary>Customizing the app files with Docker (advanced)</summary>
 
-If you want to modify the HTML/CSS/JS code yourself while using Docker, first extract the web directory from the container before mounting it as a volume (note that automatic UI updates will no longer apply):
+If you want to customize the HTML/CSS/JS files yourself while using Docker, first extract the web directory from the container before mounting it as a volume (note that automatic UI updates from image pulls will no longer apply):
 
 ```bash
 docker cp gardeticket:/var/www/gardeticket ./www
 ```
 
-Then add the volume to your `docker-compose.yml` and restart the container:
+Then add the volume to `docker-compose.yml` and restart the container:
 
 ```yaml
     volumes:
@@ -109,11 +110,11 @@ Then add the volume to your `docker-compose.yml` and restart the container:
 
 </details>
 
-The application then listens over HTTP on port `8080` of your server. Place the container behind a reverse proxy with **HTTPS** enabled (see [Nginx Proxy Manager settings](#nginx-proxy-manager-settings)).
+The container listens in HTTP on port `8080`. Place it behind an **HTTPS** reverse proxy (see [Nginx Proxy Manager Settings](#nginx-proxy-manager-settings)).
 
-### Option 2: with the installation script, behind a reverse proxy (Debian 13)
+### Option 2: Using the Install Script Behind a Reverse Proxy (Debian 13)
 
-The repository includes a script that installs nginx and deploys the files into `/var/www/gardeticket`:
+The repository includes an installation script that sets up nginx and deploys the files to `/var/www/gardeticket`:
 
 ```bash
 sudo apt-get install -y git
@@ -122,43 +123,43 @@ cd gardeticket
 sudo bash deploy/install.sh
 ```
 
-The server then serves the application over HTTP on port `80` with a minimal vhost. All that remains is to configure your reverse proxy (see [Nginx Proxy Manager settings](#nginx-proxy-manager-settings)).
+The server will serve the app over HTTP on port `80` with a minimal vhost. Next, configure your reverse proxy (see [Nginx Proxy Manager Settings](#nginx-proxy-manager-settings)).
 
-### Option 3: with the installation script, as a standalone server (HTTPS Let's Encrypt)
+### Option 3: Using the Install Script in Standalone Mode (Let's Encrypt HTTPS)
 
 ```bash
 sudo bash deploy/install.sh --standalone --domain tickets.example.com --email you@example.com
 ```
 
-The nginx vhost will then handle security headers, CSP, desktop blocking, and the Let's Encrypt SSL certificate on its own.
+The nginx vhost will handle security headers, CSP, desktop browser blocking, and the Let's Encrypt SSL certificate directly.
 
 <details>
-<summary>Options for the <code>install.sh</code> script</summary>
+<summary>Available options for <code>install.sh</code></summary>
 
 | Option | Effect |
 | --- | --- |
-| `--domain NAME` | domain name for the vhost (default: default site) |
-| `--standalone` | standalone vhost (security headers, CSP, desktop blocking) |
-| `--email ADDRESS` | Let's Encrypt HTTPS (implies `--standalone`, requires `--domain`) |
-| `--web-root PATH` | web root directory (default `/var/www/gardeticket`) |
-| `--allow-desktop` | with `--standalone`: do not block desktop computers |
-| `--update` | redeploy only the web files without touching nginx |
-| `--force-nginx` | regenerate the vhost even if it already exists |
-| `--uninstall` | remove the site (nginx remains installed) |
+| `--domain NAME` | Domain name for the vhost (default: default site) |
+| `--standalone` | Standalone vhost (security headers, CSP, desktop blocking) |
+| `--email ADDRESS` | Enable Let's Encrypt HTTPS (implies `--standalone`, requires `--domain`) |
+| `--web-root PATH` | Web root directory (default: `/var/www/gardeticket`) |
+| `--allow-desktop` | With `--standalone`: allow desktop browsers |
+| `--update` | Redeploy web files only without touching nginx config |
+| `--force-nginx` | Regenerate the nginx vhost even if it already exists |
+| `--uninstall` | Remove the site configuration (nginx remains installed) |
 
-The script is idempotent: an existing vhost is not overwritten (unless `--force-nginx` is passed), and the previous site content is backed up in `/var/backups/gardeticket/previous`.
+The script is idempotent: an existing vhost will not be overwritten (unless `--force-nginx` is passed), and previous web files are backed up to `/var/backups/gardeticket/previous`.
 
 </details>
 
-### Nginx Proxy Manager settings
+### Nginx Proxy Manager Settings
 
-For options 1 and 2, configure your proxy host in NPM as follows:
+For options 1 and 2, configure your Proxy Host in NPM as follows:
 
 - **Details**: `http`, server IP, port `8080` (Docker) or `80` (script);
-- **SSL**: certificate, *Force SSL*, *HTTP/2 Support*, *HSTS Enabled*;
-- **Custom Nginx Configuration**: paste the contents of [`deploy/npm-advanced-config.conf`](https://github.com/anyblabla/gardeticket/blob/main/deploy/npm-advanced-config.conf) (security headers, CSP, desktop computer blocking);
-- **403 "mobile only" page**: copy [`deploy/403_gardeticket/index.html`](https://github.com/anyblabla/gardeticket/blob/main/deploy/403_gardeticket/index.html) into NPM's `data/403_gardeticket/` directory (visible inside the container at `/data/403_gardeticket/`). This is the page desktop visitors will see;
-- **Custom Locations**: add `/sw.js` (forwarding to `http://<SERVER_IP>:<PORT>`) with `Cache-Control "no-cache, no-store, must-revalidate"` and `X-Content-Type-Options "nosniff"`, to prevent an outdated service worker from remaining cached.
+- **SSL**: select your certificate, enable *Force SSL*, *HTTP/2 Support*, and *HSTS Enabled*;
+- **Custom Nginx Configuration**: paste the contents of [`deploy/npm-advanced-config.conf`](https://github.com/anyblabla/gardeticket/blob/main/deploy/npm-advanced-config.conf) (security headers, CSP, and desktop browser blocking);
+- **Custom 403 "mobile-only" page**: copy [`deploy/403_gardeticket/index.html`](https://github.com/anyblabla/gardeticket/blob/main/deploy/403_gardeticket/index.html) into NPM's `data/403_gardeticket/` directory (mounted inside the container at `/data/403_gardeticket/`). This page is displayed to desktop visitors;
+- **Custom Locations**: add `/sw.js` (pointing to `http://<SERVER_IP>:<PORT>`) with `Cache-Control "no-cache, no-store, must-revalidate"` and `X-Content-Type-Options "nosniff"` so browsers never serve a stale service worker from cache.
 
 ## Updating
 
@@ -168,9 +169,9 @@ For options 1 and 2, configure your proxy host in NPM as follows:
 docker compose pull && docker compose up -d
 ```
 
-Also compatible with Watchtower for automatic updates.
+Also compatible with Watchtower for automated image updates.
 
-**With the installation script:**
+**With the install script:**
 
 ```bash
 cd gardeticket
@@ -178,34 +179,34 @@ git pull
 sudo bash deploy/install.sh --update
 ```
 
-> ⚠️ The service worker caches files for offline use. If you modify files inside `app/` yourself, make sure to increment `CACHE_NAME` in `app/sw.js` (for example `gardeticket-v28`), otherwise phones will keep serving the older cached version.
+> ⚠️ The service worker caches files for offline use. If you modify files inside `app/` yourself, bump `CACHE_NAME` in `app/sw.js` (for example `gardeticket-v30`), otherwise phones will keep using the cached version.
 
-## Important notes
+## Important Notes
 
-- **HTTPS is mandatory**: without it, the service worker and home screen installation will not work.
-- **Serve at the root of a domain or subdomain**: `manifest.json` and `sw.js` use absolute paths (`/`, `/icon-192.png`…).
-- **Strict CSP** (`script-src 'self'`): no inline JavaScript in HTML pages, which is why `theme-init.js` is a separate file. No `onclick="…"` attributes either.
-- **Mobile only**: desktop blocking relies on User-Agent detection, so it can be bypassed. An `Uptime-Kuma` exception allows monitoring checks through.
+- **HTTPS is mandatory**: without HTTPS, the service worker and home-screen installation will not work.
+- **Serve at the domain or subdomain root**: `manifest.json` and `sw.js` rely on root-relative paths (`/`, `/icon-192.png`, etc.).
+- **Strict CSP** (`script-src 'self'`): no inline JavaScript is allowed in HTML pages (hence `theme-init.js`), and no inline `onclick="…"` handlers are used.
+- **Mobile-only**: desktop blocking checks the User-Agent string and can be bypassed. An exception is included for `Uptime-Kuma` monitoring.
 
 ## Troubleshooting
 
-- **The "Install app" button does not appear, or the camera does not work**: verify that the site is served over **HTTPS**.
-- **The old version still appears after an update**: check the `/sw.js` custom location (no-cache headers) and, if you edited the files yourself, verify the `CACHE_NAME` version in `app/sw.js`.
-- **An "access denied" page appears on a computer**: this is the intentional desktop block. In standalone mode, you can disable it with `--allow-desktop`.
-- **My receipts have disappeared**: they are stored locally in your browser, so clearing browser data removes them. Use **📂 Restaurer** (Restore) with your latest backup file.
+- **The "Install app" prompt does not appear, or the camera won't open**: make sure the site is served over **HTTPS**.
+- **An older version still loads after an update**: check the `/sw.js` custom location (no-cache headers) and, if you edited files manually, verify `CACHE_NAME` in `app/sw.js`.
+- **An "Access Denied" page appears on desktop**: this is the intentional desktop browser block. In standalone mode, you can disable it with `--allow-desktop`.
+- **My receipts disappeared**: receipts are stored in browser storage, so clearing browser data erases them. Use **📂 Restaurer** (*Restore*) with your latest backup file.
 
-## Source code
+## Source Code
 
-The code is free and open source, available on two identical repositories:
+GardeTicket is open-source and mirrored across two identical repositories:
 
 - 🐙 **GitHub**: [github.com/anyblabla/gardeticket](https://github.com/anyblabla/gardeticket)
-- 🍵 **Gitea** (my instance): [gitea.blablalinux.be/blablalinux/gardeticket](https://gitea.blablalinux.be/blablalinux/gardeticket)
+- 🍵 **Gitea** (self-hosted instance): [gitea.blablalinux.be/blablalinux/gardeticket](https://gitea.blablalinux.be/blablalinux/gardeticket)
 
 Suggestions and bug reports are welcome on either platform.
 
 ## License
 
-GardeTicket is free software distributed under the **GNU AGPL v3** license.
+GardeTicket is free software licensed under the **GNU AGPL v3**.
 
 ---
 
