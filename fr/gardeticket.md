@@ -6,7 +6,7 @@ description: >-
   ligne. Tout reste sur ton téléphone. Code sur GitHub et Gitea, déploiement
   Debian + nginx.
 published: true
-date: '2026-11-28T02:42:47.028Z'
+date: '2026-11-28T16:25:23.770Z'
 tags:
   - gardeticket
   - pwa
@@ -33,6 +33,7 @@ dateCreated: '2026-11-24T22:43:00.046Z'
 - 📅 Calculer la fin de garantie (1, 2, 3, 5 ans ou à vie) et afficher des repères de couleur : vert, orange (moins de 3 mois), gris (expirée)
 - 🔔 Afficher un bandeau d'alerte avant l'expiration et créer un rappel dans ton agenda (fichier `.ics`), 30 jours avant la fin
 - 🔍 Retrouver un achat par objet, magasin ou numéro de série
+- 📊 Consulter les statistiques de tes achats (nombre de tickets, montant total suivi, valeur encore sous garantie, répartition par année et par magasin)
 - 📤 Partager le ticket ou la facture avec un service après-vente
 - 💾 Sauvegarder tes tickets dans un fichier (`.json`), les envoyer vers ton cloud (`.txt`) et les restaurer
 - 🎨 Choisir parmi 8 thèmes de couleurs, avec mode clair ou sombre automatique
@@ -89,17 +90,35 @@ YAML
 docker compose up -d
 ```
 
-> ℹ️ Même hébergée via Docker, l'application reste **100 % côté client** : aucun volume n'est nécessaire, les tickets restent stockés dans le navigateur de chaque téléphone.
+> ℹ️ Même hébergée via Docker, l'application reste **100 % côté client** : aucun volume n'est nécessaire (et en ajouter un bloquerait les mises à jour automatiques de l'image), les tickets restent stockés dans le navigateur de chaque téléphone.
+
+<details>
+<summary>Personnaliser les fichiers de l'application avec Docker (avancé)</summary>
+
+Si tu souhaites modifier toi-même le code HTML/CSS/JS tout en utilisant Docker, extrais d'abord le dossier web du conteneur avant de le monter en volume (les mises à jour automatiques de l'interface ne s'appliqueront alors plus) :
+
+```bash
+docker cp gardeticket:/var/www/gardeticket ./www
+```
+
+Ajoute ensuite le volume dans `docker-compose.yml` et redémarre le conteneur :
+
+```yaml
+    volumes:
+      - ./www:/var/www/gardeticket:ro
+```
+
+</details>
 
 L'application répond alors en HTTP sur le port `8080` de ton serveur. Place le conteneur derrière un reverse proxy en **HTTPS** (voir [Réglages Nginx Proxy Manager](#réglages-nginx-proxy-manager)).
 
 ### Option 2 : avec le script d'installation, derrière un reverse proxy (Debian 13)
 
-Le dépôt contient un script qui installe nginx et déploie les fichiers :
+Le dépôt contient un script qui installe nginx et déploie les fichiers dans `/var/www/gardeticket` :
 
 ```bash
 sudo apt-get install -y git
-git clone https://github.com/anyblabla/gardeticket.git
+git clone [https://github.com/anyblabla/gardeticket.git](https://github.com/anyblabla/gardeticket.git)
 cd gardeticket
 sudo bash deploy/install.sh
 ```
@@ -160,7 +179,7 @@ git pull
 sudo bash deploy/install.sh --update
 ```
 
-> ⚠️ Le service worker fonctionne en « cache d'abord ». Si tu modifies toi-même les fichiers de `app/`, incrémente `CACHE_NAME` dans `app/sw.js` (par exemple `gardeticket-v26`), sinon les téléphones garderont l'ancienne version.
+> ⚠️ Le service worker met les fichiers en cache hors ligne. Si tu modifies toi-même les fichiers de `app/`, incrémente `CACHE_NAME` dans `app/sw.js` (par exemple `gardeticket-v28`), sinon les téléphones garderont l'ancienne version.
 
 ## Points importants
 
@@ -191,4 +210,4 @@ GardeTicket est un logiciel libre distribué sous licence **GNU AGPL v3**.
 
 ---
 
-Auteur : ce guide est proposé par Amaury alias BlablaLinux. Retrouvez tous mes services sur [Mes services publics](https://blablalinux.be/mes-services-publics/).
+> **Author**: this guide is proposed by **Amaury aka BlablaLinux**. Find all my services on [blablalinux.be/mes-services-publics/](https://blablalinux.be/mes-services-publics/).
